@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Telex | Administration</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+            --telex-light-blue: #457B9D;
+            --telex-light: #A8DADC;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f1e3d 0%, #1D3557 50%, #457B9D 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Effets de fond animés */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(230, 57, 70, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(168, 218, 220, 0.1) 0%, transparent 50%);
+            animation: pulse 20s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .login-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: translateY(0);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .login-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 30px 80px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .logo-section::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--telex-red), var(--telex-blue));
+            border-radius: 3px;
+        }
+        
+        .logo-img {
+            max-width: 180px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(29, 53, 87, 0.2));
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .brand-title {
+            color: var(--telex-blue);
+            font-weight: 800;
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+            letter-spacing: -0.5px;
+        }
+        
+        .brand-subtitle {
+            color: #64748b;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .form-label {
+            color: var(--telex-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-group {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .form-control {
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            background: #f8fafc;
+            font-size: 1rem;
+            transition: all 0.3s;
+            height: 52px;
+        }
+        
+        .form-control:focus {
+            border-color: var(--telex-red);
+            box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.1);
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+        
+        .btn-login {
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+            color: white;
+            border: none;
+            padding: 18px;
+            width: 100%;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            box-shadow: 0 8px 20px rgba(230, 57, 70, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-login::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(230, 57, 70, 0.4);
+        }
+        
+        .btn-login:hover::before {
+            left: 100%;
+        }
+        
+        .btn-login:active {
+            transform: translateY(-1px);
+        }
+        
+        .alert {
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: none;
+            margin-bottom: 25px;
+            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .alert-danger {
+            background: linear-gradient(135deg, #FEE2E2, #FECACA);
+            color: #DC2626;
+            border-left: 4px solid #EF4444;
+        }
+        
+        .alert-success {
+            background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+            color: #047857;
+            border-left: 4px solid #10B981;
+        }
+        
+        .security-note {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .security-note small {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            display: block;
+            line-height: 1.5;
+        }
+        
+        .security-icon {
+            color: var(--telex-blue);
+            margin-bottom: 10px;
+            font-size: 1.5rem;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+        
+        .footer a {
+            color: var(--telex-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        /* Animation pour le formulaire */
+        .login-card form {
+            animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) 0.3s both;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Responsive */
+        @media (max-width: 480px) {
+            .login-card {
+                padding: 30px 20px;
+            }
+            
+            .brand-title {
+                font-size: 1.8rem;
+            }
+            
+            .form-control {
+                padding: 14px 16px;
+                height: 48px;
+            }
+            
+            .btn-login {
+                padding: 16px;
+            }
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            .login-card {
+                background: rgba(30, 41, 59, 0.95);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .brand-title {
+                color: #f8fafc;
+            }
+            
+            .brand-subtitle {
+                color: #cbd5e1;
+            }
+            
+            .form-label {
+                color: #e2e8f0;
+            }
+            
+            .form-control {
+                background: #1e293b;
+                border-color: #334155;
+                color: #f1f5f9;
+            }
+            
+            .form-control:focus {
+                background: #0f172a;
+                color: #f8fafc;
+            }
+            
+            .input-icon {
+                color: #64748b;
+            }
+            
+            .security-note small {
+                color: #94a3b8;
+            }
+            
+            .security-note {
+                border-top-color: #334155;
+            }
+        }
+        
+        /* Effet de chargement */
+        .loading {
+            position: relative;
+            color: transparent !important;
+        }
+        
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* Toggle password visibility */
+        .password-toggle {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            z-index: 2;
+            padding: 5px;
+        }
+        
+        .password-toggle:hover {
+            color: var(--telex-blue);
+        }
+        
+        /* Hint pour les identifiants oubliés */
+        .forgot-hint {
+            text-align: right;
+            margin-top: -15px;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-hint a {
+            color: var(--telex-blue);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+        
+        .forgot-hint a:hover {
+            color: var(--telex-red);
+            text-decoration: underline;
+        }
+        
+        /* Style pour le mode développeur (caché par défaut) */
+        .developer-mode {
+            display: none; /* CACHÉ PAR DÉFAUT */
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid var(--telex-blue);
+        }
+        
+        .developer-mode h6 {
+            color: var(--telex-blue);
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+        
+        .developer-mode p {
+            color: #64748b;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        
+        .developer-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .developer-toggle:hover {
+            color: var(--telex-blue);
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <!-- Bouton pour mode développeur (très discret) -->
+            <button class="developer-toggle" id="devToggle" title="Mode développeur">
+                <i class="fas fa-code"></i>
+            </button>
+            
+            <!-- Logo Section Centrée -->
+            <div class="logo-section">
+                <img src="/images/Telex.png" alt="TELEX" class="logo-img">
+                <h1 class="brand-title">Telex Admin</h1>
+                <p class="brand-subtitle">Connexion à l'interface d'administration</p>
+            </div>
+            
+            <!-- Messages d'alerte -->
+            <% if (error) { %>
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-triangle fa-lg"></i>
+                <div>
+                    <strong>Erreur d'authentification</strong>
+                    <p class="mb-0"><%= error %></p>
+                </div>
+            </div>
+            <% } %>
+            
+            <% if (success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle fa-lg"></i>
+                <div>
+                    <strong>Connexion réussie</strong>
+                    <p class="mb-0"><%= success_msg %></p>
+                </div>
+            </div>
+            <% } %>
+            
+            <!-- Formulaire de connexion -->
+            <form method="POST" action="/admin/login" id="loginForm">
+                <div class="input-group">
+                    <label for="username" class="form-label">
+                        <i class="fas fa-user-circle"></i> Identifiant
+                    </label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="username" 
+                           name="username" 
+                           placeholder="Votre identifiant" 
+                           required
+                           autocomplete="username">
+                    <div class="input-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-key"></i> Mot de passe
+                    </label>
+                    <input type="password" 
+                           class="form-control" 
+                           id="password" 
+                           name="password" 
+                           placeholder="Votre mot de passe" 
+                           required
+                           autocomplete="current-password">
+                    <button type="button" class="password-toggle" id="togglePassword">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+                
+                <!-- Lien pour identifiants oubliés -->
+                <div class="forgot-hint">
+                    <a href="#" id="forgotCredentials">
+                        <i class="fas fa-question-circle me-1"></i>
+                        Identifiants oubliés ?
+                    </a>
+                </div>
+                
+                <button type="submit" class="btn btn-login" id="loginButton">
+                    <i class="fas fa-sign-in-alt"></i>
+                    <span>Se connecter</span>
+                </button>
+            </form>
+            
+            <!-- Section mode développeur (CACHÉE par défaut) -->
+            <!-- 
+                POUR INFORMATION INTERNE SEULEMENT - NE PAS AFFICHER AUX UTILISATEURS
+                
+                Pour une première connexion, utilisez :
+                Super Admin: admin / admin123
+                Admin: telex / telex2026
+                
+                Pensez à modifier ces identifiants après votre première connexion
+            -->
+            <div class="developer-mode" id="devMode">
+                <h6><i class="fas fa-code me-1"></i> Informations développement</h6>
+                <p><strong>Pour une première connexion, utilisez :</strong></p>
+                <p>Super Admin: admin / admin123</p>
+                <p>Admin: telex / telex2026</p>
+                <p><em>Pensez à modifier ces identifiants après votre première connexion</em></p>
+            </div>
+            
+            <!-- Note de sécurité -->
+            <div class="security-note">
+                <div class="security-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <small>
+                    <strong>Accès sécurisé</strong><br>
+                    Cette interface est réservée au personnel autorisé.<br>
+                    Toute tentative non autorisée sera enregistrée.
+                </small>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>Telex Administration • Version 2.0 • © <%= new Date().getFullYear() %></p>
+            <p>Accès réservé • <a href="mailto:support@telex.com" id="supportLink">Support technique</a></p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('TELEX Login Page loaded - Secure Version');
+            
+            // Focus sur le champ username
+            document.getElementById('username').focus();
+            
+            // Toggle password visibility
+            const togglePassword = document.getElementById('togglePassword');
+            const passwordInput = document.getElementById('password');
+            
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+                });
+            }
+            
+            // Gestion du mode développeur (très discret)
+            const devToggle = document.getElementById('devToggle');
+            const devMode = document.getElementById('devMode');
+            let devModeActive = false;
+            
+            if (devToggle && devMode) {
+                // Double-clic pour activer (sécurité)
+                devToggle.addEventListener('dblclick', function(e) {
+                    e.preventDefault();
+                    devModeActive = !devModeActive;
+                    devMode.style.display = devModeActive ? 'block' : 'none';
+                    console.log('Mode développeur:', devModeActive ? 'ACTIVÉ' : 'DÉSACTIVÉ');
+                    
+                    // Message discret
+                    showTemporaryMessage(
+                        devModeActive ? 'Mode développeur activé' : 'Mode développeur désactivé',
+                        'info',
+                        2000
+                    );
+                });
+                
+                // Clic simple ne fait rien
+                devToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                });
+            }
+            
+            // Validation et animation du formulaire
+            const loginForm = document.getElementById('loginForm');
+            const loginButton = document.getElementById('loginButton');
+            
+            if (loginForm) {
+                loginForm.addEventListener('submit', function(e) {
+                    const username = document.getElementById('username').value.trim();
+                    const password = document.getElementById('password').value.trim();
+                    
+                    // Validation basique
+                    if (!username || !password) {
+                        e.preventDefault();
+                        showError('Veuillez saisir votre identifiant et mot de passe');
+                        return false;
+                    }
+                    
+                    // Animation de chargement
+                    if (loginButton) {
+                        const buttonText = loginButton.querySelector('span');
+                        const buttonIcon = loginButton.querySelector('i');
+                        
+                        if (buttonText) buttonText.textContent = 'Authentification en cours...';
+                        if (buttonIcon) buttonIcon.className = 'fas fa-spinner fa-spin';
+                        loginButton.classList.add('loading');
+                        loginButton.disabled = true;
+                    }
+                    
+                    return true;
+                });
+            }
+            
+            // Gestion du lien "Identifiants oubliés"
+            const forgotLink = document.getElementById('forgotCredentials');
+            if (forgotLink) {
+                forgotLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showMessage(
+                        'Contactez le support technique',
+                        'Pour récupérer vos identifiants, veuillez contacter le service support@telex.com',
+                        'info'
+                    );
+                });
+            }
+            
+            // Gestion du lien support
+            const supportLink = document.getElementById('supportLink');
+            if (supportLink) {
+                supportLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    showMessage(
+                        'Support TELEX',
+                        'Email : support@telex.com\n' +
+                        'Tél : +33 1 XX XX XX XX\n' +
+                        'Horaires : 9h-18h (Lun-Ven)',
+                        'info'
+                    );
+                });
+            }
+            
+            // Effet de saisie interactive
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.classList.add('focused');
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (!this.value) {
+                        this.parentElement.classList.remove('focused');
+                    }
+                });
+                
+                // Animation au chargement
+                setTimeout(() => {
+                    input.style.opacity = '1';
+                    input.style.transform = 'translateY(0)';
+                }, 300);
+            });
+            
+            // Fonction pour afficher les erreurs
+            function showError(message) {
+                createAlert(message, 'danger', 'Erreur');
+            }
+            
+            // Fonction pour afficher des messages informatifs
+            function showMessage(title, content, type = 'info') {
+                createAlert(content, type, title);
+            }
+            
+            // Fonction pour messages temporaires
+            function showTemporaryMessage(message, type = 'info', duration = 3000) {
+                const alertDiv = document.createElement('div');
+                alertDiv.className = `alert alert-${type} temporary-message`;
+                alertDiv.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    max-width: 300px;
+                    z-index: 9999;
+                    animation: slideInRight 0.3s ease;
+                `;
+                
+                const icon = type === 'info' ? 'fa-info-circle' : 
+                            type === 'success' ? 'fa-check-circle' : 
+                            'fa-exclamation-circle';
+                
+                alertDiv.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <div>
+                        <strong>${message}</strong>
+                    </div>
+                `;
+                
+                document.body.appendChild(alertDiv);
+                
+                // Supprimer après la durée spécifiée
+                setTimeout(() => {
+                    alertDiv.style.opacity = '0';
+                    alertDiv.style.transform = 'translateX(100%)';
+                    alertDiv.style.transition = 'all 0.5s';
+                    setTimeout(() => alertDiv.remove(), 500);
+                }, duration);
+            }
+            
+            // Fonction générique pour créer des alertes
+            function createAlert(content, type, title = '') {
+                const alertDiv = document.createElement('div');
+                const icon = type === 'danger' ? 'fa-exclamation-triangle' :
+                            type === 'success' ? 'fa-check-circle' :
+                            'fa-info-circle';
+                
+                alertDiv.className = `alert alert-${type}`;
+                alertDiv.innerHTML = `
+                    <i class="fas ${icon}"></i>
+                    <div>
+                        ${title ? `<strong>${title}</strong>` : ''}
+                        <p class="mb-0">${content}</p>
+                    </div>
+                `;
+                
+                // Insérer après le logo
+                const logoSection = document.querySelector('.logo-section');
+                if (logoSection) {
+                    logoSection.parentNode.insertBefore(alertDiv, logoSection.nextSibling);
+                    
+                    // Supprimer après 5 secondes
+                    setTimeout(() => {
+                        alertDiv.style.opacity = '0';
+                        alertDiv.style.transform = 'translateY(-20px)';
+                        alertDiv.style.transition = 'all 0.5s';
+                        setTimeout(() => alertDiv.remove(), 500);
+                    }, 5000);
+                }
+            }
+            
+            // Animation de fond subtile
+            let mouseX = 0;
+            let mouseY = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
+                mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
+                
+                document.body.style.backgroundPosition = `${50 + mouseX}% ${50 + mouseY}%`;
+            });
+            
+            // Raccourci clavier pour le focus
+            document.addEventListener('keydown', (e) => {
+                if (e.altKey && e.key === 'l') {
+                    e.preventDefault();
+                    document.getElementById('username').focus();
+                }
+                
+                if (e.altKey && e.key === 'p') {
+                    e.preventDefault();
+                    document.getElementById('password').focus();
+                }
+                
+                if (e.key === 'Escape') {
+                    document.activeElement.blur();
+                }
+                
+                // Raccourci pour support (Alt + S)
+                if (e.altKey && e.key === 's') {
+                    e.preventDefault();
+                    showMessage(
+                        'Support technique',
+                        'Pour toute assistance :\n• Email : support@telex.com\n• Contactez votre administrateur système',
+                        'info'
+                    );
+                }
+                
+                // Raccourci secret pour mode développeur (Ctrl+Shift+D)
+                if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+                    e.preventDefault();
+                    if (devToggle && devMode) {
+                        devModeActive = !devModeActive;
+                        devMode.style.display = devModeActive ? 'block' : 'none';
+                        showTemporaryMessage(
+                            `Mode développeur ${devModeActive ? 'activé' : 'désactivé'}`,
+                            'info',
+                            2000
+                        );
+                    }
+                }
+            });
+            
+            // Info console sécurisée
+            console.log('%c🔐 TELEX Admin - Interface sécurisée', 'color: #E63946; font-size: 16px; font-weight: bold;');
+            console.log('%cAccès réservé au personnel autorisé.', 'color: #457B9D;');
+            
+            // Protection contre l'inspection
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                showTemporaryMessage('Menu contextuel désactivé pour sécurité', 'info', 2000);
+            });
+            
+            // Protection contre F12
+            document.addEventListener('keydown', function(e) {
+                // Bloquer F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
+                if (
+                    e.key === 'F12' ||
+                    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) ||
+                    (e.ctrlKey && e.key === 'u')
+                ) {
+                    e.preventDefault();
+                    showTemporaryMessage('Accès au code source restreint', 'warning', 2000);
+                }
+            });
+            
+            // CSS pour animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInRight {
+                    from {
+                        opacity: 0;
+                        transform: translateX(100%);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+                
+                .temporary-message {
+                    animation: slideInRight 0.3s ease !important;
+                }
+            `;
+            document.head.appendChild(style);
+        });
+        
+        // Gérer le rechargement de la page
+        window.addEventListener('beforeunload', function() {
+            const loginButton = document.getElementById('loginButton');
+            if (loginButton && loginButton.classList.contains('loading')) {
+                loginButton.classList.remove('loading');
+                const buttonText = loginButton.querySelector('span');
+                const buttonIcon = loginButton.querySelector('i');
+                if (buttonText) buttonText.textContent = 'Se connecter';
+                if (buttonIcon) buttonIcon.className = 'fas fa-sign-in-alt';
+                loginButton.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

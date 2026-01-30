@@ -1,0 +1,168 @@
+<%- include('../partials/header', { title: 'Galerie' }) %>
+
+    <section class="py-5">
+        <div class="container">
+            <h1 class="mb-4">Galerie TELEX</h1>
+            <p class="lead mb-5">Explorez les coulisses, les moments forts et l'équipe de TELEX.</p>
+
+            <!-- Filtres -->
+            <div class="mb-4">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-primary active" data-filter="all">Tout</button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="coulisses">Coulisses</button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="equipe">Équipe</button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="evenements">Événements</button>
+                    <button type="button" class="btn btn-outline-primary" data-filter="tournage">Tournage</button>
+                </div>
+            </div>
+
+            <!-- Galerie -->
+            <!-- Galerie -->
+            <% if (gallery && gallery.length> 0) { %>
+                <div class="gallery-grid" id="gallery">
+                    <% gallery.forEach(item=> { %>
+                        <div class="gallery-item" data-category="<%= item.category || 'general' %>">
+                            <img src="<%= item.image_url || '/images/default-gallery.jpg' %>" alt="<%= item.title %>"
+                                loading="lazy">
+                            <div class="gallery-overlay">
+                                <h5>
+                                    <%= item.title %>
+                                </h5>
+                                <% if (item.description) { %>
+                                    <p class="mb-2">
+                                        <%= item.description %>
+                                    </p>
+                                    <% } %>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-primary">
+                                                <%= item.category || 'Général' %>
+                                            </span>
+                                            <small class="text-white-50">
+                                                <i class="far fa-calendar me-1"></i>
+                                                <%= new Date(item.created_at).toLocaleDateString('fr-FR') %>
+                                            </small>
+                                        </div>
+                            </div>
+                        </div>
+                        <% }); %>
+                </div>
+                <% } else { %>
+                    <div class="alert alert-info text-center py-5">
+                        <i class="fas fa-images fa-4x mb-3 text-primary"></i>
+                        <h3>Galerie en préparation</h3>
+                        <p class="mb-0">Notre galerie photo sera bientôt disponible avec tous nos meilleurs moments !
+                        </p>
+                    </div>
+                    <% } %>
+
+                        <!-- Section vidéos -->
+                        <div class="mt-5">
+                            <h2 class="mb-4">Nos vidéos</h2>
+                            <div class="row">
+                                <div class="col-md-6 mb-4">
+                                    <div class="card card-telex">
+                                        <div class="card-body">
+                                            <div class="ratio ratio-16x9 mb-3">
+                                                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                                                    title="TELEX Présentation" allowfullscreen></iframe>
+                                            </div>
+                                            <h5>Présentation de TELEX</h5>
+                                            <p>Découvrez notre projet en 3 minutes.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <div class="card card-telex">
+                                        <div class="card-body">
+                                            <div class="ratio ratio-16x9 mb-3">
+                                                <div
+                                                    class="bg-dark rounded d-flex align-items-center justify-content-center">
+                                                    <i class="fas fa-play-circle fa-4x text-primary"></i>
+                                                </div>
+                                            </div>
+                                            <h5>Reportage spécial</h5>
+                                            <p>Notre équipe sur le terrain pour un reportage exclusif.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Filtrage de la galerie
+            const filterButtons = document.querySelectorAll('[data-filter]');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function () {
+                    // Mettre à jour les boutons actifs
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const filter = this.getAttribute('data-filter');
+
+                    // Filtrer les éléments
+                    galleryItems.forEach(item => {
+                        const category = item.getAttribute('data-category');
+
+                        if (filter === 'all' || category === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // Lightbox functionality
+            const lightbox = document.createElement('div');
+            lightbox.id = 'lightbox';
+            lightbox.className = 'lightbox';
+            lightbox.innerHTML = `
+                <button class="close">&times;</button>
+                <div class="lightbox-content">
+                    <img src="" alt="">
+                </div>
+            `;
+            document.body.appendChild(lightbox);
+
+            const lightboxImg = lightbox.querySelector('img');
+            const closeBtn = lightbox.querySelector('.close');
+
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const img = this.querySelector('img');
+                    const src = img.getAttribute('src');
+                    const alt = img.getAttribute('alt');
+
+                    lightboxImg.src = src;
+                    lightboxImg.alt = alt;
+                    lightbox.classList.add('active');
+                });
+            });
+
+            const closeLightbox = () => {
+                lightbox.classList.remove('active');
+            };
+
+            closeBtn.addEventListener('click', closeLightbox);
+
+            lightbox.addEventListener('click', function (e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Close on Escape key
+            document.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                    closeLightbox();
+                }
+            });
+        });
+    </script>
+
+    <%- include('../partials/footer') %>

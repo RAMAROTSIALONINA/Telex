@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - Telex | Télévision Étudiante</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- CSS TELEX -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+        <div class="container">
+            <!-- Logo TELEX -->
+            <a class="navbar-brand" href="/">
+                <img src="/images/Telex.png" alt="Logo TELEX" class="logo-img">
+                <span class="logo-text">Telex</span>
+            </a>
+            
+            <!-- Menu mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Menu -->
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
+                            <i class="fas fa-info-circle me-1"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" href="/mission">
+                            <i class="fas fa-bullseye me-1"></i>Mission
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
+                            <i class="fas fa-tv me-1"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
+                            <i class="fas fa-images me-1"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
+                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="hero-title">
+                        <span class="text-primary">Telex</span><br>
+                        La Voix Étudiante
+                    </h1>
+                    <p class="hero-subtitle">
+                        Première télévision étudiante 100% indépendante. 
+                        Nous donnons la parole à la jeunesse, formons les talents de demain 
+                        et produisons des contenus audiovisuels qui inspirent et font réfléchir.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="/programs" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play me-2"></i>Voir nos programmes
+                        </a>
+                        <a href="/about" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-info-circle me-2"></i>Découvrir
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div id="telexCarousel" class="carousel slide rounded shadow-lg overflow-hidden" data-bs-ride="carousel">
+        <!-- Slides AGGRANDIES ET MODIFIÉES -->
+        <div class="carousel-inner">
+            <!-- Slide 1 : ENSEMBLE TELEX -->
+            <div class="carousel-item active" data-bs-interval="4500">
+                <img src="/images/logo&expression.png" 
+                     class="d-block w-100 carousel-img-small" 
+                     alt="Ensemble Telex - La Voix Étudiante">
+                <div class="carousel-caption d-none d-md-block">
+                    <div class="telex-badge bg-telex-blue px-4 py-2 rounded-pill">
+                        <i class="fas fa-users me-2"></i>ENSEMBLE Telex
+                    </div>
+                    <p class="mt-2 mb-0">L'aventure audiovisuelle étudiante en commun</p>
+                </div>
+            </div>
+            
+            <!-- Slide 2 : FORMATION DES TALENTS -->
+            <div class="carousel-item" data-bs-interval="4500">
+                <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&h=550&q=80" 
+                     class="d-block w-100 carousel-img-large" 
+                     alt="Atelier de formation journalistique TELEX">
+                <div class="carousel-caption d-none d-md-block">
+                    <div class="telex-badge bg-telex-blue px-4 py-2 rounded-pill">
+                        <i class="fas fa-chalkboard-teacher me-2"></i>FORMATION DES TALENTS
+                    </div>
+                    <p class="mt-2 mb-0">Ateliers pratiques d'écriture et de reportage</p>
+                </div>
+            </div>
+            
+            <!-- Slide 3 : FORMATION TECHNIQUE -->
+            <div class="carousel-item" data-bs-interval="4500">
+                <img src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=900&h=550&fit=crop" 
+                     class="d-block w-100 carousel-img-large" 
+                     alt="Formation technique audiovisuelle TELEX">
+                <div class="carousel-caption d-none d-md-block">
+                    <div class="telex-badge bg-telex-red px-4 py-2 rounded-pill">
+                        <i class="fas fa-video me-2"></i>FORMATION TECHNIQUE
+                    </div>
+                    <p class="mt-2 mb-0">Apprentissage des métiers de l'audiovisuel</p>
+                </div>
+            </div>
+            
+            <!-- Slide 4 : PAROLE À LA JEUNESSE -->
+            <div class="carousel-item" data-bs-interval="4500">
+                <img src="https://images.pexels.com/photos/4144223/pexels-photo-4144223.jpeg?auto=compress&cs=tinysrgb&w=900&h=550&fit=crop" 
+                     class="d-block w-100 carousel-img-large" 
+                     alt="Débat étudiant - Parole à la jeunesse TELEX">
+                <div class="carousel-caption d-none d-md-block">
+                    <div class="telex-badge bg-telex-blue px-4 py-2 rounded-pill">
+                        <i class="fas fa-comments me-2"></i>PAROLE À LA JEUNESSE
+                    </div>
+                    <p class="mt-2 mb-0">Débats et discussions animés par les étudiants</p>
+                </div>
+            </div>
+            
+            <!-- Slide 5 : PRODUCTION TÉLÉVISUELLE -->
+            <div class="carousel-item" data-bs-interval="4500">
+                <img src="https://images.unsplash.com/photo-1562564055-71e051d33c19?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&h=550&q=80" 
+                     class="d-block w-100 carousel-img-large" 
+                     alt="Production télévisuelle étudiante TELEX">
+                <div class="carousel-caption d-none d-md-block">
+                    <div class="telex-badge bg-telex-red px-4 py-2 rounded-pill">
+                        <i class="fas fa-broadcast-tower me-2"></i>PRODUCTION TÉLÉVISUELLE
+                    </div>
+                    <p class="mt-2 mb-0">Création de contenus par et pour les étudiants</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contrôles -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#telexCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Précédent</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#telexCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Suivant</span>
+        </button>
+    </div>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Programmes -->
+    <section class="section section-programs">
+        <div class="container">
+            <h2 class="section-title">Nos Programmes Phares</h2>
+            <p class="section-subtitle">Découvrez nos émissions produites par et pour les étudiants</p>
+            
+            <div class="row">
+                <!-- Programme 1 -->
+                <div class="col-md-3">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h3>Le Journal Campus</h3>
+                        <p>L'actualité étudiante décryptée chaque semaine.</p>
+                        <a href="/programs#journal" class="program-link">En savoir plus →</a>
+                    </div>
+                </div>
+                
+                <!-- Programme 2 -->
+                <div class="col-md-3">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Débat Campus</h3>
+                        <p>Face-à-face d'idées sur les grands sujets de société.</p>
+                        <a href="/programs#debat" class="program-link">En savoir plus →</a>
+                    </div>
+                </div>
+                
+                <!-- Programme 3 -->
+                <div class="col-md-3">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-film"></i>
+                        </div>
+                        <h3>Culture Express</h3>
+                        <p>Découverte de la scène culturelle étudiante.</p>
+                        <a href="/programs#culture" class="program-link">En savoir plus →</a>
+                    </div>
+                </div>
+                
+                <!-- Programme 4 -->
+                <div class="col-md-3">
+                    <div class="program-card">
+                        <div class="program-icon">
+                            <i class="fas fa-futbol"></i>
+                        </div>
+                        <h3>Telex Sports</h3>
+                        <p>Toute l'actualité sportive universitaire.</p>
+                        <a href="/programs#sports" class="program-link">En savoir plus →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section À propos -->
+    <section class="section section-about bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h2 class="section-title">Qui sommes-nous ?</h2>
+                    <p>
+                        Telex est une télévision jeune, dynamique et engagée, 
+                        portée par des étudiants et destinée à la jeunesse. 
+                        Fondée en 2024, notre équipe compte plus de 50 étudiants 
+                        bénévoles passionnés par l'audiovisuel.
+                    </p>
+                    <ul class="about-list">
+                        <li><i class="fas fa-check text-success me-2"></i>100% étudiant</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Formation professionnelle</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Contenus engagés</li>
+                        <li><i class="fas fa-check text-success me-2"></i>Communauté active</li>
+                    </ul>
+                    <a href="/about" class="btn btn-outline-primary">En savoir plus sur nous</a>
+                </div>
+                <div class="col-lg-6">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                         alt="Studio TELEX" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section class="section section-contact">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="section-title">Rejoignez l'aventure Telex</h2>
+                    <p class="section-subtitle">
+                        Vous êtes étudiant et passionné par l'audiovisuel ? 
+                        Contactez-nous pour participer à nos projets !
+                    </p>
+                    <a href="/contact" class="btn btn-primary btn-lg">
+                        <i class="fas fa-user-plus me-2"></i>Nous rejoindre
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-telex">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="footer-brand">
+                        <img src="<%= footer.footer_logo || '/images/11.png' %>" alt="TELEX" class="footer-logo">
+                        <h3>Telex</h3>
+                        <p><%= footer.footer_description || 'Télévision étudiante jeune et engagée' %></p>
+                    </div>
+                </div>
+                
+                <div class="col-lg-2">
+                    <h4>Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Accueil</a></li>
+                        <li><a href="/about">À propos</a></li>
+                        <li><a href="/programs">Programmes</a></li>
+                        <li><a href="/news">Actualités</a></li>
+                        <li><a href="/gallery">Galerie</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3">
+                    <h4>Contact</h4>
+                    <ul class="footer-contact">
+                        <li><i class="fas fa-envelope me-2"></i><%= footer.contact_email || 'contact@telex.fr' %></li>
+                        <li><i class="fas fa-phone me-2"></i><%= footer.contact_phone || '01 23 45 67 89' %></li>
+                        <li><i class="fas fa-map-marker-alt me-2"></i><%= footer.contact_address || 'Campus Universitaire, Paris' %></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3">
+                    <h4>Suivez-nous</h4>
+                    <div class="social-icons">
+                        <% if (footer.youtube_url) { %>
+                        <a href="<%= footer.youtube_url %>" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
+                        <% } %>
+                        <% if (footer.instagram_url) { %>
+                        <a href="<%= footer.instagram_url %>" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <% } %>
+                        <% if (footer.facebook_url) { %>
+                        <a href="<%= footer.facebook_url %>" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
+                        <% } %>
+                        <% if (footer.tiktok_url) { %>
+                        <a href="<%= footer.tiktok_url %>" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
+                        <% } %>
+                        <% if (footer.twitter_url) { %>
+                        <a href="<%= footer.twitter_url %>" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Telex - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+    
+    <script>
+    // Script pour la page d'accueil
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('TELEX - Page d\'accueil chargée');
+        
+        // Animation des cartes programmes
+        const programCards = document.querySelectorAll('.program-card');
+        programCards.forEach((card, index) => {
+            card.style.animationDelay = `${index * 0.1}s`;
+        });
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Telex | Administration</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+            --telex-light: #A8DADC;
+            --sidebar-width: 280px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #334155;
+        }
+        
+        /* Sidebar */
+        .sidebar { 
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
+            color: white; 
+            width: var(--sidebar-width); 
+            height: 100vh; 
+            position: fixed; 
+            left: 0;
+            top: 0;
+            padding: 0;
+            z-index: 1000;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-brand {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-brand img {
+            max-width: 120px;
+            height: auto;
+            max-height: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .sidebar-brand h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 15px;
+            overflow-y: auto;
+        }
+        
+        .nav-item {
+            margin-bottom: 8px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 14px 18px;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-link.active {
+            background: var(--telex-red);
+            color: white;
+        }
+        
+        .nav-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        /* Form Styles */
+        .form-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: var(--telex-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            border-color: var(--telex-blue);
+            box-shadow: 0 0 0 0.2rem rgba(29, 53, 87, 0.25);
+        }
+        
+        /* Buttons */
+        .btn-telex {
+            background: var(--telex-blue);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-telex:hover {
+            background: #15294e;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 53, 87, 0.3);
+        }
+        
+        .btn-save {
+            background: var(--telex-red);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-save:hover {
+            background: #d62828;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(230, 57, 70, 0.3);
+        }
+        
+        /* Section Headers */
+        .section-header {
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .section-header h3 {
+            color: var(--telex-blue);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Social Icons Preview */
+        .social-preview {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .social-preview a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--telex-blue);
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-preview a:hover {
+            transform: scale(1.1);
+        }
+        
+        .social-preview .fa-youtube { background: #ff0000; }
+        .social-preview .fa-instagram { background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%); }
+        .social-preview .fa-facebook { background: #1877f2; }
+        .social-preview .fa-tiktok { background: #000000; }
+        .social-preview .fa-twitter { background: #1da1f2; }
+        
+        /* Alerts */
+        .alert {
+            border-radius: 8px;
+            border: none;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .main-content {
+                margin-left: 0;
+                padding: 1rem;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="/images/Telex.png" alt="TELEX">
+            <h3>Telex Admin</h3>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/news" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/programs" class="nav-link">
+                    <i class="fas fa-tv"></i>
+                    <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/contacts" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/footer" class="nav-link active">
+                    <i class="fas fa-globe"></i>
+                    <span>Footer</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <img src="/images/Telex.png" alt="Telex" class="page-logo">
+                <div>
+                    <h1>Paramètres du Footer</h1>
+                    <p>Personnalisez les informations affichées dans le pied de page</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <a href="/admin/dashboard" class="btn btn-telex">
+                    <i class="fas fa-arrow-left me-2"></i>Retour au Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <!-- Alerts -->
+        <% if (success_msg) { %>
+            <div class="alert alert-success">
+                <i class="fas fa-check-circle me-2"></i><%= success_msg %>
+            </div>
+        <% } %>
+        
+        <% if (error_msg) { %>
+            <div class="alert alert-error">
+                <i class="fas fa-exclamation-circle me-2"></i><%= error_msg %>
+            </div>
+        <% } %>
+        
+        <!-- Form -->
+        <div class="form-container">
+            <form action="/admin/footer/update" method="POST">
+                <!-- Contact Information -->
+                <div class="section-header">
+                    <h3><i class="fas fa-address-card me-2"></i>Informations de Contact</h3>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="contact_email" class="form-label">Email de contact</label>
+                            <input type="email" class="form-control" id="contact_email" name="contact_email" 
+                                   value="<%= settings.contact_email || '' %>" placeholder="contact@telex.fr">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="contact_phone" class="form-label">Téléphone</label>
+                            <input type="tel" class="form-control" id="contact_phone" name="contact_phone" 
+                                   value="<%= settings.contact_phone || '' %>" placeholder="01 23 45 67 89">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact_address" class="form-label">Adresse</label>
+                    <input type="text" class="form-control" id="contact_address" name="contact_address" 
+                           value="<%= settings.contact_address || '' %>" placeholder="Campus Universitaire, Paris">
+                </div>
+                
+                <!-- Brand Information -->
+                <div class="section-header mt-4">
+                    <h3><i class="fas fa-building me-2"></i>Informations de la Marque</h3>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="footer_logo" class="form-label">URL du logo</label>
+                            <input type="text" class="form-control" id="footer_logo" name="footer_logo" 
+                                   value="<%= settings.footer_logo || '/images/11.png' %>" placeholder="/images/Telex.png">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="footer_description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="footer_description" name="footer_description" 
+                                   value="<%= settings.footer_description || '' %>" placeholder="Télévision étudiante jeune et engagée">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Networks -->
+                <div class="section-header mt-4">
+                    <h3><i class="fas fa-share-alt me-2"></i>Réseaux Sociaux</h3>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="youtube_url" class="form-label">
+                                <i class="fab fa-youtube text-danger me-2"></i>YouTube
+                            </label>
+                            <input type="url" class="form-control" id="youtube_url" name="youtube_url" 
+                                   value="<%= settings.youtube_url || '' %>" placeholder="https://www.youtube.com/@Telexmadagascar">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="instagram_url" class="form-label">
+                                <i class="fab fa-instagram text-warning me-2"></i>Instagram
+                            </label>
+                            <input type="url" class="form-control" id="instagram_url" name="instagram_url" 
+                                   value="<%= settings.instagram_url || '' %>" placeholder="https://www.instagram.com/telexmadagascar">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="facebook_url" class="form-label">
+                                <i class="fab fa-facebook text-primary me-2"></i>Facebook
+                            </label>
+                            <input type="url" class="form-control" id="facebook_url" name="facebook_url" 
+                                   value="<%= settings.facebook_url || '' %>" placeholder="https://www.facebook.com/Telexmadagascar">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="tiktok_url" class="form-label">
+                                <i class="fab fa-tiktok text-dark me-2"></i>TikTok
+                            </label>
+                            <input type="url" class="form-control" id="tiktok_url" name="tiktok_url" 
+                                   value="<%= settings.tiktok_url || '' %>" placeholder="https://www.tiktok.com/@telexmadagascar">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="twitter_url" class="form-label">
+                                <i class="fab fa-twitter text-info me-2"></i>Twitter
+                            </label>
+                            <input type="url" class="form-control" id="twitter_url" name="twitter_url" 
+                                   value="<%= settings.twitter_url || '' %>" placeholder="https://twitter.com/TelexMadagascar">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Aperçu des réseaux sociaux</label>
+                            <div class="social-preview">
+                                <% if (settings.youtube_url) { %>
+                                <a href="<%= settings.youtube_url %>" target="_blank" title="YouTube">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <% } %>
+                                <% if (settings.instagram_url) { %>
+                                <a href="<%= settings.instagram_url %>" target="_blank" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <% } %>
+                                <% if (settings.facebook_url) { %>
+                                <a href="<%= settings.facebook_url %>" target="_blank" title="Facebook">
+                                    <i class="fab fa-facebook"></i>
+                                </a>
+                                <% } %>
+                                <% if (settings.tiktok_url) { %>
+                                <a href="<%= settings.tiktok_url %>" target="_blank" title="TikTok">
+                                    <i class="fab fa-tiktok"></i>
+                                </a>
+                                <% } %>
+                                <% if (settings.twitter_url) { %>
+                                <a href="<%= settings.twitter_url %>" target="_blank" title="Twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Buttons -->
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn btn-save">
+                        <i class="fas fa-save me-2"></i>Enregistrer les modifications
+                    </button>
+                    <a href="/admin/dashboard" class="btn btn-telex">
+                        <i class="fas fa-times me-2"></i>Annuler
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

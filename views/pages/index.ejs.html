@@ -1,0 +1,412 @@
+<%- include('../partials/header', { 
+    title: 'Accueil',
+    additionalStyles: []
+}) %>
+
+<!-- Hero Section - Norme: Section d'entrée immersive -->
+<section class="hero-section" aria-labelledby="hero-title">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-7">
+                <h1 id="hero-title" class="hero-title animate-fade-in-up">
+                    TELEX<br>
+                    <span class="text-gradient">La Voix Étudiante</span>
+                </h1>
+                <p class="hero-subtitle animate-fade-in-up animate-delay-1">
+                    Première télévision étudiante 100% indépendante. 
+                    Nous donnons la parole à la jeunesse, formons les talents de demain 
+                    et produisons des contenus engagés qui font réfléchir.
+                </p>
+                <div class="d-flex flex-wrap gap-3 animate-fade-in-up animate-delay-2">
+                    <a href="/programs" class="btn btn-telex btn-lg">
+                        <i class="fas fa-play-circle me-2"></i>Voir nos programmes
+                    </a>
+                    <a href="/about" class="btn btn-outline-telex btn-lg">
+                        <i class="fas fa-info-circle me-2"></i>Découvrir TELEX
+                    </a>
+                </div>
+                
+                <!-- Indicateurs de performance -->
+                <div class="row mt-5 pt-4 border-top border-white-25">
+                    <div class="col-md-4 text-center">
+                        <h3 class="display-6 fw-bold">50+</h3>
+                        <p class="mb-0 opacity-75">Étudiants actifs</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h3 class="display-6 fw-bold">24</h3>
+                        <p class="mb-0 opacity-75">Émissions produites</p>
+                    </div>
+                    <div class="col-md-4 text-center">
+                        <h3 class="display-6 fw-bold">10k+</h3>
+                        <p class="mb-0 opacity-75">Vues mensuelles</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <!-- Player vidéo TELEX -->
+                <div class="card card-telex animate-fade-in-up animate-delay-3">
+                    <div class="card-header text-center">
+                        <i class="fas fa-play-circle me-2"></i>À la une cette semaine
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" 
+                                    title="TELEX - Émission Spéciale" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                    loading="lazy">
+                            </iframe>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        <small class="text-muted">"Le Journal Campus" - Édition du 15 mars 2026</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Nos Valeurs - Norme: Présentation des principes -->
+<section class="section bg-light" aria-labelledby="values-title">
+    <div class="container">
+        <h2 id="values-title" class="section-title">
+            <i class="fas fa-star me-3 text-primary"></i>
+            Ce qui fait l'ADN de TELEX
+        </h2>
+        
+        <div class="row g-4">
+            <!-- Valeur 1 -->
+            <div class="col-md-4">
+                <div class="card card-telex h-100 text-center border-0">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h4">Par les étudiants, pour les étudiants</h3>
+                        <p class="card-text">
+                            100% de notre équipe est composée d'étudiants bénévoles passionnés. 
+                            De la production à la diffusion, nous maîtrisons toute la chaîne.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Valeur 2 -->
+            <div class="col-md-4">
+                <div class="card card-telex h-100 text-center border-0">
+                    <div class="feature-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h4">Formation professionnelle</h3>
+                        <p class="card-text">
+                            Chaque membre reçoit une formation complète en journalisme, 
+                            techniques audiovisuelles et gestion de projet média.
+                        </p>
+                        <a href="/mission#formation" class="btn btn-outline-telex btn-sm mt-2">
+                            Voir les formations
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Valeur 3 -->
+            <div class="col-md-4">
+                <div class="card card-telex h-100 text-center border-0">
+                    <div class="feature-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title h4">Engagement citoyen</h3>
+                        <p class="card-text">
+                            Nous traitons des sujets qui comptent : environnement, 
+                            société, culture, et donnons la parole aux initiatives étudiantes.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Programmes Phares - Norme: Grille de contenu -->
+<section class="section" aria-labelledby="programs-title">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h2 id="programs-title" class="section-title mb-0">
+                <i class="fas fa-tv me-3 text-primary"></i>
+                Nos Émissions Phares
+            </h2>
+            <a href="/programs" class="btn btn-outline-telex">
+                Voir toute la grille <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+        
+        <div class="row g-4">
+            <!-- Programme 1 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-telex h-100">
+                    <div class="card-header bg-primary text-white text-center py-3">
+                        <i class="fas fa-newspaper fa-2x mb-2"></i>
+                        <h4 class="h5 mb-0">Le Journal Campus</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Le rendez-vous info de la semaine. Toute l'actualité étudiante 
+                            décryptée et analysée par notre rédaction.
+                        </p>
+                        <div class="mt-auto">
+                            <span class="badge-telex d-inline-block mb-2">
+                                <i class="fas fa-clock me-1"></i> Lundi 18h
+                            </span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Durée: 30 min</small>
+                                <a href="/programs#journal-campus" class="btn btn-telex btn-sm">
+                                    Épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Programme 2 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-telex h-100">
+                    <div class="card-header bg-success text-white text-center py-3">
+                        <i class="fas fa-comments fa-2x mb-2"></i>
+                        <h4 class="h5 mb-0">Débat Campus</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Face-à-face d'idées sur les grands sujets de société. 
+                            Un espace de dialogue constructif et respectueux.
+                        </p>
+                        <div class="mt-auto">
+                            <span class="badge-telex d-inline-block mb-2">
+                                <i class="fas fa-clock me-1"></i> Mercredi 20h
+                            </span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Durée: 45 min</small>
+                                <a href="/programs#debat-campus" class="btn btn-telex btn-sm">
+                                    Épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Programme 3 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-telex h-100">
+                    <div class="card-header bg-warning text-dark text-center py-3">
+                        <i class="fas fa-film fa-2x mb-2"></i>
+                        <h4 class="h5 mb-0">Culture Express</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Découverte de la scène culturelle étudiante : musique, 
+                            cinéma, théâtre, expositions. Les talents de demain.
+                        </p>
+                        <div class="mt-auto">
+                            <span class="badge-telex d-inline-block mb-2">
+                                <i class="fas fa-clock me-1"></i> Vendredi 19h
+                            </span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Durée: 25 min</small>
+                                <a href="/programs#culture-express" class="btn btn-telex btn-sm">
+                                    Épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Programme 4 -->
+            <div class="col-lg-3 col-md-6">
+                <div class="card card-telex h-100">
+                    <div class="card-header bg-info text-white text-center py-3">
+                        <i class="fas fa-futbol fa-2x mb-2"></i>
+                        <h4 class="h5 mb-0">TELEX Sports</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            Couverture complète des événements sportifs universitaires, 
+                            interviews d'athlètes et analyses techniques.
+                        </p>
+                        <div class="mt-auto">
+                            <span class="badge-telex d-inline-block mb-2">
+                                <i class="fas fa-clock me-1"></i> Samedi 17h
+                            </span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-muted">Durée: 35 min</small>
+                                <a href="/programs#sports" class="btn btn-telex btn-sm">
+                                    Épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section: Actualités Récentes - Norme: Flux d'actualités -->
+<section class="section bg-light" aria-labelledby="news-title">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <h2 id="news-title" class="section-title mb-0">
+                <i class="fas fa-newspaper me-3 text-primary"></i>
+                Dernières Actualités TELEX
+            </h2>
+            <a href="/news" class="btn btn-outline-telex">
+                Toutes les actualités <i class="fas fa-arrow-right ms-2"></i>
+            </a>
+        </div>
+        
+        <div class="row g-4">
+            <% if (featuredNews && featuredNews.length > 0) { %>
+                <% featuredNews.forEach((news, index) => { %>
+                <div class="col-lg-4 col-md-6">
+                    <article class="card card-telex h-100">
+                        <% if (news.image_url) { %>
+                        <img src="<%= news.image_url %>" 
+                             class="card-img-top" 
+                             alt="<%= news.title %>"
+                             style="height: 200px; object-fit: cover;">
+                        <% } else { %>
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" 
+                             style="height: 200px;">
+                            <i class="fas fa-newspaper fa-4x text-white opacity-50"></i>
+                        </div>
+                        <% } %>
+                        
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-primary"><%= news.category %></span>
+                                <small class="text-muted">
+                                    <i class="far fa-clock me-1"></i>
+                                    <%= new Date(news.created_at).toLocaleDateString('fr-FR') %>
+                                </small>
+                            </div>
+                            
+                            <h3 class="card-title h5"><%= news.title %></h3>
+                            <p class="card-text"><%= news.excerpt || news.content.substring(0, 150) %>...</p>
+                            
+                            <div class="mt-auto pt-3 border-top">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">
+                                        <i class="fas fa-user me-1"></i>
+                                        <%= news.author || 'Équipe TELEX' %>
+                                    </small>
+                                    <a href="/news/<%= news.id %>" class="btn btn-telex btn-sm">
+                                        Lire <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <% }); %>
+            <% } else { %>
+            <!-- État vide -->
+            <div class="col-12 text-center py-5">
+                <div class="card card-telex border-dashed">
+                    <div class="card-body py-5">
+                        <i class="fas fa-newspaper fa-4x text-muted mb-4 opacity-25"></i>
+                        <h3 class="h4 mb-3">À venir prochainement</h3>
+                        <p class="text-muted mb-0">
+                            Notre équipe prépare du contenu passionnant. 
+                            Revenez bientôt pour découvrir nos premières actualités !
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</section>
+
+<!-- Section: CTA Newsletter - Norme: Appel à l'action -->
+<section class="section" aria-labelledby="newsletter-title">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card card-telex bg-primary text-white border-0 shadow-lg">
+                    <div class="card-body p-5 text-center">
+                        <h2 id="newsletter-title" class="mb-3">
+                            <i class="fas fa-envelope-open-text me-3"></i>
+                            Restez informés
+                        </h2>
+                        <p class="lead mb-4 opacity-90">
+                            Recevez chaque semaine le programme TELEX, 
+                            les dernières actualités et des contenus exclusifs.
+                        </p>
+                        
+                        <form id="newsletterForm" class="row g-3 justify-content-center">
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <input type="email" 
+                                           class="form-control form-control-lg" 
+                                           placeholder="Votre adresse email"
+                                           aria-label="Adresse email pour la newsletter"
+                                           required>
+                                    <button class="btn btn-light btn-lg" type="submit">
+                                        S'inscrire
+                                    </button>
+                                </div>
+                                <div class="form-text text-white-75 mt-2">
+                                    <i class="fas fa-shield-alt me-1"></i>
+                                    Nous respectons votre vie privée. Désinscription à tout moment.
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>
+
+<script>
+// Script spécifique à la page d'accueil
+document.addEventListener('DOMContentLoaded', function() {
+    // Animation navbar au scroll
+    const navbar = document.getElementById('mainNav');
+    window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+    
+    // Gestion newsletter
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            
+            // Simulation d'envoi
+            const button = this.querySelector('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Inscription...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                alert('Merci ! Vous êtes maintenant inscrit à la newsletter TELEX.');
+                this.reset();
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }, 1500);
+        });
+    }
+});
+</script>

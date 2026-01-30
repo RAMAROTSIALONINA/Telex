@@ -1,0 +1,100 @@
+<%- include('../partials/header', { title: 'Erreur ' + (code || '') }) %>
+
+<section class="section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <!-- Icône d'erreur -->
+                <div class="mb-5">
+                    <% if (code === 404) { %>
+                    <i class="fas fa-map-signs fa-6x text-warning mb-4"></i>
+                    <% } else { %>
+                    <i class="fas fa-exclamation-triangle fa-6x text-danger mb-4"></i>
+                    <% } %>
+                </div>
+                
+                <!-- Message d'erreur -->
+                <h1 class="display-4 fw-bold mb-4">
+                    <% if (code === 404) { %>
+                    Page non trouvée
+                    <% } else { %>
+                    Une erreur est survenue
+                    <% } %>
+                </h1>
+                
+                <div class="card card-telex border-0 shadow-sm mb-5">
+                    <div class="card-body p-5">
+                        <p class="lead mb-4"><%= message || 'Une erreur inattendue s\'est produite.' %></p>
+                        
+                        <% if (code) { %>
+                        <div class="alert alert-info">
+                            <p class="mb-0">
+                                <strong>Code d'erreur :</strong> <%= code %>
+                                <% if (code === 404) { %>
+                                <br><small>La page que vous cherchez n'existe pas ou a été déplacée.</small>
+                                <% } else if (code === 500) { %>
+                                <br><small>Erreur interne du serveur. Notre équipe technique a été notifiée.</small>
+                                <% } %>
+                            </p>
+                        </div>
+                        <% } %>
+                        
+                        <!-- Actions possibles -->
+                        <div class="d-flex flex-wrap gap-3 justify-content-center mt-4">
+                            <a href="/" class="btn btn-telex">
+                                <i class="fas fa-home me-2"></i>Retour à l'accueil
+                            </a>
+                            <a href="/contact" class="btn btn-outline-telex">
+                                <i class="fas fa-envelope me-2"></i>Signaler le problème
+                            </a>
+                            <button id="backButton" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Retour en arrière
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Informations techniques (seulement en développement) -->
+                <% if (process.env.NODE_ENV === 'development' && error) { %>
+                <div class="card border-danger mt-4">
+                    <div class="card-header bg-danger text-white">
+                        <i class="fas fa-code me-2"></i>Détails techniques (développement)
+                    </div>
+                    <div class="card-body">
+                        <pre class="text-danger mb-0"><code><%= error.stack %></code></pre>
+                    </div>
+                </div>
+                <% } %>
+                
+                <!-- Statistiques de navigation -->
+                <div class="mt-5 pt-4 border-top">
+                    <p class="text-muted small">
+                        <i class="fas fa-info-circle me-2"></i>
+                        Si ce problème persiste, contactez notre équipe à 
+                        <a href="mailto:technique@telex.fr">technique@telex.fr</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<%- include('../partials/footer') %>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Log l'erreur pour analytics (simulé)
+    console.error('Erreur <%- code %>: <%- message %>');
+    
+    // Bouton de retour
+    document.getElementById('backButton').addEventListener('click', function() {
+        window.history.back();
+    });
+    
+    // Auto-redirection pour les 404 après 10 secondes
+    <%- code === 404 ? `
+    setTimeout(function() {
+        window.location.href = '/';
+    }, 10000);` : '' %>
+});
+</script>

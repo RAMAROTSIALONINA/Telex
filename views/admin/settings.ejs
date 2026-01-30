@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Telex | Administration</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+            --telex-light: #A8DADC;
+            --telex-light-blue: #457B9D;
+            --sidebar-width: 280px;
+            --transition-speed: 0.3s;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #334155;
+        }
+        
+        /* Sidebar */
+        .sidebar { 
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
+            color: white; 
+            width: var(--sidebar-width); 
+            height: 100vh; 
+            position: fixed; 
+            left: 0;
+            top: 0;
+            padding: 0;
+            z-index: 1000;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-brand {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-brand img {
+            max-width: 120px;
+            height: auto;
+            max-height: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .sidebar-brand img:hover {
+            transform: scale(1.05);
+        }
+        
+        .sidebar-brand h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 15px;
+            overflow-y: auto;
+        }
+        
+        .nav-item {
+            margin-bottom: 8px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 14px 18px;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-link.active {
+            background: rgba(230, 57, 70, 0.15);
+            color: white;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+        }
+        
+        .nav-link i {
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 12px;
+            text-align: center;
+        }
+        
+        /* Main Content */
+        .main-content { 
+            margin-left: var(--sidebar-width); 
+            padding: 30px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .top-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--telex-red), var(--telex-blue));
+        }
+        
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-logo {
+            height: 40px;
+            width: auto;
+            opacity: 0.9;
+        }
+        
+        .page-title h1 {
+            font-weight: 700;
+            color: var(--telex-blue);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .page-title p {
+            color: #64748b;
+            font-size: 1rem;
+            margin: 0;
+        }
+        
+        .top-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn-telex {
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+        }
+        
+        .btn-telex:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
+            color: white;
+        }
+        
+        /* Settings Grid */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .settings-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border: 1px solid #f1f5f9;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+        
+        .settings-card:nth-child(1) { animation-delay: 0.1s; }
+        .settings-card:nth-child(2) { animation-delay: 0.2s; }
+        .settings-card:nth-child(3) { animation-delay: 0.3s; }
+        .settings-card:nth-child(4) { animation-delay: 0.4s; }
+        .settings-card:nth-child(5) { animation-delay: 0.5s; }
+        .settings-card:nth-child(6) { animation-delay: 0.6s; }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .settings-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--telex-blue), var(--telex-red));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+            transform-origin: left;
+        }
+        
+        .settings-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .settings-card.danger-zone {
+            border: 2px solid #dc3545;
+            background: linear-gradient(135deg, #fff5f5, #ffffff);
+        }
+        
+        .settings-card.danger-zone:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
+            border-color: #c82333;
+        }
+        
+        .settings-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+        
+        .settings-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .settings-icon.general { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+        .settings-icon.users { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+        .settings-icon.security { background: linear-gradient(135deg, #10B981, #047857); }
+        .settings-icon.customize { background: linear-gradient(135deg, #F59E0B, #D97706); }
+        .settings-icon.database { background: linear-gradient(135deg, #EF4444, #DC2626); }
+        .settings-icon.maintenance { background: linear-gradient(135deg, #6B7280, #4B5563); }
+        
+        .settings-card h3 {
+            color: var(--telex-blue);
+            margin-bottom: 12px;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+        
+        .settings-card p {
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .settings-card .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: var(--telex-blue);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .settings-card .btn:hover {
+            background: #152642;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(29, 53, 87, 0.2);
+        }
+        
+        .settings-card .btn-warning {
+            background: linear-gradient(135deg, #EF4444, #DC2626);
+        }
+        
+        .settings-card .btn-warning:hover {
+            background: #B91C1C;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+        
+        /* Password Form */
+        .password-section {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-top: 40px;
+            border-top: 4px solid var(--telex-red);
+        }
+        
+        .password-section h3 {
+            color: var(--telex-blue);
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--telex-blue);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: #f8fafc;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--telex-red);
+            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+            background: white;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #10B981, #047857);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-success:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* Alerts */
+        .alert {
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border-left: 4px solid;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .alert-info {
+            background: linear-gradient(135deg, rgba(219, 234, 254, 0.8), rgba(224, 242, 254, 0.8));
+            border-color: var(--telex-blue);
+            color: var(--telex-blue);
+        }
+        
+        .alert-warning {
+            background: linear-gradient(135deg, rgba(254, 243, 199, 0.8), rgba(253, 230, 138, 0.8));
+            border-color: #F59E0B;
+            color: #7d6608;
+        }
+        
+        .alert i {
+            font-size: 1.5rem;
+            margin-top: 2px;
+        }
+        
+        .alert-content h4 {
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        /* System Info */
+        .system-info {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+        
+        .info-item:hover {
+            background: #f1f5f9;
+            transform: translateY(-3px);
+        }
+        
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .info-icon.version { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+        .info-icon.user { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+        .info-icon.date { background: linear-gradient(135deg, #10B981, #047857); }
+        .info-icon.status { background: linear-gradient(135deg, #10B981, #047857); }
+        
+        .info-content h4 {
+            color: var(--telex-blue);
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .info-content p {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            padding: 30px 20px 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 40px;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .footer-logo {
+            height: 25px;
+            width: auto;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .sidebar-brand h3,
+            .sidebar-brand img {
+                display: none;
+            }
+            
+            .sidebar-brand {
+                padding: 15px 10px;
+            }
+            
+            .sidebar-brand::after {
+                content: "T";
+                color: white;
+                font-size: 1.5rem;
+                font-weight: bold;
+                display: block;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .system-info {
+                grid-template-columns: 1fr;
+            }
+            
+            .page-title h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="/images/11.png" alt="TELEX">
+            <h3>Telex Admin</h3>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/news" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/programs" class="nav-link">
+                    <i class="fas fa-tv"></i>
+                    <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/contacts" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/footer" class="nav-link">
+                    <i class="fas fa-globe"></i>
+                    <span>Footer</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link active">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+            </div>
+            <!-- Ajoutez ce lien pour la gestion des utilisateurs -->
+            <% if (user.role === 'superadmin') { %>
+            <div class="nav-item">
+                <a href="/admin/users" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <span>Utilisateurs</span>
+                </a>
+            </div>
+            <% } %>
+            <div class="nav-item">
+                <a href="/admin/logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
+                <div>
+                    <h1>Paramètres Telex</h1>
+                    <p>Configurez votre application Telex selon vos besoins</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <a href="/admin/dashboard" class="btn btn-telex">
+                    <i class="fas fa-arrow-left me-2"></i>Retour au Dashboard
+                </a>
+            </div>
+        </div>
+        
+        <!-- Messages Flash -->
+        <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-info">
+            <i class="fas fa-check-circle"></i>
+            <div class="alert-content">
+                <h4>Succès</h4>
+                <p><%= success_msg %></p>
+            </div>
+        </div>
+        <% } %>
+        
+        <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div class="alert-content">
+                <h4>Erreur</h4>
+                <p><%= error_msg %></p>
+            </div>
+        </div>
+        <% } %>
+        
+        <!-- Welcome Alert -->
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <div class="alert-content">
+                <h4>Centre de configuration Telex</h4>
+                <p>Cette section vous permet de configurer tous les paramètres de votre application Telex. Toutes les modifications sont appliquées en temps réel.</p>
+            </div>
+        </div>
+        
+        <!-- Settings Grid - MODIFIEZ CECI -->
+        <div class="settings-grid">
+            <div class="settings-card">
+                <div class="settings-icon general">
+                    <i class="fas fa-cog"></i>
+                </div>
+                <h3>Configuration Générale</h3>
+                <p>Gérez les paramètres de base de votre application Telex : nom, description, contact, etc.</p>
+                <button class="btn">
+                    <i class="fas fa-edit me-1"></i>Modifier
+                </button>
+            </div>
+            
+            <!-- SEULEMENT UNE CARTE POUR LA GESTION DES UTILISATEURS -->
+            <div class="settings-card">
+                <div class="settings-icon users">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Gestion des Utilisateurs</h3>
+                <p>Ajoutez, modifiez ou supprimez des comptes administrateurs et définissez les permissions.</p>
+                <% if (user.role === 'superadmin') { %>
+                <a href="/admin/users" class="btn">
+                    <i class="fas fa-user-cog me-1"></i>Gérer
+                </a>
+                <% } else { %>
+                <button class="btn" disabled title="Accès réservé aux super-administrateurs">
+                    <i class="fas fa-user-cog me-1"></i>Gérer
+                </button>
+                <% } %>
+            </div>
+            
+            <div class="settings-card">
+                <div class="settings-icon security">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Sécurité</h3>
+                <p>Paramètres de sécurité, connexion SSL, protection contre les attaques et journal d'activité.</p>
+                <button class="btn">
+                    <i class="fas fa-lock me-1"></i>Configurer
+                </button>
+            </div>
+            
+            <div class="settings-card">
+                <div class="settings-icon customize">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h3>Personnalisation</h3>
+                <p>Personnalisez l'apparence : logos, couleurs, thème, mise en page et éléments graphiques.</p>
+                <button class="btn">
+                    <i class="fas fa-brush me-1"></i>Personnaliser
+                </button>
+            </div>
+            
+            <div class="settings-card">
+                <div class="settings-icon database">
+                    <i class="fas fa-database"></i>
+                </div>
+                <h3>Base de Données</h3>
+                <p>Gérez et sauvegardez votre base de données, optimisez les performances et restaurez.</p>
+                <button class="btn btn-warning">
+                    <i class="fas fa-save me-1"></i>Sauvegarder
+                </button>
+            </div>
+            
+            <div class="settings-card">
+                <div class="settings-icon maintenance">
+                    <i class="fas fa-tools"></i>
+                </div>
+                <h3>Maintenance</h3>
+                <p>Outils de maintenance, débogage, logs système et diagnostics de performance.</p>
+                <button class="btn">
+                    <i class="fas fa-wrench me-1"></i>Accéder
+                </button>
+            </div>
+            
+            <!-- Section de gestion des données -->
+            <div class="settings-card danger-zone">
+                <div class="settings-icon danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3>Gestion des Données</h3>
+                <p>Supprimez les données temporaires, les logs ou effectuez une réinitialisation complète.</p>
+                <div class="btn-group">
+                    <button class="btn btn-outline-warning" onclick="clearCache()">
+                        <i class="fas fa-broom me-1"></i>Vider le cache
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="clearLogs()">
+                        <i class="fas fa-trash-alt me-1"></i>Supprimer les logs
+                    </button>
+                    <button class="btn btn-danger" onclick="confirmReset()">
+                        <i class="fas fa-exclamation-triangle me-1"></i>Réinitialiser
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- System Information -->
+        <div class="system-info">
+            <div class="info-item">
+                <div class="info-icon version">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Version Telex</h4>
+                    <p>2.0.1</p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon user">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Administrateur</h4>
+                    <p><%= user.username %></p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon date">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Dernière mise à jour</h4>
+                    <p><%= new Date().toLocaleDateString('fr-FR') %></p>
+                </div>
+            </div>
+            
+            <div class="info-item">
+                <div class="info-icon status">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="info-content">
+                    <h4>Statut système</h4>
+                    <p>Opérationnel</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Password Change Form -->
+        <div class="password-section">
+            <h3><i class="fas fa-key"></i>Modifier le mot de passe administrateur</h3>
+            
+            <% if (error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-warning mb-4">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                <%= error_msg %>
+            </div>
+            <% } %>
+            
+            <% if (success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-info mb-4">
+                <i class="fas fa-check-circle me-2"></i>
+                <%= success_msg %>
+            </div>
+            <% } %>
+            
+            <form action="/admin/update-password" method="POST">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="current_password">Mot de passe actuel</label>
+                            <input type="password" id="current_password" name="current_password" 
+                                   class="form-control" required placeholder="Entrez votre mot de passe actuel">
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="new_password">Nouveau mot de passe</label>
+                            <input type="password" id="new_password" name="new_password" 
+                                   class="form-control" required placeholder="Minimum 6 caractères">
+                            <small class="text-muted">Minimum 6 caractères</small>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="confirm_password">Confirmer le mot de passe</label>
+                            <input type="password" id="confirm_password" name="confirm_password" 
+                                   class="form-control" required placeholder="Répétez le nouveau mot de passe">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <button type="submit" class="btn-success">
+                        <i class="fas fa-save me-2"></i>
+                        Mettre à jour le mot de passe
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary ms-2">
+                        <i class="fas fa-times me-2"></i>
+                        Annuler
+                    </button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Warning Alert -->
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div class="alert-content">
+                <h4>Attention : Modifications critiques</h4>
+                <p>Toutes les modifications apportées dans cette section prennent effet immédiatement. Assurez-vous de comprendre les conséquences avant de valider.</p>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="page-footer">
+            <img src="/images/Telex.png" alt="TELEX" class="footer-logo">
+            <div>
+                Telex Paramètres • Version 2.0.1 • <%= new Date().getFullYear() %>
+            </div>
+            <div class="small text-muted">
+                <i class="fas fa-lock me-1"></i>Session sécurisée • 
+                <i class="fas fa-user me-1"></i><%= user.username %> • 
+                <i class="fas fa-clock me-1"></i><span id="current-time"></span>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fonctions globales pour les boutons de suppression
+        function clearCache() {
+            if (confirm('Êtes-vous sûr de vouloir vider le cache ?\n\nCette action va supprimer tous les fichiers temporaires et peut ralentir temporairement le site.')) {
+                // Simuler le vidage du cache
+                const btn = event.target;
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Vidage...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check me-1"></i>Cache vidé';
+                    btn.classList.remove('btn-outline-warning');
+                    btn.classList.add('btn-success');
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.disabled = false;
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-warning');
+                    }, 2000);
+                }, 1500);
+            }
+        }
+        
+        function clearLogs() {
+            if (confirm('Êtes-vous sûr de vouloir supprimer tous les logs ?\n\nCette action est irréversible et supprimera tous les journaux système.')) {
+                // Simuler la suppression des logs
+                const btn = event.target;
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Suppression...';
+                btn.disabled = true;
+                
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="fas fa-check me-1"></i>Logs supprimés';
+                    btn.classList.remove('btn-outline-danger');
+                    btn.classList.add('btn-success');
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.disabled = false;
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-outline-danger');
+                    }, 2000);
+                }, 1500);
+            }
+        }
+        
+        function confirmReset() {
+            const confirmation = prompt('Cette action est DANGEREUSE et irréversible !\n\nPour confirmer la réinitialisation complète, tapez "RESET" en majuscules :');
+            
+            if (confirmation === 'RESET') {
+                if (confirm('DERNIER AVERTISSEMENT !\n\nToutes les données seront perdues :\n- Base de données\n- Configuration\n- Médias\n- Logs\n\nÊtes-vous ABSOLUMENT sûr ?')) {
+                    // Simuler la réinitialisation
+                    const btn = event.target;
+                    const originalHTML = btn.innerHTML;
+                    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Réinitialisation...';
+                    btn.disabled = true;
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-check me-1"></i>Réinitialisé';
+                        btn.classList.remove('btn-danger');
+                        btn.classList.add('btn-success');
+                        
+                        // Afficher un message de succès
+                        const successAlert = document.createElement('div');
+                        successAlert.className = 'alert alert-success';
+                        successAlert.innerHTML = `
+                            <i class="fas fa-check-circle"></i>
+                            <div class="alert-content">
+                                <h4>Réinitialisation terminée</h4>
+                                <p>L'application a été réinitialisée avec succès. La page va se recharger automatiquement.</p>
+                            </div>
+                        `;
+                        
+                        document.querySelector('.main-content').insertBefore(successAlert, document.querySelector('.settings-grid'));
+                        
+                        setTimeout(() => {
+                            window.location.reload();
+                        }, 3000);
+                    }, 2000);
+                }
+            } else if (confirmation !== null) {
+                alert('Texte de confirmation incorrect. La réinitialisation a été annulée.');
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Paramètres Telex chargés');
+            
+            // Mettre à jour l'heure en temps réel
+            function updateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('fr-FR', { 
+                    hour: '2-digit', 
+                    minute: '2-digit'
+                });
+                document.getElementById('current-time').textContent = timeString;
+            }
+            
+            updateTime();
+            setInterval(updateTime, 60000); // Mise à jour toutes les minutes
+            
+            // Animation des cartes de paramètres
+            const settingsCards = document.querySelectorAll('.settings-card');
+            settingsCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Validation du formulaire de mot de passe
+            const passwordForm = document.querySelector('form[action="/admin/update-password"]');
+            if (passwordForm) {
+                passwordForm.addEventListener('submit', function(e) {
+                    const currentPassword = document.getElementById('current_password').value;
+                    const newPassword = document.getElementById('new_password').value;
+                    const confirmPassword = document.getElementById('confirm_password').value;
+                    
+                    // Validation basique
+                    if (newPassword.length < 6) {
+                        e.preventDefault();
+                        alert('Le nouveau mot de passe doit contenir au moins 6 caractères.');
+                        return false;
+                    }
+                    
+                    if (newPassword !== confirmPassword) {
+                        e.preventDefault();
+                        alert('Les mots de passe ne correspondent pas.');
+                        return false;
+                    }
+                    
+                    if (newPassword === currentPassword) {
+                        e.preventDefault();
+                        alert('Le nouveau mot de passe doit être différent de l\'ancien.');
+                        return false;
+                    }
+                    
+                    // Animation de chargement
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalHTML = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mise à jour...';
+                    submitBtn.disabled = true;
+                    
+                    // Réactiver après 3 secondes (au cas où)
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalHTML;
+                        submitBtn.disabled = false;
+                    }, 3000);
+                });
+            }
+            
+            // Effet de survol sur les cartes d'information
+            const infoItems = document.querySelectorAll('.info-item');
+            infoItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                item.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Simulation des boutons de paramètres
+            document.querySelectorAll('.settings-card .btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (!this.getAttribute('href') && !this.onclick) {
+                        e.preventDefault();
+                        const cardTitle = this.closest('.settings-card').querySelector('h3').textContent;
+                        alert(`Fonctionnalité "${cardTitle}" en cours de développement.`);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

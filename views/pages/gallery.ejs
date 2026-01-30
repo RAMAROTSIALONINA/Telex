@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galerie - Telex | Télévision Étudiante</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* ===== HERO GALERIE CORRIGÉ ===== */
+        .gallery-page-hero {
+            padding: 50px 0 30px;           /* Hauteur réduite */
+            min-height: 280px;              /* Hauteur raisonnable */
+            background: linear-gradient(135deg, var(--telex-blue) 0%, var(--telex-blue-light) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        /* Logo dans hero - TAILLE CORRIGÉE */
+        .telex-hero-logo-centered {
+            width: 100%;                    /* Prend toute la largeur disponible */
+            max-width: 500px;               /* Maximum raisonnable */
+            height: auto;                   /* Hauteur automatique */
+            border-radius: 15px;            /* Coins arrondis */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+            filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.4));
+            transition: all 0.4s ease;
+            display: block;                 /* Important pour le centrage */
+            margin: 0 auto 20px;           /* Centré avec marge basse */
+            object-fit: contain;            /* Garde les proportions */
+        }
+        
+        .telex-hero-logo-centered:hover {
+            transform: scale(1.03);         /* Effet léger au survol */
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+        }
+        
+        .gallery-hero-content h1 {
+            font-size: 2.5rem;              /* Taille réduite */
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .gallery-hero-content .lead {
+            font-size: 1.1rem;              /* Texte plus petit */
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 500px;               /* Largeur limitée */
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+        
+        /* ===== FILTRES GALERIE ===== */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .gallery-filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            background: #f8f9fa;
+            color: var(--telex-blue);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .gallery-filter-btn:hover {
+            background: var(--telex-blue);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(29, 53, 87, 0.2);
+        }
+        
+        .gallery-filter-btn.active {
+            background: var(--telex-red);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(230, 57, 70, 0.3);
+        }
+        
+        /* ===== GRID GALERIE CORRIGÉE - 4 IMAGES PAR LIGNE ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);  /* 4 colonnes */
+            gap: 35px;                              /* Espacement identique à l'admin (35px) */
+            padding: 0 15px;                        /* Padding légèrement augmenté */
+            max-width: 1400px;
+            margin: 0 auto 40px;
+        }
+        
+        /* ITEM GALERIE - SOLUTION PROFESSIONNELLE AVEC ASPECT-RATIO */
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background: white;
+            aspect-ratio: 16/9;                    /* Ratio professionnel 16:9 */
+            width: 100%;                            /* Largeur flexible */
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            border: 1px solid #eee;
+            opacity: 0;                             /* Pour animation */
+            animation: slideUp 0.5s ease forwards;
+            display: flex;                          /* Flex pour centrage */
+            align-items: center;                    /* Centrage vertical */
+            justify-content: center;                /* Centrage horizontal */
+        }
+        
+        /* Conteneur d'image - Structure comme l'admin */
+        .gallery-item .image-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #f8fafc;                    /* Fond de chargement */
+        }
+        
+        /* IMAGE DANS L'ITEM - SOLUTION PROFESSIONNELLE */
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;                     /* Recadre et remplit le conteneur */
+            object-position: center;               /* Centre l'image */
+            transition: transform 0.4s ease;
+            display: block;                        /* Évite les espaces indésirables */
+        }
+        
+        /* Délais d'animation */
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+        .gallery-item:nth-child(9) { animation-delay: 0.9s; }
+        .gallery-item:nth-child(10) { animation-delay: 1.0s; }
+        .gallery-item:nth-child(11) { animation-delay: 1.1s; }
+        .gallery-item:nth-child(12) { animation-delay: 1.2s; }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border-color: var(--telex-blue-light);
+        }
+        
+        /* IMAGE DANS L'ITEM - IMPORTANT: object-fit: cover */
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;                     /* Recadre et remplit le conteneur */
+            transition: transform 0.4s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Overlay sur hover */
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            color: white;
+            padding: 20px 15px 15px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        .gallery-overlay h5 {
+            color: white;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        .gallery-overlay p {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.8rem;
+            margin: 0;
+            line-height: 1.4;
+        }
+        
+        /* ===== SECTION INTRODUCTION ===== */
+        .gallery-introduction {
+            padding: 25px;
+            background: linear-gradient(135deg, rgba(29, 53, 87, 0.03) 0%, rgba(230, 57, 70, 0.03) 100%);
+            border-radius: 12px;
+            margin: 30px auto;
+            max-width: 800px;
+            text-align: center;
+            border: 1px solid rgba(29, 53, 87, 0.08);
+        }
+        
+        .gallery-intro-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--telex-blue);
+            margin-bottom: 10px;
+        }
+        
+        .gallery-intro-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* ===== STATISTIQUES ===== */
+        .telex-stats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .telex-stats .stat-item {
+            text-align: center;
+            padding: 8px 12px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+        
+        .telex-stats .stat-item:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.25);
+        }
+        
+        .telex-stats .stat-number {
+            display: block;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+        }
+        
+        .telex-stats .stat-label {
+            display: block;
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        
+        /* ===== LIGHTBOX PROFESSIONNELLE ===== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.97);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
+        }
+        
+        .lightbox .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2.5rem;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10;
+        }
+        
+        .lightbox .close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            backdrop-filter: blur(5px);
+        }
+        
+        .lightbox-nav:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .lightbox-nav.prev {
+            left: 20px;
+        }
+        
+        .lightbox-nav.next {
+            right: 20px;
+        }
+        
+        .lightbox-counter {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 1200px) {
+            .gallery-grid {
+                grid-template-columns: repeat(3, 1fr); /* 3 colonnes */
+                gap: 25px;                             /* Espacement identique à l'admin */
+                padding: 0 12px;
+            }
+            
+            .gallery-item {
+                aspect-ratio: 16/9;                    /* Maintien du ratio */
+            }
+            
+            .telex-hero-logo-centered {
+                max-width: 450px;
+            }
+        }
+        
+        @media (max-width: 992px) {
+            .gallery-page-hero {
+                padding: 40px 0 25px;
+                min-height: 240px;
+            }
+            
+            .gallery-hero-content h1 {
+                font-size: 2.2rem;
+            }
+            
+            .gallery-hero-content .lead {
+                font-size: 1rem;
+                max-width: 450px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr); /* 2 colonnes */
+                gap: 25px;                             /* Espacement identique à l'admin */
+                padding: 0 10px;
+            }
+            
+            .gallery-item {
+                aspect-ratio: 16/9;                    /* Maintien du ratio sur mobile */
+            }
+            
+            .gallery-page-hero {
+                padding: 35px 0 20px;
+                min-height: 220px;
+            }
+            
+            .telex-hero-logo-centered {
+                max-width: 350px;
+                margin-bottom: 15px;
+            }
+            
+            .gallery-hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .telex-stats {
+                gap: 12px;
+            }
+            
+            .telex-stats .stat-item {
+                padding: 6px 10px;
+            }
+            
+            .telex-stats .stat-number {
+                font-size: 1.1rem;
+            }
+            
+            .gallery-filters {
+                padding: 12px;
+                gap: 8px;
+            }
+            
+            .gallery-filter-btn {
+                padding: 8px 15px;
+                font-size: 0.85rem;
+            }
+            
+            .gallery-introduction {
+                padding: 20px;
+                margin: 25px auto;
+            }
+            
+            .gallery-intro-title {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .gallery-grid {
+                grid-template-columns: 1fr; /* 1 colonne sur mobile */
+                gap: 20px;                     /* Espacement identique à l'admin */
+                max-width: 400px;
+            }
+            
+            .gallery-item {
+                aspect-ratio: 16/9;             /* Maintien du ratio sur petit mobile */
+            }
+            
+            .gallery-page-hero {
+                padding: 30px 0 20px;
+                min-height: 200px;
+            }
+            
+            .telex-hero-logo-centered {
+                max-width: 280px;
+            }
+            
+            .gallery-hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .gallery-hero-content .lead {
+                font-size: 0.95rem;
+                max-width: 350px;
+            }
+            
+            .telex-stats {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 10px;
+            }
+            
+            .telex-stats .stat-item {
+                min-width: 100px;
+            }
+            
+            .gallery-filters {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .gallery-filter-btn {
+                width: 200px;
+            }
+            
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            
+            .lightbox-nav.prev {
+                left: 10px;
+            }
+            
+            .lightbox-nav.next {
+                right: 10px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .gallery-item {
+                height: 180px;
+            }
+            
+            .telex-hero-logo-centered {
+                max-width: 250px;
+            }
+            
+            .gallery-hero-content h1 {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
+                <span class="logo-text">Telex</span>
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle me-1"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/mission">
+                            <i class="fas fa-bullseye me-1"></i>Mission
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/programs">
+                            <i class="fas fa-tv me-1"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/gallery">
+                            <i class="fas fa-images me-1"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news">
+                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Galerie - TAILLE CORRIGÉE -->
+    <section class="gallery-page-hero">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <div class="col-lg-10 col-xl-8 text-center">
+                    <div class="gallery-hero-content">
+                        <!-- Logo centré avec taille corrigée -->
+                        <img src="/images/logo ensemble.png" 
+                             alt="Logo Telex - Télévision Étudiante" 
+                             class="telex-hero-logo-centered">
+                        
+                        <h1>Galerie Telex</h1>
+                        
+                        <p class="lead">
+                            Plongez au cœur de l'aventure audiovisuelle étudiante. 
+                            Découvrez nos coulisses, nos tournages et l'énergie qui anime notre télévision.
+                        </p>
+                        
+                        <div class="telex-stats">
+                            <div class="stat-item">
+                                <span class="stat-number">12+</span>
+                                <span class="stat-label">Émissions</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">50+</span>
+                                <span class="stat-label">Étudiants</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">100+</span>
+                                <span class="stat-label">Productions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Galerie -->
+    <section class="section" style="padding: 40px 0;">
+        <div class="container">
+            <!-- Filtres -->
+            <div class="text-center mb-4">
+                <div class="gallery-filters">
+                    <button type="button" class="gallery-filter-btn active" data-filter="all">
+                        <i class="fas fa-th"></i> Tout voir
+                    </button>
+                    <button type="button" class="gallery-filter-btn" data-filter="actualites">
+                        <i class="fas fa-newspaper"></i> Actualités
+                    </button>
+                    <button type="button" class="gallery-filter-btn" data-filter="programmes">
+                        <i class="fas fa-tv"></i> Programmes
+                    </button>
+                    <button type="button" class="gallery-filter-btn" data-filter="telex">
+                        <i class="fas fa-broadcast-tower"></i> Telex
+                    </button>
+                    <button type="button" class="gallery-filter-btn" data-filter="evenements">
+                        <i class="fas fa-calendar-star"></i> Événements
+                    </button>
+                    <button type="button" class="gallery-filter-btn" data-filter="autres">
+                        <i class="fas fa-ellipsis-h"></i> Autres
+                    </button>
+                </div>
+            </div>
+
+            <!-- Introduction -->
+            <div class="gallery-introduction">
+                <h3 class="gallery-intro-title">Découvrez Notre Univers Audiovisuel</h3>
+                <p class="gallery-intro-text">
+                    Plongez au cœur de la télévision étudiante à travers nos coulisses, nos équipements professionnels, 
+                    notre équipe passionnée et les moments inoubliables qui façonnent l'expérience Telex.
+                </p>
+            </div>
+
+            <!-- Grille de galerie dynamique -->
+            <div class="gallery-grid" id="galleryGrid">
+                <% if (gallery && gallery.length > 0) { %>
+                    <% gallery.forEach(item => { %>
+                    <div class="gallery-item" data-category="<%= item.category || 'coulisses' %>">
+                        <div class="image-wrapper">
+                            <img src="<%= item.image_url %>" 
+                                 alt="<%= item.title || 'Image Telex' %>" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5><%= item.title || 'Image Telex' %></h5>
+                            <p><%= item.description || 'Découvrez nos productions' %></p>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Images par défaut si aucune image en BDD -->
+                    <div class="gallery-item" data-category="coulisses">
+                        <div class="image-wrapper">
+                            <img src="/images/Présentation du Telex.png" 
+                                 alt="Présentation officielle de Telex" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Présentation TELEX</h5>
+                            <p>Découvrez notre télévision étudiante</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="tournage">
+                        <div class="image-wrapper">
+                            <img src="/images/TELEX BAREA.png" 
+                                 alt="Studio Telex principal" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Studio principal</h5>
+                            <p>Équipé pour les directs et productions</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="tournage">
+                        <div class="image-wrapper">
+                            <img src="/images/camera.png" 
+                                 alt="Matériel de tournage professionnel" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Matériel pro</h5>
+                            <p>Caméras professionnelles</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="coulisses">
+                        <div class="image-wrapper">
+                            <img src="/images/micro.png" 
+                                 alt="Micro professionnel studio" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Qualité audio premium</h5>
+                            <p>Équipement sonore de pointe</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="tournage">
+                        <div class="image-wrapper">
+                            <img src="/images/mirco2.png" 
+                                 alt="Micro sans fil mobile" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Enregistrement mobile</h5>
+                            <p>Micros sans fil mobiles</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="coulisses">
+                        <div class="image-wrapper">
+                            <img src="/images/ordi_telex.png" 
+                                 alt="Poste de montage vidéo" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Post-production avancée</h5>
+                            <p>Station de montage dernière génération</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="equipe">
+                        <div class="image-wrapper">
+                            <img src="/images/femme telex.png" 
+                                 alt="Membre équipe Telex" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Équipe dévouée</h5>
+                            <p>Talents passionnés derrière la caméra</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="evenements">
+                        <div class="image-wrapper">
+                            <img src="/images/logo ensemble.png" 
+                                 alt="Logo TELEX" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Identité unique</h5>
+                            <p>Logo officiel qui représente notre esprit</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="evenements">
+                        <div class="image-wrapper">
+                            <img src="/images/TELEX INTEGRATION.png" 
+                                 alt="Événement intégration" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Événement intégration</h5>
+                            <p>Accueil des nouveaux talents</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="tournage">
+                        <div class="image-wrapper">
+                            <img src="/images/11.png" 
+                                 alt="Tournage extérieur" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Reportage terrain</h5>
+                            <p>Action et dynamisme en extérieur</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="coulisses">
+                        <div class="image-wrapper">
+                            <img src="/images/Présentation telex.png" 
+                                 alt="Installation technique studio" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Installation technique</h5>
+                            <p>Configuration optimisée pour performance</p>
+                        </div>
+                    </div>
+
+                    <div class="gallery-item" data-category="equipe">
+                        <div class="image-wrapper">
+                            <img src="/images/Telex11.png" 
+                                 alt="Équipe technique Telex" 
+                                 class="img-fluid">
+                        </div>
+                        <div class="gallery-overlay">
+                            <h5>Équipe technique experts</h5>
+                            <p>Spécialistes qui font fonctionner TELEX</p>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer simplifié -->
+    <footer class="footer-telex">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Telex - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    // GALLERY SCRIPT SIMPLIFIÉ
+    document.addEventListener('DOMContentLoaded', function() {
+        // Éléments
+        const filterButtons = document.querySelectorAll('.gallery-filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentLightboxIndex = 0;
+        
+        // Filtrage
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                // Active le bouton
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filtre les images
+                galleryItems.forEach(item => {
+                    const category = item.getAttribute('data-category');
+                    
+                    if (filter === 'all' || category === filter) {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                        }, 10);
+                    } else {
+                        item.style.opacity = '0';
+                        setTimeout(() => {
+                            item.style.display = 'none';
+                        }, 300);
+                    }
+                });
+            });
+        });
+        
+        // Lightbox
+        const images = document.querySelectorAll('.gallery-item img');
+        let lightbox = null;
+        
+        images.forEach((img, index) => {
+            img.addEventListener('click', function() {
+                currentLightboxIndex = index;
+                openLightbox();
+            });
+        });
+        
+        function openLightbox() {
+            // Crée la lightbox
+            lightbox = document.createElement('div');
+            lightbox.className = 'lightbox';
+            
+            const currentImg = images[currentLightboxIndex];
+            
+            lightbox.innerHTML = `
+                <div class="lightbox-content">
+                    <button class="lightbox-nav prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <img src="${currentImg.src}" alt="${currentImg.alt}">
+                    <button class="lightbox-nav next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <button class="close">&times;</button>
+                    <div class="lightbox-counter">${currentLightboxIndex + 1} / ${images.length}</div>
+                </div>
+            `;
+            
+            document.body.appendChild(lightbox);
+            
+            // Active la lightbox après un délai
+            setTimeout(() => {
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }, 10);
+            
+            // Événements
+            const closeBtn = lightbox.querySelector('.close');
+            const prevBtn = lightbox.querySelector('.prev');
+            const nextBtn = lightbox.querySelector('.next');
+            
+            closeBtn.addEventListener('click', closeLightbox);
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) closeLightbox();
+            });
+            
+            prevBtn.addEventListener('click', () => navigateLightbox(-1));
+            nextBtn.addEventListener('click', () => navigateLightbox(1));
+            
+            // Navigation clavier
+            document.addEventListener('keydown', handleKeydown);
+        }
+        
+        function navigateLightbox(direction) {
+            currentLightboxIndex += direction;
+            
+            // Boucle
+            if (currentLightboxIndex < 0) currentLightboxIndex = images.length - 1;
+            if (currentLightboxIndex >= images.length) currentLightboxIndex = 0;
+            
+            // Met à jour l'image
+            const lightboxImg = document.querySelector('.lightbox-content img');
+            const counter = document.querySelector('.lightbox-counter');
+            
+            lightboxImg.style.opacity = '0';
+            
+            setTimeout(() => {
+                const newImg = images[currentLightboxIndex];
+                lightboxImg.src = newImg.src;
+                lightboxImg.alt = newImg.alt;
+                counter.textContent = `${currentLightboxIndex + 1} / ${images.length}`;
+                lightboxImg.style.opacity = '1';
+            }, 200);
+        }
+        
+        function closeLightbox() {
+            if (!lightbox) return;
+            
+            lightbox.classList.remove('active');
+            setTimeout(() => {
+                document.body.removeChild(lightbox);
+                lightbox = null;
+                document.body.style.overflow = '';
+                document.removeEventListener('keydown', handleKeydown);
+            }, 300);
+        }
+        
+        function handleKeydown(e) {
+            if (!lightbox) return;
+            
+            switch(e.key) {
+                case 'Escape':
+                    closeLightbox();
+                    break;
+                case 'ArrowLeft':
+                    navigateLightbox(-1);
+                    break;
+                case 'ArrowRight':
+                    navigateLightbox(1);
+                    break;
+            }
+        }
+    });
+    </script>
+</body>
+</html>

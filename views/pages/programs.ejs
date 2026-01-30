@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmes - Telex | Télévision Étudiante</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+        <div class="container">
+            <!-- Logo TELEX -->
+            <a class="navbar-brand" href="/">
+                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
+                <span class="logo-text">Telex</span>
+            </a>
+            
+            <!-- Menu mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Menu -->
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
+                            <i class="fas fa-info-circle me-1"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" href="/mission">
+                            <i class="fas fa-bullseye me-1"></i>Mission
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
+                            <i class="fas fa-tv me-1"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
+                            <i class="fas fa-images me-1"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
+                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section class="page-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-5">
+                    <div class="hero-image-wrapper">
+                        <img src="/images/programmes.png" alt="Ordinateur Telex" class="hero-camera-img">
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7">
+                    <h1>Telex</h1>
+                    <p>Explorez notre grille des programmes variés et captivants. Des actualités étudiantes aux divertissements, découvrez des contenus créés par et pour les étudiants.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <!-- Liste des programmes -->
+            <div class="row">
+                <% if (programs && programs.length > 0) { %>
+                    <% programs.forEach(program => { %>
+                    <div class="col-lg-6 mb-4">
+                        <div class="program-detail-card">
+                            <div class="program-header">
+                                <div class="program-image-wrapper">
+                                    <% 
+                                    // Sélectionner l'image selon la catégorie
+                                    let programImage = '/images/programmes.png'; // Image par défaut
+                                    switch(program.category) {
+                                        case 'actualités':
+                                        case 'info':
+                                            programImage = '/images/micro.png';
+                                            break;
+                                        case 'divertissement':
+                                        case 'débat':
+                                            programImage = '/images/Débat.png';
+                                            break;
+                                        case 'culture':
+                                            programImage = '/images/femme telex.png';
+                                            break;
+                                        case 'sport':
+                                            programImage = '/images/TELEX BAREA12.png';
+                                            break;
+                                        default:
+                                            programImage = '/images/programmes.png';
+                                    }
+                                    %>
+                                    <img src="<%= programImage %>" alt="<%= program.title %>" class="program-image">
+                                </div>
+                                <div class="program-text">
+                                    <h3><%= program.title %></h3>
+                                    <% 
+                                    let badgeClass = 'bg-primary';
+                                    let badgeText = program.category || 'Programme';
+                                    switch(program.category) {
+                                        case 'actualités':
+                                        case 'info':
+                                            badgeClass = '';
+                                            badgeText = 'Info';
+                                            break;
+                                        case 'divertissement':
+                                        case 'débat':
+                                            badgeClass = 'bg-success';
+                                            badgeText = 'Débat';
+                                            break;
+                                        case 'culture':
+                                            badgeClass = 'bg-warning';
+                                            badgeText = 'Culture';
+                                            break;
+                                        case 'sport':
+                                            badgeClass = 'bg-danger';
+                                            badgeText = 'Sport';
+                                            break;
+                                    }
+                                    %>
+                                    <span class="program-badge <%= badgeClass %>"><%= badgeText %></span>
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <p>
+                                    <%= program.description || 'Découvrez ce programme passionnant sur Telex.' %>
+                                </p>
+                                <div class="program-info">
+                                    <% if (program.schedule_time) { %>
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> <%= program.schedule_time %></p>
+                                    <% } %>
+                                    <% if (program.presenter) { %>
+                                    <p><i class="fas fa-user me-2"></i><strong><%= program.category === 'divertissement' || program.category === 'débat' ? 'Animation' : 'Présentation' %> :</strong> <%= program.presenter %></p>
+                                    <% } %>
+                                    <% if (program.duration) { %>
+                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> <%= program.duration %></p>
+                                    <% } %>
+                                </div>
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Programmes par défaut si aucun en base de données -->
+                    <div class="col-lg-6 mb-4">
+                        <div class="program-detail-card">
+                            <div class="program-header">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/micro.png" alt="Journal Campus" class="program-image">
+                                </div>
+                                <div class="program-text">
+                                    <h3>Le Journal Campus</h3>
+                                    <span class="program-badge">Info</span>
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <p>
+                                    Le rendez-vous info de la semaine. Toute l'actualité étudiante 
+                                    décryptée et analysée par notre rédaction.
+                                </p>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Lundi 18h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Présentateurs :</strong> Sarah & Tom</p>
+                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 30 minutes</p>
+                                </div>
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="program-detail-card">
+                            <div class="program-header">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/Débat.png" alt="Débat Campus" class="program-image">
+                                </div>
+                                <div class="program-text">
+                                    <h3>Débat Campus</h3>
+                                    <span class="program-badge bg-success">Débat</span>
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <p>
+                                    Face-à-face d'idées sur les grands sujets de société. 
+                                    Un espace de dialogue constructif et respectueux.
+                                </p>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Mercredi 20h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Animation :</strong> Divers intervenants</p>
+                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 45 minutes</p>
+                                </div>
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="program-detail-card">
+                            <div class="program-header">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/femme telex.png" alt="Culture Express" class="program-image">
+                                </div>
+                                <div class="program-text">
+                                    <h3>Culture Express</h3>
+                                    <span class="program-badge bg-warning">Culture</span>
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <p>
+                                    Découverte de la scène culturelle étudiante : musique, 
+                                    cinéma, théâtre, expositions. Les talents de demain.
+                                </p>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Vendredi 19h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Présentation :</strong> Léa & Jules</p>
+                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 25 minutes</p>
+                                </div>
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4">
+                        <div class="program-detail-card">
+                            <div class="program-header">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/TELEX BAREA12.png" alt="Telex Sports" class="program-image">
+                                </div>
+                                <div class="program-text">
+                                    <h3>Telex Sports</h3>
+                                    <span class="program-badge bg-danger">Sport</span>
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <p>
+                                    Couverture complète des événements sportifs universitaires, 
+                                    interviews d'athlètes et analyses techniques.
+                                </p>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Samedi 17h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Présentation :</strong> Marc & Sophie</p>
+                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 35 minutes</p>
+                                </div>
+                                <a href="#" class="btn btn-primary">
+                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Grille des programmes -->
+            <div class="mt-5 pt-5 border-top">
+                <h2 class="text-center mb-4">Grille des Programmes</h2>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Jour</th>
+                                <th>Heure</th>
+                                <th>Émission</th>
+                                <th>Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if (schedule && schedule.length > 0) { %>
+                                <% schedule.forEach(program => { %>
+                                    <tr>
+                                        <td><%= program.day %></td>
+                                        <td><%= program.time %></td>
+                                        <td><%= program.program_name %></td>
+                                        <td>
+                                            <% 
+                                            const badgeClass = {
+                                                'Info': 'bg-primary',
+                                                'Culture': 'bg-warning',
+                                                'Débat': 'bg-success',
+                                                'Sport': 'bg-danger',
+                                                'Cinéma': 'bg-info',
+                                                'Musique': 'bg-secondary',
+                                                'Divertissement': 'bg-warning',
+                                                'Documentaire': 'bg-primary',
+                                                'Autre': 'bg-secondary'
+                                            }[program.program_type] || 'bg-secondary';
+                                            %>
+                                            <span class="badge <%= badgeClass %>">
+                                                <%= program.program_type %>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            <% } else { %>
+                                <!-- Données par défaut si aucune donnée en BDD -->
+                                <tr>
+                                    <td>Lundi</td>
+                                    <td>18:00</td>
+                                    <td>Le Journal Campus</td>
+                                    <td><span class="badge bg-primary">Info</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mardi</td>
+                                    <td>19:30</td>
+                                    <td>Culture Express</td>
+                                    <td><span class="badge bg-warning">Culture</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Mercredi</td>
+                                    <td>20:00</td>
+                                    <td>Débat Campus</td>
+                                    <td><span class="badge bg-success">Débat</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Jeudi</td>
+                                    <td>18:30</td>
+                                    <td>TELEX Sports</td>
+                                    <td><span class="badge bg-danger">Sport</span></td>
+                                </tr>
+                                <tr>
+                                    <td>Vendredi</td>
+                                    <td>21:00</td>
+                                    <td>Ciné Club</td>
+                                    <td><span class="badge bg-info">Cinéma</span></td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-telex">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Telex - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>

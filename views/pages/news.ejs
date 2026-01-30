@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualités - Telex | Télévision Étudiante</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* PAGE ACTUALITÉS */
+        .news-page {
+            padding: 100px 0 60px;
+            background: #f8f9fa;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .page-header h1 {
+            color: #1D3557;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        .page-header p {
+            color: #6c757d;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        /* CAROUSEL D'ARTICLES */
+        .articles-carousel {
+            position: relative;
+            margin: 0 auto 60px;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+        
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            gap: 30px;
+            padding: 10px 5px;
+        }
+        
+        /* CARTE SIMPLE : Image + Titre */
+        .article-card {
+            flex: 0 0 calc(33.333% - 20px);
+            min-width: calc(33.333% - 20px);
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+        
+        /* IMAGE */
+        .article-image {
+            height: 140px;
+            overflow: hidden;
+            position: relative;
+            background: #f8f9fa;
+        }
+        
+        .article-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .article-card:hover .article-image img {
+            transform: scale(1.05);
+        }
+        
+        .image-placeholder {
+            height: 100%;
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border-radius: 10px 10px 0 0;
+        }
+        
+        .image-placeholder i {
+            font-size: 1.8rem;
+        }
+        
+        /* BADGE CATÉGORIE SUR IMAGE */
+        .category-badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: #E63946;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            z-index: 2;
+        }
+        
+        /* TITRE SOUS L'IMAGE */
+        .article-title {
+            padding: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1D3557;
+            text-align: center;
+            line-height: 1.4;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.3s ease;
+        }
+        
+        .article-card:hover .article-title {
+            color: #E63946;
+        }
+        
+        /* PAGINATION PAR POINTS */
+        .carousel-pagination {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 40px;
+        }
+        
+        .pagination-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+        
+        .pagination-dot.active {
+            background: #E63946;
+            transform: scale(1.2);
+        }
+        
+        /* BOUTONS NAVIGATION */
+        .carousel-nav {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .nav-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #1D3557;
+            color: #1D3557;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .nav-btn:hover {
+            background: #1D3557;
+            color: white;
+        }
+        
+        .nav-btn.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            border-color: #ccc;
+            color: #ccc;
+        }
+        
+        .nav-btn.disabled:hover {
+            background: white;
+            color: #ccc;
+        }
+        
+        /* CORRECTION DES PROBLÈMES CSS GLOBAL */
+        /* Override du CSS global qui rend les images très grandes */
+        .page-hero .hero-camera-img {
+            max-width: 100% !important;
+            height: auto !important;
+            max-height: 180px !important;
+            object-fit: contain !important;
+            border-radius: 8px !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+            transform: none !important;
+            transition: transform 0.3s ease !important;
+        }
+        
+        .page-hero .hero-camera-img:hover {
+            transform: translateY(-2px) scale(1.02) !important;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+        }
+        
+        /* Override du CSS global pour .article-image img */
+        .article-image img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            border-radius: 10px 10px 0 0 !important;
+            transition: transform 0.5s ease !important;
+        }
+        
+        .article-card:hover .article-image img {
+            transform: scale(1.05) !important;
+        }
+        
+        /* Override du CSS global pour les images spécifiques */
+        .page-hero .hero-camera-img[src*="Pr%C3%A9sentation%20telex.png"],
+        .page-hero .hero-camera-img[src*="Présentation telex.png"] {
+            max-height: 180px !important;
+            background: none !important;
+        }
+        
+        .page-hero .hero-camera-img[src*="Pr%C3%A9sentation%20telex.png"]::before,
+        .page-hero .hero-camera-img[src*="Présentation telex.png"]::before {
+            display: none !important;
+        }
+        
+        .page-hero .hero-camera-img[src*="Pr%C3%A9sentation%20telex.png"]:hover,
+        .page-hero .hero-camera-img[src*="Présentation telex.png"]:hover {
+            transform: translateY(-2px) scale(1.02) !important;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12) !important;
+        }
+        
+        /* NEUTRALISER LES BLOCAGES */
+        .page-hero .hero-camera-img::before {
+            display: none !important;
+        }
+        
+        .page-hero .hero-camera-img::after {
+            display: none !important;
+        }
+        
+        /* Empêcher le JavaScript de forcer les styles */
+        .article-image img:not([style*="forced"]) {
+            opacity: 1 !important;
+            visibility: visible !important;
+            display: block !important;
+        }
+        
+        /* Neutraliser les z-index excessifs */
+        .lightbox {
+            z-index: 9999 !important;
+        }
+        
+        .telex-notification {
+            z-index: 9998 !important;
+        }
+        
+        #loading-indicator {
+            z-index: 9997 !important;
+        }
+        
+        /* IMAGE HERO CORRIGÉE */
+        .hero-image-wrapper {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .hero-camera-img {
+            max-width: 100%;
+            height: auto;
+            max-height: 180px;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        /* MESSAGE AUCUN ARTICLE */
+        .no-articles {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .no-articles i {
+            font-size: 3.5rem;
+            color: #dee2e6;
+            margin-bottom: 20px;
+        }
+        
+        /* NEWSLETTER */
+        .newsletter-box {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            max-width: 600px;
+            margin: 60px auto 0;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .article-card {
+                flex: 0 0 calc(50% - 15px);
+                min-width: calc(50% - 15px);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .news-page {
+                padding: 80px 0 40px;
+            }
+            
+            .article-card {
+                flex: 0 0 100%;
+                min-width: 100%;
+            }
+            
+            .article-image {
+                height: 200px;
+            }
+            
+            .newsletter-box {
+                padding: 30px 20px;
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+        <div class="container">
+            <!-- Logo Telex -->
+            <a class="navbar-brand" href="/">
+                <img src="/images/Telex.png" alt="Logo TELEX" class="logo-img">
+                <span class="logo-text">Telex</span>
+            </a>
+            
+            <!-- Menu mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Menu -->
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
+                            <i class="fas fa-info-circle me-1"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" href="/mission">
+                            <i class="fas fa-bullseye me-1"></i>Mission
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
+                            <i class="fas fa-tv me-1"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
+                            <i class="fas fa-images me-1"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
+                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-5">
+                    <div class="hero-image-wrapper">
+                        <img src="/images/Présentation telex.png" alt="Présentation Telex" class="hero-camera-img">
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7">
+                    <h1>Telex</h1>
+                    <p>Découvrez les dernières actualités de notre télévision étudiante. Des événements, des projets et des initiatives qui animent la vie de notre campus.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="news-page">
+        <div class="container">
+            <!-- En-tête -->
+            <div class="page-header">
+                <h1>Actualités Telex</h1>
+                <p>Les dernières nouvelles de notre télévision étudiante</p>
+            </div>
+            
+            <!-- Carousel d'articles -->
+            <% if (news && news.length > 0) { %>
+            <div class="articles-carousel">
+                <!-- Piste du carousel -->
+                <div class="carousel-track" id="carouselTrack">
+                    <% news.forEach(article => { %>
+                    <div class="article-card" onclick="window.location.href='/news/<%= article.id %>'">
+                        <!-- Image -->
+                        <div class="article-image">
+                            <% if (article.image_url) { %>
+                                <img src="<%= article.image_url %>" alt="<%= article.title %>">
+                            <% } else { %>
+                                <div class="image-placeholder">
+                                    <i class="fas fa-newspaper"></i>
+                                </div>
+                            <% } %>
+                            <!-- Catégorie sur l'image -->
+                            <span class="category-badge"><%= article.category || 'Actualité' %></span>
+                        </div>
+                        
+                        <!-- TITRE SOUS L'IMAGE -->
+                        <h3 class="article-title"><%= article.title %></h3>
+                    </div>
+                    <% }); %>
+                </div>
+                
+                <!-- Pagination par points -->
+                <div class="carousel-pagination" id="paginationDots"></div>
+                
+                <!-- Boutons navigation -->
+                <div class="carousel-nav">
+                    <button class="nav-btn" id="prevBtn">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="nav-btn" id="nextBtn">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <% } else { %>
+            <!-- Aucun article -->
+            <div class="no-articles">
+                <i class="fas fa-newspaper"></i>
+                <h3>Aucune actualité pour le moment</h3>
+                <p class="text-muted">Revenez bientôt pour découvrir nos dernières nouvelles.</p>
+            </div>
+            <% } %>
+            
+            <!-- Newsletter -->
+            <div class="newsletter-box">
+                <h3>Restez informé</h3>
+                <p class="text-muted mb-4">Inscrivez-vous pour recevoir nos actualités</p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <div class="input-group mb-3">
+                        <input type="email" class="form-control" placeholder="Votre email" required>
+                        <button class="btn btn-primary" type="submit">
+                            S'abonner
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-telex">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Telex - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const track = document.getElementById('carouselTrack');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const dotsContainer = document.getElementById('paginationDots');
+            
+            if (track && track.children.length > 0) {
+                const cards = Array.from(track.children);
+                const cardWidth = cards[0].offsetWidth + 30; // width + gap
+                const containerWidth = track.parentElement.offsetWidth;
+                const visibleCards = Math.floor(containerWidth / cardWidth);
+                const totalSlides = Math.ceil(cards.length / visibleCards);
+                let currentSlide = 0;
+                
+                // Créer les points de pagination
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = `pagination-dot ${i === 0 ? 'active' : ''}`;
+                    dot.addEventListener('click', () => goToSlide(i));
+                    dotsContainer.appendChild(dot);
+                }
+                
+                // Fonction pour aller à un slide
+                function goToSlide(slideIndex) {
+                    currentSlide = slideIndex;
+                    const translateX = -currentSlide * visibleCards * cardWidth;
+                    track.style.transform = `translateX(${translateX}px)`;
+                    
+                    // Mettre à jour les points actifs
+                    document.querySelectorAll('.pagination-dot').forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentSlide);
+                    });
+                    
+                    // Mettre à jour l'état des boutons
+                    updateButtons();
+                }
+                
+                // Mettre à jour l'état des boutons
+                function updateButtons() {
+                    prevBtn.classList.toggle('disabled', currentSlide === 0);
+                    nextBtn.classList.toggle('disabled', currentSlide >= totalSlides - 1);
+                }
+                
+                // Événements des boutons
+                prevBtn.addEventListener('click', () => {
+                    if (currentSlide > 0) {
+                        goToSlide(currentSlide - 1);
+                    }
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    if (currentSlide < totalSlides - 1) {
+                        goToSlide(currentSlide + 1);
+                    }
+                });
+                
+                // Initialiser
+                updateButtons();
+                
+                // Redimensionnement
+                window.addEventListener('resize', function() {
+                    // Recalculer sur redimensionnement
+                    const newCardWidth = cards[0].offsetWidth + 30;
+                    const newVisibleCards = Math.floor(track.parentElement.offsetWidth / newCardWidth);
+                    const newTotalSlides = Math.ceil(cards.length / newVisibleCards);
+                    
+                    if (newTotalSlides !== totalSlides) {
+                        // Recharger la page si le nombre de slides change
+                        location.reload();
+                    } else {
+                        // Sinon, ajuster la position
+                        goToSlide(currentSlide);
+                    }
+                });
+            }
+            
+            // Newsletter
+            const newsletterForm = document.getElementById('newsletterForm');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const button = this.querySelector('button');
+                    const originalText = button.innerHTML;
+                    
+                    button.innerHTML = '<i class="fas fa-check"></i> Inscrit !';
+                    button.classList.add('btn-success');
+                    button.disabled = true;
+                    
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.classList.remove('btn-success');
+                        button.disabled = false;
+                        this.reset();
+                    }, 2000);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

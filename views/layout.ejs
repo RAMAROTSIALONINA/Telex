@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title || 'TELEX' %> - TELEX</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Style TELEX -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        /* SYSTÈME DE PAGES */
+        .page-content {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .page-content.active {
+            display: block;
+            opacity: 1;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* MENU ACTIF */
+        .nav-link.active {
+            color: #E63946 !important;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 15px;
+            right: 15px;
+            height: 3px;
+            background: #E63946;
+            border-radius: 2px;
+        }
+        
+        /* COMPENSATION MENU FIXE */
+        body {
+            padding-top: 76px !important;
+        }
+        
+        /* HERO SECTIONS */
+        .hero-section, .page-hero {
+            margin-top: -76px;
+            padding-top: 176px;
+        }
+        
+        /* MOBILE */
+        @media (max-width: 992px) {
+            .nav-link.active::after {
+                display: none;
+            }
+            
+            .nav-link.active {
+                background-color: rgba(230, 57, 70, 0.1);
+                border-radius: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION FIXE -->
+    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+        <div class="container">
+            <!-- Logo -->
+            <a class="navbar-brand" href="#" onclick="showPage('home'); return false;">
+                <img src="/images/Telex.png" alt="Logo TELEX" class="logo-img">
+                <span class="logo-text">TE<span class="text-danger">LEX</span></span>
+            </a>
+            
+            <!-- Menu mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <span class="navbar-toggler-icon">
+                    <i class="fas fa-bars"></i>
+                </span>
+            </button>
+            
+            <!-- Menu principal -->
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="mainNavMenu">
+                    <!-- Tous les liens sont visibles -->
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('home'); return false;">
+                            <i class="fas fa-home me-2"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('about'); return false;">
+                            <i class="fas fa-info-circle me-2"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('mission'); return false;">
+                            <i class="fas fa-bullseye me-2"></i>Mission
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('programs'); return false;">
+                            <i class="fas fa-tv me-2"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('gallery'); return false;">
+                            <i class="fas fa-images me-2"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('news'); return false;">
+                            <i class="fas fa-newspaper me-2"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('contact'); return false;">
+                            <i class="fas fa-envelope me-2"></i>Contact
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'social' ? 'active' : '' %>" 
+                           href="#" 
+                           onclick="showPage('social'); return false;">
+                            <i class="fas fa-share-alt me-2"></i>Réseaux
+                        </a>
+                    </li>
+                    
+                    <!-- Admin -->
+                    <% if (user && user.role === 'admin') { %>
+                    <li class="nav-item">
+                        <a class="nav-link text-warning" href="/admin/dashboard">
+                            <i class="fas fa-cog me-2"></i>Admin
+                        </a>
+                    </li>
+                    <% } %>
+                </ul>
+                
+                <!-- Bouton CTA -->
+                <div class="d-flex ms-lg-3">
+                    <a href="#" onclick="showPage('contact'); return false;" class="btn btn-telex">
+                        <i class="fas fa-plus me-2"></i>Rejoindre TELEX
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- CONTENEUR DES PAGES -->
+    <div id="pages-container">
+        <!-- Le contenu des pages sera inséré ici -->
+        <%- body %>
+    </div>
+    
+    <!-- FOOTER -->
+    <footer class="footer-telex">
+        <div class="container">
+            <div class="row">
+                <!-- Colonne 1 -->
+                <div class="col-lg-4 mb-4">
+                    <h3 class="mb-3">
+                        <i class="fas fa-tv me-2"></i>
+                        <span style="color: #E63946;">T</span>ELEX
+                    </h3>
+                    <p>Télévision jeune, dynamique et engagée, portée par des étudiants et destinée à la jeunesse.</p>
+                    <div class="social-icons">
+                        <a href="https://youtube.com" class="social-icon" target="_blank" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="https://facebook.com" class="social-icon" target="_blank" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://instagram.com" class="social-icon" target="_blank" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://twitter.com" class="social-icon" target="_blank" title="Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://tiktok.com" class="social-icon" target="_blank" title="TikTok">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Colonne 2 -->
+                <div class="col-lg-2 col-md-6 mb-4">
+                    <h5>Navigation</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showPage('home'); return false;">Accueil</a></li>
+                        <li><a href="#" onclick="showPage('about'); return false;">À propos</a></li>
+                        <li><a href="#" onclick="showPage('mission'); return false;">Mission</a></li>
+                        <li><a href="#" onclick="showPage('programs'); return false;">Programmes</a></li>
+                        <li><a href="#" onclick="showPage('gallery'); return false;">Galerie</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Colonne 3 -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Informations</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" onclick="showPage('news'); return false;">Actualités</a></li>
+                        <li><a href="#" onclick="showPage('contact'); return false;">Contact</a></li>
+                        <li><a href="#" onclick="showPage('social'); return false;">Réseaux</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Colonne 4 -->
+                <div class="col-lg-3 mb-4">
+                    <h5>Newsletter</h5>
+                    <p>Abonnez-vous pour recevoir nos actualités</p>
+                    <form id="newsletterForm" class="mb-3">
+                        <div class="input-group">
+                            <input type="email" class="form-control" placeholder="Votre email" required>
+                            <button class="btn btn-telex" type="submit">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="small text-muted">Nous ne partagerons jamais votre email.</p>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="copyright">
+                <p class="mb-0">&copy; 2026 TELEX - Tous droits réservés | Développé avec <i class="fas fa-heart text-danger"></i> par l'équipe TELEX</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- SCRIPTS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- SCRIPT DE NAVIGATION -->
+    <script>
+    // SYSTÈME DE NAVIGATION
+    let currentPage = '<%= page || "home" %>';
+    
+    // Afficher une page
+    function showPage(pageName) {
+        // 1. Mettre à jour le menu
+        updateMenu(pageName);
+        
+        // 2. Afficher/cacher les pages
+        showHidePages(pageName);
+        
+        // 3. Défiler vers le haut
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // 4. Fermer le menu mobile
+        closeMobileMenu();
+        
+        // 5. Mettre à jour l'URL
+        updateURL(pageName);
+        
+        // 6. Réinitialiser les scripts
+        reinitializeScripts();
+    }
+    
+    // Mettre à jour le menu actif
+    function updateMenu(pageName) {
+        // Retirer 'active' de tous les liens
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // Ajouter 'active' au lien cliqué
+        const activeLink = document.querySelector(`[onclick*="showPage('${pageName}')"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+        
+        currentPage = pageName;
+    }
+    
+    // Afficher/cacher les pages
+    function showHidePages(pageName) {
+        // Cacher toutes les pages
+        document.querySelectorAll('.page-content').forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        // Afficher la page demandée
+        const pageToShow = document.getElementById(`${pageName}-page`);
+        if (pageToShow) {
+            pageToShow.classList.add('active');
+        }
+    }
+    
+    // Fermer le menu mobile
+    function closeMobileMenu() {
+        const mobileMenu = document.querySelector('.navbar-collapse.show');
+        if (mobileMenu) {
+            mobileMenu.classList.remove('show');
+        }
+    }
+    
+    // Mettre à jour l'URL
+    function updateURL(pageName) {
+        const url = pageName === 'home' ? '/' : `/${pageName}`;
+        const title = document.querySelector('.nav-link.active').textContent.trim();
+        
+        history.pushState({ page: pageName }, title, url);
+        document.title = `${title} - TELEX`;
+    }
+    
+    // Réinitialiser les scripts
+    function reinitializeScripts() {
+        // Réinitialiser le formulaire de contact
+        if (document.getElementById('contactForm')) {
+            initContactForm();
+        }
+        
+        // Réinitialiser la galerie
+        if (document.querySelector('.gallery-item')) {
+            initGallery();
+        }
+        
+        // Réinitialiser le carousel d'actualités
+        if (document.getElementById('carouselTrack')) {
+            initNewsCarousel();
+        }
+        
+        // Réinitialiser les animations
+        initAnimations();
+    }
+    
+    // Gérer le bouton retour
+    window.addEventListener('popstate', function(e) {
+        if (e.state && e.state.page) {
+            showPage(e.state.page);
+        }
+    });
+    
+    // Initialiser au chargement
+    document.addEventListener('DOMContentLoaded', function() {
+        // Afficher la page actuelle
+        showPage(currentPage);
+    });
+    
+    // ===== FONCTIONS UTILITAIRES =====
+    
+    // Formulaire de contact
+    function initContactForm() {
+        const contactForm = document.getElementById('contactForm');
+        if (!contactForm) return;
+        
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+            submitBtn.disabled = true;
+            
+            try {
+                const formData = new FormData(this);
+                
+                const response = await fetch('/contact', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert(data.message || 'Message envoyé avec succès !');
+                    this.reset();
+                } else {
+                    alert(data.message || 'Erreur lors de l\'envoi du message.');
+                }
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                alert('Erreur lors de l\'envoi du message.');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+    }
+    
+    // Galerie
+    function initGallery() {
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        
+        galleryItems.forEach(item => {
+            item.addEventListener('click', function() {
+                const imgSrc = this.querySelector('img').src;
+                const imgAlt = this.querySelector('img').alt;
+                
+                const lightbox = document.createElement('div');
+                lightbox.className = 'lightbox';
+                lightbox.innerHTML = `
+                    <div class="lightbox-content">
+                        <span class="close">&times;</span>
+                        <img src="${imgSrc}" alt="${imgAlt}">
+                    </div>
+                `;
+                
+                document.body.appendChild(lightbox);
+                document.body.style.overflow = 'hidden';
+                
+                lightbox.querySelector('.close').addEventListener('click', function() {
+                    document.body.removeChild(lightbox);
+                    document.body.style.overflow = 'auto';
+                });
+                
+                lightbox.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        document.body.removeChild(lightbox);
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+        });
+        
+        // Filtrage de galerie
+        const filterButtons = document.querySelectorAll('[data-filter]');
+        if (filterButtons.length > 0) {
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    
+                    document.querySelectorAll('[data-category]').forEach(item => {
+                        if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+        }
+    }
+    
+    // Carousel d'actualités
+    function initNewsCarousel() {
+        const track = document.getElementById('carouselTrack');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const dotsContainer = document.getElementById('paginationDots');
+        
+        if (track && track.children.length > 0) {
+            const cards = Array.from(track.children);
+            const cardWidth = cards[0].offsetWidth + 30;
+            const containerWidth = track.parentElement.offsetWidth;
+            const visibleCards = Math.floor(containerWidth / cardWidth);
+            const totalSlides = Math.ceil(cards.length / visibleCards);
+            let currentSlide = 0;
+            
+            // Créer les points
+            if (dotsContainer) {
+                for (let i = 0; i < totalSlides; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = `pagination-dot ${i === 0 ? 'active' : ''}`;
+                    dot.addEventListener('click', () => goToSlide(i));
+                    dotsContainer.appendChild(dot);
+                }
+            }
+            
+            function goToSlide(slideIndex) {
+                currentSlide = slideIndex;
+                const translateX = -currentSlide * visibleCards * cardWidth;
+                track.style.transform = `translateX(${translateX}px)`;
+                
+                if (dotsContainer) {
+                    document.querySelectorAll('.pagination-dot').forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentSlide);
+                    });
+                }
+            }
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (currentSlide > 0) {
+                        goToSlide(currentSlide - 1);
+                    }
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (currentSlide < totalSlides - 1) {
+                        goToSlide(currentSlide + 1);
+                    }
+                });
+            }
+        }
+    }
+    
+    // Animations
+    function initAnimations() {
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.animate-fade-in-up');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                if (elementTop < windowHeight - 100) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        document.querySelectorAll('.animate-fade-in-up').forEach(element => {
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        animateOnScroll();
+    }
+    
+    // Newsletter
+    const newsletterForm = document.getElementById('newsletterForm');
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            alert(`Merci pour votre inscription avec l'email : ${email}`);
+            this.reset();
+        });
+    }
+    </script>
+</body>
+</html>

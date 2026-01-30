@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Telex | Administration</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Summernote -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .sidebar { 
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
+            color: white; 
+            min-height: 100vh; 
+            width: 250px; 
+            position: fixed; 
+            left: 0; 
+            top: 0;
+            z-index: 1000;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-brand {
+            padding: 1.5rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-brand img {
+            max-width: 120px;
+            height: auto;
+            max-height: 60px;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .sidebar-brand h3 {
+            font-size: 1.2rem;
+            margin: 0;
+            color: white;
+        }
+        
+        .sidebar-nav {
+            padding: 1rem 0;
+        }
+        
+        .nav-item {
+            margin: 0.25rem 0.5rem;
+        }
+        
+        .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.75rem 1rem;
+            border-radius: 5px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .nav-link.active {
+            background: var(--telex-red);
+            color: white;
+        }
+        
+        .nav-link i {
+            width: 24px;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .main-content { 
+            margin-left: 250px; 
+            padding: 1rem;
+            min-height: 100vh;
+        }
+        
+        .top-bar { 
+            background: white; 
+            padding: 1.5rem; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08); 
+            margin-bottom: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-logo {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+        
+        .page-title h1 {
+            color: var(--telex-blue);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .page-title p {
+            color: #6c757d;
+            margin: 0;
+            font-size: 1rem;
+        }
+        
+        .btn-telex { 
+            background: var(--telex-red); 
+            color: white; 
+            border: none; 
+            padding: 0.5rem 1.5rem;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .btn-telex:hover { 
+            background: #c1121f; 
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
+        }
+        
+        .card { 
+            border: none; 
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08); 
+            margin-bottom: 1.5rem;
+        }
+        
+        /* CSS pour le drag & drop */
+        .upload-area {
+            border: 2px dashed #dee2e6;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1rem;
+        }
+        
+        .upload-area:hover {
+            border-color: #E63946;
+            background: #fff8f8;
+        }
+        
+        .upload-area.dragover {
+            border-color: #28a745;
+            background: #f8fff8;
+        }
+        
+        .upload-area i {
+            font-size: 3rem;
+            color: #6c757d;
+            margin-bottom: 15px;
+        }
+        
+        .upload-area h5 {
+            color: var(--telex-blue);
+            margin-bottom: 10px;
+        }
+        
+        .upload-area p {
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+        
+        .image-preview {
+            max-height: 200px;
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .preview-card {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            background: white;
+        }
+        
+        /* Options de partage */
+        .share-options {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        
+        .share-options h5 {
+            color: var(--telex-blue);
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .share-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .share-option {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .share-option:hover {
+            border-color: var(--telex-red);
+            box-shadow: 0 2px 8px rgba(230, 57, 70, 0.1);
+        }
+        
+        .share-option input[type="checkbox"] {
+            margin-right: 8px;
+            transform: scale(1.2);
+        }
+        
+        .share-option label {
+            margin: 0;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .share-option i {
+            margin-left: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .share-facebook i { color: #1877f2; }
+        .share-twitter i { color: #1da1f2; }
+        .share-linkedin i { color: #0077b5; }
+        .share-whatsapp i { color: #25d366; }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .sidebar-brand h3 {
+                display: none;
+            }
+            
+            .sidebar-brand img {
+                max-height: 40px;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+            
+            .col-lg-8, .col-lg-4 {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="/images/11.png" alt="TELEX">
+            <h3>Telex Admin</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Tableau de bord</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/news" class="nav-link active">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/programs" class="nav-link">
+                    <i class="fas fa-tv"></i>
+                    <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/contacts" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/logout" class="nav-link text-warning">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Main content -->
+    <div class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
+                <div>
+                    <h1>
+                        <% if (news) { %>
+                        Éditer l'actualité
+                        <% } else { %>
+                        Nouvelle actualité
+                        <% } %>
+                    </h1>
+                    <p>
+                        <% if (news) { %>
+                        Modifiez l'actualité "<%= news.title %>"
+                        <% } else { %>
+                        Créez une nouvelle actualité pour TELEX
+                        <% } %>
+                    </p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <a href="/admin/news" class="btn btn-outline-secondary me-2">
+                    <i class="fas fa-arrow-left me-2"></i>Retour
+                </a>
+                <button type="submit" form="newsForm" class="btn btn-telex">
+                    <i class="fas fa-save me-2"></i>
+                    <% if (news) { %>Mettre à jour<% } else { %>Publier<% } %>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Messages Flash -->
+        <% if (success_msg && success_msg.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <%= success_msg %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+        
+        <% if (error_msg && error_msg.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <%= error_msg %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+        <% } %>
+        
+        <!-- Formulaire -->
+        <form id="newsForm" method="POST" action="/admin/news/save" enctype="multipart/form-data">
+            <% if (news) { %>
+            <input type="hidden" name="id" value="<%= news.id %>">
+            <% } %>
+            
+            <div class="row">
+                <!-- Colonne principale -->
+                <div class="col-lg-8">
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-edit me-2"></i>Contenu
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Titre -->
+                            <div class="mb-4">
+                                <label for="title" class="form-label">
+                                    Titre de l'actualité *
+                                    <span class="badge bg-secondary ms-2" id="titleCount">0/70</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control form-control-lg" 
+                                       id="title" 
+                                       name="title" 
+                                       value="<%= news ? news.title : '' %>"
+                                       placeholder="Titre accrocheur..."
+                                       maxlength="70"
+                                       required>
+                                <div class="form-text d-flex justify-content-between">
+                                    <span>Un titre clair et informatif pour le SEO</span>
+                                    <span id="titleStatus" class="text-muted"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Extrait -->
+                            <div class="mb-4">
+                                <label for="excerpt" class="form-label">
+                                    Extrait / Description courte *
+                                    <span class="badge bg-secondary ms-2" id="excerptCount">0/160</span>
+                                </label>
+                                <textarea class="form-control" 
+                                          id="excerpt" 
+                                          name="excerpt" 
+                                          rows="3"
+                                          maxlength="160"
+                                          placeholder="Résumé en 1-2 phrases..."
+                                          required><%= news ? news.excerpt : '' %></textarea>
+                                <div class="form-text d-flex justify-content-between">
+                                    <span>Apparaît dans les listes et les résultats de recherche</span>
+                                    <span id="excerptStatus" class="text-muted"></span>
+                                </div>
+                            </div>
+                            
+                            <!-- Contenu -->
+                            <div class="mb-4">
+                                <label for="content" class="form-label">Contenu détaillé *</label>
+                                <textarea class="form-control" 
+                                          id="content" 
+                                          name="content" 
+                                          rows="15"
+                                          required><%= news ? news.content : '' %></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Colonne latérale -->
+                <div class="col-lg-4">
+                    <!-- Publication -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-paper-plane me-2"></i>Publication
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Statut -->
+                            <div class="mb-3">
+                                <label class="form-label">Statut</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="radio" 
+                                           name="is_published" 
+                                           id="published" 
+                                           value="1"
+                                           <%= news && news.is_published ? 'checked' : 'checked' %>>
+                                    <label class="form-check-label" for="published">
+                                        <i class="fas fa-check-circle text-success me-1"></i>
+                                        Publié
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="radio" 
+                                           name="is_published" 
+                                           id="draft" 
+                                           value="0"
+                                           <%= news && !news.is_published ? 'checked' : '' %>>
+                                    <label class="form-check-label" for="draft">
+                                        <i class="fas fa-edit text-secondary me-1"></i>
+                                        Brouillon
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <!-- Auteur -->
+                            <div class="mb-3">
+                                <label for="author" class="form-label">Auteur</label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="author" 
+                                       name="author" 
+                                       value="<%= news ? news.author : 'Équipe TELEX' %>"
+                                       placeholder="Nom de l'auteur">
+                            </div>
+                            
+                            <!-- Catégorie -->
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Catégorie</label>
+                                <select class="form-select" id="category" name="category">
+                                    <option value="Actualité" <%= news && news.category === 'Actualité' ? 'selected' : '' %>>Actualité</option>
+                                    <option value="Annonce" <%= news && news.category === 'Annonce' ? 'selected' : '' %>>Annonce</option>
+                                    <option value="Événement" <%= news && news.category === 'Événement' ? 'selected' : '' %>>Événement</option>
+                                    <option value="Interview" <%= news && news.category === 'Interview' ? 'selected' : '' %>>Interview</option>
+                                    <option value="Reportage" <%= news && news.category === 'Reportage' ? 'selected' : '' %>>Reportage</option>
+                                    <option value="Formation" <%= news && news.category === 'Formation' ? 'selected' : '' %>>Formation</option>
+                                </select>
+                            </div>
+                            
+                            <!-- Image - NOUVELLE SECTION -->
+                            <div class="mb-4">
+                                <label class="form-label">Image de l'actualité</label>
+                                
+                                <!-- Zone de drag & drop -->
+                                <div class="upload-area" id="uploadArea">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <h5>Glissez-déposez votre image ici</h5>
+                                    <p>ou cliquez pour sélectionner</p>
+                                    <p class="small text-muted">JPG, PNG, GIF, WebP (max 5MB)</p>
+                                </div>
+                                
+                                <input type="file" 
+                                       class="form-control d-none" 
+                                       id="image_file" 
+                                       name="image_file"
+                                       accept=".jpg,.jpeg,.png,.gif,.webp">
+                                
+                                <!-- URL alternative -->
+                                <div class="mt-3">
+                                    <label class="form-label small">OU entrez une URL d'image</label>
+                                    <input type="url" 
+                                           class="form-control" 
+                                           id="image_url" 
+                                           name="image_url" 
+                                           value="<%= news ? news.image_url : '' %>"
+                                           placeholder="https://exemple.com/image.jpg">
+                                </div>
+                                
+                                <!-- Prévisualisation -->
+                                <div id="imagePreview" class="mt-3" style="<%= (news && news.image_url) ? '' : 'display: none;' %>">
+                                    <div class="preview-card">
+                                        <p class="small mb-2"><strong>Image actuelle :</strong></p>
+                                        <div id="previewContainer">
+                                            <% if (news && news.image_url) { %>
+                                                <img src="<%= news.image_url %>" 
+                                                     alt="Image actuelle" 
+                                                     class="image-preview">
+                                                <div class="mt-2">
+                                                    <button type="button" 
+                                                            class="btn btn-sm btn-outline-danger" 
+                                                            onclick="removeImage()">
+                                                        <i class="fas fa-trash me-1"></i>Supprimer l'image
+                                                    </button>
+                                                </div>
+                                            <% } else { %>
+                                                <p class="text-muted">Aucune image sélectionnée</p>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Options de partage -->
+                            <div class="share-options">
+                                <h5>
+                                    <i class="fas fa-share-alt me-2"></i>Options de partage
+                                </h5>
+                                <div class="share-checkboxes">
+                                    <div class="share-option">
+                                        <input type="checkbox" 
+                                               id="share_facebook" 
+                                               name="share_facebook" 
+                                               value="1"
+                                               <%= news && news.share_facebook ? 'checked' : 'checked' %>>
+                                        <label for="share_facebook">
+                                            Facebook
+                                            <i class="fab fa-facebook"></i>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="share-option">
+                                        <input type="checkbox" 
+                                               id="share_twitter" 
+                                               name="share_twitter" 
+                                               value="1"
+                                               <%= news && news.share_twitter ? 'checked' : '' %>>
+                                        <label for="share_twitter">
+                                            Twitter
+                                            <i class="fab fa-twitter"></i>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="share-option">
+                                        <input type="checkbox" 
+                                               id="share_linkedin" 
+                                               name="share_linkedin" 
+                                               value="1"
+                                               <%= news && news.share_linkedin ? 'checked' : '' %>>
+                                        <label for="share_linkedin">
+                                            LinkedIn
+                                            <i class="fab fa-linkedin"></i>
+                                        </label>
+                                    </div>
+                                    
+                                    <div class="share-option">
+                                        <input type="checkbox" 
+                                               id="share_whatsapp" 
+                                               name="share_whatsapp" 
+                                               value="1"
+                                               <%= news && news.share_whatsapp ? 'checked' : '' %>>
+                                        <label for="share_whatsapp">
+                                            WhatsApp
+                                            <i class="fab fa-whatsapp"></i>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="form-text mt-2">
+                                    Cochez les plateformes où vous souhaitez permettre le partage de cette actualité
+                                </div>
+                            </div>
+                            
+                            <!-- Boutons d'action -->
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn btn-telex">
+                                    <i class="fas fa-save me-2"></i>
+                                    <% if (news) { %>Mettre à jour<% } else { %>Publier l'actualité<% } %>
+                                </button>
+                                <a href="/admin/news" class="btn btn-outline-secondary">
+                                    <i class="fas fa-times me-2"></i>Annuler
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Informations -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-info-circle me-2"></i>Informations
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <% if (news) { %>
+                            <div class="mb-2">
+                                <strong>ID :</strong> #<%= news.id %>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Créée le :</strong>
+                                <%= new Date(news.created_at).toLocaleDateString('fr-FR') %>
+                            </div>
+                            <div class="mb-2">
+                                <strong>Vues :</strong> <%= news.views || 0 %>
+                            </div>
+                            <% } else { %>
+                            <p class="text-muted small mb-0">
+                                <i class="fas fa-lightbulb me-1"></i>
+                                Remplissez tous les champs pour créer une nouvelle actualité.
+                            </p>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-fr-FR.min.js"></script>
+    
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialiser l'éditeur Summernote
+        $('#content').summernote({
+            height: 300,
+            lang: 'fr-FR',
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear']],
+                ['fontname', ['fontname']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            placeholder: 'Écrivez votre contenu ici...'
+        });
+        
+        // ========== COMPTEURS DE CARACTÈRES ==========
+        const titleInput = document.getElementById('title');
+        const excerptInput = document.getElementById('excerpt');
+        const titleCount = document.getElementById('titleCount');
+        const excerptCount = document.getElementById('excerptCount');
+        const titleStatus = document.getElementById('titleStatus');
+        const excerptStatus = document.getElementById('excerptStatus');
+        
+        function updateCharacterCount(input, countElement, max, statusElement) {
+            const count = input.value.length;
+            countElement.textContent = `${count}/${max}`;
+            
+            // Mettre à jour le statut
+            if (count === 0) {
+                statusElement.innerHTML = '<i class="fas fa-info-circle"></i> Obligatoire';
+                statusElement.className = 'text-muted';
+                countElement.className = 'badge bg-secondary ms-2';
+            } else if (count < max * 0.7) {
+                statusElement.innerHTML = '<i class="fas fa-check-circle text-success"></i> Bon';
+                statusElement.className = 'text-success';
+                countElement.className = 'badge bg-success ms-2';
+            } else if (count < max) {
+                statusElement.innerHTML = '<i class="fas fa-exclamation-triangle text-warning"></i> Presque plein';
+                statusElement.className = 'text-warning';
+                countElement.className = 'badge bg-warning ms-2';
+            } else {
+                statusElement.innerHTML = '<i class="fas fa-times-circle text-danger"></i> Limite atteinte';
+                statusElement.className = 'text-danger';
+                countElement.className = 'badge bg-danger ms-2';
+            }
+        }
+        
+        // Initialiser les compteurs
+        if (titleInput) {
+            titleInput.addEventListener('input', () => updateCharacterCount(titleInput, titleCount, 70, titleStatus));
+            updateCharacterCount(titleInput, titleCount, 70, titleStatus);
+        }
+        
+        if (excerptInput) {
+            excerptInput.addEventListener('input', () => updateCharacterCount(excerptInput, excerptCount, 160, excerptStatus));
+            updateCharacterCount(excerptInput, excerptCount, 160, excerptStatus);
+        }
+        
+        // ========== GESTION DE L'UPLOAD D'IMAGE ==========
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('image_file');
+        const imageUrlInput = document.getElementById('image_url');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewContainer = document.getElementById('previewContainer');
+        
+        // Variables globales
+        let uploadedFile = null;
+        let imageRemoved = false;
+        
+        // Cliquer sur la zone = cliquer sur le input file
+        uploadArea.addEventListener('click', function() {
+            fileInput.click();
+        });
+        
+        // Gérer la sélection de fichier
+        fileInput.addEventListener('change', function(e) {
+            if (this.files && this.files[0]) {
+                handleFileUpload(this.files[0]);
+            }
+        });
+        
+        // Gérer le changement d'URL
+        imageUrlInput.addEventListener('input', function() {
+            if (this.value.trim() !== '') {
+                // Afficher la prévisualisation de l'URL
+                previewContainer.innerHTML = `
+                    <img src="${this.value}" 
+                         alt="Prévisualisation URL" 
+                         class="image-preview"
+                         onerror="this.style.display='none'; document.querySelector('#imagePreview .preview-card').innerHTML += '<p class=\\'text-danger mt-2\\'>Impossible de charger l\\'image</p>';">
+                    <div class="mt-2">
+                        <p class="small text-success mb-1">
+                            <i class="fas fa-link me-1"></i>
+                            Image URL
+                        </p>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
+                            <i class="fas fa-times me-1"></i>Supprimer
+                        </button>
+                    </div>
+                `;
+                imagePreview.style.display = 'block';
+                fileInput.value = ''; // Réinitialiser le fichier uploadé
+                uploadedFile = null;
+            }
+        });
+        
+        // Drag & drop
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.add('dragover');
+            });
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            uploadArea.addEventListener(eventName, () => {
+                uploadArea.classList.remove('dragover');
+            });
+        });
+        
+        uploadArea.addEventListener('drop', function(e) {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileUpload(files[0]);
+            }
+        });
+        
+        // Fonction pour gérer l'upload
+        function handleFileUpload(file) {
+            // Vérifier la taille (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showNotification('❌ Fichier trop volumineux. Maximum 5MB autorisé.', 'danger');
+                return;
+            }
+            
+            // Vérifier le type
+            const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!validTypes.includes(file.type)) {
+                showNotification('❌ Format non supporté. Utilisez JPG, PNG, GIF ou WebP.', 'danger');
+                return;
+            }
+            
+            uploadedFile = file;
+            imageRemoved = false;
+            
+            // Afficher la prévisualisation
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewContainer.innerHTML = `
+                    <img src="${e.target.result}" alt="Prévisualisation" class="image-preview">
+                    <div class="mt-2">
+                        <p class="small text-success mb-1">
+                            <i class="fas fa-check-circle me-1"></i>
+                            ${file.name} (${Math.round(file.size / 1024)} KB)
+                        </p>
+                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeUploadedImage()">
+                            <i class="fas fa-times me-1"></i>Annuler l'upload
+                        </button>
+                    </div>
+                `;
+                
+                imagePreview.style.display = 'block';
+                // Effacer l'URL si elle existe
+                imageUrlInput.value = '';
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        // Supprimer l'image uploadée
+        window.removeUploadedImage = function() {
+            uploadedFile = null;
+            fileInput.value = '';
+            previewContainer.innerHTML = '<p class="text-muted">Aucune image sélectionnée</p>';
+            imagePreview.style.display = 'none';
+        }
+        
+        // Supprimer l'image existante
+        window.removeImage = function() {
+            imageRemoved = true;
+            imageUrlInput.value = '';
+            fileInput.value = '';
+            uploadedFile = null;
+            imagePreview.style.display = 'none';
+            
+            // Ajouter un champ caché pour indiquer la suppression
+            if (!document.getElementById('remove_image')) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.id = 'remove_image';
+                input.name = 'remove_image';
+                input.value = '1';
+                document.getElementById('newsForm').appendChild(input);
+            }
+        }
+        
+        // ========== SYSTÈME DE NOTIFICATIONS ==========
+        function showNotification(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
+            alertDiv.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
+            
+            // Insérer au début du main-content
+            const mainContent = document.querySelector('.main-content');
+            mainContent.insertBefore(alertDiv, mainContent.firstChild);
+            
+            // Auto-suppression après 5 secondes
+            setTimeout(() => {
+                if (alertDiv.parentNode) {
+                    alertDiv.remove();
+                }
+            }, 5000);
+        }
+        
+        // ========== VALIDATION AMÉLIORÉE DU FORMULAIRE ==========
+        document.getElementById('newsForm').addEventListener('submit', function(e) {
+            const title = document.getElementById('title').value.trim();
+            const excerpt = document.getElementById('excerpt').value.trim();
+            const content = document.getElementById('content').value.trim();
+            
+            // Validation des champs obligatoires
+            if (!title || !excerpt || !content) {
+                e.preventDefault();
+                showNotification('❌ Veuillez remplir tous les champs obligatoires.', 'danger');
+                return false;
+            }
+            
+            // Validation de la longueur
+            if (title.length > 70) {
+                e.preventDefault();
+                showNotification('❌ Le titre ne doit pas dépasser 70 caractères.', 'danger');
+                return false;
+            }
+            
+            if (excerpt.length > 160) {
+                e.preventDefault();
+                showNotification('❌ L\'extrait ne doit pas dépasser 160 caractères.', 'danger');
+                return false;
+            }
+            
+            // Désactiver le bouton pendant l'envoi
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enregistrement en cours...';
+            submitBtn.disabled = true;
+            
+            // Réactiver après 10 secondes maximum (au cas où)
+            setTimeout(() => {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 10000);
+        });
+        
+        // ========== AUTOSAVE (BROUILLON) ==========
+        let autosaveTimeout;
+        function autosave() {
+            clearTimeout(autosaveTimeout);
+            autosaveTimeout = setTimeout(() => {
+                const formData = new FormData(document.getElementById('newsForm'));
+                formData.append('autosave', 'true');
+                
+                fetch('/admin/news/autosave', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification('✅ Brouillon sauvegardé automatiquement', 'success');
+                    }
+                })
+                .catch(error => {
+                    console.log('Autosave failed:', error);
+                });
+            }, 30000); // 30 secondes après la dernière modification
+        }
+        
+        // Activer l'autosave sur les changements
+        ['title', 'excerpt', 'author', 'category'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', autosave);
+            }
+        });
+        
+        // Autosave pour Summernote
+        $('#content').on('summernote.change', function() {
+            autosave();
+        });
+    });
+    </script>
+</body>
+</html>

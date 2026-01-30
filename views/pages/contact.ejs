@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Telex | Télévision Étudiante</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* Styles améliorés pour la page contact */
+        
+        /* Hero section améliorée */
+        .page-hero {
+            background: linear-gradient(135deg, #1D3557 0%, #457B9D 50%, #E63946 100%);
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="10" cy="50" r="0.5" fill="rgba(255,255,255,0.05)"/><circle cx="90" cy="30" r="0.5" fill="rgba(255,255,255,0.05)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero-content p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+        
+        .hero-image-wrapper {
+            text-align: center;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+        
+        .hero-camera-img {
+            max-width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+            border-radius: 15px;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Section principale */
+        .section {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        /* Formulaire de contact amélioré */
+        .contact-form-card {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s ease;
+        }
+        
+        .contact-form-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #E63946, #457B9D, #1D3557);
+        }
+        
+        .contact-form-card h2 {
+            color: #1D3557;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .contact-form-card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #E63946, #457B9D);
+            border-radius: 2px;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Formulaire styles */
+        .form-control, .form-select {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            background: #f8f9fa;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #E63946;
+            box-shadow: 0 0 0 0.25rem rgba(230, 57, 70, 0.15);
+            background: white;
+            transform: translateY(-2px);
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #1D3557;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* Alerte message */
+        #messageAlert {
+            border-radius: 12px;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            border: none;
+            display: none;
+            font-weight: 500;
+            animation: shake 0.5s ease;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        /* Bouton d'envoi */
+        .btn-send {
+            background: linear-gradient(135deg, #E63946, #c1121f);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-send::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn-send:hover::before {
+            left: 100%;
+        }
+        
+        .btn-send:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(230, 57, 70, 0.3);
+        }
+        
+        .btn-send:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* Checkbox */
+        .form-check-input:checked {
+            background-color: #E63946;
+            border-color: #E63946;
+        }
+        
+        .form-check-label {
+            color: #555;
+            font-weight: 500;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-hero {
+                padding: 100px 0 60px;
+            }
+            
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.1rem;
+            }
+            
+            .contact-form-card {
+                padding: 30px 25px;
+                margin: 0 15px;
+            }
+            
+            .contact-form-card h2 {
+                font-size: 2rem;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-form-card {
+                padding: 25px 20px;
+            }
+            
+            .btn-send {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body data-page="contact">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+        <div class="container">
+            <!-- Logo Telex -->
+            <a class="navbar-brand" href="/">
+                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
+                <span class="logo-text">Telex</span>
+            </a>
+            
+            <!-- Menu mobile -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <!-- Menu -->
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
+                            <i class="fas fa-home me-1"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
+                            <i class="fas fa-info-circle me-1"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" href="/mission">
+                            <i class="fas fa-bullseye me-1"></i>Mission
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
+                            <i class="fas fa-tv me-1"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
+                            <i class="fas fa-images me-1"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
+                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
+                            <i class="fas fa-envelope me-1"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Professionnelle -->
+    <section class="page-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-4 col-md-5">
+                    <div class="hero-image-wrapper">
+                        <img src="/images/TELEX BAREA.png" alt="TELEX BAREA" class="hero-camera-img">
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-7">
+                    <div class="hero-content">
+                        <h1>Telex</h1>
+                        <p>Contactez-nous pour toute question, suggestion ou collaboration. Nous sommes à votre écoute pour donner vie à vos projets audiovisuels.</p>
+                        <div class="mt-4">
+                            <a href="#contact-form" class="btn btn-outline-light btn-lg">
+                                <i class="fas fa-envelope me-2"></i>Envoyer un message
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section principale -->
+    <section class="section">
+        <div class="container">
+            <div class="row">
+                <!-- Formulaire de contact -->
+                <div class="col-lg-12">
+                    <div class="contact-form-card" id="contact-form">
+                        <h2>Envoyez-nous un message</h2>
+                        
+                        <!-- Message de succès/erreur -->
+                        <div id="messageAlert" class="alert" style="display: none;"></div>
+                        
+                        <form id="contactForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="name" class="form-label">Nom complet *</label>
+                                    <input type="text" class="form-control" id="name" name="name" required 
+                                           placeholder="Votre nom et prénom">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Email *</label>
+                                    <input type="email" class="form-control" id="email" name="email" required 
+                                           placeholder="votre@email.com">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Sujet *</label>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="" selected disabled>Choisir un sujet</option>
+                                    <option value="participation">Participer à Telex</option>
+                                    <option value="partenariat">Proposition de partenariat</option>
+                                    <option value="stage">Demande de stage</option>
+                                    <option value="intervention">Demande d'intervention</option>
+                                    <option value="collaboration">Projet de collaboration</option>
+                                    <option value="autre">Autre demande</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message *</label>
+                                <textarea class="form-control" id="message" name="message" rows="6" required 
+                                          placeholder="Décrivez votre demande en détail..."></textarea>
+                            </div>
+
+                            <div class="mb-4 form-check">
+                                <input type="checkbox" class="form-check-input" id="newsletter" name="newsletter">
+                                <label class="form-check-label" for="newsletter">
+                                    Je souhaite m'abonner à la newsletter Telex pour recevoir nos actualités
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-send">
+                                <i class="fas fa-paper-plane me-2"></i>Envoyer le message
+                            </button>
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-telex">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2026 Telex - Tous droits réservés</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+    // Gestion du formulaire - Version professionnelle
+    document.addEventListener('DOMContentLoaded', function() {
+        const contactForm = document.getElementById('contactForm');
+        if (!contactForm) return;
+        
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            const messageAlert = document.getElementById('messageAlert');
+            
+            // Réinitialiser l'alerte
+            messageAlert.style.display = 'none';
+            messageAlert.className = 'alert';
+            
+            // Validation des champs
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value.trim();
+            
+            // Validation simple
+            if (!name || !email || !subject || !message) {
+                showAlert('Veuillez remplir tous les champs obligatoires.', 'danger');
+                highlightInvalidFields();
+                return;
+            }
+            
+            // Validation email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showAlert('Veuillez entrer un email valide.', 'danger');
+                document.getElementById('email').classList.add('is-invalid');
+                return;
+            }
+            
+            // Afficher le chargement
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Simuler l'envoi (remplacez par votre code d'envoi réel)
+                await new Promise(resolve => setTimeout(resolve, 1500));
+                
+                // Succès
+                showAlert('Message envoyé avec succès ! Nous vous répondrons dans les plus brefs délais.', 'success');
+                this.reset();
+                
+            } catch (error) {
+                console.error('Erreur:', error);
+                showAlert('Erreur de connexion. Veuillez réessayer.', 'danger');
+                
+            } finally {
+                // Réactiver le bouton
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        function showAlert(message, type) {
+            const alert = document.getElementById('messageAlert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type} alert-dismissible fade show`;
+            alert.style.display = 'block';
+            
+            // Ajouter le bouton de fermeture
+            alert.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            `;
+            
+            // Masquer automatiquement après 8 secondes
+            if (type === 'success') {
+                setTimeout(() => {
+                    if (alert.style.display !== 'none') {
+                        alert.style.display = 'none';
+                    }
+                }, 8000);
+            }
+        }
+        
+        function highlightInvalidFields() {
+            const fields = [
+                { id: 'name', value: document.getElementById('name').value.trim() },
+                { id: 'email', value: document.getElementById('email').value.trim() },
+                { id: 'subject', value: document.getElementById('subject').value },
+                { id: 'message', value: document.getElementById('message').value.trim() }
+            ];
+            
+            fields.forEach(field => {
+                const element = document.getElementById(field.id);
+                if (!field.value) {
+                    element.classList.add('is-invalid');
+                } else {
+                    element.classList.remove('is-invalid');
+                }
+            });
+        }
+        
+        // Validation en temps réel
+        contactForm.querySelectorAll('input, textarea, select').forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+                this.classList.add('is-valid');
+            });
+        });
+    });
+    </script>
+</body>
+</html>

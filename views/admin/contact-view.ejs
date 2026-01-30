@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Telex | Administration</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        /* Sidebar identique à contacts.ejs */
+        .sidebar { 
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
+            color: white; 
+            min-height: 100vh; 
+            width: 250px; 
+            position: fixed; 
+            left: 0;
+            top: 0;
+            padding: 0;
+            z-index: 1000;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-brand {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-brand img {
+            max-width: 120px;
+            height: auto;
+            max-height: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .sidebar-brand h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-nav {
+            padding: 20px 15px;
+        }
+        
+        .nav-item {
+            margin-bottom: 8px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 15px;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-link.active {
+            background: rgba(230, 57, 70, 0.15);
+            color: white;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+            border-left: 3px solid var(--telex-red);
+        }
+        
+        .nav-link i {
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 12px;
+            text-align: center;
+        }
+        
+        .main-content { 
+            margin-left: 250px; 
+            padding: 2rem;
+            min-height: 100vh;
+        }
+        
+        /* Carte message */
+        .message-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .message-header {
+            background: linear-gradient(135deg, var(--telex-blue), #2c3e50);
+            color: white;
+            padding: 2rem;
+        }
+        
+        .message-body {
+            padding: 2rem;
+            line-height: 1.8;
+        }
+        
+        .message-meta {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem;
+            margin-top: -1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .btn-telex {
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn-telex:hover {
+            background: #c1121f;
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .message-content {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: 1.05rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .sidebar-brand h3,
+            .nav-link span {
+                display: none;
+            }
+            
+            .sidebar-brand img {
+                max-width: 50px;
+                margin-bottom: 10px;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+            }
+            
+            .message-header,
+            .message-body,
+            .message-meta {
+                padding: 1.5rem;
+            }
+            
+            .message-meta {
+                margin: 1.5rem;
+                margin-top: -1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="/images/Telex.png" alt="TELEX">
+            <h3>TELEX Admin</h3>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Tableau de bord</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/news" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/programs" class="nav-link">
+                    <i class="fas fa-tv"></i>
+                    <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/contacts" class="nav-link active">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Main content -->
+    <div class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
+                <div>
+                    <h1>Détail du message</h1>
+                    <p>Consultez et gérez le message de contact</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <a href="/admin/contacts" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-2"></i>Retour aux messages
+                </a>
+            </div>
+        </div>
+        
+        <!-- Carte message -->
+        <div class="message-card">
+            <!-- En-tête -->
+            <div class="message-header">
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <h1 class="h3 mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            <%= contact.subject || "Sans objet" %>
+                        </h1>
+                        <p class="mb-0 opacity-75">
+                            Reçu le <%= new Date(contact.created_at).toLocaleDateString('fr-FR', { 
+                                year: 'numeric', 
+                                month: 'long', 
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            }) %>
+                        </p>
+                    </div>
+                    <div>
+                        <% if (contact.is_read) { %>
+                            <span class="badge bg-success p-2">
+                                <i class="fas fa-envelope-open me-1"></i>Lu
+                            </span>
+                        <% } else { %>
+                            <span class="badge bg-danger p-2">
+                                <i class="fas fa-envelope me-1"></i>Non lu
+                            </span>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Métadonnées -->
+            <div class="message-meta">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <h6 class="text-muted mb-2">
+                            <i class="fas fa-user me-2"></i>Expéditeur
+                        </h6>
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" 
+                                 style="width: 40px; height: 40px; font-weight: bold; margin-right: 10px;">
+                                <%= contact.name ? contact.name.charAt(0).toUpperCase() : '?' %>
+                            </div>
+                            <div>
+                                <strong><%= contact.name %></strong><br>
+                                <a href="mailto:<%= contact.email %>" class="text-decoration-none">
+                                    <i class="fas fa-envelope me-1"></i>
+                                    <%= contact.email %>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <h6 class="text-muted mb-2">
+                            <i class="fas fa-info-circle me-2"></i>Informations
+                        </h6>
+                        <div>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-hashtag me-1"></i>ID: #<%= contact.id %>
+                            </small>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-newspaper me-1"></i>
+                                Newsletter: 
+                                <span class="<%= contact.newsletter ? 'text-success' : 'text-secondary' %>">
+                                    <%= contact.newsletter ? 'Oui ✓' : 'Non' %>
+                                </span>
+                            </small>
+                            <% if (contact.ip_address) { %>
+                            <small class="text-muted d-block">
+                                <i class="fas fa-globe me-1"></i>IP: <%= contact.ip_address %>
+                            </small>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenu du message -->
+            <div class="message-body">
+                <h4 class="mb-3 d-flex align-items-center">
+                    <i class="fas fa-align-left me-2 text-primary"></i>Message
+                </h4>
+                <div class="message-content bg-light p-4 rounded">
+                    <%= contact.message %>
+                </div>
+            </div>
+            
+            <!-- Actions -->
+            <div class="px-4 pb-4">
+                <hr class="my-4">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <a href="mailto:<%= contact.email %>?subject=RE: <%= encodeURIComponent(contact.subject || 'Votre message') %>&body=Bonjour <%= encodeURIComponent(contact.name.split(' ')[0] || '') %>,%0D%0A%0D%0AJe vous remercie pour votre message.%0D%0A%0D%0ACordialement,%0D%0AL'équipe TELEX" 
+                           class="btn btn-success">
+                            <i class="fas fa-reply me-2"></i>Répondre par email
+                        </a>
+                        <a href="/admin/contacts" class="btn btn-outline-secondary ms-2">
+                            <i class="fas fa-inbox me-2"></i>Boîte de réception
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/admin/contacts/delete/<%= contact.id %>" 
+                           class="btn btn-danger"
+                           onclick="return confirm('⚠️ Voulez-vous vraiment supprimer définitivement ce message ? Cette action est irréversible.')">
+                            <i class="fas fa-trash-alt me-2"></i>Supprimer
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Informations techniques (optionnel) -->
+        <% if (contact.user_agent) { %>
+        <div class="mt-4">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <button class="btn btn-link text-decoration-none text-muted p-0" 
+                            type="button" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#techInfo">
+                        <i class="fas fa-chevron-down me-2"></i>
+                        Informations techniques
+                    </button>
+                </div>
+                <div class="collapse" id="techInfo">
+                    <div class="card-body">
+                        <small class="text-muted">
+                            <strong>User Agent:</strong><br>
+                            <code><%= contact.user_agent %></code>
+                        </small>
+                        <% if (contact.updated_at && contact.updated_at !== contact.created_at) { %>
+                        <hr class="my-2">
+                        <small class="text-muted">
+                            <strong>Dernière mise à jour:</strong><br>
+                            <%= new Date(contact.updated_at).toLocaleString('fr-FR') %>
+                        </small>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Marquer automatiquement comme lu si ce n'est pas déjà fait
+        document.addEventListener('DOMContentLoaded', function() {
+            const isRead = <%- contact.is_read ? 'true' : 'false' %>;
+            const messageId = <%- contact.id %>;
+            
+            if (!isRead) {
+                // Marquer comme lu via API
+                fetch(`/admin/contacts/mark-read/${messageId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        console.log('✅ Message marqué comme lu');
+                        
+                        // Mettre à jour le badge
+                        const badge = document.querySelector('.badge.bg-danger');
+                        if (badge) {
+                            badge.className = 'badge bg-success p-2';
+                            badge.innerHTML = '<i class="fas fa-envelope-open me-1"></i>Lu';
+                        }
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Erreur:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>

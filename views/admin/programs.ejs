@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %> - Telex | Administration</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+            --telex-light: #A8DADC;
+            --sidebar-width: 280px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #f8fafc;
+            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            color: #334155;
+        }
+        
+        /* Sidebar */
+        .sidebar { 
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
+            color: white; 
+            width: var(--sidebar-width); 
+            height: 100vh; 
+            position: fixed; 
+            left: 0;
+            top: 0;
+            padding: 0;
+            z-index: 1000;
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-brand {
+            padding: 25px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .sidebar-brand img {
+            max-width: 120px;
+            height: auto;
+            max-height: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .sidebar-brand img:hover {
+            transform: scale(1.05);
+        }
+        
+        .sidebar-brand h3 {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 15px;
+            overflow-y: auto;
+        }
+        
+        .nav-item {
+            margin-bottom: 8px;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 14px 18px;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-link.active {
+            background: rgba(230, 57, 70, 0.15);
+            color: white;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+        }
+        
+        .nav-link i {
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 12px;
+            text-align: center;
+        }
+        
+        .main-content { 
+            margin-left: var(--sidebar-width); 
+            padding: 30px;
+            min-height: 100vh;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 25px 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .top-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--telex-red), var(--telex-blue));
+        }
+        
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-logo {
+            height: 40px;
+            width: auto;
+            opacity: 0.9;
+        }
+        
+        .page-title h1 {
+            font-weight: 700;
+            color: var(--telex-blue);
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .page-title p {
+            color: #64748b;
+            font-size: 1rem;
+            margin: 0;
+        }
+        
+        .top-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .btn-telex {
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+        }
+        
+        .btn-telex:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
+            color: white;
+        }
+        
+        .btn-new {
+            background: linear-gradient(135deg, #10B981, #047857);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-new:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+            color: white;
+        }
+        
+        .btn-schedule {
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .btn-schedule:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(99, 102, 241, 0.4);
+            color: white;
+        }
+        
+        /* Stats Summary */
+        .stats-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+            min-height: 80px;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+            border-color: #e2e8f0;
+        }
+        
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .stat-icon.total {
+            background: linear-gradient(135deg, #3B82F6, #1D4ED8);
+        }
+        
+        .stat-icon.active {
+            background: linear-gradient(135deg, #10B981, #047857);
+        }
+        
+        .stat-icon.inactive {
+            background: linear-gradient(135deg, #6B7280, #4B5563);
+        }
+        
+        .stat-content h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+        
+        .stat-content p {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin: 0;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+        
+        /* Program Table */
+        .table-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+        
+        .table-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .table-header h2 {
+            color: var(--telex-blue);
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.4rem;
+        }
+        
+        .table-responsive {
+            padding: 0;
+        }
+        
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        .table thead th {
+            background: #f8fafc;
+            color: var(--telex-blue);
+            font-weight: 600;
+            padding: 15px 20px;
+            border-bottom: 2px solid #e2e8f0;
+            border-top: none;
+        }
+        
+        .table tbody td {
+            padding: 15px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f8fafc;
+        }
+        
+        .program-title {
+            font-weight: 600;
+            color: var(--telex-blue);
+            margin-bottom: 5px;
+        }
+        
+        .program-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            
+            -webkit-box-orient: vertical;
+            max-width: 300px;
+        }
+        
+        .program-schedule {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+            font-weight: 500;
+        }
+        
+        .program-schedule i {
+            color: var(--telex-red);
+        }
+        
+        .program-presenter {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+        }
+        
+        .program-presenter i {
+            color: var(--telex-blue);
+        }
+        
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .status-active {
+            background: rgba(16, 185, 129, 0.1);
+            color: #047857;
+        }
+        
+        .status-inactive {
+            background: rgba(107, 114, 128, 0.1);
+            color: #4B5563;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-action {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-edit:hover {
+            background: #FBBF24;
+            color: white;
+            border-color: #FBBF24;
+        }
+        
+        .btn-delete:hover {
+            background: var(--telex-red);
+            color: white;
+            border-color: var(--telex-red);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+        }
+        
+        .empty-state h3 {
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .empty-state p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Footer */
+        .page-footer {
+            text-align: center;
+            padding: 20px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .footer-logo {
+            height: 20px;
+            width: auto;
+            opacity: 0.6;
+        }
+        
+        /* Schedule Statistics */
+        .schedule-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .schedule-stat-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 12px;
+            padding: 18px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            min-height: 80px;
+        }
+        
+        .schedule-stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border-color: #6366f1;
+        }
+        
+        .schedule-stat-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+            flex-shrink: 0;
+        }
+        
+        .schedule-stat-content h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+        
+        .schedule-stat-content p {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin: 0;
+            font-weight: 500;
+            line-height: 1.3;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .sidebar-brand h3,
+            .sidebar-brand img {
+                display: none;
+            }
+            
+            .sidebar-brand {
+                padding: 15px 10px;
+            }
+            
+            .sidebar-brand::after {
+                content: "T";
+                color: white;
+                font-size: 1.5rem;
+                font-weight: bold;
+                display: block;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .stats-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .schedule-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .program-description {
+                max-width: 200px;
+            }
+            
+            .table-responsive {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .table {
+                min-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="/images/11.png" alt="TELEX">
+            <h3>Telex Admin</h3>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/news" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/programs" class="nav-link active">
+                    <i class="fas fa-tv"></i>
+                    <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/contacts" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/footer" class="nav-link">
+                    <i class="fas fa-globe"></i>
+                    <span>Footer</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/schedule" class="nav-link">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Grille</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <img src="/images/Telex.png" alt="Telex" class="page-logo">
+                <div>
+                    <h1>Gestion des Programmes</h1>
+                    <p>Créez et gérez vos émissions et séries Telex</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <a href="/admin/dashboard" class="btn btn-telex">
+                    <i class="fas fa-arrow-left me-2"></i>Retour au Dashboard
+                </a>
+                <a href="/admin/schedule" class="btn btn-schedule">
+                    <i class="fas fa-calendar-alt me-2"></i>Gérer la Grille
+                </a>
+                <a href="/admin/programs/new" class="btn btn-new">
+                    <i class="fas fa-plus me-2"></i>Nouveau Programme
+                </a>
+            </div>
+        </div>
+        
+        <!-- Stats Summary -->
+        <div class="stats-summary">
+            <div class="stat-card">
+                <div class="stat-icon total">
+                    <i class="fas fa-tv"></i>
+                </div>
+                <div class="stat-content">
+                    <h3><%= programs ? programs.length : 0 %></h3>
+                    <p>Programmes au total</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon active">
+                    <i class="fas fa-play-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3><%= programs ? programs.filter(p => p.is_active).length : 0 %></h3>
+                    <p>Programmes actifs</p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon inactive">
+                    <i class="fas fa-pause-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h3><%= programs ? programs.filter(p => !p.is_active).length : 0 %></h3>
+                    <p>Programmes inactifs</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Grille Statistics -->
+        <div class="schedule-stats">
+            <div class="schedule-stat-card">
+                <div class="schedule-stat-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <div class="schedule-stat-content">
+                    <h3 id="scheduleCount">5</h3>
+                    <p>Programmes dans la grille</p>
+                </div>
+            </div>
+            
+            <div class="schedule-stat-card">
+                <div class="schedule-stat-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="schedule-stat-content">
+                    <h3 id="scheduleHours">35h</h3>
+                    <p>Heures par semaine</p>
+                </div>
+            </div>
+            
+            <div class="schedule-stat-card">
+                <div class="schedule-stat-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="schedule-stat-content">
+                    <h3 id="scheduleTypes">5</h3>
+                    <p>Types de programmes</p>
+                </div>
+            </div>
+            
+            <div class="schedule-stat-card">
+                <div class="schedule-stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="schedule-stat-content">
+                    <h3 id="scheduleCoverage">100%</h3>
+                    <p>Couverture hebdomadaire</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Programs Table -->
+        <div class="table-container">
+            <div class="table-header">
+                <h2><i class="fas fa-list me-2"></i>Liste des programmes</h2>
+                <div class="small text-muted">
+                    <%= programs ? programs.length : 0 %> programme(s) trouvé(s)
+                </div>
+            </div>
+            
+            <% if (programs && programs.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table" id="programsTable">
+                    <thead>
+                        <tr>
+                            <th width="60">ID</th>
+                            <th>Programme</th>
+                            <th>Horaire</th>
+                            <th>Présentateur</th>
+                            <th width="100">Statut</th>
+                            <th width="120" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% programs.forEach(program => { %>
+                        <tr>
+                            <td>
+                                <span class="text-muted">#<%= program.id %></span>
+                            </td>
+                            <td>
+                                <div class="program-title"><%= program.title %></div>
+                                <div class="program-description" title="<%= program.description || '' %>">
+                                    <%= program.description ? program.description.substring(0, 100) + (program.description.length > 100 ? '...' : '') : 'Aucune description' %>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="program-schedule">
+                                    <i class="far fa-clock"></i>
+                                    <span><%= program.schedule_time || 'Non spécifié' %></span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="program-presenter">
+                                    <i class="fas fa-user"></i>
+                                    <span><%= program.presenter || 'Non spécifié' %></span>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="status-badge <%= program.is_active ? 'status-active' : 'status-inactive' %>">
+                                    <% if (program.is_active) { %>
+                                    <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>Actif
+                                    <% } else { %>
+                                    <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>Inactif
+                                    <% } %>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <div class="action-buttons">
+                                    <a href="/admin/programs/edit/<%= program.id %>" 
+                                       class="btn-action btn-edit"
+                                       title="Éditer">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/admin/programs/delete/<%= program.id %>" 
+                                       class="btn-action btn-delete"
+                                       title="Supprimer"
+                                       onclick="confirmDeleteProgram('<%= program.id %>', '<%= program.title %>')">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+            <% } else { %>
+            <div class="empty-state">
+                <div class="empty-state-icon">
+                    <i class="fas fa-tv"></i>
+                </div>
+                <h3>Aucun programme trouvé</h3>
+                <p>Commencez par créer votre premier programme pour le diffuser sur Telex.</p>
+                <a href="/admin/programs/new" class="btn btn-new">
+                    <i class="fas fa-plus me-2"></i>Créer mon premier programme
+                </a>
+            </div>
+            <% } %>
+        </div>
+        
+        <!-- Footer -->
+        <div class="page-footer">
+            <img src="/images/Telex.png" alt="TELEX" class="footer-logo">
+            <div>
+                Telex Programmes • <%= new Date().getFullYear() %> • Gestion des émissions
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    
+    <script>
+        // Fonction globale pour confirmer la suppression de programme
+        function confirmDeleteProgram(programId, programTitle) {
+            if (confirm(`Voulez-vous vraiment supprimer le programme "${programTitle}" ?\n\nCette action est irréversible et supprimera définitivement le programme.`)) {
+                window.location.href = `/admin/programs/delete/${programId}`;
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page Programmes TELEX chargée');
+            
+            // Initialiser DataTable si le tableau existe
+            const tableElement = document.getElementById('programsTable');
+            if (tableElement) {
+                $('#programsTable').DataTable({
+                    language: {
+                        url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json'
+                    },
+                    pageLength: 10,
+                    order: [[0, 'desc']],
+                    responsive: true,
+                    columnDefs: [
+                        { orderable: false, targets: [5] }
+                    ],
+                    initComplete: function() {
+                        // Personnaliser l'affichage
+                        const tableInfo = this.api().page.info();
+                        console.log(`${tableInfo.recordsTotal} programmes chargés`);
+                    }
+                });
+            }
+            
+            // Animation des cartes de stats
+            const statCards = document.querySelectorAll('.stat-card');
+            statCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            // Ajouter des filtres pour les statuts
+            addStatusFilters();
+            
+            function addStatusFilters() {
+                const tableHeader = document.querySelector('.table-header');
+                if (!tableHeader) return;
+                
+                const filterContainer = document.createElement('div');
+                filterContainer.className = 'btn-group mt-2 mt-md-0';
+                filterContainer.innerHTML = `
+                    <button class="btn btn-sm btn-outline-primary active" data-filter="all">Tous</button>
+                    <button class="btn btn-sm btn-outline-success" data-filter="active">Actifs</button>
+                    <button class="btn btn-sm btn-outline-secondary" data-filter="inactive">Inactifs</button>
+                `;
+                
+                tableHeader.appendChild(filterContainer);
+                
+                // Gestion des filtres
+                filterContainer.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        filterContainer.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        const filter = this.getAttribute('data-filter');
+                        const table = $('#programsTable').DataTable();
+                        
+                        if (filter === 'all') {
+                            table.search('').draw();
+                        } else if (filter === 'active') {
+                            table.column(4).search('Actif').draw();
+                        } else if (filter === 'inactive') {
+                            table.column(4).search('Inactif').draw();
+                        }
+                    });
+                });
+            }
+            
+            // Gérer les descriptions trop longues
+            document.querySelectorAll('.program-description').forEach(desc => {
+                desc.addEventListener('mouseenter', function() {
+                    if (this.scrollWidth > this.clientWidth) {
+                        this.title = this.textContent;
+                    }
+                });
+            });
+            
+            // Charger les statistiques de la grille
+            loadScheduleStatistics();
+        });
+        
+        // Fonction pour charger les statistiques de la grille
+        async function loadScheduleStatistics() {
+            try {
+                const response = await fetch('/api/schedule/stats');
+                const stats = await response.json();
+                
+                if (stats) {
+                    document.getElementById('scheduleCount').textContent = stats.totalPrograms || 0;
+                    document.getElementById('scheduleHours').textContent = stats.totalHours + 'h' || '0h';
+                    document.getElementById('scheduleTypes').textContent = stats.uniqueTypes || 0;
+                    document.getElementById('scheduleCoverage').textContent = stats.coverage + '%' || '0%';
+                }
+            } catch (error) {
+                console.log('Erreur chargement statistiques grille:', error);
+                // Valeurs par défaut si l'API n'est pas disponible
+                document.getElementById('scheduleCount').textContent = '5';
+                document.getElementById('scheduleHours').textContent = '35h';
+                document.getElementById('scheduleTypes').textContent = '5';
+                document.getElementById('scheduleCoverage').textContent = '100%';
+            }
+        }
+    </script>
+</body>
+</html>

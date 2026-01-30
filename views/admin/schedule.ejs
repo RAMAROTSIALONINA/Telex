@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --telex-blue: #1D3557;
+            --telex-red: #E63946;
+            --telex-blue-light: #457B9D;
+            --telex-yellow: #F1FAEE;
+            --sidebar-width: 280px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(135deg, var(--telex-blue) 0%, var(--telex-blue-light) 100%);
+            color: white;
+            z-index: 1000;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-brand {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .sidebar-brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .sidebar-brand h3 {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            gap: 12px;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background: white;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .page-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+        }
+
+        .page-title h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--telex-blue);
+        }
+
+        .page-title p {
+            margin: 0;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .top-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-telex {
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+        }
+
+        .btn-telex:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
+            color: white;
+        }
+
+        .btn-new {
+            background: linear-gradient(135deg, #10B981, #047857);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-new:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+            color: white;
+        }
+
+        /* Content */
+        .content {
+            padding: 30px;
+        }
+
+        /* Schedule Table */
+        .schedule-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .schedule-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .schedule-header h2 {
+            color: var(--telex-blue);
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .table-responsive {
+            border-radius: 0;
+        }
+
+        .table {
+            margin: 0;
+        }
+
+        .table thead th {
+            background: var(--telex-blue);
+            color: white;
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-color: #f1f5f9;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .badge-info { background: #0ea5e9; }
+        .badge-warning { background: #f59e0b; }
+        .badge-success { background: #10b981; }
+        .badge-danger { background: #ef4444; }
+        .badge-primary { background: #3b82f6; }
+        .badge-secondary { background: #6b7280; }
+
+        /* Actions */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-action {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .btn-edit {
+            background: #e0f2fe;
+            color: #0284c7;
+        }
+
+        .btn-edit:hover {
+            background: #0284c7;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Modal */
+        .modal-header {
+            background: linear-gradient(135deg, var(--telex-blue), var(--telex-blue-light));
+            color: white;
+            border: none;
+        }
+
+        .modal-header .btn-close {
+            filter: brightness(0) invert(1);
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: var(--telex-blue);
+            margin-bottom: 8px;
+        }
+
+        .form-control, .form-select {
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 12px 15px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--telex-blue);
+            box-shadow: 0 0 0 0.2rem rgba(29, 53, 87, 0.1);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            color: #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            color: #64748b;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 70px;
+                overflow: hidden;
+            }
+            
+            .sidebar-brand h3,
+            .sidebar-brand img {
+                display: none;
+            }
+            
+            .sidebar-brand {
+                padding: 15px 10px;
+            }
+            
+            .sidebar-brand::after {
+                content: "T";
+                color: white;
+                font-size: 1.5rem;
+                font-weight: bold;
+                display: block;
+            }
+            
+            .nav-link span {
+                display: none;
+            }
+            
+            .nav-link {
+                justify-content: center;
+                padding: 15px;
+            }
+            
+            .nav-link i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+            
+            .top-bar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .top-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            
+            .sidebar.show {
+                transform: translateX(0);
+            }
+            
+            .table-responsive {
+                font-size: 0.9rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <img src="/images/Telex.png" alt="TELEX">
+            <h3>Telex Admin</h3>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/news" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/programs" class="nav-link">
+                    <i class="fas fa-tv"></i>
+                    <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/contacts" class="nav-link">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/gallery" class="nav-link">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/footer" class="nav-link">
+                    <i class="fas fa-globe"></i>
+                    <span>Footer</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/schedule" class="nav-link active">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Grille</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top bar -->
+        <div class="top-bar">
+            <div class="page-title">
+                <img src="/images/Telex.png" alt="Telex" class="page-logo">
+                <div>
+                    <h1>Grille des Programmes</h1>
+                    <p>Gérez l'horaire et la programmation de vos émissions</p>
+                </div>
+            </div>
+            <div class="top-actions">
+                <a href="/admin/dashboard" class="btn btn-telex">
+                    <i class="fas fa-arrow-left me-2"></i>Retour au Dashboard
+                </a>
+                <button type="button" class="btn btn-new" data-bs-toggle="modal" data-bs-target="#addProgramModal">
+                    <i class="fas fa-plus me-2"></i>Ajouter un programme
+                </button>
+            </div>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <!-- Messages Flash -->
+            <% if (success_msg) { %>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i><%= success_msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% } %>
+            
+            <% if (error_msg) { %>
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle me-2"></i><%= error_msg %>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            <% } %>
+
+            <!-- Schedule Table -->
+            <div class="schedule-container">
+                <div class="schedule-header">
+                    <h2><i class="fas fa-calendar-alt me-2"></i>Grille de la Semaine</h2>
+                    <div class="text-muted">
+                        <%= programs.length %> programme<%= programs.length > 1 ? 's' : '' %>
+                    </div>
+                </div>
+                
+                <div class="table-responsive">
+                    <% if (programs && programs.length > 0) { %>
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Jour</th>
+                                    <th>Heure</th>
+                                    <th>Émission</th>
+                                    <th>Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% programs.forEach(program => { %>
+                                    <tr>
+                                        <td>
+                                            <strong><%= program.day %></strong>
+                                        </td>
+                                        <td>
+                                            <i class="fas fa-clock text-muted me-2"></i>
+                                            <%= program.time %>
+                                        </td>
+                                        <td>
+                                            <strong><%= program.program_name %></strong>
+                                        </td>
+                                        <td>
+                                            <% 
+                                            const badgeClass = {
+                                                'Info': 'primary',
+                                                'Culture': 'warning',
+                                                'Débat': 'success',
+                                                'Sport': 'danger',
+                                                'Cinéma': 'info',
+                                                'Musique': 'secondary',
+                                                'Divertissement': 'warning',
+                                                'Documentaire': 'primary',
+                                                'Autre': 'secondary'
+                                            }[program.program_type] || 'secondary';
+                                            %>
+                                            <span class="badge bg-<%= badgeClass %>">
+                                                <%= program.program_type %>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="action-buttons">
+                                                <button class="btn-action btn-edit" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#editProgramModal"
+                                                        onclick="editProgram(<%= program.id %>, '<%= program.day %>', '<%= program.time %>', '<%= program.program_name %>', '<%= program.program_type %>')">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <form action="/admin/schedule/delete/<%= program.id %>" method="POST" style="display: inline;">
+                                                    <button type="submit" class="btn-action btn-delete" 
+                                                            onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce programme ?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-calendar-times"></i>
+                            </div>
+                            <h3>Aucun programme programmé</h3>
+                            <p>Commencez par ajouter des programmes à votre grille de diffusion</p>
+                            <button type="button" class="btn btn-new" data-bs-toggle="modal" data-bs-target="#addProgramModal">
+                                <i class="fas fa-plus me-2"></i>Ajouter le premier programme
+                            </button>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Ajout Programme -->
+    <div class="modal fade" id="addProgramModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-plus-circle me-2"></i>Ajouter un Programme
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="/admin/schedule/add" method="POST">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="day" class="form-label">Jour</label>
+                            <select class="form-select" id="day" name="day" required>
+                                <option value="">Sélectionner un jour</option>
+                                <option value="Lundi">Lundi</option>
+                                <option value="Mardi">Mardi</option>
+                                <option value="Mercredi">Mercredi</option>
+                                <option value="Jeudi">Jeudi</option>
+                                <option value="Vendredi">Vendredi</option>
+                                <option value="Samedi">Samedi</option>
+                                <option value="Dimanche">Dimanche</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Heure</label>
+                            <input type="time" class="form-control" id="time" name="time" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="program_name" class="form-label">Nom de l'émission</label>
+                            <input type="text" class="form-control" id="program_name" name="program_name" 
+                                   placeholder="Ex: Le Journal Campus" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="program_type" class="form-label">Type</label>
+                            <select class="form-select" id="program_type" name="program_type" required>
+                                <option value="">Sélectionner un type</option>
+                                <option value="Info">Info</option>
+                                <option value="Culture">Culture</option>
+                                <option value="Débat">Débat</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Cinéma">Cinéma</option>
+                                <option value="Musique">Musique</option>
+                                <option value="Divertissement">Divertissement</option>
+                                <option value="Documentaire">Documentaire</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-new">
+                            <i class="fas fa-plus me-2"></i>Ajouter le programme
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Modification Programme -->
+    <div class="modal fade" id="editProgramModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-edit me-2"></i>Modifier le Programme
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form action="/admin/schedule/update/" method="POST" id="editForm">
+                    <div class="modal-body">
+                        <input type="hidden" id="edit_id" name="id">
+                        
+                        <div class="mb-3">
+                            <label for="edit_day" class="form-label">Jour</label>
+                            <select class="form-select" id="edit_day" name="day" required>
+                                <option value="">Sélectionner un jour</option>
+                                <option value="Lundi">Lundi</option>
+                                <option value="Mardi">Mardi</option>
+                                <option value="Mercredi">Mercredi</option>
+                                <option value="Jeudi">Jeudi</option>
+                                <option value="Vendredi">Vendredi</option>
+                                <option value="Samedi">Samedi</option>
+                                <option value="Dimanche">Dimanche</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="edit_time" class="form-label">Heure</label>
+                            <input type="time" class="form-control" id="edit_time" name="time" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="edit_program_name" class="form-label">Nom de l'émission</label>
+                            <input type="text" class="form-control" id="edit_program_name" name="program_name" required>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="edit_program_type" class="form-label">Type</label>
+                            <select class="form-select" id="edit_program_type" name="program_type" required>
+                                <option value="">Sélectionner un type</option>
+                                <option value="Info">Info</option>
+                                <option value="Culture">Culture</option>
+                                <option value="Débat">Débat</option>
+                                <option value="Sport">Sport</option>
+                                <option value="Cinéma">Cinéma</option>
+                                <option value="Musique">Musique</option>
+                                <option value="Divertissement">Divertissement</option>
+                                <option value="Documentaire">Documentaire</option>
+                                <option value="Autre">Autre</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="submit" class="btn btn-telex">
+                            <i class="fas fa-save me-2"></i>Enregistrer les modifications
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function editProgram(id, day, time, programName, programType) {
+            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_day').value = day;
+            document.getElementById('edit_time').value = time;
+            document.getElementById('edit_program_name').value = programName;
+            document.getElementById('edit_program_type').value = programType;
+            
+            // Mettre à jour l'action du formulaire
+            document.getElementById('editForm').action = '/admin/schedule/update/' + id;
+        }
+    </script>
+</body>
+</html>
