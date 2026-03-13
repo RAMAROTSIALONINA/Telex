@@ -1644,270 +1644,89 @@
 
         // Fonction pour créer les graphiques du Baume
         async function createBaumeCharts(stats) {
-            // Définir modalChartInstance comme variable globale si ce n'est pas déjà fait
-            if (typeof modalChartInstance === 'undefined') {
-                window.modalChartInstance = null;
-            }
+            console.log('📊 Création des graphiques du Baume de la Foi...');
             
-            // Détruire d'abord tout graphique existant sur le canvas
             const unifiedCtx = document.getElementById('modalUnifiedChart');
-            if (unifiedCtx) {
-                // Vérifier s'il y a déjà un graphique sur ce canvas
-                const existingChart = Chart.getChart(unifiedCtx);
-                if (existingChart) {
-                    console.log('🗑️ Destruction du graphique existant sur modalUnifiedChart');
-                    existingChart.destroy();
-                }
-                
-                // Détruire aussi window.unifiedChart s'il existe
-                if (window.unifiedChart) {
-                    console.log('🗑️ Destruction de window.unifiedChart');
-                    try {
-                        window.unifiedChart.destroy();
-                    } catch (error) {
-                        console.warn('⚠️ Erreur destruction window.unifiedChart:', error);
-                    }
-                    window.unifiedChart = null;
-                }
-                
-                // Détruire aussi modalChartInstance s'il existe
-                if (window.modalChartInstance) {
-                    console.log('🗑️ Destruction de modalChartInstance');
-                    try {
-                        window.modalChartInstance.destroy();
-                    } catch (error) {
-                        console.warn('⚠️ Erreur destruction modalChartInstance:', error);
-                    }
-                    window.modalChartInstance = null;
-                }
+            if (!unifiedCtx) {
+                console.error('❌ Canvas introuvable');
+                return;
             }
             
-            // Stocker les données globales
-            currentStatsData = {
-                totalNews: <%- JSON.stringify(stats.totalNews || 0) %>,
-                totalNewsViews: <%- JSON.stringify(stats.totalNewsViews || 0) %>,
-                totalPrograms: <%- JSON.stringify(stats.totalPrograms || 0) %>,
-                totalProgramsViews: <%- JSON.stringify(stats.totalProgramsViews || 0) %>,
-                baumePrieres: stats.baumePrieres,
-                baumeReflexions: stats.baumeReflexions,
-                baumeTemoignages: stats.baumeTemoignages,
-                baumeTotalViews: stats.baumeTotalViews
+            // Détruire tout graphique existant
+            const existingChart = Chart.getChart(unifiedCtx);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+            
+            // Données simples pour le Baume de la Foi
+            const baumeData = {
+                prières: stats.baumePrieres || 0,
+                réflexions: stats.baumeReflexions || 0,
+                témoignages: stats.baumeTemoignages || 0,
+                totalViews: stats.baumeTotalViews || 0
             };
             
-            // Récupérer les dates de filtre
-            const startDate = document.getElementById('startDate')?.value || new Date().toISOString().split('T')[0];
-            const endDate = document.getElementById('endDate')?.value || new Date().toISOString().split('T')[0];
+            console.log('📊 Données Baume:', baumeData);
             
-            const totalBaumeContent = stats.baumePrieres + stats.baumeReflexions + stats.baumeTemoignages;
-            
-            // Graphique unifié - afficher chaque publication individuelle triée par vues
-            if (unifiedCtx) {
-                console.log('🎯 Canvas trouvé:', unifiedCtx);
-                
-                // Récupérer le type actuel
-                const currentType = document.getElementById('chartTypeSelector')?.value || 'news';
-                console.log('📊 Type actuel:', currentType);
-                
-                // Mettre à jour le titre selon le type
-                const chartTitle = document.getElementById('chart-title');
-                if (chartTitle) {
-                    if (currentType === 'visitors') {
-                        chartTitle.textContent = 'Visiteurs';
-                    } else if (currentType === 'news') {
-                        chartTitle.textContent = 'Actualités';
-                    } else if (currentType === 'programs') {
-                        chartTitle.textContent = 'Programmes';
-                    } else if (currentType === 'baume') {
-                        chartTitle.textContent = 'Baume de la Foi';
-                    }
-                }
-                
-                let labels, views, chartTitleText;
-                let topPublications;
-                
-                if (currentType === 'visitors') {
-                    // Générer les données de visiteurs par jour
-                    const visitorData = await getVisitorData(startDate, endDate);
-                    labels = visitorData.labels;
-                    views = visitorData.views;
-                    chartTitleText = 'Nombre de visiteurs';
-                } else {
-                    // Récupérer les publications les plus vues pour le type actuel
-                    topPublications = await getTopPublications(currentType, startDate, endDate);
-                                publicationsByDate[dateKey] = [];
-                            }
-                            publicationsByDate[dateKey].push(pub);
-                        }
-                    });
-                    
-                    // Préparer les données pour chaque date
-                    labels = [];
-                    views = [];
-                    
-                    allDates.forEach(date => {
-                        const dateStr = date.toLocaleDateString('fr-FR', { 
-                            day: '2-digit', 
-                            month: 'short', 
-                            year: 'numeric' 
-                        });
-                        labels.push(dateStr);
-                        
-                        // Calculer le total des vues pour cette date
-                        const dateKey = date.toISOString().split('T')[0];
-                        const dayPublications = publicationsByDate[dateKey] || [];
-                        const dayViews = dayPublications.reduce((sum, pub) => sum + (pub.views || 0), 0);
-                        views.push(dayViews);
-                    });
-                    
-                    chartTitleText = 'Nombre de vues';
-                    
-                    // Stocker la source des données pour l'afficher dans le tableau
-                    window.currentDataSource = topPublications.source;
-                }
-                
-                console.log(`📊 ${labels.length} dates avec données: ${labels.join(', ')}`);
-                console.log(`📊 Valeurs correspondantes: ${views.join(', ')}`);
-                console.log(`📊 Type actuel: ${currentType}, Source: ${topPublications ? topPublications.source : 'N/A'}`);
-                
-                // Vérifier que les données sont valides
-                if (!labels || labels.length === 0) {
-                    console.error('❌ Aucune donnée de labels disponible');
-                    return;
-                }
-                
-                if (!views || views.length === 0) {
-                    console.error('❌ Aucune donnée de vues disponible');
-                    return;
-                }
-                
-                console.log('🎯 Création du graphique avec:', {
-                    labels: labels,
-                    data: views,
-                    type: currentType,
-                    chartTitle: chartTitleText
-                });
-                
-                // Créer le graphique avec dates en X et vues en Y
-                try {
-                    window.unifiedChart = new Chart(unifiedCtx, {
-                        type: 'line',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: chartTitleText,
-                                data: views,
-                                backgroundColor: currentType === 'news' ? 'rgba(59, 130, 246, 0.2)' : 
-                                              currentType === 'programs' ? 'rgba(245, 158, 11, 0.2)' : 
-                                              currentType === 'baume' ? 'rgba(239, 68, 68, 0.2)' :
-                                              currentType === 'visitors' ? 'rgba(108, 117, 125, 0.2)' :
-                                              'rgba(108, 117, 125, 0.2)',
-                                borderColor: currentType === 'news' ? 'rgba(59, 130, 246, 1)' : 
-                                             currentType === 'programs' ? 'rgba(245, 158, 11, 1)' : 
-                                             currentType === 'baume' ? 'rgba(239, 68, 68, 1)' :
-                                             currentType === 'visitors' ? 'rgba(108, 117, 125, 1)' :
-                                             'rgba(108, 117, 125, 1)',
-                                borderWidth: 3,
-                                borderRadius: 5,
-                                fill: true,
-                                tension: 0.4,
-                                pointRadius: 6,
-                                pointHoverRadius: 8,
-                                pointBackgroundColor: currentType === 'news' ? 'rgba(59, 130, 246, 1)' : 
-                                                   currentType === 'programs' ? 'rgba(245, 158, 11, 1)' : 
-                                                   currentType === 'baume' ? 'rgba(239, 68, 68, 1)' :
-                                                   currentType === 'visitors' ? 'rgba(108, 117, 125, 1)' :
-                                                   'rgba(108, 117, 125, 1)',
-                                pointBorderColor: '#fff',
-                                pointBorderWidth: 2
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: chartTitleText,
-                                        font: { size: 12, weight: 'bold' }
-                                    },
-                                    ticks: {
-                                        font: { size: 11 }
-                                    }
-                                },
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Date de publication',
-                                        font: { size: 12, weight: 'bold' }
-                                    },
-                                    ticks: {
-                                        font: { size: 11 }
-                                    }
+            // Créer un graphique simple
+            try {
+                window.unifiedChart = new Chart(unifiedCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Prières', 'Réflexions', 'Témoignages'],
+                        datasets: [{
+                            label: 'Nombre de contenus',
+                            data: [baumeData.prières, baumeData.réflexions, baumeData.témoignages],
+                            backgroundColor: [
+                                'rgba(142, 68, 173, 0.8)',
+                                'rgba(52, 152, 219, 0.8)', 
+                                'rgba(46, 204, 113, 0.8)'
+                            ],
+                            borderColor: [
+                                'rgba(142, 68, 173, 1)',
+                                'rgba(52, 152, 219, 1)',
+                                'rgba(46, 204, 113, 1)'
+                            ],
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Nombre de contenus'
                                 }
                             },
-                            plugins: {
-                                legend: {
-                                    position: 'bottom',
-                                    labels: {
-                                        padding: 15,
-                                        font: { size: 12 }
-                                    }
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            const value = formatNumber(context.parsed.y);
-                                            const dataIndex = context.dataIndex;
-                                            const publication = topPublications && topPublications.publications ? topPublications.publications[dataIndex] : null;
-                                            
-                                            if (publication) {
-                                                const title = publication.title || 'Sans titre';
-                                                return `${title}: ${value} vues`;
-                                            }
-                                            return `${value} vues`;
-                                        },
-                                        afterLabel: function(context) {
-                                            const dataIndex = context.dataIndex;
-                                            const publication = topPublications && topPublications.publications ? topPublications.publications[dataIndex] : null;
-                                            
-                                            if (publication) {
-                                                const date = publication.created_at ? 
-                                                    new Date(publication.created_at).toLocaleDateString('fr-FR') : 
-                                                    'Date inconnue';
-                                                
-                                                let categoryInfo = '';
-                                                if (publication.category) {
-                                                    categoryInfo = ` (${publication.category})`;
-                                                }
-                                                
-                                                return `Publié le: ${date}${categoryInfo}`;
-                                            }
-                                            return '';
-                                        }
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Type de contenu'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    afterLabel: function(context) {
+                                        const labels = ['Prières publiées', 'Réflexions publiées', 'Témoignages approuvés'];
+                                        return labels[context.dataIndex];
                                     }
                                 }
                             }
                         }
-                    });
-                    
-                    console.log('✅ Graphique créé avec succès:', window.unifiedChart);
-                } catch (error) {
-                    console.error('❌ Erreur lors de la création du graphique:', error);
-                    console.error('Stack:', error.stack);
-                }
+                    }
+                });
                 
-                console.log(`✅ Graphique ${currentType} créé avec succès`);
-                
-                // Gérer le changement de sélection
-                const chartTypeSelector = document.getElementById('chartTypeSelector');
-                
-                // Supprimer l'ancien gestionnaire d'événements pour éviter les doublons
-                chartTypeSelector.removeEventListener('change', handleChartTypeChange);
-                
-                // Ajouter le nouveau gestionnaire d'événements
-                chartTypeSelector.addEventListener('change', handleChartTypeChange);
+                console.log('✅ Graphique Baume de la Foi créé avec succès');
+            } catch (error) {
+                console.error('❌ Erreur création graphique:', error);
             }
         }
         
