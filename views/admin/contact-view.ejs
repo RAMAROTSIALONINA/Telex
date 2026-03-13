@@ -158,6 +158,47 @@
             font-size: 1.05rem;
         }
         
+        /* Top bar styles */
+        .top-bar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .page-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: white;
+            padding: 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .page-title h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--telex-blue);
+        }
+        
+        .page-title p {
+            margin: 0;
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {
@@ -188,6 +229,27 @@
             .main-content {
                 margin-left: 70px;
             }
+            
+            .top-bar {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem;
+            }
+            
+            .page-title {
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+            
+            .page-logo {
+                width: 40px;
+                height: 40px;
+            }
+            
+            .page-title h1 {
+                font-size: 1.3rem;
+            }
         }
         
         @media (max-width: 768px) {
@@ -205,6 +267,38 @@
                 margin: 1.5rem;
                 margin-top: -1rem;
             }
+        }
+        
+        /* Animation pour les nouvelles réponses */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .reply-item {
+            border-left: 3px solid #28a745;
+            background: rgba(40, 167, 69, 0.05);
+            border-radius: 8px;
+            padding: 8px;
+            margin-left: 8px;
+        }
+        
+        /* Surlignage pour la zone de discussion */
+        #discussionArea {
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            background: white;
+        }
+        
+        #discussionArea:hover {
+            border-color: #28a745;
+            box-shadow: 0 0 10px rgba(40, 167, 69, 0.1);
         }
     </style>
 </head>
@@ -232,6 +326,12 @@
                 <a href="/admin/programs" class="nav-link">
                     <i class="fas fa-tv"></i>
                     <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/baume-de-la-foi" class="nav-link">
+                    <i class="fas fa-cross"></i>
+                    <span>Baume de la Foi</span>
                 </a>
             </div>
             <div class="nav-item">
@@ -372,12 +472,11 @@
             <!-- Actions -->
             <div class="px-4 pb-4">
                 <hr class="my-4">
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center mb-4">
                     <div>
-                        <a href="mailto:<%= contact.email %>?subject=RE: <%= encodeURIComponent(contact.subject || 'Votre message') %>&body=Bonjour <%= encodeURIComponent(contact.name.split(' ')[0] || '') %>,%0D%0A%0D%0AJe vous remercie pour votre message.%0D%0A%0D%0ACordialement,%0D%0AL'équipe TELEX" 
-                           class="btn btn-success">
-                            <i class="fas fa-reply me-2"></i>Répondre par email
-                        </a>
+                        <button type="button" class="btn btn-success" onclick="scrollToReply()">
+                            <i class="fas fa-reply me-2"></i>Répondre
+                        </button>
                         <a href="/admin/contacts" class="btn btn-outline-secondary ms-2">
                             <i class="fas fa-inbox me-2"></i>Boîte de réception
                         </a>
@@ -388,6 +487,101 @@
                            onclick="return confirm('⚠️ Voulez-vous vraiment supprimer définitivement ce message ? Cette action est irréversible.')">
                             <i class="fas fa-trash-alt me-2"></i>Supprimer
                         </a>
+                    </div>
+                </div>
+                
+                <!-- Interface de discussion -->
+                <div class="card border-0 shadow-sm" id="discussionSection">
+                    <div class="card-header bg-light border-bottom">
+                        <h5 class="mb-0">
+                            <i class="fas fa-comments me-2 text-primary"></i>
+                            Discussion avec <%= contact.name %>
+                        </h5>
+                    </div>
+                    <div class="card-body p-0">
+                        <!-- Zone de messages -->
+                        <div id="discussionArea" class="p-4" style="min-height: 200px; max-height: 400px; overflow-y: auto;">
+                            <!-- Message original -->
+                            <div class="d-flex mb-4">
+                                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                                     style="width: 40px; height: 40px; font-weight: bold;">
+                                    <%= contact.name ? contact.name.charAt(0).toUpperCase() : '?' %>
+                                </div>
+                                <div class="ms-3 flex-grow-1">
+                                    <div class="bg-light rounded p-3 position-relative">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <strong class="text-primary"><%= contact.name %></strong>
+                                            <small class="text-muted">
+                                                <%= new Date(contact.created_at).toLocaleString('fr-FR') %>
+                                            </small>
+                                        </div>
+                                        <div class="mb-2">
+                                            <strong class="text-muted">Sujet: <%= contact.subject || "Sans objet" %></strong>
+                                        </div>
+                                        <div class="message-content">
+                                            <%= contact.message %>
+                                        </div>
+                                    </div>
+                                    <small class="text-muted d-block mt-1">
+                                        <i class="fas fa-envelope me-1"></i>
+                                        <%= contact.email %>
+                                    </small>
+                                </div>
+                            </div>
+                            
+                            <!-- Messages précédents (seront ajoutés dynamiquement) -->
+                            <div id="previousMessages"></div>
+                        </div>
+                        
+                        <!-- Formulaire de réponse -->
+                        <div class="border-top p-4 bg-light">
+                            <form id="replyForm">
+                                <div class="mb-3">
+                                    <label for="replySubject" class="form-label fw-bold">
+                                        <i class="fas fa-heading me-1"></i>Sujet de la réponse
+                                    </label>
+                                    <input type="text" class="form-control" id="replySubject" value="RE: <%= contact.subject || 'Sans objet' %>" required>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="replyMessage" class="form-label">Votre réponse</label>
+                                    <textarea class="form-control" id="replyMessage" rows="5" required placeholder="Tapez votre réponse ici..."></textarea>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="includeOriginal">
+                                        <label class="form-check-label" for="includeOriginal">
+                                            Inclure le message original
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="sendDirectly" disabled>
+                                        <label class="form-check-label text-muted" for="sendDirectly">
+                                            <i class="fas fa-info-circle me-1"></i>
+                                            <s>Envoyer directement par email</s> (temporairement désactivé)
+                                        </label>
+                                    </div>
+                                    <small class="text-muted">
+                                        <i class="fas fa-envelope me-1"></i>
+                                        Les réponses seront sauvegardées et un lien mailto sera généré 
+                                        pour que vous puissiez envoyer l'email avec votre client habituel.
+                                    </small>
+                                </div>
+                                
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-secondary me-2" onclick="previewReply()">
+                                        <i class="fas fa-eye me-1"></i>Aperçu
+                                    </button>
+                                    <button type="submit" class="btn btn-success">
+                                        <i class="fas fa-paper-plane me-1"></i>Envoyer la réponse
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -431,12 +625,13 @@
     <script>
         // Marquer automatiquement comme lu si ce n'est pas déjà fait
         document.addEventListener('DOMContentLoaded', function() {
-            const isRead = <%- contact.is_read ? 'true' : 'false' %>;
-            const messageId = <%- contact.id %>;
+            const isRead = <%- JSON.stringify(contact.is_read) %>;
+            const messageId = <%- JSON.stringify(contact.id) %>;
+            const contactData = <%- JSON.stringify(contact) %>;
             
             if (!isRead) {
                 // Marquer comme lu via API
-                fetch(`/admin/contacts/mark-read/${messageId}`, {
+                fetch('/admin/contacts/mark-read/' + messageId, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -457,6 +652,408 @@
                 .catch(error => {
                     console.error('❌ Erreur:', error);
                 });
+            }
+            
+            // Charger les réponses existantes depuis la base de données
+            console.log('📂 Chargement des réponses existantes...');
+            loadExistingReplies();
+            
+            // Fonctionnalités de l'interface de discussion
+            const templates = {
+                greeting: [
+                    'Bonjour ' + (contactData.name ? contactData.name.split(' ')[0] : '') + ',',
+                    'Cher ' + (contactData.name ? contactData.name.split(' ')[0] : '') + ',',
+                    'Bonjour et merci pour votre message,'
+                ],
+                thanks: [
+                    'Je vous remercie pour votre intérêt.',
+                    'Nous apprécions votre message.',
+                    'Merci de nous avoir contactés.'
+                ],
+                closing: [
+                    'Cordialement,',
+                    'Bien cordialement,',
+                    'Avec nos salutations,',
+                    "L'équipe TELEX"
+                ]
+            };
+            
+            // Fonction pour charger les réponses existantes
+            async function loadExistingReplies() {
+                try {
+                    const response = await fetch('/admin/contacts/replies/' + messageId);
+                    const data = await response.json();
+                    
+                    if (data.success && data.replies && data.replies.length > 0) {
+                        console.log('📋 Réponses trouvées:', data.replies.length);
+                        
+                        // Ajouter chaque réponse à la discussion
+                        data.replies.forEach(reply => {
+                            console.log('➕ Ajout de la réponse existante:', reply.reply_message);
+                            addExistingReplyToDiscussion(reply);
+                        });
+                    } else {
+                        console.log('📭 Aucune réponse existante trouvée');
+                    }
+                } catch (error) {
+                    console.error('❌ Erreur chargement réponses existantes:', error);
+                }
+            }
+            
+            // Fonction pour ajouter une réponse existante à la discussion
+            function addExistingReplyToDiscussion(reply) {
+                const discussionArea = document.getElementById('discussionArea');
+                
+                if (!discussionArea) {
+                    console.error('❌ Zone de discussion introuvable !');
+                    return;
+                }
+                
+                const replyHtml = `
+                    <div class="d-flex mb-4 reply-item existing-reply" style="animation: slideIn 0.3s ease-out;">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                             style="width: 40px; height: 40px; font-weight: bold;">
+                            TE
+                        </div>
+                        <div class="ms-3 flex-grow-1">
+                            <div class="bg-light border-start border-success border-3 rounded p-3 position-relative">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <strong class="text-success">Équipe TELEX</strong>
+                                    <small class="text-muted">
+                                        ${new Date(reply.created_at).toLocaleString('fr-FR')}
+                                    </small>
+                                </div>
+                                <div class="message-content">
+                                    ${reply.reply_message}
+                                </div>
+                                ${reply.full_message && reply.full_message !== reply.reply_message ? `
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm btn-outline-secondary" onclick="this.nextElementSibling.classList.toggle('d-none')">
+                                            <i class="fas fa-eye me-1"></i>Voir le message complet
+                                        </button>
+                                        <div class="d-none mt-2 p-2 bg-white border rounded">
+                                            <small class="text-muted">Message envoyé:</small>
+                                            <pre class="mb-0 small">${reply.full_message}</pre>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <small class="text-muted d-block mt-1">
+                                <i class="fas fa-database me-1"></i>
+                                Sauvegardé en base • Envoyé à ${contactData.email}
+                            </small>
+                        </div>
+                    </div>
+                `;
+                
+                // Ajouter à la fin de la zone de discussion
+                discussionArea.insertAdjacentHTML('beforeend', replyHtml);
+                
+                console.log('✅ Réponse existante ajoutée à la discussion');
+            }
+            
+            // Scroller vers la section de réponse
+            window.scrollToReply = function() {
+                document.getElementById('discussionSection').scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'center' 
+                });
+                document.getElementById('replyMessage').focus();
+            };
+            
+            // Ajouter un template
+            window.addTemplate = function(type) {
+                const textarea = document.getElementById('replyMessage');
+                const templateList = templates[type];
+                const randomTemplate = templateList[Math.floor(Math.random() * templateList.length)];
+                
+                if (textarea.value) {
+                    textarea.value += '\n\n' + randomTemplate;
+                } else {
+                    textarea.value = randomTemplate;
+                }
+                textarea.focus();
+            };
+            
+            // Aperçu de la réponse
+            window.previewReply = function() {
+                const subject = document.getElementById('replySubject').value;
+                const message = document.getElementById('replyMessage').value;
+                const includeOriginal = document.getElementById('includeOriginal').checked;
+                
+                let fullMessage = message;
+                if (includeOriginal) {
+                    fullMessage += '\n\n--- Message original ---\n';
+                    fullMessage += 'De: ' + contactData.name + ' <' + contactData.email + '>\n';
+                    fullMessage += 'Date: ' + new Date(contactData.created_at).toLocaleString('fr-FR') + '\n';
+                    fullMessage += 'Sujet: ' + (contactData.subject || 'Sans objet') + '\n\n';
+                    fullMessage += contactData.message;
+                }
+                
+                // Créer un modal d'aperçu
+                const modalHtml = `
+                    <div class="modal fade" id="previewModal" tabindex="-1">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Aperçu de l'email</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="mb-3">
+                                        <strong>À:</strong> ${contactData.name} &lt;${contactData.email}&gt;
+                                    </div>
+                                    <div class="mb-3">
+                                        <strong>Sujet:</strong> ${subject}
+                                    </div>
+                                    <hr>
+                                    <div style="white-space: pre-wrap;">${fullMessage}</div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                    <button type="button" class="btn btn-success" onclick="sendEmailFromPreview()">Envoyer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Supprimer le modal existant s'il y en a un
+                const existingModal = document.getElementById('previewModal');
+                if (existingModal) {
+                    existingModal.remove();
+                }
+                
+                // Ajouter le nouveau modal
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
+                const modal = new bootstrap.Modal(document.getElementById('previewModal'));
+                modal.show();
+            };
+            
+            // Envoyer l'email depuis l'aperçu
+            window.sendEmailFromPreview = function() {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('previewModal'));
+                modal.hide();
+                
+                // Simuler la soumission du formulaire
+                const form = document.getElementById('replyForm');
+                const submitEvent = new Event('submit', { cancelable: true });
+                form.dispatchEvent(submitEvent);
+            };
+            
+            // Gestion du formulaire de réponse
+            document.getElementById('replyForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log('🔄 Soumission du formulaire détectée');
+                
+                const subject = document.getElementById('replySubject').value;
+                const message = document.getElementById('replyMessage').value;
+                const includeOriginal = document.getElementById('includeOriginal').checked;
+                const sendDirectly = document.getElementById('sendDirectly').checked;
+                
+                console.log('📧 Données du formulaire:', { subject, message, includeOriginal, sendDirectly });
+                
+                if (!message.trim()) {
+                    showNotification('Veuillez taper un message avant d\'envoyer', 'warning');
+                    return;
+                }
+                
+                let fullMessage = message;
+                if (includeOriginal) {
+                    fullMessage += '\n\n--- Message original ---\n';
+                    fullMessage += 'De: ' + contactData.name + ' <' + contactData.email + '>\n';
+                    fullMessage += 'Date: ' + new Date(contactData.created_at).toLocaleString('fr-FR') + '\n';
+                    fullMessage += 'Sujet: ' + (contactData.subject || 'Sans objet') + '\n\n';
+                    fullMessage += contactData.message;
+                }
+                
+                console.log('📨 Message complet généré:', fullMessage);
+                
+                // Sauvegarder d'abord dans la base de données
+                console.log('💾 Sauvegarde de la réponse en base de données...');
+                saveReplyToDatabase(message, subject, includeOriginal, fullMessage, sendDirectly)
+                    .then(response => {
+                        if (response.success) {
+                            console.log('✅ Réponse sauvegardée en base:', response.reply_id);
+                            
+                            // Ajouter le message à la discussion pour l'affichage immédiat
+                            console.log('➕ Ajout de la réponse à la discussion...');
+                            addReplyToDiscussion(message, fullMessage);
+                            
+                            if (response.email_sent) {
+                                // Email envoyé directement
+                                showNotification('Réponse sauvegardée et email envoyé directement!', 'success');
+                                console.log('✅ Email envoyé directement avec succès');
+                                
+                                // Vider le formulaire
+                                document.getElementById('replyMessage').value = '';
+                            } else {
+                                // Fallback vers mailto si envoi direct échoué
+                                console.log('📧 Fallback vers client email...');
+                                const mailtoLink = 'mailto:' + encodeURIComponent(contactData.email) + 
+                                                 '?subject=' + encodeURIComponent(subject) + 
+                                                 '&body=' + encodeURIComponent(fullMessage);
+                                
+                                console.log('🔗 Lien mailto généré:', mailtoLink);
+                                
+                                try {
+                                    window.open(mailtoLink, '_blank');
+                                    console.log('✅ Client email ouvert');
+                                    
+                                    // Vider le formulaire
+                                    document.getElementById('replyMessage').value = '';
+                                    
+                                    showNotification('Réponse sauvegardée, veuillez envoyer l\'email manuellement', 'info');
+                                } catch (error) {
+                                    console.error('❌ Erreur lors de l\'ouverture du client email:', error);
+                                    showNotification('Erreur lors de l\'ouverture du client email', 'danger');
+                                }
+                            }
+                            
+                            console.log('✅ Processus de réponse terminé avec succès');
+                        } else {
+                            console.error('❌ Erreur sauvegarde base:', response.error);
+                            showNotification('Erreur lors de la sauvegarde: ' + response.error, 'danger');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('❌ Erreur réseau lors de la sauvegarde:', error);
+                        showNotification('Erreur réseau lors de la sauvegarde', 'danger');
+                    });
+            });
+            
+            // Fonction pour sauvegarder la réponse dans la base de données
+            async function saveReplyToDatabase(message, subject, includeOriginal, fullMessage, sendDirectly) {
+                try {
+                    const response = await fetch('/admin/contacts/reply/' + contactData.id, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            reply_message: message,
+                            reply_subject: subject,
+                            include_original: includeOriginal,
+                            full_message: fullMessage,
+                            send_directly: sendDirectly
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('❌ Erreur fetch saveReplyToDatabase:', error);
+                    throw error;
+                }
+            }
+            
+            // Ajouter la réponse à la discussion
+            function addReplyToDiscussion(message, fullMessage) {
+                console.log('🎯 Début de addReplyToDiscussion avec:', { message, fullMessage });
+                
+                const discussionArea = document.getElementById('discussionArea');
+                console.log('📍 Zone de discussion trouvée:', discussionArea);
+                
+                if (!discussionArea) {
+                    console.error('❌ Zone de discussion introuvable !');
+                    showNotification('Erreur: zone de discussion introuvable', 'danger');
+                    return;
+                }
+                
+                // S'assurer que la zone de discussion est visible
+                discussionArea.style.display = 'block';
+                discussionArea.style.visibility = 'visible';
+                console.log('👁️ Zone de discussion rendue visible');
+                
+                const replyHtml = `
+                    <div class="d-flex mb-4 reply-item" style="animation: slideIn 0.3s ease-out;">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" 
+                             style="width: 40px; height: 40px; font-weight: bold;">
+                            TE
+                        </div>
+                        <div class="ms-3 flex-grow-1">
+                            <div class="bg-light border-start border-success border-3 rounded p-3 position-relative">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <strong class="text-success">Équipe TELEX</strong>
+                                    <small class="text-muted">
+                                        ${new Date().toLocaleString('fr-FR')}
+                                    </small>
+                                </div>
+                                <div class="message-content">
+                                    ${message}
+                                </div>
+                                ${fullMessage && fullMessage !== message ? `
+                                    <div class="mt-2">
+                                        <button class="btn btn-sm btn-outline-secondary" onclick="this.nextElementSibling.classList.toggle('d-none')">
+                                            <i class="fas fa-eye me-1"></i>Voir le message complet
+                                        </button>
+                                        <div class="d-none mt-2 p-2 bg-white border rounded">
+                                            <small class="text-muted">Message envoyé:</small>
+                                            <pre class="mb-0 small">${fullMessage}</pre>
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                            <small class="text-muted d-block mt-1">
+                                <i class="fas fa-paper-plane me-1"></i>
+                                Envoyé à ${contactData.email}
+                            </small>
+                        </div>
+                    </div>
+                `;
+                
+                console.log('📝 HTML généré pour la réponse');
+                
+                // Ajouter à la fin de la zone de discussion
+                discussionArea.insertAdjacentHTML('beforeend', replyHtml);
+                console.log('✅ HTML inséré dans la zone de discussion');
+                
+                // Compter les réponses dans la discussion
+                const allReplies = discussionArea.querySelectorAll('.reply-item');
+                console.log('📊 Nombre total de réponses:', allReplies.length);
+                
+                // Forcer le scroll vers le bas avec un petit délai
+                setTimeout(() => {
+                    discussionArea.scrollTop = discussionArea.scrollHeight;
+                    console.log('📜 Scroll vers le bas effectué');
+                    
+                    // Forcer le reflow pour s'assurer que l'élément est visible
+                    const newReply = discussionArea.querySelector('.reply-item:last-child');
+                    if (newReply) {
+                        newReply.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        console.log('🎯 Nouvelle réponse centrée dans la vue');
+                        
+                        // Surligner temporairement la nouvelle réponse
+                        newReply.style.backgroundColor = 'rgba(40, 167, 69, 0.2)';
+                        setTimeout(() => {
+                            newReply.style.backgroundColor = '';
+                        }, 2000);
+                    }
+                }, 100);
+                
+                console.log('✅ Réponse ajoutée à la discussion avec succès:', message);
+            }
+            
+            // Afficher une notification
+            function showNotification(message, type) {
+                const notificationHtml = `
+                    <div class="alert alert-${type} alert-dismissible fade show position-fixed" 
+                         style="top: 20px; right: 20px; z-index: 9999; min-width: 300px;">
+                        <i class="fas fa-check-circle me-2"></i>${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                `;
+                
+                document.body.insertAdjacentHTML('beforeend', notificationHtml);
+                
+                // Auto-supprimer après 5 secondes
+                setTimeout(() => {
+                    const alert = document.querySelector('.alert');
+                    if (alert) {
+                        const bsAlert = bootstrap.Alert.getOrCreateInstance(alert);
+                        bsAlert.close();
+                    }
+                }, 5000);
             }
         });
     </script>
