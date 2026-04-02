@@ -1,0 +1,308 @@
+{
+  "fr": {
+    "common": {
+      "learn_more": "En savoir plus →",
+      "read_more": "Lire la suite →"
+    },
+    "navigation": {
+      "home": "ACCUEIL",
+      "about": "À PROPOS",
+      "gallery": "GALERIE",
+      "album": "ALBUM",
+      "programs": "PROGRAMMES",
+      "baume": "BAUME DE LA FOI",
+      "news": "ACTUALITÉS",
+      "contact": "CONTACT"
+    },
+    "home": {
+      "title": "Telex",
+      "subtitle": "La Voix Étudiante",
+      "description": "Première télévision étudiante et média numérique 100 % indépendants.\nNous donnons la parole à la jeunesse, formons les talents de demain\net produisons des contenus audiovisuels qui inspirent et font réfléchir.",
+      "featured_programs": "Nos Programmes Phares",
+      "programs_subtitle": "Explorez nos émissions, conçues par les étudiants et destinées aux étudiants",
+      "see_programs": "Voir nos programmes",
+      "discover": "Découvrir",
+      "latest_news": "Dernières Actualités",
+      "news_subtitle": "Découvrez nos derniers articles et productions vidéo",
+      "who_are_we": "Qui sommes-nous ?",
+      "about_text": "Telex est une télévision jeune, dynamique et engagée,\nportée par des étudiants et destinée à la jeunesse.\nFondée en 2024, notre équipe compte plus de 50 étudiants\nbénévoles passionnés par l'audiovisuel.",
+      "student_led": "100% étudiant",
+      "professional_training": "Formation professionnelle",
+      "engaged_content": "Contenus engagés",
+      "active_community": "Communauté active",
+      "learn_more": "En savoir plus sur nous",
+      "see_all_news": "Voir toutes les actualités",
+      "baume_title": "Baume de la Foi",
+      "baume_subtitle": "Découvrez les derniers contenus spirituels pour nourrir votre foi",
+      "see_all_reflections": "Voir toutes les réflexions et prières",
+      "join_adventure": "Rejoignez l'aventure Telex"
+    },
+    "news": {
+      "default": {
+        "title": "Actualité TELEX",
+        "description": "Découvrez nos dernières actualités."
+      }
+    },
+    "about": {
+      "hero_title": "À propos",
+      "hero_subtitle": "Découvrez notre histoire, notre équipe et Notre vision",
+      "hero_intro": "Fondée par des étudiants passionnés, Telex est bien plus qu'une télévision étudiante. C'est un laboratoire d'innovation, une école de talents et un média numérique pour la jeunesse engagée.",
+      "history_title": "Notre Histoire",
+      "history_paragraph1": "Telex est né en 2024 de la passion commune d'un groupe d'étudiants déterminés à créer une télévision étudiante et un média numérique à leur image : innovants, indépendants et engagés. En partant d'un simple projet d'association, nous avons construit pas à pas une véritable chaîne de télévision étudiante reconnue aujourd'hui comme la référence en matière d'audiovisuel étudiant.",
+      "history_paragraph2": "Notre aventure a commencé avec une petite équipe de 10 passionnés et un studio improvisé. Aujourd'hui, nous comptons plus de 50 membres actifs, un studio professionnel et une audience grandissante. Chaque jour, nous repoussons les limites de la créativité étudiante pour offrir des contenus de qualité.",
+      "team_title": "Notre Équipe",
+      "team_intro": "Notre force réside dans la diversité de nos profils. Journalistes, techniciens, monteurs, graphistes, communicants - tous étudiants et tous animés par la même passion pour l'audiovisuel. Chaque membre contribue avec ses compétences uniques pour créer des contenus exceptionnels.",
+      "team_redaction_title": "Rédaction",
+      "team_redaction_count": "2 journalistes et reporters",
+      "team_redaction_description": "Notre équipe éditoriale travaille sur l'écriture, les reportages et la vérification des informations.",
+      "team_technique_title": "Technique",
+      "team_technique_count": "2 techniciens audiovisuels",
+      "team_technique_description": "Spécialistes de la prise de vue, du son et de l'éclairage pour une production de qualité professionnelle.",
+      "team_postproduction_title": "Post-production",
+      "team_postproduction_count": "3 monteurs vidéo",
+      "team_postproduction_description": "Experts en montage, étalonnage et effets spéciaux pour donner vie à nos contenus audiovisuels.",
+      "team_communication_title": "Communication",
+      "team_communication_count": "1 chargés de communication",
+      "team_communication_description": "Gestion des réseaux sociaux, relations presse et stratégie de diffusion pour maximiser notre audience.",
+      "skills": {
+        "journalism": "Journalisme",
+        "reporting": "Reportage", 
+        "editing": "Édition",
+        "camera": "Caméra",
+        "sound": "Son",
+        "lighting": "Éclairage",
+        "montage": "Montage",
+        "color_grading": "Étalonnage",
+        "motion_design": "Motion Design",
+        "social_media": "Réseaux sociaux",
+        "strategy": "Stratégie",
+        "community": "Community"
+      },
+      "stats": {
+        "title": "Nos Chiffres",
+        "members_label": "Membres actifs",
+        "hours_label": "Heures de production",
+        "views_label": "Vues mensuelles",
+        "programs_label": "Émissions régulières"
+      }
+    },
+    "programs": {
+      "default": {
+        "journal_campus": {
+          "title": "Le Journal Campus",
+          "description": "L'actualité étudiante décryptée chaque semaine."
+        },
+        "debate_campus": {
+          "title": "Débat Campus",
+          "description": "Face-à-face d'idées sur les grands sujets de société."
+        },
+        "culture_express": {
+          "title": "Culture Express",
+          "description": "Découverte de la scène culturelle étudiante."
+        },
+        "telex_sports": {
+          "title": "Telex Sports",
+          "description": "Toute l'actualité sportive universitaire."
+        },
+        "behind_scenes": {
+          "title": "Coulisses",
+          "description": "Les coulisses de la création audiovisuelle étudiante."
+        }
+      }
+    },
+    "news": {
+      "default": {
+        "new_season": "Lancement de la nouvelle saison TELEX",
+        "new_shooting": "Nouveau tournage en cours",
+        "exclusive_interview": "Interview exclusive",
+        "audiovisual_training": "Formation audiovisuelle",
+        "best_student_media": "Prix du meilleur média étudiant",
+        "categories": {
+          "information": "Information",
+          "production": "Production",
+          "interview": "Interview",
+          "education": "Éducation",
+          "reward": "Récompense"
+        }
+      }
+    }
+  },
+  "en": {
+    "common": {
+      "learn_more": "Learn more →",
+      "read_more": "Read more →"
+    },
+    "navigation": {
+      "home": "HOME",
+      "about": "ABOUT",
+      "gallery": "GALLERY",
+      "album": "ALBUM",
+      "programs": "PROGRAMS",
+      "baume": "BAUME OF FAITH",
+      "news": "NEWS",
+      "contact": "CONTACT"
+    },
+    "home": {
+      "title": "Telex",
+      "subtitle": "The Student Voice",
+      "description": "First student television and 100% independent digital media.\nWe give voice to youth, train tomorrow's talents\nand produce audiovisual content that inspires and makes people think.",
+      "featured_programs": "Our Featured Programs",
+      "programs_subtitle": "Explore our shows, designed by students and for students",
+      "see_programs": "See our programs",
+      "discover": "Discover",
+      "latest_news": "Latest News",
+      "news_subtitle": "Discover our latest articles and video productions",
+      "who_are_we": "Who are we?",
+      "about_text": "Telex is a young, dynamic and committed television,\ncarried by students and aimed at youth.\nFounded in 2024, our team has more than 50\nvolunteer students passionate about audiovisual.",
+      "student_led": "100% student",
+      "professional_training": "Professional training",
+      "engaged_content": "Engaged content",
+      "active_community": "Active community",
+      "learn_more": "Learn more about us",
+      "see_all_news": "See all news",
+      "baume_title": "Baume of Faith",
+      "baume_subtitle": "Discover the latest spiritual content to nourish your faith",
+      "see_all_reflections": "See all reflections and prayers",
+      "join_adventure": "Join the Telex Adventure"
+    },
+    "news": {
+      "default": {
+        "title": "TELEX News",
+        "description": "Discover our latest news."
+      }
+    },
+    "about": {
+      "hero_title": "About",
+      "hero_subtitle": "Discover our history, our team and our vision",
+      "hero_intro": "Founded by passionate students, Telex is much more than a student television. It's an innovation laboratory, a school of talent and a digital media for engaged youth.",
+      "history_title": "Our History",
+      "history_paragraph1": "Telex was born in 2024 from the shared passion of a group of students determined to create a student television and digital media in their image: innovative, independent and engaged. Starting from a simple association project, we gradually built a real student television channel recognized today as the reference in student audiovisual.",
+      "history_paragraph2": "Our adventure began with a small team of 10 passionate people and an improvised studio. Today, we have more than 50 active members, a professional studio and a growing audience. Every day, we push the limits of student creativity to offer quality content.",
+      "team_title": "Our Team",
+      "team_intro": "Our strength lies in the diversity of our profiles. Journalists, technicians, editors, graphic designers, communicators - all students and all animated by the same passion for audiovisual. Each member contributes with their unique skills to create exceptional content.",
+      "team_redaction_title": "Editorial Team",
+      "team_redaction_count": "2 journalists and reporters",
+      "team_redaction_description": "Our editorial team works on writing, reporting and fact-checking information.",
+      "team_technique_title": "Technical Team",
+      "team_technique_count": "2 audiovisual technicians",
+      "team_technique_description": "Specialists in camera, sound and lighting for professional quality production.",
+      "team_postproduction_title": "Post-production",
+      "team_postproduction_count": "3 video editors",
+      "team_postproduction_description": "Experts in editing, color grading and special effects to bring our audiovisual content to life.",
+      "team_communication_title": "Communication",
+      "team_communication_count": "1 communication managers",
+      "team_communication_description": "Social media management, press relations and distribution strategy to maximize our audience.",
+      "stats_title": "Our Numbers",
+      "stats_members_label": "Active members",
+      "stats_hours_label": "Production hours",
+      "stats_views_label": "Monthly views",
+      "stats_programs_label": "Regular shows"
+    },
+    "skills": {
+        "journalism": "Journalism",
+        "reporting": "Reporting", 
+        "editing": "Editing",
+        "camera": "Camera",
+        "sound": "Sound",
+        "lighting": "Lighting",
+        "montage": "Editing",
+        "color_grading": "Color Grading",
+        "motion_design": "Motion Design",
+        "social_media": "Social Media",
+        "strategy": "Strategy",
+        "community": "Community"
+      },
+      "programs": {
+      "default": {
+        "journal_campus": {
+          "title": "Campus Journal",
+          "description": "Student news decrypted every week."
+        },
+        "debate_campus": {
+          "title": "Campus Debate",
+          "description": "Face-to-face of ideas on major societal issues."
+        },
+        "culture_express": {
+          "title": "Culture Express",
+          "description": "Discovery of the student cultural scene."
+        },
+        "telex_sports": {
+          "title": "Telex Sports",
+          "description": "All university sports news."
+        },
+        "behind_scenes": {
+          "title": "Behind the Scenes",
+          "description": "Behind the scenes of student audiovisual creation."
+        }
+      }
+    },
+    "news": {
+      "default": {
+        "new_season": "New TELEX Season Launch",
+        "new_shooting": "New shooting in progress",
+        "exclusive_interview": "Exclusive interview",
+        "audiovisual_training": "Audiovisual training",
+        "best_student_media": "Best Student Media Award",
+        "categories": {
+          "information": "Information",
+          "production": "Production",
+          "interview": "Interview",
+          "education": "Education",
+          "reward": "Reward"
+        }
+      }
+    },
+    "programs": {
+      "default": {
+        "journal_campus": {
+          "title": "Le Journal Campus",
+          "description": "L'actualité étudiante décryptée chaque semaine."
+        },
+        "debate_campus": {
+          "title": "Débat Campus",
+          "description": "Face-à-face d'idées sur les grands sujets de société."
+        },
+        "culture_express": {
+          "title": "Culture Express",
+          "description": "Les actualités culturelles et artistiques."
+        },
+        "sport_mag": {
+          "title": "Sport Mag",
+          "description": "Toute l'actualité sportive étudiante."
+        },
+        "tech_future": {
+          "title": "Tech Future",
+          "description": "Innovations et technologies de demain."
+        }
+      }
+    },
+    "programs": {
+      "default": {
+        "journal_campus": {
+          "title": "Campus Journal",
+          "description": "Student news decoded every week."
+        },
+        "debate_campus": {
+          "title": "Campus Debate",
+          "description": "Face-to-face discussions on major social issues."
+        },
+        "culture_express": {
+          "title": "Culture Express",
+          "description": "Cultural and artistic news."
+        },
+        "sport_mag": {
+          "title": "Sport Mag",
+          "description": "All student sports news."
+        },
+        "tech_future": {
+          "title": "Tech Future",
+          "description": "Tomorrow's innovations and technologies."
+        }
+      }
+    },
+    "common": {
+      "learn_more": "Learn more",
+      "read_more": "Read more"
+    }
+  }
+}

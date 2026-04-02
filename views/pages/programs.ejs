@@ -7,58 +7,853 @@
     <link rel="icon" href="/images/Telex.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/baume-navbar.css">
+    
+    <!-- STYLES NAVIGATION UNIFIÉS - AMÉLIORÉS -->
+    <style>
+        /* ===== NAVBAR UNIFIÉE - SIMPLIFIÉE ===== */
+        .navbar-baume {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+            box-shadow: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1030;
+        }
+        
+        body {
+            padding-top: 0;
+            margin-top: 0;
+        }
+        
+        .navbar-baume .navbar-brand {
+            color: #3AAFA9;
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-baume .navbar-brand:hover {
+            color: #c1121f;
+            transform: translateY(-1px);
+        }
+
+        .navbar-baume .navbar-brand img {
+            height: 35px;
+            width: auto;
+            max-width: 140px;
+            margin-right: 10px;
+            margin-left: -8px;
+            transform: scale(1.3);
+            transform-origin: center;
+        }
+
+        .navbar-baume .navbar-nav .nav-link {
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            font-family: 'League Spartan', sans-serif;
+            text-transform: uppercase;
+            padding: 6px 12px;
+            margin: 0 3px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar-baume .navbar-nav .nav-link i {
+            color: white;
+            margin-right: 6px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-baume .navbar-nav .nav-link:hover {
+            color: white;
+            background: #dc3545;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .navbar-baume .navbar-nav .nav-link:hover i {
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .navbar-baume .navbar-nav .nav-link.active {
+            color: white;
+            background: #dc3545;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .navbar-baume .navbar-nav .nav-link.active i {
+            color: white;
+        }
+
+        .navbar-baume .navbar-toggler {
+            border: 1px solid #3AAFA9;
+            background: transparent;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .navbar-baume .navbar-toggler i {
+            color: #3AAFA9;
+            font-size: 1.5rem;
+        }
+
+        .navbar-baume .navbar-toggler:hover {
+            background-color: rgba(58, 175, 169, 0.1);
+        }
+
+        .navbar-baume .navbar-toggler:hover i {
+            color: #256a66;
+        }
+
+        .navbar-baume .dropdown-menu {
+            border: 1px solid rgba(58, 175, 169, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-baume .dropdown-item {
+            color: #3AAFA9;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-baume .dropdown-item:hover {
+            background-color: #FFD700;
+            color: white;
+            padding-left: 1.8rem;
+        }
+
+        .navbar-baume .dropdown-item i {
+            color: #3AAFA9;
+            margin-right: 8px;
+        }
+
+        .navbar-baume .dropdown-item:hover i {
+            color: white;
+        }
+
+        @media (max-width: 991.98px) {
+            .navbar-baume .navbar-nav {
+                padding: 0.8rem 0;
+            }
+            
+            .navbar-baume .navbar-nav .nav-link {
+                text-align: center;
+                padding: 10px;
+                margin: 3px 0;
+                font-size: 0.85rem;
+            }
+            
+            .navbar-baume .navbar-nav .nav-link i {
+                margin-right: 6px;
+                width: 18px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar-baume .navbar-brand {
+                font-size: 1.2rem;
+            }
+            
+            .navbar-baume .navbar-brand img {
+                height: 25px;
+                width: auto;
+                max-width: 90px;
+                transform: scale(1.2);
+                transform-origin: center;
+            }
+        }
+    </style>
+    
+    <style>
+        /* ===== STYLES POUR LES PROGRAMMES ===== */
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+            --telex-light: #A8DADC;
+            
+            /* Couleurs des 10 programmes principaux */
+            --info-red: #dc2626;
+            --info-red-light: #ef4444;
+            --decryptage-yellow: #ca8a04;
+            --decryptage-yellow-light: #fbbf24;
+            --debat-pink: #db2777;
+            --debat-pink-light: #ec4899;
+            --societe-gray: #4b5563;
+            --societe-gray-light: #6b7280;
+            --education-blue: #0891b2;
+            --education-blue-light: #06b6d4;
+            --jeunesse-blue: #2563eb;
+            --jeunesse-blue-light: #3b82f6;
+            --environnement-green: #059669;
+            --environnement-green-light: #10b981;
+            --culture-violet: #7c3aed;
+            --culture-violet-light: #8b5cf6;
+            --economie-cyan: #06b6d4;
+            --economie-cyan-light: #22d3ee;
+            --sport-orange: #ea580c;
+            --sport-orange-light: #f97316;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .page-hero {
+            padding: 80px 0 40px;
+            min-height: 280px;
+            background: linear-gradient(135deg, #2F3F59 0%, #3A4E6B 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-top: 0;
+        }
+        
+        /* Images décoratives sur les côtés */
+        .hero-side-image {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1;
+            opacity: 0.8;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .hero-left-image {
+            left: 30px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .hero-right-image {
+            right: 30px;
+            width: 150px;
+            height: 150px;
+        }
+
+        .hero-side-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px;
+            filter: brightness(1.1) contrast(1.2);
+        }
+
+        @media (max-width: 768px) {
+            .hero-side-image {
+                width: 100px;
+                height: 100px;
+                opacity: 0.7;
+            }
+            
+            .hero-left-image {
+                left: 15px;
+            }
+            
+            .hero-right-image {
+                right: 15px;
+            }
+            
+            .page-hero {
+                padding: 20px 0 15px;
+                min-height: 140px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-side-image {
+                width: 80px;
+                height: 80px;
+                opacity: 0.6;
+            }
+            
+            .hero-left-image {
+                left: 10px;
+            }
+            
+            .hero-right-image {
+                right: 10px;
+            }
+            
+            .page-hero {
+                padding: 15px 0 10px;
+                min-height: 120px;
+            }
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 1000;
+            pointer-events: auto !important;
+        }
+
+        .search-container .input-group {
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            border-radius: 50px;
+            overflow: hidden;
+            position: relative;
+            z-index: 100;
+            pointer-events: auto !important;
+        }
+
+        .search-container .form-control {
+            border: none;
+            padding: 15px 20px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px 0 0 50px;
+            transition: all 0.3s ease;
+            pointer-events: auto !important;
+            user-select: text !important;
+            -webkit-user-select: text !important;
+            -moz-user-select: text !important;
+            -ms-user-select: text !important;
+            position: relative;
+            z-index: 101;
+        }
+
+        .search-container .form-control:focus {
+            background: rgba(255,255,255,1);
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+            outline: 2px solid rgba(59,130,246,0.3);
+            transform: scale(1.02);
+            z-index: 102;
+        }
+
+        .search-container .btn-telex {
+            border-radius: 0 50px 50px 0;
+            padding: 15px 25px;
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .search-container .btn-telex:hover {
+            background: linear-gradient(135deg, #ff6b6b, var(--telex-red));
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(230,57,70,0.4);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+            display: none;
+            width: 100%;
+        }
+
+        .no-results i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: #dee2e6;
+        }
+
+        .no-results h5 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        /* Cartes de programme */
+        .program-card {
+            transition: all 0.3s ease;
+            display: block;
+        }
+
+        .program-card.hidden {
+            display: none !important;
+        }
+
+        .program-card.clickable-program {
+            cursor: pointer;
+        }
+
+        .program-card.clickable-program:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .program-card.clickable-program:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* ===== CARDS PROGRAMMES - HAUTEUR AUTOMATIQUE CORRIGÉE ===== */
+        .program-detail-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: auto;
+            min-height: auto;
+            max-height: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .program-detail-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(230, 57, 70, 0.3);
+        }
+
+        /* Titre et badge */
+        .program-title-section {
+            text-align: center;
+            margin-bottom: 15px;
+            padding: 12px;
+            background: var(--telex-blue);
+            border-radius: 12px;
+            border-bottom: 3px solid var(--telex-red);
+            flex-shrink: 0;
+            width: 100%;
+        }
+
+        .program-title-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .program-title-section .program-badge {
+            margin-bottom: 0;
+        }
+
+        /* Section média (image/vidéo) */
+        .program-media-section {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .program-media-section .program-image-wrapper {
+            width: 100%;
+            height: 180px;
+            margin: 0;
+            flex-shrink: 0;
+            overflow: hidden;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none !important;
+            border-radius: 0 !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 0;
+        }
+
+        .program-media-section .video-container {
+            width: 100%;
+            max-width: none;
+            margin: 0;
+            height: 180px;
+            flex-shrink: 0;
+            overflow: hidden;
+            border: none;
+            border-radius: 0;
+        }
+
+        .program-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            border: none !important;
+            border-radius: 0 !important;
+            outline: none !important;
+            box-shadow: none !important;
+            display: block;
+            margin: 0;
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        .program-detail-card:hover .program-image {
+            transform: scale(1.05);
+        }
+
+        .program-video-player {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            object-fit: contain;
+        }
+
+        .program-video-player iframe,
+        .program-video-player video {
+            width: 100%;
+            height: 100%;
+            border: none;
+            object-fit: contain;
+        }
+
+        .replay-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(25,135,84,0.95);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            z-index: 3;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Corps de la carte */
+        .program-body {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        /* Badge de diffusion */
+        .broadcast-badge {
+            margin-bottom: 12px;
+            flex-shrink: 0;
+        }
+
+        /* Description */
+        .program-description {
+            margin-bottom: 12px;
+            flex-shrink: 1;
+        }
+
+        .program-description p {
+            color: #4a5568;
+            line-height: 1.5;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        /* Informations */
+        .program-info {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 1;
+        }
+
+        .program-info p {
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: #475569;
+            text-align: center;
+        }
+
+        .program-info p:last-child {
+            margin-bottom: 0;
+        }
+
+        .program-info i {
+            width: 20px;
+            color: var(--telex-red);
+        }
+
+        /* Alertes */
+        .alert {
+            border-radius: 12px;
+            padding: 10px 12px;
+            margin-bottom: 12px;
+            border: none;
+            font-size: 0.85rem;
+        }
+
+        .alert-info {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            color: #075985;
+        }
+
+        .alert-secondary {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            color: #495057;
+        }
+
+        /* Boutons d'action - toujours en bas */
+        .program-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: auto;
+            flex-wrap: wrap;
+            padding-top: 10px;
+            flex-shrink: 0;
+        }
+
+        .program-actions .btn {
+            flex: 1;
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border: none;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+        }
+
+        .btn-outline-secondary {
+            background: transparent;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-outline-secondary:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+        }
+
+        .btn.disabled {
+            opacity: 0.65;
+            pointer-events: none;
+        }
+
+        /* Badges */
+        .badge {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge.bg-info { background-color: #0dcaf0 !important; color: #000; }
+        .badge.bg-warning { background-color: #ffc107 !important; color: #000; }
+        .badge.bg-success { background-color: #198754 !important; }
+        .badge.bg-danger { background-color: #dc3545 !important; }
+        .badge.bg-secondary { background-color: #6c757d !important; }
+
+        /* Badges programmes */
+        .program-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.2);
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .badge-information { background: linear-gradient(135deg, #dc2626, #ef4444); }
+        .badge-decryptage { background: linear-gradient(135deg, #ca8a04, #fbbf24); color: #000; }
+        .badge-debats { background: linear-gradient(135deg, #FF8A65, #FFAB91); }
+        .badge-societe { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+        .badge-education { background: linear-gradient(135deg, #0ea5e9, #38bdf8); }
+        .badge-jeunesse { background: linear-gradient(135deg, #4CAF50, #66BB6A); }
+        .badge-environnement { background: linear-gradient(135deg, #059669, #10b981); }
+        .badge-culture { background: linear-gradient(135deg, #7c3aed, #a78bfa); }
+        .badge-economie { background: linear-gradient(135deg, #0891b2, #06b6d4); }
+        .badge-sport { background: linear-gradient(135deg, #ea580c, #f97316); }
+        .badge-default { background: linear-gradient(135deg, #6b7280, #9ca3af); }
+
+        /* Grille des programmes */
+        .row {
+            margin-left: -15px;
+            margin-right: -15px;
+        }
+
+        .col-lg-6.mb-4.program-card {
+            padding-left: 15px;
+            padding-right: 15px;
+            margin-bottom: 30px;
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+
+        .table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .table thead {
+            background: var(--telex-blue);
+            color: white;
+        }
+
+        .table-dark {
+            background: var(--telex-blue);
+        }
+
+        .border-top {
+            border-top: 2px solid #e2e8f0 !important;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .col-lg-6.mb-4.program-card {
+                flex: 0 0 100%;
+                max-width: 100%;
+            }
+
+            .program-detail-card {
+                padding: 1.2rem;
+            }
+
+            .program-title-section h3 {
+                font-size: 1.1rem;
+            }
+
+            .program-media-section .program-image-wrapper,
+            .program-media-section .video-container {
+                height: 160px;
+            }
+
+            .program-info p {
+                font-size: 0.8rem;
+                margin-bottom: 4px;
+            }
+
+            .program-actions .btn {
+                padding: 8px 12px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .program-detail-card {
+                padding: 1rem;
+            }
+
+            .program-title-section {
+                padding: 8px;
+            }
+
+            .program-title-section h3 {
+                font-size: 1rem;
+            }
+
+            .program-media-section .program-image-wrapper,
+            .program-media-section .video-container {
+                height: 140px;
+            }
+
+            .program-info {
+                padding: 8px;
+            }
+
+            .program-info p {
+                font-size: 0.75rem;
+            }
+
+            .program-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .program-actions .btn {
+                width: 100%;
+                padding: 8px 12px;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .program-detail-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
         <div class="container">
-            <!-- Logo TELEX -->
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand d-flex align-items-center" href="/">
                 <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
-                <span class="logo-text">Telex</span>
             </a>
             
-            <!-- Menu mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
                 <i class="fas fa-bars"></i>
             </button>
             
-            <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
-                            <i class="fas fa-home me-1"></i>Accueil
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home"></i>Accueil
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
-                            <i class="fas fa-info-circle me-1"></i>À propos
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle"></i>À propos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" href="/mission">
-                            <i class="fas fa-bullseye me-1"></i>Mission
+                        <a class="nav-link active" href="/programs">
+                            <i class="fas fa-tv"></i>Programmes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
-                            <i class="fas fa-tv me-1"></i>Programmes
+                        <a class="nav-link" href="/gallery">
+                            <i class="fas fa-images"></i>Galerie
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
-                            <i class="fas fa-images me-1"></i>Galerie
+                        <a class="nav-link" href="/album">
+                            <i class="fas fa-book"></i>Album
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
-                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        <a class="nav-link" href="/baume-de-la-foi">
+                            <i class="fas fa-cross"></i>Baume de la Foi
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
-                            <i class="fas fa-envelope me-1"></i>Contact
+                        <a class="nav-link" href="/news">
+                            <i class="fas fa-newspaper"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope"></i>Contact
                         </a>
                     </li>
                 </ul>
@@ -66,217 +861,638 @@
         </div>
     </nav>
 
+    <!-- Hero Section -->
     <section class="page-hero">
+        <div class="hero-side-image hero-left-image">
+            <img id="heroLeftImage" src="/images/11.png" alt="Logo Telex">
+        </div>
+        
+        <div class="hero-side-image hero-right-image">
+            <img id="heroRightImage" src="/images/Telex.png" alt="Telex">
+        </div>
+        
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-4 col-md-5">
                     <div class="hero-image-wrapper">
-                        <img src="/images/programmes.png" alt="Ordinateur Telex" class="hero-camera-img">
+                        <img src="/images/programmes.png" alt="Ordinateur Telex" class="hero-camera-img" style="width: 100%;">
                     </div>
                 </div>
                 <div class="col-lg-8 col-md-7">
-                    <h1>Telex</h1>
-                    <p>Explorez notre grille des programmes variés et captivants. Des actualités étudiantes aux divertissements, découvrez des contenus créés par et pour les étudiants.</p>
+                    <h1>Telex Programmes</h1>
+                    <p>Explorez notre grille des 10 programmes principaux et découvrez des contenus créés par et pour les étudiants. Chaque programme a sa propre identité visuelle.</p>
+                    
+                    <div class="search-container">
+                        <div class="input-group">
+                            <input type="text" 
+                                   id="searchInput" 
+                                   class="form-control" 
+                                   placeholder="Rechercher un programme (titre, type, description...)" 
+                                   autocomplete="off"
+                                   spellcheck="false"
+                                   autocorrect="off"
+                                   autocapitalize="off">
+                            <button class="btn btn-telex" type="button" onclick="searchPrograms()">
+                                <i class="fas fa-search me-2"></i>Rechercher
+                            </button>
+                        </div>
+                        <div class="text-start mt-2">
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Exemples: "info", "débat", "culture", "sport", "environnement"
+                            </small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
+    <!-- Section Programmes -->
+    <section class="section py-5">
         <div class="container">
-            <!-- Liste des programmes -->
-            <div class="row">
+            <div id="noResults" class="no-results">
+                <i class="fas fa-search"></i>
+                <h5>Aucun programme trouvé</h5>
+                <p>Essayez d'autres mots-clés ou réinitialisez votre recherche</p>
+                <button class="btn btn-outline-secondary mt-3" onclick="resetSearch()">
+                    <i class="fas fa-times me-2"></i>Effacer la recherche
+                </button>
+            </div>
+
+            <div class="row" id="programsList">
                 <% if (programs && programs.length > 0) { %>
-                    <% programs.forEach(program => { %>
-                    <div class="col-lg-6 mb-4">
+                    <% programs.forEach(program => { 
+                        const hasImage = program.image_url && program.image_url.trim() !== '';
+                        const hasVideo = program.video_url && program.video_url.trim() !== '';
+                        
+                        if (!hasImage && !hasVideo) {
+                            return;
+                        }
+                        
+                        let programImage = '/images/programmes.png';
+                        let badgeClass = 'default';
+                        
+                        switch(program.program_type) {
+                            case 'Programme d\'Information':
+                                programImage = '/images/micro.png';
+                                badgeClass = 'information';
+                                break;
+                            case 'Programme Décryptage & Reportages':
+                                programImage = '/images/programmes.png';
+                                badgeClass = 'decryptage';
+                                break;
+                            case 'Programme Débats':
+                                programImage = '/images/Débat.png';
+                                badgeClass = 'debats';
+                                break;
+                            case 'Programme Humain & Sociétal':
+                                programImage = '/images/femme telex.png';
+                                badgeClass = 'societe';
+                                break;
+                            case 'Programme Éducatif':
+                                programImage = '/images/programmes.png';
+                                badgeClass = 'education';
+                                break;
+                            case 'Programme Jeunesse':
+                                programImage = '/images/programmes.png';
+                                badgeClass = 'jeunesse';
+                                break;
+                            case 'Programme Environnement':
+                                programImage = '/images/programmes.png';
+                                badgeClass = 'environnement';
+                                break;
+                            case 'Programme Culture & Identité':
+                                programImage = '/images/femme telex.png';
+                                badgeClass = 'culture';
+                                break;
+                            case 'Programme Économie & Travail':
+                                programImage = '/images/TELEX BAREA12.png';
+                                badgeClass = 'economie';
+                                break;
+                            case 'Programme Sport':
+                                programImage = '/images/TELEX BAREA12.png';
+                                badgeClass = 'sport';
+                                break;
+                        }
+
+                        let broadcastBadge = '';
+                        let broadcastMessage = '';
+                        let showVideoPlayer = false;
+                        let showReplayBadge = false;
+                        let programDateTime = null;
+                        let now = new Date();
+
+                        if (program.video_url && program.video_url.trim() !== '') {
+                            showVideoPlayer = true;
+                        }
+
+                        if (program.broadcast_type === 'scheduled') {
+                            programDateTime = new Date(program.program_date + 'T' + program.schedule_time);
+                            if (programDateTime > now) {
+                                broadcastBadge = '<span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>';
+                                broadcastMessage = `Diffusion prévue le ${new Date(program.program_date).toLocaleDateString('fr-FR')} à ${program.schedule_time}`;
+                            } else {
+                                const oneHourLater = new Date(programDateTime.getTime() + 60 * 60 * 1000);
+                                if (now >= programDateTime && now <= oneHourLater) {
+                                    broadcastBadge = '<span class="badge bg-warning"><i class="fas fa-broadcast-tower me-1"></i>En cours</span>';
+                                    broadcastMessage = 'Diffusion en cours';
+                                } else {
+                                    broadcastBadge = '<span class="badge bg-success"><i class="fas fa-check me-1"></i>Terminé</span>';
+                                    broadcastMessage = 'Diffusion terminée';
+                                    showVideoPlayer = true;
+                                }
+                            }
+                        } else if (program.broadcast_type === 'live') {
+                            const createdAt = new Date(program.created_at);
+                            const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+                            
+                            if (createdAt <= oneDayAgo) {
+                                broadcastBadge = '<span class="badge bg-success"><i class="fas fa-video me-1"></i>Replay</span>';
+                                broadcastMessage = 'Replay disponible';
+                                showReplayBadge = true;
+                            } else {
+                                broadcastBadge = '<span class="badge bg-danger"><i class="fas fa-broadcast-tower me-1"></i>Live</span>';
+                                broadcastMessage = 'Programme live';
+                            }
+                            showVideoPlayer = true;
+                        } else {
+                            broadcastBadge = '<span class="badge bg-secondary"><i class="fas fa-bullhorn me-1"></i>Annonce</span>';
+                            broadcastMessage = 'Information à venir';
+                            if (program.video_url && program.video_url.trim() !== '') {
+                                showVideoPlayer = true;
+                            }
+                        }
+                    %>
+                    <div class="col-lg-6 mb-4 program-card clickable-program" 
+                         data-program-id="<%= program.id %>"
+                         data-title="<%= (program.title || '').toLowerCase() %>"
+                         data-type="<%= (program.program_type || '').toLowerCase() %>"
+                         data-description="<%= (program.description || '').toLowerCase() %>"
+                         onclick="incrementProgramView('<%= program.id %>')">
                         <div class="program-detail-card">
-                            <div class="program-header">
-                                <div class="program-image-wrapper">
-                                    <% 
-                                    // Sélectionner l'image selon la catégorie
-                                    let programImage = '/images/programmes.png'; // Image par défaut
-                                    switch(program.category) {
-                                        case 'actualités':
-                                        case 'info':
-                                            programImage = '/images/micro.png';
-                                            break;
-                                        case 'divertissement':
-                                        case 'débat':
-                                            programImage = '/images/Débat.png';
-                                            break;
-                                        case 'culture':
-                                            programImage = '/images/femme telex.png';
-                                            break;
-                                        case 'sport':
-                                            programImage = '/images/TELEX BAREA12.png';
-                                            break;
-                                        default:
-                                            programImage = '/images/programmes.png';
-                                    }
-                                    %>
-                                    <img src="<%= programImage %>" alt="<%= program.title %>" class="program-image">
-                                </div>
-                                <div class="program-text">
-                                    <h3><%= program.title %></h3>
-                                    <% 
-                                    let badgeClass = 'bg-primary';
-                                    let badgeText = program.category || 'Programme';
-                                    switch(program.category) {
-                                        case 'actualités':
-                                        case 'info':
-                                            badgeClass = '';
-                                            badgeText = 'Info';
-                                            break;
-                                        case 'divertissement':
-                                        case 'débat':
-                                            badgeClass = 'bg-success';
-                                            badgeText = 'Débat';
-                                            break;
-                                        case 'culture':
-                                            badgeClass = 'bg-warning';
-                                            badgeText = 'Culture';
-                                            break;
-                                        case 'sport':
-                                            badgeClass = 'bg-danger';
-                                            badgeText = 'Sport';
-                                            break;
-                                    }
-                                    %>
-                                    <span class="program-badge <%= badgeClass %>"><%= badgeText %></span>
-                                </div>
+                            <div class="program-title-section">
+                                <h3><%= program.title || 'Programme Telex' %></h3>
+                                <span class="program-badge badge-<%= badgeClass %>">
+                                    <%= program.program_type ? 
+                                        program.program_type.replace('Programme ', '') 
+                                        : 'Programme' %>
+                                </span>
                             </div>
+                            
+                            <div class="program-media-section">
+                                <% if (program.video_url && program.video_url.trim() !== '') { %>
+                                    <div class="video-container">
+                                        <% if (program.video_url.includes('youtube.com') || program.video_url.includes('youtu.be')) { %>
+                                        <iframe src="https://www.youtube.com/embed/<%= program.video_url.includes('youtu.be') ? program.video_url.split('youtu.be/')[1].split('?')[0] : program.video_url.split('v=')[1].split('&')[0] %>" 
+                                                frameborder="0" 
+                                                allowfullscreen
+                                                class="program-video-player">
+                                        </iframe>
+                                        <% } else if (program.video_url.includes('vimeo.com')) { %>
+                                        <iframe src="https://player.vimeo.com/video/<%= program.video_url.split('vimeo.com/')[1].split('?')[0] %>" 
+                                                frameborder="0" 
+                                                allowfullscreen
+                                                class="program-video-player">
+                                        </iframe>
+                                        <% } else { %>
+                                        <video class="program-video-player" controls preload="metadata" playsinline>
+                                            <source src="<%= program.video_url %>" type="video/mp4">
+                                            Votre navigateur ne supporte pas la lecture de vidéos.
+                                        </video>
+                                        <% } %>
+                                    </div>
+                                    <% if (showReplayBadge) { %>
+                                    <div class="replay-badge">
+                                        <i class="fas fa-redo-alt me-1"></i>Replay
+                                    </div>
+                                    <% } %>
+                                <% } else { %>
+                                    <div class="program-image-wrapper">
+                                        <img src="<%= program.image_url || programImage %>" 
+                                             alt="<%= program.title || 'Programme' %>" 
+                                             class="program-image"
+                                             onerror="this.src='/images/programmes.png';">
+                                    </div>
+                                <% } %>
+                            </div>
+                            
                             <div class="program-body">
-                                <p>
-                                    <%= program.description || 'Découvrez ce programme passionnant sur Telex.' %>
-                                </p>
+                                <div class="broadcast-badge">
+                                    <%- broadcastBadge %>
+                                    <small class="text-muted ms-2"><%= broadcastMessage %></small>
+                                </div>
+                                
+                                <div class="program-description">
+                                    <% 
+                                    const description = program.description || 'Découvrez ce programme passionnant sur Telex.';
+                                    const maxLength = 120;
+                                    const isLong = description.length > maxLength;
+                                    const shortDescription = isLong ? description.substring(0, maxLength) + '...' : description;
+                                    %>
+                                    <p class="description-text" id="desc-<%= program.id %>">
+                                        <span class="short-desc"><%= shortDescription %></span>
+                                        <% if (isLong) { %>
+                                        <span class="full-desc d-none"><%= description %></span>
+                                        <button class="btn btn-link btn-sm p-0 ms-1 text-decoration-none" 
+                                                onclick="event.stopPropagation(); toggleDescription('<%= program.id %>')">
+                                            <span class="more-text">Voir plus</span>
+                                            <span class="less-text d-none">Voir moins</span>
+                                        </button>
+                                        <% } %>
+                                    </p>
+                                </div>
+                                
                                 <div class="program-info">
-                                    <% if (program.schedule_time) { %>
+                                    <% if (program.schedule_time && program.broadcast_type === 'scheduled') { %>
                                     <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> <%= program.schedule_time %></p>
                                     <% } %>
+                                    <% if (program.program_date && program.broadcast_type === 'scheduled') { %>
+                                    <p><i class="far fa-calendar me-2"></i><strong>Date :</strong> <%= new Date(program.program_date).toLocaleDateString('fr-FR') %></p>
+                                    <% } %>
                                     <% if (program.presenter) { %>
-                                    <p><i class="fas fa-user me-2"></i><strong><%= program.category === 'divertissement' || program.category === 'débat' ? 'Animation' : 'Présentation' %> :</strong> <%= program.presenter %></p>
+                                    <p><i class="fas fa-user me-2"></i><strong><%= program.program_type === 'Programme Débats' ? 'Animation' : 'Présentation' %> :</strong> <%= program.presenter %></p>
                                     <% } %>
                                     <% if (program.duration) { %>
-                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> <%= program.duration %></p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> <%= program.duration %></p>
                                     <% } %>
                                 </div>
-                                <a href="#" class="btn btn-primary">
-                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
-                                </a>
+                                
+                                <div class="program-actions">
+                                    <% if (program.video_url && showVideoPlayer) { %>
+                                    <a href="<%= program.video_url %>" class="btn btn-primary" target="_blank">
+                                        <i class="fas fa-play me-2"></i>Regarder
+                                    </a>
+                                    <% } else { %>
+                                    <a href="#" class="btn btn-primary disabled">
+                                        <i class="fas fa-clock me-2"></i>Bientôt disponible
+                                    </a>
+                                    <% } %>
+                                    <button class="btn btn-outline-secondary" 
+                                            data-program-title="<%= program.title || 'Programme' %>"
+                                            data-program-description="<%= program.description || 'Découvrez ce programme passionnant sur Telex.' %>"
+                                            data-program-type="<%= program.program_type || 'Programme' %>"
+                                            data-program-presenter="<%= program.presenter || '' %>"
+                                            data-program-schedule="<%= program.schedule_time || '' %>"
+                                            data-program-date="<%= program.program_date || '' %>"
+                                            data-program-duration="<%= program.duration || '' %>"
+                                            data-program-video="<%= program.video_url || '' %>"
+                                            onclick="event.stopPropagation(); showProgramInfo(this.dataset)">
+                                        <i class="fas fa-info-circle me-2"></i>Détails
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <% }); %>
                 <% } else { %>
-                    <!-- Programmes par défaut si aucun en base de données -->
-                    <div class="col-lg-6 mb-4">
+                    <!-- 10 PROGRAMMES PRINCIPAUX -->
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="le journal campus telex actus essentiel"
+                         data-type="info information"
+                         data-description="le rendez-vous info de la semaine toute l'actualité étudiante décryptée et analysée par notre rédaction">
                         <div class="program-detail-card">
-                            <div class="program-header">
+                            <div class="program-title-section">
+                                <h3>TELEX Actus</h3>
+                                <span class="program-badge badge-information">📰 INFORMATION</span>
+                            </div>
+                            <div class="program-media-section">
                                 <div class="program-image-wrapper">
-                                    <img src="/images/micro.png" alt="Journal Campus" class="program-image">
-                                </div>
-                                <div class="program-text">
-                                    <h3>Le Journal Campus</h3>
-                                    <span class="program-badge">Info</span>
+                                    <img src="/images/micro.png" alt="TELEX Actus" class="program-image">
                                 </div>
                             </div>
                             <div class="program-body">
-                                <p>
-                                    Le rendez-vous info de la semaine. Toute l'actualité étudiante 
-                                    décryptée et analysée par notre rédaction.
-                                </p>
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le lundi à 18h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Le rendez-vous info de la semaine. Toute l'actualité étudiante décryptée et analysée par notre rédaction.</p>
+                                </div>
                                 <div class="program-info">
                                     <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Lundi 18h</p>
                                     <p><i class="fas fa-user me-2"></i><strong>Présentateurs :</strong> Sarah & Tom</p>
-                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 30 minutes</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 30 minutes</p>
                                 </div>
-                                <a href="#" class="btn btn-primary">
-                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
-                                </a>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="TELEX Actus" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4">
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="décryptage reportages enquête investigation"
+                         data-type="decryptage reportage enquete"
+                         data-description="analyse approfondie de l'actualité grands reportages et enquêtes de fond sur les sujets qui comptent">
                         <div class="program-detail-card">
-                            <div class="program-header">
+                            <div class="program-title-section">
+                                <h3>Décryptage & Reportages</h3>
+                                <span class="program-badge badge-decryptage">🎬 DÉCRYPTAGE</span>
+                            </div>
+                            <div class="program-media-section">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/programmes.png" alt="Décryptage & Reportages" class="program-image">
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le mardi à 20h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Analyse approfondie de l'actualité, grands reportages et enquêtes de fond sur les sujets qui comptent pour les étudiants.</p>
+                                </div>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Mardi 20h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Rédacteur en chef :</strong> Antoine</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 45 minutes</p>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="Décryptage & Reportages" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="débat campus face à face parole publique discussion"
+                         data-type="debat discussion"
+                         data-description="face-à-face d'idées sur les grands sujets de société un espace de dialogue constructif et respectueux">
+                        <div class="program-detail-card">
+                            <div class="program-title-section">
+                                <h3>Face à Face</h3>
+                                <span class="program-badge badge-debats">🎤 DÉBATS</span>
+                            </div>
+                            <div class="program-media-section">
                                 <div class="program-image-wrapper">
                                     <img src="/images/Débat.png" alt="Débat Campus" class="program-image">
                                 </div>
-                                <div class="program-text">
-                                    <h3>Débat Campus</h3>
-                                    <span class="program-badge bg-success">Débat</span>
-                                </div>
                             </div>
                             <div class="program-body">
-                                <p>
-                                    Face-à-face d'idées sur les grands sujets de société. 
-                                    Un espace de dialogue constructif et respectueux.
-                                </p>
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le mercredi à 20h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Face-à-face d'idées sur les grands sujets de société. Un espace de dialogue constructif et respectueux.</p>
+                                </div>
                                 <div class="program-info">
                                     <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Mercredi 20h</p>
                                     <p><i class="fas fa-user me-2"></i><strong>Animation :</strong> Divers intervenants</p>
-                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 45 minutes</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 45 minutes</p>
                                 </div>
-                                <a href="#" class="btn btn-primary">
-                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
-                                </a>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="Face à Face" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4">
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="cœur ouvert initiatives locales entrepreneurs associations"
+                         data-type="societe social humain"
+                         data-description="récits de vie initiatives solidaires portraits d'entrepreneurs et associations qui font bouger la société">
                         <div class="program-detail-card">
-                            <div class="program-header">
+                            <div class="program-title-section">
+                                <h3>À Cœur Ouvert</h3>
+                                <span class="program-badge badge-societe">🤝 SOCIÉTAL</span>
+                            </div>
+                            <div class="program-media-section">
                                 <div class="program-image-wrapper">
-                                    <img src="/images/femme telex.png" alt="Culture Express" class="program-image">
-                                </div>
-                                <div class="program-text">
-                                    <h3>Culture Express</h3>
-                                    <span class="program-badge bg-warning">Culture</span>
+                                    <img src="/images/femme telex.png" alt="À Cœur Ouvert" class="program-image">
                                 </div>
                             </div>
                             <div class="program-body">
-                                <p>
-                                    Découverte de la scène culturelle étudiante : musique, 
-                                    cinéma, théâtre, expositions. Les talents de demain.
-                                </p>
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le jeudi à 19h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Récits de vie, initiatives solidaires, portraits d'entrepreneurs et associations qui font bouger la société.</p>
+                                </div>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Jeudi 19h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Présentation :</strong> Claire</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 35 minutes</p>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="À Cœur Ouvert" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="1 notion en 3 minutes école citoyenne contrat arnaque"
+                         data-type="education pedagogie formation"
+                         data-description="apprendre autrement des concepts clés expliqués simplement en quelques minutes pour tous les étudiants">
+                        <div class="program-detail-card">
+                            <div class="program-title-section">
+                                <h3>1 notion en 3 minutes</h3>
+                                <span class="program-badge badge-education">📚 ÉDUCATIF</span>
+                            </div>
+                            <div class="program-media-section">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/programmes.png" alt="1 notion en 3 minutes" class="program-image">
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le lundi à 12h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Apprendre autrement ! Des concepts clés expliqués simplement en quelques minutes pour tous les étudiants.</p>
+                                </div>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Lundi 12h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Présentation :</strong> Prof. Rakoto</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 3 minutes</p>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="1 notion en 3 minutes" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="question des jeunes étudiants campus"
+                         data-type="jeunesse etudiants"
+                         data-description="la parole aux jeunes leurs préoccupations leurs passions leurs projets d'avenir">
+                        <div class="program-detail-card">
+                            <div class="program-title-section">
+                                <h3>La Question des Jeunes</h3>
+                                <span class="program-badge badge-jeunesse">🧑‍🎓 JEUNESSE</span>
+                            </div>
+                            <div class="program-media-section">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/programmes.png" alt="La Question des Jeunes" class="program-image">
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le vendredi à 17h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>La parole aux jeunes : leurs préoccupations, leurs passions, leurs projets d'avenir.</p>
+                                </div>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Vendredi 17h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Animation :</strong> Étudiants ambassadeurs</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 30 minutes</p>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="La Question des Jeunes" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="zoom écologie nature environnement"
+                         data-type="environnement ecologie nature"
+                         data-description="décryptage des enjeux environnementaux initiatives écologiques étudiantes et solutions durables">
+                        <div class="program-detail-card">
+                            <div class="program-title-section">
+                                <h3>Zoom Écologie</h3>
+                                <span class="program-badge badge-environnement">🌿 ENVIRONNEMENT</span>
+                            </div>
+                            <div class="program-media-section">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/programmes.png" alt="Zoom Écologie" class="program-image">
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le mercredi à 18h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Décryptage des enjeux environnementaux, initiatives écologiques étudiantes et solutions durables.</p>
+                                </div>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Mercredi 18h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Présentation :</strong> Emma</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 25 minutes</p>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="Zoom Écologie" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="culture express identité histoire politique madagascar"
+                         data-type="culture identite art"
+                         data-description="découverte de la scène culturelle étudiante musique cinéma théâtre expositions les talents de demain">
+                        <div class="program-detail-card">
+                            <div class="program-title-section">
+                                <h3>Culture & Identité</h3>
+                                <span class="program-badge badge-culture">🎨 CULTURE</span>
+                            </div>
+                            <div class="program-media-section">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/femme telex.png" alt="Culture & Identité" class="program-image">
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le vendredi à 19h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Découverte de la scène culturelle étudiante : musique, cinéma, théâtre, expositions. Les talents de demain.</p>
+                                </div>
                                 <div class="program-info">
                                     <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Vendredi 19h</p>
                                     <p><i class="fas fa-user me-2"></i><strong>Présentation :</strong> Léa & Jules</p>
-                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 25 minutes</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 25 minutes</p>
                                 </div>
-                                <a href="#" class="btn btn-primary">
-                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
-                                </a>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="Culture & Identité" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4">
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="travailler à mada économie business finance"
+                         data-type="economie travail business"
+                         data-description="tout savoir sur le monde du travail l'entrepreneuriat et l'économie pour réussir son insertion professionnelle">
                         <div class="program-detail-card">
-                            <div class="program-header">
+                            <div class="program-title-section">
+                                <h3>Travailler à Mada</h3>
+                                <span class="program-badge badge-economie">💼 ÉCONOMIE</span>
+                            </div>
+                            <div class="program-media-section">
                                 <div class="program-image-wrapper">
-                                    <img src="/images/TELEX BAREA12.png" alt="Telex Sports" class="program-image">
-                                </div>
-                                <div class="program-text">
-                                    <h3>Telex Sports</h3>
-                                    <span class="program-badge bg-danger">Sport</span>
+                                    <img src="/images/TELEX BAREA12.png" alt="Travailler à Mada" class="program-image">
                                 </div>
                             </div>
                             <div class="program-body">
-                                <p>
-                                    Couverture complète des événements sportifs universitaires, 
-                                    interviews d'athlètes et analyses techniques.
-                                </p>
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le jeudi à 18h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Tout savoir sur le monde du travail, l'entrepreneuriat et l'économie pour réussir son insertion professionnelle.</p>
+                                </div>
+                                <div class="program-info">
+                                    <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Jeudi 18h</p>
+                                    <p><i class="fas fa-user me-2"></i><strong>Expert :</strong> M. Randria</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 30 minutes</p>
+                                </div>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="Travailler à Mada" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 mb-4 program-card" 
+                         data-title="telex sports athlétisme"
+                         data-type="sport"
+                         data-description="couverture complète des événements sportifs universitaires interviews d'athlètes et analyses techniques">
+                        <div class="program-detail-card">
+                            <div class="program-title-section">
+                                <h3>Telex Sports</h3>
+                                <span class="program-badge badge-sport">⚽ SPORT</span>
+                            </div>
+                            <div class="program-media-section">
+                                <div class="program-image-wrapper">
+                                    <img src="/images/TELEX BAREA12.png" alt="Telex Sports" class="program-image">
+                                </div>
+                            </div>
+                            <div class="program-body">
+                                <div class="broadcast-badge">
+                                    <span class="badge bg-info"><i class="fas fa-calendar me-1"></i>Programmé</span>
+                                    <small class="text-muted ms-2">Diffusion prévue le samedi à 17h</small>
+                                </div>
+                                <div class="program-description">
+                                    <p>Couverture complète des événements sportifs universitaires, interviews d'athlètes et analyses techniques.</p>
+                                </div>
                                 <div class="program-info">
                                     <p><i class="far fa-clock me-2"></i><strong>Diffusion :</strong> Samedi 17h</p>
                                     <p><i class="fas fa-user me-2"></i><strong>Présentation :</strong> Marc & Sophie</p>
-                                    <p><i class="fas fa-clock me-2"></i><strong>Durée :</strong> 35 minutes</p>
+                                    <p><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong> 35 minutes</p>
                                 </div>
-                                <a href="#" class="btn btn-primary">
-                                    <i class="fab fa-youtube me-2"></i>Voir les épisodes
-                                </a>
+                                <div class="program-actions">
+                                    <a href="#" class="btn btn-primary disabled"><i class="fas fa-clock me-2"></i>Bientôt disponible</a>
+                                    <button class="btn btn-outline-secondary" data-program-title="Telex Sports" onclick="showProgramInfo(this.dataset)"><i class="fas fa-info-circle me-2"></i>Détails</button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -297,63 +1513,109 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% if (schedule && schedule.length > 0) { %>
-                                <% schedule.forEach(program => { %>
-                                    <tr>
-                                        <td><%= program.day %></td>
-                                        <td><%= program.time %></td>
-                                        <td><%= program.program_name %></td>
-                                        <td>
-                                            <% 
-                                            const badgeClass = {
-                                                'Info': 'bg-primary',
-                                                'Culture': 'bg-warning',
-                                                'Débat': 'bg-success',
-                                                'Sport': 'bg-danger',
-                                                'Cinéma': 'bg-info',
-                                                'Musique': 'bg-secondary',
-                                                'Divertissement': 'bg-warning',
-                                                'Documentaire': 'bg-primary',
-                                                'Autre': 'bg-secondary'
-                                            }[program.program_type] || 'bg-secondary';
-                                            %>
-                                            <span class="badge <%= badgeClass %>">
-                                                <%= program.program_type %>
-                                            </span>
-                                        </td>
-                                    </tr>
-                                <% }); %>
-                            <% } else { %>
-                                <!-- Données par défaut si aucune donnée en BDD -->
+                            <% 
+                            const programSchedule = {};
+                            const joursSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+                            
+                            joursSemaine.forEach(jour => {
+                                programSchedule[jour] = [];
+                            });
+                            
+                            const defaultPrograms = [
+                                { jour: 'Lundi', heure: '12:00', emission: '1 notion en 3 minutes', type: 'Éducatif', typeClass: 'education' },
+                                { jour: 'Lundi', heure: '18:00', emission: 'TELEX Actus', type: 'Information', typeClass: 'information' },
+                                { jour: 'Mardi', heure: '20:00', emission: 'Décryptage & Reportages', type: 'Décryptage', typeClass: 'decryptage' },
+                                { jour: 'Mercredi', heure: '18:00', emission: 'Zoom Écologie', type: 'Environnement', typeClass: 'environnement' },
+                                { jour: 'Mercredi', heure: '20:00', emission: 'Face à Face', type: 'Débat', typeClass: 'debats' },
+                                { jour: 'Jeudi', heure: '18:00', emission: 'Travailler à Mada', type: 'Économie', typeClass: 'economie' },
+                                { jour: 'Jeudi', heure: '19:00', emission: 'À Cœur Ouvert', type: 'Sociétal', typeClass: 'societe' },
+                                { jour: 'Vendredi', heure: '17:00', emission: 'La Question des Jeunes', type: 'Jeunesse', typeClass: 'jeunesse' },
+                                { jour: 'Vendredi', heure: '19:00', emission: 'Culture & Identité', type: 'Culture', typeClass: 'culture' },
+                                { jour: 'Samedi', heure: '17:00', emission: 'Telex Sports', type: 'Sport', typeClass: 'sport' }
+                            ];
+                            
+                            let hasDbPrograms = false;
+                            if (schedulePrograms && schedulePrograms.length > 0) {
+                                schedulePrograms.forEach(program => {
+                                    if (program.broadcast_type === 'scheduled' && program.schedule_time && program.program_date) {
+                                        hasDbPrograms = true;
+                                        const programDate = new Date(program.program_date);
+                                        const jourIndex = programDate.getDay();
+                                        const jourName = joursSemaine[jourIndex === 0 ? 6 : jourIndex - 1];
+                                        
+                                        let typeClass = 'default';
+                                        let typeName = program.program_type || 'Programme';
+                                        
+                                        switch(program.program_type) {
+                                            case 'Programme d\'Information': typeClass = 'information'; typeName = 'Information'; break;
+                                            case 'Programme Décryptage & Reportages': typeClass = 'decryptage'; typeName = 'Décryptage'; break;
+                                            case 'Programme Débats': typeClass = 'debats'; typeName = 'Débat'; break;
+                                            case 'Programme Humain & Sociétal': typeClass = 'societe'; typeName = 'Sociétal'; break;
+                                            case 'Programme Éducatif': typeClass = 'education'; typeName = 'Éducatif'; break;
+                                            case 'Programme Jeunesse': typeClass = 'jeunesse'; typeName = 'Jeunesse'; break;
+                                            case 'Programme Environnement': typeClass = 'environnement'; typeName = 'Environnement'; break;
+                                            case 'Programme Culture & Identité': typeClass = 'culture'; typeName = 'Culture'; break;
+                                            case 'Programme Économie & Travail': typeClass = 'economie'; typeName = 'Économie'; break;
+                                            case 'Programme Sport': typeClass = 'sport'; typeName = 'Sport'; break;
+                                        }
+                                        
+                                        programSchedule[jourName].push({
+                                            title: program.title,
+                                            time: program.schedule_time,
+                                            type: typeName,
+                                            typeClass: typeClass
+                                        });
+                                    }
+                                });
+                            }
+                            
+                            if (!hasDbPrograms) {
+                                defaultPrograms.forEach(program => {
+                                    programSchedule[program.jour].push({
+                                        title: program.emission,
+                                        time: program.heure,
+                                        type: program.type,
+                                        typeClass: program.typeClass
+                                    });
+                                });
+                            }
+                            
+                            let hasPrograms = false;
+                            joursSemaine.forEach(jour => {
+                                if (programSchedule[jour] && programSchedule[jour].length > 0) {
+                                    hasPrograms = true;
+                                    programSchedule[jour].sort((a, b) => {
+                                        const timeToMinutes = (timeStr) => {
+                                            if (!timeStr) return 0;
+                                            if (timeStr.includes(':')) {
+                                                const [hours, minutes] = timeStr.split(':');
+                                                return parseInt(hours) * 60 + parseInt(minutes || 0);
+                                            } else if (timeStr.includes('h')) {
+                                                const [hours, minutes] = timeStr.split('h');
+                                                return parseInt(hours) * 60 + parseInt(minutes || 0);
+                                            }
+                                            return 0;
+                                        };
+                                        return timeToMinutes(a.time) - timeToMinutes(b.time);
+                                    });
+                                    
+                                    programSchedule[jour].forEach(program => { %>
+                                        <tr>
+                                            <td><%= jour %></td>
+                                            <td><%= program.time %></td>
+                                            <td><%= program.title %></td>
+                                            <td><span class="badge badge-<%= program.typeClass %>"><%= program.type %></span></td>
+                                        </tr>
+                                    <% });
+                                }
+                            });
+                            
+                            if (!hasPrograms) { %>
                                 <tr>
-                                    <td>Lundi</td>
-                                    <td>18:00</td>
-                                    <td>Le Journal Campus</td>
-                                    <td><span class="badge bg-primary">Info</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Mardi</td>
-                                    <td>19:30</td>
-                                    <td>Culture Express</td>
-                                    <td><span class="badge bg-warning">Culture</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Mercredi</td>
-                                    <td>20:00</td>
-                                    <td>Débat Campus</td>
-                                    <td><span class="badge bg-success">Débat</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Jeudi</td>
-                                    <td>18:30</td>
-                                    <td>TELEX Sports</td>
-                                    <td><span class="badge bg-danger">Sport</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Vendredi</td>
-                                    <td>21:00</td>
-                                    <td>Ciné Club</td>
-                                    <td><span class="badge bg-info">Cinéma</span></td>
+                                    <td colspan="4" class="text-center text-muted">
+                                        <i class="fas fa-calendar-alt me-2"></i>
+                                        Aucun programme programmé pour le moment
+                                    </td>
                                 </tr>
                             <% } %>
                         </tbody>
@@ -363,15 +1625,240 @@
         </div>
     </section>
 
-    <footer class="footer-telex">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2026 Telex - Tous droits réservés</p>
-            </div>
-        </div>
-    </footer>
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/main.js"></script>
+    
+    <script>
+        async function incrementProgramView(programId) {
+            try {
+                const programCard = document.querySelector(`[data-program-id="${programId}"]`);
+                if (programCard) {
+                    programCard.style.transform = 'scale(0.98)';
+                    setTimeout(() => {
+                        programCard.style.transform = '';
+                    }, 150);
+                }
+                
+                const response = await fetch(`/api/programs/${programId}/view`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (programCard) {
+                        programCard.style.boxShadow = '0 8px 30px rgba(0, 123, 255, 0.3)';
+                        setTimeout(() => {
+                            programCard.style.boxShadow = '';
+                        }, 300);
+                    }
+                }
+            } catch (error) {
+                console.error('Erreur:', error);
+            }
+        }
+
+        function searchPrograms() {
+            const searchInput = document.getElementById('searchInput');
+            if (!searchInput) return;
+            
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const programCards = document.querySelectorAll('.program-card');
+            const noResults = document.getElementById('noResults');
+            let visibleCount = 0;
+            
+            if (searchTerm === '') {
+                programCards.forEach(card => {
+                    card.style.display = 'block';
+                    visibleCount++;
+                });
+                if (noResults) noResults.style.display = 'none';
+                return;
+            }
+            
+            programCards.forEach(card => {
+                const title = (card.getAttribute('data-title') || '').toLowerCase();
+                const type = (card.getAttribute('data-type') || '').toLowerCase();
+                const description = (card.getAttribute('data-description') || '').toLowerCase();
+                
+                const searchText = `${title} ${type} ${description}`;
+                const matches = searchText.includes(searchTerm);
+                
+                if (matches) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (noResults) {
+                noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+        }
+
+        function resetSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) searchInput.value = '';
+            
+            const programCards = document.querySelectorAll('.program-card');
+            programCards.forEach(card => {
+                card.style.display = 'block';
+            });
+            
+            const noResults = document.getElementById('noResults');
+            if (noResults) noResults.style.display = 'none';
+        }
+
+        function showProgramInfo(dataset) {
+            const oldModal = document.getElementById('programInfoModal');
+            if (oldModal) oldModal.remove();
+            
+            const modal = document.createElement('div');
+            modal.className = 'modal fade';
+            modal.id = 'programInfoModal';
+            modal.setAttribute('tabindex', '-1');
+            modal.setAttribute('aria-hidden', 'true');
+            
+            let formattedDate = '';
+            if (dataset.programDate) {
+                try {
+                    const date = new Date(dataset.programDate);
+                    formattedDate = date.toLocaleDateString('fr-FR', { 
+                        weekday: 'long', 
+                        year: 'numeric', 
+                        month: 'long', 
+                        day: 'numeric' 
+                    });
+                } catch (e) {
+                    formattedDate = dataset.programDate;
+                }
+            }
+            
+            modal.innerHTML = `
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-gradient text-white" style="background: linear-gradient(135deg, #1D3557, #A8DADC);">
+                            <div class="d-flex align-items-center">
+                                <img src="/images/Telex.png" alt="Telex" style="width: 40px; height: 40px; margin-right: 15px;">
+                                <h5 class="modal-title mb-0">
+                                    <i class="fas fa-tv me-2"></i>
+                                    ${dataset.programTitle || 'Programme Telex'}
+                                </h5>
+                            </div>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="text-center mb-4">
+                                <img src="/images/Telex.png" alt="Telex" style="width: 80px; opacity: 0.8;">
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <h6 class="text-primary mb-3"><i class="fas fa-info-circle me-2"></i>Description</h6>
+                                    <p class="lead">${dataset.programDescription || 'Découvrez ce programme passionnant sur Telex.'}</p>
+                                    
+                                    ${dataset.programType ? `
+                                    <h6 class="text-primary mb-3"><i class="fas fa-tag me-2"></i>Type de programme</h6>
+                                    <p><span class="badge bg-primary fs-6">${dataset.programType}</span></p>
+                                    ` : ''}
+                                    
+                                    ${dataset.programPresenter ? `
+                                    <h6 class="text-primary mb-3"><i class="fas fa-user me-2"></i>${dataset.programType && dataset.programType.includes('Débat') ? 'Animation' : 'Présentation'}</h6>
+                                    <p>${dataset.programPresenter}</p>
+                                    ` : ''}
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6 class="card-title"><i class="fas fa-calendar-alt me-2"></i>Informations pratiques</h6>
+                                            ${dataset.programSchedule ? `<p class="mb-2"><i class="far fa-clock me-2"></i><strong>Heure :</strong><br>${dataset.programSchedule}</p>` : ''}
+                                            ${formattedDate ? `<p class="mb-2"><i class="far fa-calendar me-2"></i><strong>Date :</strong><br>${formattedDate}</p>` : ''}
+                                            ${dataset.programDuration ? `<p class="mb-2"><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong><br>${dataset.programDuration}</p>` : ''}
+                                            ${dataset.programVideo ? `<div class="mt-3"><a href="${dataset.programVideo}" class="btn btn-primary btn-sm w-100" target="_blank"><i class="fas fa-play me-2"></i>Regarder</a></div>` : ''}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="text-center">
+                                <p class="text-muted mb-0"><i class="fas fa-tv me-2"></i>Suivez <strong>TELEX</strong> sur nos réseaux sociaux pour ne manquer aucune actualité !</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i>Fermer</button>
+                            ${dataset.programVideo ? `<a href="${dataset.programVideo}" class="btn btn-primary" target="_blank"><i class="fas fa-play me-2"></i>Regarder maintenant</a>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            const bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+            modal.addEventListener('hidden.bs.modal', () => modal.remove());
+        }
+
+        function toggleDescription(programId) {
+            const descElement = document.getElementById(`desc-${programId}`);
+            if (!descElement) return;
+            
+            const shortDesc = descElement.querySelector('.short-desc');
+            const fullDesc = descElement.querySelector('.full-desc');
+            const moreText = descElement.querySelector('.more-text');
+            const lessText = descElement.querySelector('.less-text');
+            
+            if (fullDesc && fullDesc.classList.contains('d-none')) {
+                shortDesc?.classList.add('d-none');
+                fullDesc.classList.remove('d-none');
+                moreText?.classList.add('d-none');
+                lessText?.classList.remove('d-none');
+            } else if (fullDesc) {
+                shortDesc?.classList.remove('d-none');
+                fullDesc.classList.add('d-none');
+                moreText?.classList.remove('d-none');
+                lessText?.classList.add('d-none');
+            }
+        }
+
+        function initSearch() {
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput) {
+                searchInput.addEventListener('input', () => searchPrograms());
+                searchInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') searchPrograms(); });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            initSearch();
+            
+            const programCards = document.querySelectorAll('.program-card');
+            programCards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+            
+            const images = document.querySelectorAll('.program-image');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    if (!this.src.includes('/images/programmes.png')) {
+                        this.src = '/images/programmes.png';
+                    }
+                });
+            });
+        });
+
+        window.searchPrograms = searchPrograms;
+        window.resetSearch = resetSearch;
+        window.showProgramInfo = showProgramInfo;
+        window.toggleDescription = toggleDescription;
+        window.incrementProgramView = incrementProgramView;
+    </script>
 </body>
 </html>

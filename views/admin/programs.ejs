@@ -424,6 +424,33 @@
             color: #4B5563;
         }
         
+        /* Styles pour les vues */
+        .views-count, .total-views-count {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .views-count {
+            background: rgba(59, 130, 246, 0.1);
+            color: #2563eb;
+        }
+        
+        .total-views-count {
+            background: rgba(34, 197, 94, 0.1);
+            color: #16a34a;
+        }
+        
+        .views-number, .total-views-number {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        
         .action-buttons {
             display: flex;
             gap: 8px;
@@ -560,6 +587,130 @@
             line-height: 1.3;
         }
         
+        /* Programs Grid Styles */
+        .programs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .program-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .program-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .program-header {
+            padding: 20px 20px 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .program-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 1rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .program-category {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .program-content {
+            padding: 20px;
+        }
+        
+        .program-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+        
+        .program-formats {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 12px;
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        
+        .program-description {
+            font-size: 0.95rem;
+            color: #475569;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            display: -webkit-box;
+            display: -moz-box;
+            display: box;
+            -webkit-line-clamp: 3;
+            -moz-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            -moz-box-orient: vertical;
+            box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .program-status {
+            display: flex;
+            justify-content: flex-end;
+        }
+        
+        /* Couleurs spécifiques pour chaque programme */
+        .program-info .program-number { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+        .program-info:hover { border-color: #3B82F6; }
+        
+        .program-decryptage .program-number { background: linear-gradient(135deg, #10B981, #047857); }
+        .program-decryptage:hover { border-color: #10B981; }
+        
+        .program-debats .program-number { background: linear-gradient(135deg, #F59E0B, #D97706); }
+        .program-debats:hover { border-color: #F59E0B; }
+        
+        .program-humain .program-number { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
+        .program-humain:hover { border-color: #8B5CF6; }
+        
+        .program-educatif .program-number { background: linear-gradient(135deg, #06B6D4, #0891B2); }
+        .program-educatif:hover { border-color: #06B6D4; }
+        
+        .program-jeunesse .program-number { background: linear-gradient(135deg, #F97316, #EA580C); }
+        .program-jeunesse:hover { border-color: #F97316; }
+        
+        .program-environnement .program-number { background: linear-gradient(135deg, #059669, #047857); }
+        .program-environnement:hover { border-color: #059669; }
+        
+        .program-culture .program-number { background: linear-gradient(135deg, #7C3AED, #6D28D9); }
+        .program-culture:hover { border-color: #7C3AED; }
+        
+        .program-verification .program-number { background: linear-gradient(135deg, #DC2626, #B91C1C); }
+        .program-verification:hover { border-color: #DC2626; }
+        
+        .program-economie .program-number { background: linear-gradient(135deg, #CA8A04, #B45309); }
+        .program-economie:hover { border-color: #CA8A04; }
+        
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {
@@ -642,6 +793,58 @@
             .table {
                 min-width: 600px;
             }
+        }
+        
+        /* ===== STYLES VIDÉO ===== */
+        .video-preview-container {
+            position: relative;
+            width: 60px;
+            height: 45px;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .video-preview-container:hover {
+            transform: scale(1.05);
+        }
+        
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .video-overlay-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.6);
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+        
+        .video-preview-container:hover .video-overlay-icon {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .vimeo-thumbnail {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #00adef, #007bff);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -742,7 +945,7 @@
                     <i class="fas fa-tv"></i>
                 </div>
                 <div class="stat-content">
-                    <h3><%= programs ? programs.length : 0 %></h3>
+                    <h3>10</h3>
                     <p>Programmes au total</p>
                 </div>
             </div>
@@ -752,7 +955,7 @@
                     <i class="fas fa-play-circle"></i>
                 </div>
                 <div class="stat-content">
-                    <h3><%= programs ? programs.filter(p => p.is_active).length : 0 %></h3>
+                    <h3>10</h3>
                     <p>Programmes actifs</p>
                 </div>
             </div>
@@ -762,7 +965,7 @@
                     <i class="fas fa-pause-circle"></i>
                 </div>
                 <div class="stat-content">
-                    <h3><%= programs ? programs.filter(p => !p.is_active).length : 0 %></h3>
+                    <h3>0</h3>
                     <p>Programmes inactifs</p>
                 </div>
             </div>
@@ -811,93 +1014,156 @@
             </div>
         </div>
         
-        <!-- Programs Table -->
+        <!-- Tableau des Programmes -->
         <div class="table-container">
             <div class="table-header">
-                <h2><i class="fas fa-list me-2"></i>Liste des programmes</h2>
-                <div class="small text-muted">
-                    <%= programs ? programs.length : 0 %> programme(s) trouvé(s)
+                <h2><i class="fas fa-tv me-2"></i>Liste des Programmes</h2>
+                <div class="top-actions">
+                    <a href="/admin/programs/new" class="btn btn-new">
+                        <i class="fas fa-plus me-2"></i>Nouveau Programme
+                    </a>
                 </div>
             </div>
             
-            <% if (programs && programs.length > 0) { %>
             <div class="table-responsive">
                 <table class="table" id="programsTable">
                     <thead>
                         <tr>
-                            <th width="60">ID</th>
-                            <th>Programme</th>
-                            <th>Horaire</th>
+                            <th>Image</th>
+                            <th>Titre</th>
+                            <th>Description</th>
                             <th>Présentateur</th>
-                            <th width="100">Statut</th>
-                            <th width="120" class="text-center">Actions</th>
+                            <th>Programme</th>
+                            <th>Vidéo</th>
+                            <th>Vues</th>
+                            <th>Statut</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <% programs.forEach(program => { %>
-                        <tr>
-                            <td>
-                                <span class="text-muted">#<%= program.id %></span>
-                            </td>
-                            <td>
-                                <div class="program-title"><%= program.title %></div>
-                                <div class="program-description" title="<%= program.description || '' %>">
-                                    <%= program.description ? program.description.substring(0, 100) + (program.description.length > 100 ? '...' : '') : 'Aucune description' %>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="program-schedule">
-                                    <i class="far fa-clock"></i>
-                                    <span><%= program.schedule_time || 'Non spécifié' %></span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="program-presenter">
-                                    <i class="fas fa-user"></i>
-                                    <span><%= program.presenter || 'Non spécifié' %></span>
-                                </div>
-                            </td>
-                            <td>
-                                <span class="status-badge <%= program.is_active ? 'status-active' : 'status-inactive' %>">
-                                    <% if (program.is_active) { %>
-                                    <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>Actif
-                                    <% } else { %>
-                                    <i class="fas fa-circle me-1" style="font-size: 0.6rem;"></i>Inactif
-                                    <% } %>
-                                </span>
-                            </td>
-                            <td class="text-center">
-                                <div class="action-buttons">
-                                    <a href="/admin/programs/edit/<%= program.id %>" 
-                                       class="btn-action btn-edit"
-                                       title="Éditer">
-                                        <i class="fas fa-edit"></i>
+                        <% if (programs && programs.length > 0) { %>
+                            <% programs.forEach(function(program) { %>
+                                <tr>
+                                    <td class="text-center">
+                                        <% if (program.image_url) { %>
+                                            <img src="<%= program.image_url %>" 
+                                                 alt="<%= program.title %>" 
+                                                 class="img-fluid rounded"
+                                                 style="max-width: 60px; max-height: 40px; object-fit: cover;">
+                                        <% } else { %>
+                                            <i class="fas fa-image text-muted"></i>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <strong><%= program.title %></strong>
+                                        <% if (program.program_type) { %>
+                                            <div class="program-category"><%= program.program_type %></div>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <div class="program-description">
+                                            <%= program.description ? program.description.substring(0, 100) + '...' : 'Aucune description' %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <span class="program-presenter">
+                                            <i class="fas fa-user me-1"></i>
+                                            <%= program.presenter || 'TELEX' %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span class="program-category"><%= program.program_type || 'Non défini' %></span>
+                                    </td>
+                                    <td class="text-center">
+                                        <% if (program.video_url) { %>
+                                            <div class="video-preview-container">
+                                                <% if (program.video_url.includes('youtube.com') || program.video_url.includes('youtu.be')) { %>
+                                                    <% 
+                                                    // Extraire l'ID YouTube
+                                                    let videoId = '';
+                                                    if (program.video_url.includes('youtube.com/watch?v=')) {
+                                                        videoId = program.video_url.split('v=')[1].split('&')[0];
+                                                    } else if (program.video_url.includes('youtu.be/')) {
+                                                        videoId = program.video_url.split('youtu.be/')[1].split('?')[0];
+                                                    }
+                                                    %>
+                                                    <img src="https://img.youtube.com/vi/<%= videoId %>/mqdefault.jpg" 
+                                                         alt="Vignette YouTube" 
+                                                         class="video-thumbnail"
+                                                         style="width: 60px; height: 45px; object-fit: cover; border-radius: 4px; cursor: pointer;"
+                                                         onclick="window.open('<%= program.video_url %>', '_blank')"
+                                                         title="Voir la vidéo YouTube">
+                                                    <div class="video-overlay-icon">
+                                                        <i class="fab fa-youtube text-white"></i>
+                                                    </div>
+                                                <% } else if (program.video_url.includes('vimeo.com')) { %>
+                                                    <div class="vimeo-thumbnail" 
+                                                         style="width: 60px; height: 45px; cursor: pointer;"
+                                                         onclick="window.open('<%= program.video_url %>', '_blank')"
+                                                         title="Voir la vidéo Vimeo">
+                                                        <i class="fab fa-vimeo text-primary"></i>
+                                                    </div>
+                                                <% } else { %>
+                                                    <!-- Vidéo directe -->
+                                                    <video class="video-thumbnail" 
+                                                           style="width: 60px; height: 45px; object-fit: cover; border-radius: 4px; cursor: pointer;"
+                                                           onclick="window.open('<%= program.video_url %>', '_blank')"
+                                                           title="Voir la vidéo directe">
+                                                        <source src="<%= program.video_url %>" type="video/mp4">
+                                                    </video>
+                                                    <div class="video-overlay-icon">
+                                                        <i class="fas fa-play text-white"></i>
+                                                    </div>
+                                                <% } %>
+                                            </div>
+                                        <% } else { %>
+                                            <i class="fas fa-video-slash text-muted" title="Pas de vidéo"></i>
+                                        <% } %>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="views-count">
+                                            <i class="fas fa-eye text-primary me-1"></i>
+                                            <span class="views-number"><%= program.views || 0 %></span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="status-badge <%= program.is_active ? 'status-active' : 'status-inactive' %>">
+                                            <%= program.is_active ? 'Actif' : 'Inactif' %>
+                                        </span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="action-buttons">
+                                            <a href="/programs#program-<%= program.id %>" target="_blank" class="btn-action" title="Voir sur le site">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="/admin/programs/edit/<%= program.id %>" class="btn-action" title="Éditer">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            <button type="button" 
+                                                    class="btn-action" 
+                                                    onclick="confirmDeleteProgram('<%= program.id %>', '<%= program.title %>')"
+                                                    title="Supprimer">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="9" class="text-center text-muted py-4">
+                                    <i class="fas fa-tv fa-3x mb-3"></i>
+                                    <h5>Aucun programme trouvé</h5>
+                                    <p>Commencez par créer votre premier programme.</p>
+                                    <a href="/admin/programs/new" class="btn btn-new mt-3">
+                                        <i class="fas fa-plus me-2"></i>Créer un Programme
                                     </a>
-                                    <a href="/admin/programs/delete/<%= program.id %>" 
-                                       class="btn-action btn-delete"
-                                       title="Supprimer"
-                                       onclick="confirmDeleteProgram('<%= program.id %>', '<%= program.title %>')">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                        <% }); %>
+                                </td>
+                            </tr>
+                        <% } %>
                     </tbody>
                 </table>
             </div>
-            <% } else { %>
-            <div class="empty-state">
-                <div class="empty-state-icon">
-                    <i class="fas fa-tv"></i>
-                </div>
-                <h3>Aucun programme trouvé</h3>
-                <p>Commencez par créer votre premier programme pour le diffuser sur Telex.</p>
-                <a href="/admin/programs/new" class="btn btn-new">
-                    <i class="fas fa-plus me-2"></i>Créer mon premier programme
-                </a>
-            </div>
-            <% } %>
         </div>
         
         <!-- Footer -->
@@ -918,8 +1184,13 @@
     <script>
         // Fonction globale pour confirmer la suppression de programme
         function confirmDeleteProgram(programId, programTitle) {
+            console.log('🗑️ Tentative de suppression du programme:', programId, programTitle);
+            
             if (confirm(`Voulez-vous vraiment supprimer le programme "${programTitle}" ?\n\nCette action est irréversible et supprimera définitivement le programme.`)) {
+                console.log('✅ Confirmation reçue, redirection vers:', `/admin/programs/delete/${programId}`);
                 window.location.href = `/admin/programs/delete/${programId}`;
+            } else {
+                console.log('❌ Suppression annulée par l\'utilisateur');
             }
         }
         
@@ -931,7 +1202,16 @@
             if (tableElement) {
                 $('#programsTable').DataTable({
                     language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json'
+                        "processing": "Traitement en cours...",
+                        "search": "Rechercher:",
+                        "lengthMenu": "Afficher _MENU_ éléments",
+                        "info": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
+                        "paginate": {
+                            "first": "Premier",
+                            "last": "Dernier",
+                            "next": "Suivant",
+                            "previous": "Précédent"
+                        }
                     },
                     pageLength: 10,
                     order: [[0, 'desc']],

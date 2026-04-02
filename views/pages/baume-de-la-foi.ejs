@@ -1,0 +1,4273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baume de la Foi - Réconfort Spirituel | Telex</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- CSS Principal de Telex -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        /* ===== VARIABLES BAUME DE LA FOI ===== */
+        :root {
+            --baume-primary: #3AAFA9;
+            --baume-secondary: #FF6B9D;
+            --baume-accent: #3AAFA9;
+            --baume-accent-light: #5DADE2;
+            --baume-light: #F8FAF9;
+            --baume-cream: #FFF8F0;
+            --baume-soft: #FFE4E1;
+            --baume-gradient: linear-gradient(135deg, #3AAFA9 0%, #256a66 100%);
+            --baume-gradient-light: linear-gradient(135deg, #3AAFA9 0%, #5DADE2 100%);
+            --baume-shadow: 0 8px 25px rgba(58, 175, 169, 0.15);
+            --baume-shadow-hover: 0 12px 35px rgba(58, 175, 169, 0.25);
+            --baume-radius: 16px;
+            --baume-radius-sm: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, var(--baume-cream) 0%, var(--baume-light) 100%);
+            min-height: 100vh;
+            color: #1A2E2A;
+            padding-top: 0.1cm;
+            line-height: 1.6;
+        }
+
+        /* ===== NAVBAR UNIFIÉE - ROUGE ET JAUNE POUR TOUS LES MENUS ===== */
+
+        /* Style de base pour toutes les navbars */
+        .navbar,
+        .navbar-telex,
+        .navbar-baume {
+            background: #051d40 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            z-index: 1030 !important;
+            padding-top: 0.05rem !important;
+            padding-bottom: 0.05rem !important;
+            min-height: 20px !important;
+        }
+
+        /* ===== LOGO - ROUGE ===== */
+        .navbar .navbar-brand,
+        .navbar-telex .navbar-brand,
+        .navbar-baume .navbar-brand {
+            color: #3AAFA9 !important;  /* Bleu canard clair */
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .navbar-brand:hover,
+        .navbar-telex .navbar-brand:hover,
+        .navbar-baume .navbar-brand:hover {
+            color: #c1121f !important;  /* Rouge plus foncé */
+            transform: translateY(-1px);
+        }
+
+        .navbar .navbar-brand img,
+        .navbar-telex .navbar-brand img,
+        .navbar-baume .navbar-brand img {
+            height: 60px;
+            width: auto;
+            max-width: 200px;
+            margin-right: 10px;
+            transform: scale(1);
+            transform-origin: center;
+        }
+
+        /* ===== TOUS LES LIENS DU MENU - ROUGE AU REPOS ===== */
+        .navbar .navbar-nav .nav-link,
+        .navbar-telex .navbar-nav .nav-link,
+        .navbar-baume .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            font-family: 'League Spartan', sans-serif !important;
+            text-transform: uppercase !important;
+            padding: 8px 12px !important;
+            margin: 0 2px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        /* ===== TOUTES LES ICÔNES - ROUGE ===== */
+        .navbar .navbar-nav .nav-link i,
+        .navbar-telex .navbar-nav .nav-link i,
+        .navbar-baume .navbar-nav .nav-link i {
+            color: white !important;
+            margin-right: 8px;
+            font-size: 1.1rem !important;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== SURVOL - JAUNE ===== */
+        .navbar .navbar-nav .nav-link:hover,
+        .navbar-telex .navbar-nav .nav-link:hover,
+        .navbar-baume .navbar-nav .nav-link:hover {
+            color: white !important;
+            background: #dc3545 !important;  /* Rouge */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .navbar .navbar-nav .nav-link:hover i,
+        .navbar-telex .navbar-nav .nav-link:hover i,
+        .navbar-baume .navbar-nav .nav-link:hover i {
+            color: white !important;
+            transform: scale(1.1);
+        }
+
+        /* ===== LIEN ACTIF (PAGE COURANTE) - ROUGE ===== */
+        .navbar .navbar-nav .nav-link.active,
+        .navbar-telex .navbar-nav .nav-link.active,
+        .navbar-baume .navbar-nav .nav-link.active {
+            color: white !important;
+            background: #dc3545 !important;  /* Rouge */
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .navbar .navbar-nav .nav-link.active i,
+        .navbar-telex .navbar-nav .nav-link.active i,
+        .navbar-baume .navbar-nav .nav-link.active i {
+            color: white !important;
+        }
+
+        /* Soulignement pour le lien actif (optionnel) */
+        .navbar .navbar-nav .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 15px;
+            right: 15px;
+            height: 3px;
+            background: #0953b6;
+            border-radius: 2px;
+        }
+
+        /* ===== BOUTON MENU MOBILE ===== */
+        .navbar .navbar-toggler,
+        .navbar-telex .navbar-toggler,
+        .navbar-baume .navbar-toggler {
+            border: 1px solid #3AAFA9 !important;
+            background: transparent;
+            padding: 0.5rem 0.75rem;
+        }
+
+        .navbar .navbar-toggler i,
+        .navbar-telex .navbar-toggler i,
+        .navbar-baume .navbar-toggler i {
+            color: #3AAFA9 !important;
+            font-size: 1.5rem;
+        }
+
+        .navbar .navbar-toggler:hover,
+        .navbar-telex .navbar-toggler:hover,
+        .navbar-baume .navbar-toggler:hover {
+            background-color: rgba(255, 71, 87, 0.1);
+        }
+
+        .navbar .navbar-toggler:hover i,
+        .navbar-telex .navbar-toggler:hover i,
+        .navbar-baume .navbar-toggler:hover i {
+            color: #c1121f !important;
+        }
+
+        /* ===== MENU DÉROULANT ===== */
+        .navbar .dropdown-menu,
+        .navbar-telex .dropdown-menu,
+        .navbar-baume .dropdown-menu {
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar .dropdown-item,
+        .navbar-telex .dropdown-item,
+        .navbar-baume .dropdown-item {
+            color: #3AAFA9 !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .dropdown-item:hover,
+        .navbar-telex .dropdown-item:hover,
+        .navbar-baume .dropdown-item:hover {
+            background-color: #dc3545 !important;
+            color: white !important;
+            padding-left: 1.8rem;
+        }
+
+        .navbar .dropdown-item i,
+        .navbar-telex .dropdown-item i,
+        .navbar-baume .dropdown-item i {
+            color: #3AAFA9 !important;
+            margin-right: 8px;
+        }
+
+        .navbar .dropdown-item:hover i,
+        .navbar-telex .dropdown-item:hover i,
+        .navbar-baume .dropdown-item:hover i {
+            color: white !important;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 991.98px) {
+            .navbar .navbar-nav,
+            .navbar-telex .navbar-nav,
+            .navbar-baume .navbar-nav {
+                padding: 1rem 0;
+            }
+            
+            .navbar .navbar-nav .nav-link,
+            .navbar-telex .navbar-nav .nav-link,
+            .navbar-baume .navbar-nav .nav-link {
+                text-align: center;
+                padding: 10px 8px !important;
+                margin: 2px 0;
+                font-size: 0.9rem !important;
+            }
+            
+            .navbar .navbar-nav .nav-link i,
+            .navbar-telex .navbar-nav .nav-link i,
+            .navbar-baume .navbar-nav .nav-link i {
+                margin-right: 6px;
+                width: 18px;
+                font-size: 1rem !important;
+            }
+            
+            .navbar .navbar-nav .nav-link.active::after,
+            .navbar-telex .navbar-nav .nav-link.active::after,
+            .navbar-baume .navbar-nav .nav-link.active::after {
+                bottom: 5px;
+                left: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar .navbar-brand img,
+            .navbar-telex .navbar-brand img,
+            .navbar-baume .navbar-brand img {
+                height: 50px;
+                width: auto;
+                max-width: 160px;
+                margin-right: 5px;
+                transform: scale(1);
+                transform-origin: center;
+            }
+            
+            .navbar .navbar-nav .nav-link,
+            .navbar-telex .navbar-nav .nav-link,
+            .navbar-baume .navbar-nav .nav-link {
+                font-size: 0.85rem !important;
+                padding: 8px 6px !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar .navbar-brand,
+            .navbar-telex .navbar-brand,
+            .navbar-baume .navbar-brand {
+                font-size: 1.5rem;
+            }
+            
+            .navbar .navbar-brand img,
+            .navbar-telex .navbar-brand img,
+            .navbar-baume .navbar-brand img {
+                height: 40px;
+                width: auto;
+                max-width: 130px;
+                margin-right: 5px;
+                transform: scale(1);
+                transform-origin: center;
+            }
+            
+            .navbar .navbar-nav .nav-link,
+            .navbar-telex .navbar-nav .nav-link,
+            .navbar-baume .navbar-nav .nav-link {
+                font-size: 0.8rem !important;
+                padding: 6px 4px !important;
+            }
+        }
+         
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--baume-primary);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .baume-hero {
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .baume-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('/images/Hero.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+        
+        .baume-hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 2;
+        }
+
+        @media (max-width: 992px) and (min-width: 769px) {
+            .baume-hero .container {
+                padding-left: 60px;
+                padding-right: 60px;
+            }
+            
+            .baume-hero .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .baume-hero .hero-content p {
+                font-size: 1rem;
+            }
+            
+            .baume-hero .hero-buttons {
+                flex-direction: row;
+                gap: 1rem;
+            }
+            
+            .baume-hero .hero-buttons .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile et petites tablettes */
+        @media (max-width: 768px) {
+            .baume-hero .container {
+                padding-left: 40px;
+                padding-right: 40px;
+            }
+            
+            .baume-hero .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .baume-hero .hero-content p {
+                font-size: 0.9rem;
+            }
+            
+            .baume-hero .hero-buttons {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            
+            .baume-hero .hero-buttons .btn {
+                padding: 10px 18px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .baume-hero .container {
+                padding-left: 30px;
+                padding-right: 30px;
+            }
+            
+            .baume-hero .hero-content h1 {
+                font-size: 1.8rem;
+            }
+            
+            .baume-hero .hero-content p {
+                font-size: 0.85rem;
+            }
+        }
+
+        /* Très petits écrans */
+        @media (max-width: 480px) {
+            .baume-hero .container {
+                padding-left: 25px;
+                padding-right: 25px;
+            }
+            
+            .baume-hero .hero-content h1 {
+                font-size: 1.6rem;
+            }
+            
+            .baume-hero .hero-content p {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Cacher les images sur très petits écrans */
+        @media (max-width: 380px) {
+            .baume-hero .container {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+            
+            .baume-hero .hero-content h1 {
+                font-size: 1.4rem;
+            }
+            
+            .baume-hero .hero-content p {
+                font-size: 0.75rem;
+            }
+        }
+
+        .baume-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .baume-hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .baume-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+
+        .baume-hero .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+            line-height: 1.5;
+        }
+
+        .baume-hero .verse-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: var(--baume-radius);
+            padding: 1rem;
+            margin: 1rem auto 0;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .baume-hero .verse-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            margin-bottom: 0.8rem;
+            transition: opacity 0.3s ease-in-out;
+        }
+
+        .baume-hero .verse-ref {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* ===== CATÉGORIES ===== */
+        .category-pills {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+
+        .category-pill {
+            padding: 0.75rem 1.5rem;
+            background: white;
+            border-radius: 40px;
+            color: var(--baume-primary);
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: var(--baume-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(46, 92, 78, 0.1);
+        }
+
+        .category-pill:hover,
+        .category-pill.active {
+            background: var(--baume-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--baume-shadow-hover);
+        }
+
+        .category-pill i {
+            margin-right: 0.5rem;
+        }
+
+        /* ===== TITRES DE SECTION ===== */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title-wrapper {
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--baume-primary);
+            margin-bottom: 0.5rem;
+            text-align: center !important;
+            display: block !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+
+        .section-subtitle {
+            color: var(--baume-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        .section-title-underline {
+            width: 60px;
+            height: 4px;
+            background: var(--baume-accent);
+            border-radius: 2px;
+            margin-top: 0.5rem;
+        }
+
+        .section-link {
+            color: var(--baume-accent);
+            text-decoration: none;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: var(--transition);
+        }
+
+        .section-link:hover {
+            background: var(--baume-gradient-light);
+            color: white;
+        }
+
+        .section-link i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .section-link:hover i {
+            transform: translateX(5px);
+        }
+
+        /* ===== CARD PRIÈRE/RÉFLEXION ===== */
+        .content-card {
+            background: white;
+            border-radius: var(--baume-radius);
+            overflow: hidden;
+            box-shadow: var(--baume-shadow);
+            transition: var(--transition);
+            height: 100%;
+            border: 1px solid rgba(46, 92, 78, 0.1);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .content-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--baume-shadow-hover);
+            border-color: var(--baume-accent);
+        }
+
+        /* ===== CARD MÉDIA (VIDÉO/IMAGE) - VERSION AMÉLIORÉE ===== */
+        .media-card {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: var(--baume-primary); /* Couleur de fond en cas d'erreur de chargement */
+        }
+
+        .media-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Couvre tout l'espace sans déformation */
+            object-position: center; /* Centre l'image */
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .media-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Couvre tout l'espace sans déformation */
+            object-position: center;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+
+        .content-card:hover .media-card img,
+        .content-card:hover .media-card video {
+            transform: scale(1.05);
+        }
+
+        /* Pour les cas sans média */
+        .media-card.no-media {
+            background: var(--baume-gradient);
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .media-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            z-index: 5;
+            pointer-events: none; /* Empêche le badge d'interférer avec le clic */
+        }
+
+        .reference-badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: white;
+            color: var(--baume-primary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            z-index: 5;
+            pointer-events: none; /* Empêche le badge d'interférer avec le clic */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(46, 92, 78, 0.2);
+        }
+
+        /* ===== TITRE EN BAS DE L'IMAGE ===== */
+        .card-title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, 
+                rgba(0,0,0,0.9) 0%, 
+                rgba(0,0,0,0.6) 50%, 
+                transparent 100%);
+            color: white;
+            padding: 1.5rem 1rem 0.8rem 1rem;
+            z-index: 4;
+            pointer-events: none; /* Empêche le titre d'interférer avec le clic */
+        }
+
+        .card-title-overlay h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            line-height: 1.4;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Limite le titre à 2 lignes */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-title-overlay i {
+            margin-right: 0.5rem;
+            color: var(--baume-accent-light);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        /* ===== CARD BODY (CACHÉ) ===== */
+        .card-body-hidden {
+            display: none;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: white;
+            border-radius: var(--baume-radius);
+            box-shadow: var(--baume-shadow);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--baume-accent);
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h4 {
+            color: var(--baume-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            color: var(--baume-secondary);
+        }
+
+        /* ===== FORMULAIRE TÉMOIGNAGE - STYLE INSPIRÉ DU FORMULAIRE CONTACT ===== */
+        .form-temoignage {
+            background: white;
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            animation: slideUp 0.8s ease;
+            margin: 3rem 0;
+        }
+
+        .form-temoignage::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--baume-primary), var(--baume-accent));
+            transition: left 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-temoignage h2 {
+            color: var(--baume-primary);
+            margin-bottom: 2rem;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Styles des champs de formulaire inspirés de contact.ejs */
+        .form-temoignage .form-control, 
+        .form-temoignage .form-select {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-temoignage .form-control:focus, 
+        .form-temoignage .form-select:focus {
+            border-color: var(--baume-primary);
+            box-shadow: 0 0 0 0.25rem rgba(46, 92, 78, 0.15);
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .form-temoignage .form-label {
+            font-weight: 600;
+            color: #1D3557;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-temoignage .form-label i {
+            color: var(--baume-primary);
+            margin-right: 8px;
+        }
+
+        /* Bouton d'envoi style btn-send */
+        .btn-submit {
+            background: linear-gradient(135deg, var(--baume-primary), var(--baume-accent));
+            color: white;
+            padding: 18px 40px;
+            border-radius: 12px;
+            border: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(46, 92, 78, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Checkbox */
+        .form-temoignage .form-check-input:checked {
+            background-color: var(--baume-primary);
+            border-color: var(--baume-primary);
+        }
+
+        .form-temoignage .form-check-label {
+            color: #555;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-temoignage {
+                padding: 30px 25px;
+                margin: 0 15px;
+            }
+            
+            .form-temoignage h2 {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .form-temoignage {
+                padding: 25px 20px;
+            }
+            
+            .btn-submit {
+                padding: 15px 25px;
+                font-size: 1rem;
+            }
+        }
+
+        .btn-submit {
+            background: var(--baume-gradient);
+            color: white;
+            border: none;
+            padding: 0.8rem 2.5rem;
+            border-radius: var(--baume-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== CALL TO ACTION ===== */
+        .cta-section {
+            background: var(--baume-gradient);
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+            border-radius: 24px;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23dots)"/></svg>');
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .cta-text {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+
+        .btn-cta {
+            background: var(--baume-gradient);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 40px;
+            text-decoration: none;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            display: inline-block;
+            margin: 0.5rem;
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-cta-outline {
+            background: transparent;
+            color: var(--baume-primary);
+            border: 2px solid var(--baume-primary);
+            box-shadow: 0 2px 8px rgba(255, 71, 87, 0.2);
+        }
+
+        .btn-cta-outline:hover {
+            background: var(--baume-primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== MODALE AMÉLIORÉE ===== */
+        .modal-content {
+            border-radius: 24px;
+            border: none;
+            overflow: hidden;
+            background: white;  /* Fond blanc pour le modal */
+        }
+
+        .modal-header {
+            background: #0066cc;  /* Fond bleu pour le texte "Prière" */
+            color: white;  /* Texte blanc */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 1.5rem;
+        }
+
+        .modal-header .btn-close {
+            filter: none;
+            opacity: 0.6;
+        }
+
+        .modal-header .btn-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 2rem;
+            background: white;  /* Fond blanc */
+            color: #333;  /* Texte noir */
+        }
+
+        .modal-media-container {
+            width: 100%;
+            margin-bottom: 1.5rem;
+            border-radius: 12px;
+            overflow: hidden;
+            background-color: white;  /* Fond blanc pour le conteneur de l'image */
+        }
+
+        .modal-media {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain; /* "contain" pour voir l'image entière sans crop */
+            background-color: #f8f9fa;
+            display: block;
+        }
+
+        .modal-title {
+            color: white;  /* Texte blanc */
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .modal-reference {
+            background: white;  /* Fond blanc */
+            color: #333;  /* Texte noir */
+            font-style: italic;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .modal-category {
+            color: #333;  /* Texte noir */
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(46, 92, 78, 0.1);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            display: inline-flex;
+        }
+
+        .modal-content-text {
+            color: #333;  /* Texte noir */
+            line-height: 1.8;
+            font-size: 1.1rem;
+            white-space: pre-line;
+            background: white;  /* Fond blanc */
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+        }
+
+        .modal-footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.1);  /* Bordure noire */
+            padding: 1.5rem;
+            background: white;  /* Fond blanc */
+        }
+
+        .btn-modal {
+            background: var(--baume-gradient);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: var(--baume-radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-modal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.4);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ===== RESPONSIVE AMÉLIORÉ ===== */
+        @media (max-width: 768px) {
+            .baume-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .baume-hero .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .modal-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .category-pills {
+                justify-content: flex-start;
+                overflow-x: auto;
+                flex-wrap: nowrap;
+                padding-bottom: 1rem;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            .category-pill {
+                flex-shrink: 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .card-title-overlay h3 {
+                font-size: 1rem;
+                -webkit-line-clamp: 2;
+            }
+        }
+
+        /* Pour les très grands écrans */
+        @media (min-width: 1400px) {
+            .content-card {
+                height: 500px;
+            }
+        }
+
+        /* ===== STYLES SPÉCIFIQUES SECTION QUIZ ===== */
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .section-title-wrapper {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .section-title {
+            font-weight: 900;
+            text-align: center !important;
+            display: block !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+
+        .section-title-underline {
+            margin: 0.5rem auto 0;
+            width: 80px;
+            height: 3px;
+            background: var(--baume-gradient);
+            border-radius: 2px;
+        }
+
+        /* ===== STYLES SPÉCIFIQUES SECTION RÉFLEXION ===== */
+        #reflexions .reflexion-description {
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: none;
+            background-color: white;
+        }
+
+        /* Styles pour les boutons de navigation de réflexions */
+        #reflexions .carousel-nav-btn,
+        .carousel-prev-reflexions,
+        .carousel-next-reflexions {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--baume-accent);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        #reflexions .carousel-nav-btn:hover,
+        .carousel-prev-reflexions:hover,
+        .carousel-next-reflexions:hover {
+            background: var(--baume-primary) !important;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Conteneur du carrousel de réflexions */
+        #reflexions .carousel-wrapper {
+            overflow: visible;
+            border-radius: 16px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+            background: white;
+            padding: 30px;
+        }
+
+        /* Espacement entre les rangées de réflexions */
+        #reflexions .row.g-3 {
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Mode ligne unique pour les réflexions - inspiré de votre capture d'écran */
+        #reflexionsCarousel.carousel-track {
+            display: flex !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: nowrap !important;
+            padding: 0 15px !important;
+            scrollbar-width: thin;
+            scrollbar-color: var(--baume-accent) #f1f1f1;
+        }
+
+        #reflexionsCarousel.carousel-track::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        #reflexionsCarousel.carousel-track::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        #reflexionsCarousel.carousel-track::-webkit-scrollbar-thumb {
+            background: var(--baume-accent);
+            border-radius: 4px;
+        }
+
+        #reflexionsCarousel.carousel-track::-webkit-scrollbar-thumb:hover {
+            background: var(--baume-primary);
+        }
+
+        /* Row pour ligne unique - centrage parfait */
+        #reflexions .row.flex-nowrap {
+            display: flex !important;
+            flex-wrap: nowrap !important;
+            gap: 1.5rem !important;
+            padding: 0 15px !important;
+            justify-content: center !important;
+            align-items: center !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+        }
+
+        /* Conteneur principal pour centrer le carrousel */
+        #reflexions .carousel-wrapper {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        /* Conteneur du carrousel centré */
+        #reflexionsCarousel.carousel-track {
+            display: flex !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            white-space: nowrap !important;
+            padding: 0 15px !important;
+            justify-content: flex-start !important;
+            align-items: center !important;
+        }
+
+        /* Articles en ligne unique */
+        .reflexion-single-line {
+            flex: 0 0 auto !important;
+            width: 280px !important;
+            max-width: 280px !important;
+            min-width: 280px !important;
+            padding: 0 12px !important;
+            box-sizing: border-box !important;
+        }
+
+        /* Cartes pour ligne unique */
+        .reflexion-single-line .content-card-reflexion {
+            height: 280px !important;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .reflexion-single-line .content-card-reflexion:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Responsive pour ligne unique */
+        @media (max-width: 768px) {
+            .reflexion-single-line {
+                width: 250px !important;
+                max-width: 250px !important;
+                min-width: 250px !important;
+            }
+            
+            .reflexion-single-line .content-card-reflexion {
+                height: 240px !important;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .reflexion-single-line {
+                width: 220px !important;
+                max-width: 220px !important;
+                min-width: 220px !important;
+            }
+            
+            .reflexion-single-line .content-card-reflexion {
+                height: 220px !important;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            #reflexions .carousel-wrapper {
+                max-width: 1200px;
+                padding: 25px;
+            }
+            
+            #reflexions .carousel-nav-btn {
+                width: 45px;
+                height: 45px;
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            #reflexions .carousel-wrapper {
+                max-width: 100%;
+                padding: 20px;
+            }
+            
+            #reflexions .carousel-nav-btn {
+                width: 40px;
+                height: 40px;
+                left: -20px;
+                right: -20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            #reflexions .carousel-wrapper {
+                padding: 15px;
+            }
+            
+            #reflexions .carousel-nav-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Nouveau design des cartes de réflexion */
+        .content-card-reflexion {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            height: 280px !important;
+            width: 100%;
+        }
+
+        .content-card-reflexion:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .reflexion-image-container {
+            height: 65%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .reflexion-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .content-card-reflexion:hover .reflexion-image {
+            transform: scale(1.05);
+        }
+
+        .reflexion-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--baume-accent), var(--baume-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .reflexion-content {
+            height: 35%;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: white;
+        }
+
+        .reflexion-badge {
+            background: red;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 2px;
+            margin-bottom: 4px;
+            align-self: flex-start;
+        }
+
+        .reflexion-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 0.25rem;
+            line-height: 1.2;
+        }
+
+        .reflexion-views {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.65rem;
+            color: var(--baume-primary);
+            font-weight: 500;
+            margin-top: 0.25rem;
+        }
+
+        .reflexion-views i {
+            font-size: 0.6rem;
+        }
+
+        .reflexion-views .views-count {
+            font-weight: 600;
+            text-overflow: ellipsis;
+        }
+
+@media (max-width: 576px) {
+    .reflexion-badge {
+        font-size: 0.65rem;
+        padding: 2px 5px;
+        font-weight: 700;
+    }
+}
+
+@media (max-width: 768px) {
+            .content-card-reflexion {
+                height: 220px !important;
+            }
+            
+            .reflexion-badge {
+                font-size: 0.7rem;
+                padding: 3px 6px;
+            }
+            
+            /* Styles spécifiques pour mobile - affichage vertical */
+            .carousel-track .reflexion-single-line {
+                width: 100% !important;
+                max-width: 100% !important;
+                padding: 0 !important;
+                margin-bottom: 1rem;
+            }
+            
+            .carousel-track .reflexion-single-line .content-card-reflexion {
+                height: 180px !important;
+                width: 100% !important;
+            }
+            
+            .carousel-track .reflexion-single-line .reflexion-image-container {
+                height: 65% !important;
+            }
+            
+            .carousel-track .reflexion-single-line .reflexion-image {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+            }
+        }
+        @media (max-width: 576px) {
+            .reflexion-badge {
+                font-size: 0.65rem;
+                padding: 2px 5px;
+                font-weight: 700;
+            }
+        }
+
+        /* Bouton Voir Plus */
+        .btn-voir-plus {
+            display: inline-flex;
+            align-items: center;
+            background: var(--baume-gradient);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-voir-plus:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-voir-plus:hover i {
+            transition: transform 0.3s ease;
+            transform: translateX(3px);
+        }
+        
+        @media (max-width: 768px) {
+        }
+        
+        /* ===== STYLES POUR LES TÉMOIGNAGES - INSPIRÉS DES CARTES PROGRAMMES ===== */
+        
+        /* Cartes de témoignages style programme-card */
+        .temoignage-program-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .temoignage-program-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--baume-primary), var(--baume-accent));
+        }
+
+        .temoignage-program-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(46, 92, 78, 0.3);
+        }
+
+        .temoignage-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--baume-primary), var(--baume-accent));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: white;
+            font-size: 2rem;
+            box-shadow: 0 8px 25px rgba(46, 92, 78, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .temoignage-program-card:hover .temoignage-icon {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(46, 92, 78, 0.4);
+        }
+
+        .temoignage-program-card h3 {
+            margin-bottom: 1rem;
+            color: var(--baume-primary);
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .temoignage-program-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .temoignage-link {
+            color: var(--baume-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .temoignage-link:hover {
+            color: var(--baume-accent);
+            gap: 0.75rem;
+        }
+
+        .temoignage-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+
+        /* Responsive pour les cartes de témoignages */
+        @media (max-width: 992px) {
+            .temoignage-program-card {
+                min-height: 280px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .temoignage-program-card {
+                padding: 1.5rem;
+                min-height: 250px;
+            }
+            
+            .temoignage-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Forcer le fond blanc pour les cartes de témoignages */
+        .temoignage-card {
+            background: white !important;
+        }
+        
+        .temoignage-card .card-body {
+            background: white !important;
+        }
+        
+        .temoignage-card .card-text,
+        .temoignage-card .card-text small {
+            color: #333 !important;
+            background: white !important;
+        }
+        
+        .temoignage-card .rounded-circle {
+            background: var(--baume-gradient) !important;
+        }
+        
+        /* S'assurer que le conteneur a aussi un fond blanc */
+        #temoignages-container {
+            background: white !important;
+        }
+        
+        /* ===== STYLES POUR LES RÉFLEXIONS ===== */ 
+
+        @media (max-width: 576px) {
+            .btn-voir-plus {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .btn-voir-plus {
+                padding: 8px 16px;
+                font-size: 0.85rem;
+            }
+        }
+
+        /* ===== STYLES SPÉCIFIQUES SECTION PRIÈRES ===== */
+        #prieres {
+            width: 100vw !important;
+            margin-left: calc(-50vw + 50%) !important;
+            margin-right: calc(-50vw + 50%) !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        #prieres .container-fluid {
+            max-width: 100% !important;
+            padding: 0 1rem !important;
+        }
+
+        #prieres .section-title-underline {
+            margin: 0.5rem auto 0 !important;
+        }
+
+        #prieres .prayer-description {
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: none;
+            background-color: white;
+        }
+
+        /* Styles pour le carrousel en plein écran */
+        #prieres .prieres-carousel-container {
+            width: 100%;
+            max-width: 100% !important;
+            margin: 0 auto;
+        }
+
+        #prieres .carousel-wrapper {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        #prieres .carousel-slide {
+            width: 100%;
+            padding: 0 !important;
+        }
+
+        #prieres .content-card {
+            width: 100%;
+            height: 500px !important;
+            border-radius: 12px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            overflow: hidden;
+            margin: 0 2px;
+        }
+
+        #prieres .content-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.2);
+            z-index: 10;
+        }
+
+        #prieres .media-card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        #prieres .media-card img,
+        #prieres .media-card video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            transition: transform 0.6s ease;
+        }
+
+        #prieres .content-card:hover .media-card img,
+        #prieres .content-card:hover .media-card video {
+            transform: scale(1.08);
+        }
+
+        #prieres .card-title-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, 
+                rgba(0,0,0,0.95) 0%, 
+                rgba(0,0,0,0.7) 40%, 
+                rgba(0,0,0,0.3) 70%, 
+                transparent 100%);
+            color: white;
+            padding: 2rem 1rem 1rem 1rem;
+            z-index: 4;
+        }
+
+        #prieres .card-title-overlay h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+
+        #prieres .media-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 5;
+        }
+
+        #prieres .reference-badge {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--baume-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            z-index: 5;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Boutons de navigation améliorés */
+        #prieres .carousel-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 15;
+            background: rgba(255, 107, 107, 0.9) !important;
+            backdrop-filter: blur(10px);
+            border: none;
+            border-radius: 50%;
+            width: 60px !important;
+            height: 60px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        #prieres .carousel-nav-btn:hover {
+            background: var(--baume-primary) !important;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            #prieres {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            
+            #prieres .container-fluid {
+                padding: 0 0.5rem !important;
+            }
+
+            #prieres .content-card {
+                height: 350px !important;
+                margin: 0 1px;
+            }
+
+            #prieres .card-title-overlay {
+                padding: 1.5rem 0.75rem 0.75rem 0.75rem;
+            }
+
+            #prieres .card-title-overlay h3 {
+                font-size: 1rem;
+            }
+
+            #prieres .carousel-nav-btn {
+                width: 40px !important;
+                height: 40px !important;
+            }
+
+            #prieres .media-badge,
+            #prieres .reference-badge {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.7rem;
+                top: 0.75rem;
+            }
+
+            #prieres .media-badge {
+                right: 0.75rem;
+            }
+
+            #prieres .reference-badge {
+                left: 0.75rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            #prieres .content-card {
+                height: 300px !important;
+            }
+
+            #prieres .card-title-overlay h3 {
+                font-size: 0.9rem;
+            }
+
+            #prieres .carousel-nav-btn {
+                width: 35px !important;
+                height: 35px !important;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/programs">
+                            <i class="fas fa-tv"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gallery">
+                            <i class="fas fa-images"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/album">
+                            <i class="fas fa-book"></i>Album
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/baume-de-la-foi">
+                            <i class="fas fa-cross"></i>Baume de la Foi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news">
+                            <i class="fas fa-newspaper"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    
+    
+    <!-- ===== IMAGES FLOTTANTES DÉPLACEMENT LENT ===== -->
+    <div class="floating-images-container" style="position: fixed; top: 400px; left: 0; width: 100%; height: calc(100vh - 400px - 200px); pointer-events: none; z-index: 1;">
+        <!-- Ligne verticale gauche -->
+        <div style="position: absolute; top: 0; left: 0; width: 10px; height: 100%; background: #EAE3D6; z-index: -1;"></div>
+        
+        <!-- Ligne verticale droite -->
+        <div style="position: absolute; top: 0; right: 0; width: 10px; height: 100%; background: #EAE3D6; z-index: -1;"></div>
+    </div>
+
+    <!-- ===== PRÉSENTATION BAUME DE LA FOI ===== -->
+    <section class="py-0" style="background-color: white; position: relative; height: auto; overflow: hidden;">
+        <!-- Image Hero.png en haut -->
+        <div class="hero-image" style="text-align: center; margin-bottom: 20px; margin-top: 57px;">
+            <img src="/images/Hero.png" alt="Hero - Baume de la Foi" 
+                 class="img-fluid" 
+                 style="width: 100%; height: auto; max-height: 250px; object-fit: contain; display: block; margin: 0 auto;">
+        </div>
+        
+        <!-- Image Baume de la foi -->
+        <div class="presentation-image">
+            <img src="/images/Baume de la foi.png" alt="Baume de la Foi - Espace d'inspiration spirituelle" 
+                 class="img-fluid" 
+                 style="width: 100%; height: auto; object-fit: contain; object-position: center; display: block; border: none; border-radius: 0; background-color: white;">
+        </div>
+    </section>
+
+    <!-- ===== CATÉGORIES ===== -->
+    <section class="py-1" style="background-color: white;">
+        <div class="container">
+            <div class="category-pills">
+                <a href="#prieres" class="category-pill" style="background: white; color: red; border: 2px solid red;">
+                    <i class="fas fa-pray"></i>
+                    Prières
+                </a>
+                <a href="#reflexions" class="category-pill" style="background: white; color: red; border: 2px solid red;">
+                    <i class="fas fa-lightbulb"></i>
+                    Réflexions
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRIÈRES PUBLIÉES ===== -->
+    <section id="prieres" class="py-5" style="position: relative; background-color: white; color: black; width: 100%; margin: 0; padding: 3rem 0;">
+        <div class="container-fluid" style="max-width: 100%; padding: 0 3rem;">
+            <!-- Image de la prière en plein écran -->
+            <div class="row mb-5 justify-content-center">
+                <div class="col-12">
+                    <div class="prayer-image-container text-center">
+                        <img src="/images/Prière.png" alt="La prière est un moment privilégié de communion avec Dieu" 
+                             class="img-fluid prayer-full-image" 
+                             style="width: 100%; height: auto; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Espacement avant les publications -->
+            <div class="mb-4"></div>
+
+            <!-- ===== CARROUSEL DE PRIÈRES ===== -->
+            <div class="prieres-carousel-container position-relative mx-auto" style="max-width: 100%;">
+                <!-- Boutons de navigation -->
+                <button class="carousel-nav-btn carousel-prev-prieres" onclick="changePriereSlide(-1)" style="position: absolute; left: 20px; top: 50%; transform: translateY(-50%); z-index: 10; background: var(--baume-primary); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-nav-btn carousel-next-prieres" onclick="changePriereSlide(1)" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); z-index: 10; background: var(--baume-primary); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.2); transition: all 0.3s ease;">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <!-- Conteneur du carrousel -->
+                <div class="carousel-wrapper" style="overflow: hidden; border-radius: 16px; width: 100%;">
+                    <div id="prieresCarousel" class="carousel-track" style="display: flex; transition: transform 0.5s ease;">
+                        <% if (prieres && prieres.length > 0) { %>
+                            <% // Grouper les prières par 3 pour l'affichage horizontal en pleine largeur %>
+                            <% for (let i = 0; i < prieres.length; i += 3) { %>
+                                <div class="carousel-slide" style="min-width: 100%; padding: 0;">
+                                    <div class="row g-0 h-100">
+                                        <% for (let j = i; j < Math.min(i + 3, prieres.length); j++) { %>
+                                            <% if (prieres[j]) { %>
+                                                <% const priere = prieres[j]; %>
+                                                <% const mediaUrl = priere.image_url || priere.video_url; %>
+                                                <% const isVideo = (priere.media_type === 'video' || (priere.video_url && priere.video_url.match(/\.(mp4|webm|ogg|mov)$/i))) && !priere.image_url; %>
+                                                <div class="col-4">
+                                                    <div class="content-card" onclick="openPriereModal(<%= j %>)" style="height: 500px; width: 100%;">
+                                                        
+                                                        <!-- Affichage du média en pleine largeur -->
+                                                        <% if (priere.video_url || priere.image_url) { %>
+                                                        <div class="media-card" style="width: 100%; height: 100%;">
+                                                            <% if (isVideo) { %>
+                                                                <video muted loop playsinline preload="metadata" style="width: 100%; height: 100%; object-fit: cover;">
+                                                                    <source src="<%= mediaUrl %>" type="video/mp4">
+                                                                </video>
+                                                            <% } else { %>
+                                                                <img src="<%= mediaUrl %>" alt="<%= priere.title %>" loading="lazy" style="width: 100%; height: 100%; object-fit: cover;">
+                                                            <% } %>
+                                                            
+                                                            <!-- Badge média -->
+                                                            <span class="media-badge">
+                                                                <i class="fas fa-<%= isVideo ? 'video' : 'image' %>"></i>
+                                                                <%= isVideo ? 'Vidéo' : 'Image' %>
+                                                            </span>
+                                                            
+                                                            <!-- Badge référence biblique -->
+                                                            <% if (priere.reference_biblique) { %>
+                                                            <span class="reference-badge">
+                                                                <i class="fas fa-bible"></i>
+                                                                <%= priere.reference_biblique %>
+                                                            </span>
+                                                            <% } %>
+                                                            
+                                                            <!-- Titre en bas de l'image -->
+                                                            <div class="card-title-overlay">
+                                                                <h3>
+                                                                    <i class="fas fa-dove"></i>
+                                                                    <%= priere.title %>
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                        <% } else { %>
+                                                        <!-- Si pas de média, afficher seulement le titre avec fond vert -->
+                                                        <div class="media-card no-media">
+                                                            <div class="card-title-overlay" style="position: relative; background: linear-gradient(to top, rgba(46,92,78,0.7) 0%, rgba(46,92,78,0.3) 100%);">
+                                                                <h3>
+                                                                    <i class="fas fa-dove"></i>
+                                                                    <%= priere.title %>
+                                                                </h3>
+                                                            </div>
+                                                            
+                                                            <!-- Badge référence biblique -->
+                                                            <% if (priere.reference_biblique) { %>
+                                                            <span class="reference-badge">
+                                                                <i class="fas fa-bible"></i>
+                                                                <%= priere.reference_biblique %>
+                                                            </span>
+                                                            <% } %>
+                                                        </div>
+                                                        <% } %>
+                                                        
+                                                        <!-- Contenu caché (sera affiché dans la modale) -->
+                                                        <div class="card-body-hidden">
+                                                            <div class="hidden-content"><%= priere.content || '' %></div>
+                                                            <% if (priere.reference_biblique) { %>
+                                                            <div class="hidden-reference"><%= priere.reference_biblique %></div>
+                                                            <% } %>
+                                                            <div class="hidden-author"><%= priere.author || 'Baume de la Foi' %></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <% } %>
+                                        <% } %>
+                                    </div>
+                                </div>
+                            <% } %>
+                        <% } else { %>
+                            <div class="carousel-slide" style="min-width: 100%; padding: 0;">
+                                <div class="empty-state">
+                                    <i class="fas fa-pray"></i>
+                                    <h4>Aucune prière pour le moment</h4>
+                                    <p>Revenez plus tard pour découvrir de nouvelles prières</p>
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+
+    <!-- ===== QUIZ BIBLIQUE QUOTIDIEN ===== -->
+    <section class="py-5" style="background: white;">
+        <div class="container-fluid" style="max-width: 100%; padding: 0 3rem;">
+            <!-- Image Quiz en plein écran -->
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="quiz-image-container text-center">
+                        <img src="/images/Quiz.png" alt="Quiz Biblique Quotidien - Apprenez la Parole de Dieu de manière ludique" 
+                             class="img-fluid quiz-full-image" 
+                             style="width: 100%; height: auto; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+                        <!-- Quiz Header -->
+                        <div class="quiz-header text-center mb-4">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="badge bg-primary text-white px-3 py-2">
+                                    <i class="fas fa-question-circle me-2"></i>Question <span id="currentQuestion">1</span>/5
+                                </span>
+                                <span class="badge bg-warning text-white px-3 py-2">
+                                    <i class="fas fa-star me-2"></i>Score: <span id="quizScore" style="color: gold;">0</span>
+                                </span>
+                            </div>
+                            <div class="progress mb-3" style="height: 8px;">
+                                <div id="quizProgress" class="progress-bar bg-primary" role="progressbar" style="width: 20%; transition: width 0.3s ease;"></div>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Content -->
+                        <div id="quizContent">
+                            <!-- Question -->
+                            <div class="question-container text-center mb-4">
+                                <h3 class="question-text mb-4" style="font-size: 1.3rem; font-weight: 600; color: var(--baume-primary);"></h3>
+                                
+                                <!-- Options de réponse -->
+                                <div class="options-container" style="max-width: 600px; margin: 0 auto;">
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(0)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
+                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">A.</span>
+                                                <span class="option-text"></span>
+                                            </button>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(1)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
+                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">B.</span>
+                                                <span class="option-text"></span>
+                                            </button>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(2)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
+                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">C.</span>
+                                                <span class="option-text"></span>
+                                            </button>
+                                        </div>
+                                        <div class="col-12">
+                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(3)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
+                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">D.</span>
+                                                <span class="option-text"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Explication biblique (caché au début) -->
+                            <div id="verseExplanation" class="verse-explanation mt-4 p-3" style="display: none; background: rgba(58, 175, 169, 0.1); border-radius: 12px; border-left: 4px solid var(--baume-primary);">
+                                <h5 class="mb-2" style="color: var(--baume-primary);"><i class="fas fa-book-bible me-2"></i>Référence biblique</h5>
+                                <p class="mb-1" style="font-style: italic; color: var(--baume-primary);"></p>
+                                <p class="mb-0"></p>
+                            </div>
+
+                            <!-- Boutons de navigation -->
+                            <div class="quiz-navigation d-flex justify-content-between align-items-center mt-4">
+                                <button id="prevBtn" class="btn btn-outline-primary" onclick="previousQuestion()" disabled style="padding: 0.8rem 1.5rem; border-radius: 25px;">
+                                    <i class="fas fa-arrow-left me-2"></i>Précédent
+                                </button>
+                                <button id="nextBtn" class="btn btn-primary" onclick="nextQuestion()" style="padding: 0.8rem 1.5rem; border-radius: 25px; background: var(--baume-gradient); border: none;">
+                                    Suivant<i class="fas fa-arrow-right ms-2"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quiz Results (caché au début) -->
+                        <div id="quizResults" style="display: none;">
+                            <div class="results-container text-center">
+                                <div class="results-icon mb-3">
+                                    <i class="fas fa-trophy" style="font-size: 4rem; color: gold;"></i>
+                                </div>
+                                <h3 class="results-title mb-3" style="color: var(--baume-primary); font-size: 2rem;">Quiz Terminé !</h3>
+                                <div class="results-score mb-3">
+                                    <h4 class="mb-2">Votre score : <span id="finalScore" style="color: var(--baume-accent); font-weight: bold;">0</span>/5</h4>
+                                    <p id="resultsMessage" class="text-muted"></p>
+                                </div>
+                                <button class="btn btn-primary" onclick="restartQuiz()" style="padding: 1rem 2rem; border-radius: 25px; background: var(--baume-gradient); border: none;">
+                                    <i class="fas fa-redo me-2"></i>Recommencer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== RÉFLEXIONS PUBLIÉES ===== -->
+<section id="reflexions" class="py-0" style="position: relative; background-color: white; color: black;">
+    <!-- Image de la réflexion en plein écran responsive -->
+    <div style="width: 100%; max-width: 100vw; height: auto; max-height: 60vh; overflow: hidden; margin: 0 auto;">
+        <img src="/images/Reflexion.png" alt="La réflexion invite à prendre du recul et à méditer la Parole de Dieu" 
+             style="width: 100%; height: auto; max-height: 60vh; object-fit: cover; display: block; border: none; border-radius: 0;">
+    </div>
+
+    <!-- Espacement avant les publications -->
+    <div style="height: 30px; background-color: white;"></div>
+
+    <!-- Publications de réflexions centrées -->
+    <div class="container">
+        <!-- ===== CARROUSEL DE RÉFLEXIONS ===== -->
+        <div class="reflexions-carousel-container" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+            <!-- Indicateurs de position masqués -->
+            <!-- <div class="reflexion-indicators" style="position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; z-index: 2;">
+                <span class="position-text" style="background: var(--baume-accent); color: white; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600;">
+                    Utilisez les flèches ou la molette
+                </span>
+            </div> -->
+
+            <!-- Conteneur du carrousel centré -->
+            <div class="carousel-wrapper" style="overflow: visible; border-radius: 16px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; background: white; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div id="reflexionsCarousel" class="carousel-track" style="display: flex; transition: transform 0.5s ease; overflow: hidden; white-space: nowrap; padding: 0 15px;">
+                    <!-- Le contenu sera chargé par JavaScript avec pagination -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouton Voir Plus en haut de l'image -->
+        <div class="text-center mb-1">
+                    </div>
+
+        <!-- Image Témoignage de la foi après le bouton -->
+        <div class="text-center mb-1">
+            <img src="/images/Témoignage de la foi.png" alt="Témoignage de la foi" 
+                 class="img-fluid" 
+                 style="width: 100vw; height: 80vh; object-fit: contain; display: block; margin: 0 auto; position: relative; left: 50%; transform: translateX(-50%); max-width: none;">
+        </div>
+    </div>
+</section>
+
+    <!-- ===== FORMULAIRE DE TÉMOIGNAGE ===== -->
+    <section class="py-2" style="background: white;">
+        <div class="container">
+            <div class="row">
+                <!-- Formulaire de témoignage -->
+                <div class="col-lg-12">
+                    <div class="form-temoignage" id="temoignage-form">
+                        <h2>Envoyez-nous un message</h2>
+                        
+                        <!-- Message de succès/erreur -->
+                        <div id="temoignageMessageAlert" class="alert" style="display: none;"></div>
+                        
+                        <form action="/baume-de-la-foi/temoignage" method="POST">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nom" class="form-label">Votre nom ou pseudonyme</label>
+                                    <input type="text" class="form-control" id="nom" name="nom" required 
+                                           placeholder="Ex: Marie">
+                                    <small class="text-muted">Ce nom sera affiché publiquement avec votre témoignage</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="email" class="form-label">Votre email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required 
+                                           placeholder="Ex: marie@example.com">
+                                    <small class="text-muted">Votre email ne sera pas publié et servira uniquement à vous contacter si nécessaire</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="ville" class="form-label">Votre ville (optionnel)</label>
+                                <input type="text" class="form-control" id="ville" name="ville" 
+                                       placeholder="Ex: Paris">
+                                <small class="text-muted">Partager votre ville peut encourager d'autres personnes de votre région</small>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="temoignage" class="form-label">Votre témoignage</label>
+                                <textarea class="form-control" id="temoignage" name="temoignage" rows="6" required 
+                                          placeholder="Partagez comment Dieu a agi dans votre vie..."></textarea>
+                                <div class="form-text">
+                                    <span id="temoignageCharCount">0</span> caractères (minimum 10 caractères)
+                                </div>
+                                <small class="text-muted">Soyez sincère et authentique dans votre partage</small>
+                            </div>
+
+                            <div class="mb-4 form-check">
+                                <input type="checkbox" class="form-check-input" id="consentement" name="consentement" required>
+                                <label class="form-check-label" for="consentement">
+                                    J'accepte que mon témoignage soit publié sur le site et je comprends qu'il sera visible par tous les visiteurs
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Votre témoignage sera examiné par notre équipe avant publication
+                            </small>
+
+                            <button type="submit" class="btn-submit" id="temoignageSubmitBtn">
+                                <i class="fas fa-paper-plane me-2"></i>Envoyer ici
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TÉMOIGNAGES APPROUVÉS ===== -->
+    <section class="py-4" style="background-color: white; position: relative;">
+        <div class="container-fluid px-0">
+            <!-- Image Témoignages de foi optimisée - sans espaces vides -->
+            <div class="temoignages-optimized">
+                <img src="/images/Témoignages de foi.png" alt="Témoignages de foi - Partages d'expériences spirituelles" 
+                     class="temoignages-img">
+            </div>
+            
+            <!-- Styles CSS optimisés - sans espaces vides -->
+            <style>
+                .temoignages-optimized {
+                    width: 100%;
+                    margin: -76px 0 20px 0; /* Marges minimales */
+                    padding: 0;
+                    overflow: hidden;
+                    position: relative;
+                    z-index: 10;
+                }
+                
+                .temoignages-img {
+                    width: 100%;
+                    height: auto; /* Hauteur automatique basée sur le contenu */
+                    object-fit: cover; /* Cover pour remplir sans bandes */
+                    object-position: center 25%; /* Légèrement vers le haut */
+                    display: block;
+                    filter: brightness(1.02);
+                    transition: all 0.4s ease;
+                }
+                
+                .temoignages-optimized:hover .temoignages-img {
+                    transform: scale(1.01);
+                    filter: brightness(1.05) contrast(1.02);
+                }
+                
+                /* Responsive ajusté */
+                @media (max-width: 768px) {
+                    .temoignages-optimized {
+                        margin: -40px 0 15px 0;
+                    }
+                    .temoignages-img {
+                        object-position: center 20%;
+                    }
+                }
+                
+                @media (max-width: 576px) {
+                    .temoignages-optimized {
+                        margin: -30px 0 10px 0;
+                    }
+                    .temoignages-img {
+                        object-position: center 15%;
+                    }
+                }
+                
+                @media (max-width: 480px) {
+                    .temoignages-optimized {
+                        margin: -20px 0 8px 0;
+                    }
+                    .temoignages-img {
+                        object-position: center 10%;
+                    }
+                }
+            </style>
+        
+        <div class="container" style="margin-top: 30px;">
+            <div class="section-header">
+                <div class="section-title-wrapper" style="text-align: center;">
+                </div>
+            </div>
+            
+            <div id="temoignages-container" class="row">
+                <!-- Les témoignages seront chargés dynamiquement avec le nouveau style -->
+                <div class="col-12 text-center">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
+                    </div>
+                    <p class="mt-3 text-muted">Chargement des témoignages...</p>
+                </div>
+            </div>
+            
+            <div class="text-center mt-4">
+                <button class="btn btn-outline-secondary" onclick="loadMoreTemoignages()" style="border-color: var(--baume-primary); color: var(--baume-primary); box-shadow: 0 2px 8px rgba(46, 92, 78, 0.2);">
+                    <i class="fas fa-plus-circle me-2"></i>Voir tous les témoignages
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER TELEX ===== -->
+    <%- include('../partials/footer') %>
+
+    <!-- ===== MODALE POUR AFFICHER LE CONTENU ===== -->
+    <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div>
+                        <h5 class="modal-title" id="contentModalLabel">
+                            <i class="fas fa-cross me-2"></i>
+                            <span id="modalType">Prière</span>
+                        </h5>
+                        <!-- Référence biblique (pour les prières) ou Thème principal (pour les réflexions) -->
+                        <div id="modalReference" class="modal-reference" style="display: none; margin-top: 0.5rem;">
+                            <i class="fas fa-bible"></i>
+                            <span id="modalReferenceText"></span>
+                        </div>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Média (si présent) -->
+                    <div id="modalMediaContainer" class="modal-media-container" style="display: none;">
+                        <img id="modalImage" class="modal-media" src="" alt="" style="display: none;">
+                        <video id="modalVideo" class="modal-media" controls style="display: none;">
+                            <source src="" type="video/mp4">
+                        </video>
+                    </div>
+                    
+                    <!-- Titre -->
+                    <h2 class="modal-title" id="modalTitle"></h2>
+                    
+                    <!-- Catégorie (pour les prières) -->
+                    <div id="modalCategory" class="modal-category" style="display: none;">
+                        <i class="fas fa-tag"></i>
+                        <span id="modalCategoryText"></span>
+                    </div>
+                    
+                    <!-- Référence biblique (pour les prières) ou Thème principal (pour les réflexions) -->
+                    <div id="modalReference" class="modal-reference" style="display: none; margin-top: 0.5rem;">
+                        <i class="fas fa-bible"></i>
+                        <span id="modalReferenceText"></span>
+                    </div>
+                    <div id="modalContent" class="modal-content-text" style="font-family: 'Brush Script MT', cursive; font-family: 'Lucida Handwriting', cursive; font-family: 'Segoe Script', cursive; color: black;"></div>
+                    
+                    <!-- Auteur -->
+                    <div class="mt-4 text-end">
+                        <small class="text-muted">
+                            <i class="fas fa-user-circle me-1"></i>
+                            <span id="modalAuthor"></span>
+                        </small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-modal" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Fermer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // ===== FONCTIONS UTILITAIRES POUR LES VUES =====
+        
+        // Fonction pour formater les nombres avec K, M, B
+        function formatNumber(num) {
+            if (num >= 1000000000) {
+                return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+            }
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            }
+            return num.toString();
+        }
+
+        // Fonction pour incrémenter les vues d'une réflexion
+        async function incrementReflexionView(reflexionId) {
+            try {
+                const response = await fetch(`/api/baume/reflexions/${reflexionId}/view`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Les vues sont incrémentées en arrière-plan, mais pas affichées sur la page publique
+                    console.log(`Vue incrémentée pour la réflexion ${reflexionId}`);
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'incrémentation des vues:', error);
+            }
+        }
+
+        // Fonction pour incrémenter les vues d'une prière
+        async function incrementPriereView(priereId) {
+            try {
+                const response = await fetch(`/api/baume/prieres/${priereId}/view`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    // Les vues sont incrémentées en arrière-plan, mais pas affichées sur la page publique
+                    console.log(`Vue incrémentée pour la prière ${priereId}`);
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'incrémentation des vues:', error);
+            }
+        }
+
+        // Fonction pour formater toutes les vues au chargement
+        function formatAllViews() {
+            // Les vues sont masquées dans la page publique, donc pas de formatage nécessaire
+            // Les vues continuent d'être incrémentées en arrière-plan
+            console.log('Vues masquées dans la page publique - Incrémentation active en arrière-plan');
+        }
+
+        // Stocker les données pour éviter les problèmes de guillemets
+        window.prieresData = <%- JSON.stringify(prieres || []) %>;
+        window.reflexionsData = <%- JSON.stringify(reflexions || []) %>;
+        
+        // Initialisation de la modale
+        let contentModal;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser la modale Bootstrap
+            contentModal = new bootstrap.Modal(document.getElementById('contentModal'));
+            
+            // Animation des cartes de témoignages - Style programme-card
+            const temoignageCards = document.querySelectorAll('.temoignage-program-card');
+            temoignageCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+                card.style.opacity = '0';
+            });
+            
+            // Formater toutes les vues avec K, M, B
+            formatAllViews();
+            
+            // ===== SYSTÈME DE ROTATION AUTOMATIQUE DES CITATIONS =====
+            const verses = [
+                {
+                    text: "Le Seigneur est proche de ceux qui ont le cœur brisé, il sauve ceux dont l'esprit est abattu.",
+                    reference: "Psaumes 34:18"
+                },
+                {
+                    text: "L'Éternel est ton refuge, une forteresse en temps de détresse.",
+                    reference: "Psaumes 46:1"
+                },
+                {
+                    text: "Rends-moi la joie de ton salut, et qu'un esprit de générosité me soutienne.",
+                    reference: "Psaumes 51:12"
+                },
+                {
+                    text: "Confie-toi à l'Éternel de tout ton cœur, et ne t'appuie pas sur ta propre intelligence.",
+                    reference: "Proverbes 3:5"
+                },
+                {
+                    text: "Car je connais les projets que j'ai formés pour vous, dit l'Éternel, projets de paix et non de malheur.",
+                    reference: "Jérémies 29:11"
+                },
+                {
+                    text: "N'ayez aucune crainte, car je suis avec toi; ne t'effraie pas, car je suis ton Dieu.",
+                    reference: "Ésaïe 41:10"
+                },
+                {
+                    text: "Le Seigneur est mon berger, je ne manquerai de rien.",
+                    reference: "Psaumes 23:1"
+                },
+                {
+                    text: "Fais de l'Éternel tes délices, et il te donnera ce que ton cœur désire.",
+                    reference: "Psaumes 37:4"
+                }
+            ];
+            
+            let currentVerseIndex = 0;
+            const verseText = document.getElementById('verseText');
+            const verseContent = document.getElementById('verseContent');
+            const verseRef = document.getElementById('verseRef');
+            
+            // Vérifier si les éléments existent avant de continuer
+            if (!verseText || !verseContent || !verseRef) {
+                console.log('ERREUR: Éléments de verset non trouvés au chargement');
+            } else {
+                // Fonction pour changer la citation
+                function changeVerse() {
+                    const verse = verses[currentVerseIndex];
+                    
+                    // Vérifications pour éviter les erreurs
+                    if (!verseText || !verseContent || !verseRef) {
+                        console.log('ERREUR: Éléments de verset non trouvés');
+                        return;
+                    }
+                    
+                    // Animation de fondu
+                    verseText.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        verseContent.textContent = verse.text;
+                        verseRef.textContent = verse.reference;
+                        verseText.style.opacity = '1';
+                    }, 300);
+                    
+                    currentVerseIndex = (currentVerseIndex + 1) % verses.length;
+                }
+                
+                // Changer la citation toutes les 30 secondes
+                setInterval(changeVerse, 30000);
+            }
+            
+            // ===== SYSTÈME DE ROTATION AUTOMATIQUE DES IMAGES LATÉRALES =====
+            const leftImages = [
+                '/images/11.png',
+                '/images/2.png',
+                '/images/3.png',
+                '/images/4.png',
+                '/images/5.png',
+                '/images/Telex.png'
+            ];
+            
+            const rightImages = [
+                '/images/Telex.png',
+                '/images/Telex11.png',
+                '/images/11.png',
+                '/images/logo ensemble.png',
+                '/images/ensemble telex.png',
+                '/images/TELEX BAREA.png'
+            ];
+            
+            // ===== SYSTÈME DE ROTATION AUTOMATIQUE DES IMAGES DÉCORATIVES =====
+            // Images pour la section prières
+            const priereLeftImages = [
+                '/images/Baume1.png',
+                '/images/Baume2.png',
+                '/images/Baume3.png',
+                '/images/Baume4.png',
+                '/images/Baume5.png'
+            ];
+            
+            const priereRightImages = [
+                '/images/Baume2.png',
+                '/images/Baume3.png',
+                '/images/Baume4.png',
+                '/images/Baume5.png',
+                '/images/Baume1.png'
+            ];
+            
+            // Images pour la section réflexions
+            const reflexionLeftImages = [
+                '/images/Baume3.png',
+                '/images/Baume4.png',
+                '/images/Baume5.png',
+                '/images/Baume1.png',
+                '/images/Baume2.png'
+            ];
+            
+            const reflexionRightImages = [
+                '/images/Baume4.png',
+                '/images/Baume5.png',
+                '/images/Baume1.png',
+                '/images/Baume2.png',
+                '/images/Baume3.png'
+            ];
+            
+            let leftImageIndex = 0;
+            let rightImageIndex = 0;
+            let priereLeftIndex = 0;
+            let priereRightIndex = 0;
+            let reflexionLeftIndex = 0;
+            let reflexionRightIndex = 0;
+            
+            const heroLeftImage = document.getElementById('heroLeftImage');
+            const heroRightImage = document.getElementById('heroRightImage');
+            
+            // Fonction pour changer l'image de gauche (hero)
+            function changeLeftImage() {
+                leftImageIndex = (leftImageIndex + 1) % leftImages.length;
+                heroLeftImage.style.opacity = '0.3';
+                
+                setTimeout(() => {
+                    heroLeftImage.src = leftImages[leftImageIndex];
+                    heroLeftImage.style.opacity = '0.8';
+                }, 500);
+            }
+            
+            // Fonction pour changer l'image de droite (hero)
+            function changeRightImage() {
+                rightImageIndex = (rightImageIndex + 1) % rightImages.length;
+                heroRightImage.style.opacity = '0.3';
+                
+                setTimeout(() => {
+                    heroRightImage.src = rightImages[rightImageIndex];
+                    heroRightImage.style.opacity = '0.8';
+                }, 500);
+            }
+            
+            // Fonction pour changer les images de la section prières
+            function changePriereImages() {
+                // Image gauche prières
+                const priereLeftImg = document.querySelector('#prieres .hero-left-image img');
+                if (priereLeftImg) {
+                    priereLeftIndex = (priereLeftIndex + 1) % priereLeftImages.length;
+                    priereLeftImg.style.opacity = '0.3';
+                    
+                    setTimeout(() => {
+                        priereLeftImg.src = priereLeftImages[priereLeftIndex];
+                        priereLeftImg.style.opacity = '0.8';
+                    }, 500);
+                }
+                
+                // Image droite prières
+                const priereRightImg = document.querySelector('#prieres .hero-right-image img');
+                if (priereRightImg) {
+                    priereRightIndex = (priereRightIndex + 1) % priereRightImages.length;
+                    priereRightImg.style.opacity = '0.3';
+                    
+                    setTimeout(() => {
+                        priereRightImg.src = priereRightImages[priereRightIndex];
+                        priereRightImg.style.opacity = '0.8';
+                    }, 500);
+                }
+            }
+            
+            // Fonction pour scroller vers la section réflexions
+            function scrollToReflexions(event) {
+                event.preventDefault();
+                const reflexionsSection = document.getElementById('reflexions');
+                if (reflexionsSection) {
+                    reflexionsSection.scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }
+            }
+            
+            // Fonction pour basculer l'affichage complet des réflexions
+            function toggleAllReflexions(button) {
+                const carousel = document.getElementById('reflexionsCarousel');
+                const btnText = button.querySelector('.btn-text');
+                const btnIcon = button.querySelector('i');
+                const isExpanded = carousel.classList.contains('show-all');
+                
+                if (!isExpanded) {
+                    // Afficher toutes les réflexions
+                    carousel.classList.add('show-all');
+                    carousel.style.flexWrap = 'wrap';
+                    carousel.style.transition = 'all 0.5s ease';
+                    
+                    // Mettre à jour le bouton
+                    btnText.textContent = 'Afficher moins';
+                    btnIcon.className = 'fas fa-compress me-2';
+                    
+                    // Désactiver la navigation du carrousel
+                    const navButtons = document.querySelectorAll('.carousel-prev-reflexions, .carousel-next-reflexions');
+                    navButtons.forEach(btn => btn.style.display = 'none');
+                    
+                    // Ajuster les slides pour afficher tout
+                    const slides = carousel.querySelectorAll('.carousel-slide');
+                    slides.forEach(slide => {
+                        slide.style.minWidth = 'auto';
+                        slide.style.flex = '0 0 calc(16.666% - 15px)'; // 6 par ligne
+                        slide.style.margin = '0 7.5px 15px';
+                    });
+                    
+                    // Pour mobile
+                    if (window.innerWidth <= 768) {
+                        slides.forEach(slide => {
+                            slide.style.flex = '0 0 calc(50% - 15px)'; // 2 par ligne
+                        });
+                    }
+                    if (window.innerWidth <= 576) {
+                        slides.forEach(slide => {
+                            slide.style.flex = '0 0 calc(50% - 15px)'; // 2 par ligne
+                        });
+                    }
+                    
+                } else {
+                    // Revenir à l'affichage carrousel
+                    carousel.classList.remove('show-all');
+                    carousel.style.flexWrap = 'nowrap';
+                    
+                    // Mettre à jour le bouton
+                    btnText.textContent = 'Voir toutes les réflexions';
+                    btnIcon.className = 'fas fa-expand me-2';
+                    
+                    // Réactiver la navigation du carrousel
+                    const navButtons = document.querySelectorAll('.carousel-prev-reflexions, .carousel-next-reflexions');
+                    navButtons.forEach(btn => btn.style.display = 'flex');
+                    
+                    // Rétablir l'affichage carrousel
+                    const slides = carousel.querySelectorAll('.carousel-slide');
+                    slides.forEach(slide => {
+                        slide.style.minWidth = '100%';
+                        slide.style.flex = 'none';
+                        slide.style.margin = '0';
+                    });
+                    
+                    // Revenir à la première slide
+                    currentReflexionSlide = 0;
+                    updateCarousel(carousel, 0);
+                }
+                
+                // Scroller vers le début de la section
+                setTimeout(() => {
+                    document.getElementById('reflexions').scrollIntoView({ 
+                        behavior: 'smooth', 
+                        block: 'start' 
+                    });
+                }, 300);
+            }
+            
+            // Fonction pour changer les images de la section réflexions
+            function changeReflexionImages() {
+                // Image gauche réflexions
+                const reflexionLeftImg = document.querySelector('#reflexions .hero-left-image img');
+                if (reflexionLeftImg) {
+                    reflexionLeftIndex = (reflexionLeftIndex + 1) % reflexionLeftImages.length;
+                    reflexionLeftImg.style.opacity = '0.3';
+                    
+                    setTimeout(() => {
+                        reflexionLeftImg.src = reflexionLeftImages[reflexionLeftIndex];
+                        reflexionLeftImg.style.opacity = '0.8';
+                    }, 500);
+                }
+                
+                // Image droite réflexions
+                const reflexionRightImg = document.querySelector('#reflexions .hero-right-image img');
+                if (reflexionRightImg) {
+                    reflexionRightIndex = (reflexionRightIndex + 1) % reflexionRightImages.length;
+                    reflexionRightImg.style.opacity = '0.3';
+                    
+                    setTimeout(() => {
+                        reflexionRightImg.src = reflexionRightImages[reflexionRightIndex];
+                        reflexionRightImg.style.opacity = '0.8';
+                    }, 500);
+                }
+            }
+            
+            // ROTATION AUTOMATIQUE - Seulement pour prières et réflexions, PAS pour hero
+            // Hero section - IMAGES FIXES (pas de rotation)
+            // setInterval(changeLeftImage, 20000);
+            // setInterval(changeRightImage, 25000); // 5 secondes de décalage
+            
+            // Sections prières et réflexions - ROTATION AUTOMATIQUE ACTIVE
+            setInterval(changePriereImages, 15000); // Changer toutes les 15 secondes pour les prières
+            setInterval(changeReflexionImages, 18000); // Changer toutes les 18 secondes pour les réflexions
+            
+            // Validation du formulaire de témoignage
+            const temoignageForm = document.querySelector('form[action="/baume-de-la-foi/temoignage"]');
+            if (temoignageForm) {
+                const submitBtn = document.getElementById('temoignageSubmitBtn');
+                const temoignageTextarea = document.getElementById('temoignage');
+                const charCount = document.getElementById('temoignageCharCount');
+                const messageAlert = document.getElementById('temoignageMessageAlert');
+                
+                // Compteur de caractères
+                temoignageTextarea.addEventListener('input', function() {
+                    const length = this.value.length;
+                    charCount.textContent = length;
+                    
+                    if (length < 10) {
+                        charCount.style.color = '#dc3545';
+                    } else if (length > 500) {
+                        charCount.style.color = 'var(--baume-primary)';
+                    } else {
+                        charCount.style.color = '#28a745';
+                    }
+                });
+                
+                temoignageForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(this);
+                    const data = Object.fromEntries(formData);
+                    
+                    // Validation côté client
+                    if (!data.nom || !data.email || !data.temoignage) {
+                        showAlert('Veuillez remplir tous les champs obligatoires.', 'danger');
+                        return;
+                    }
+                    
+                    if (data.temoignage.length < 10) {
+                        showAlert('Le témoignage doit contenir au moins 10 caractères.', 'danger');
+                        temoignageTextarea.classList.add('is-invalid');
+                        return;
+                    }
+                    
+                    if (!data.consentement) {
+                        showAlert('Veuillez accepter les conditions de publication.', 'danger');
+                        return;
+                    }
+                    
+                    // Désactiver le bouton
+                    const btnOriginalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Envoi en cours...';
+                    submitBtn.disabled = true;
+                    
+                    try {
+                        const response = await fetch('/baume-de-la-foi/temoignage', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(data)
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.success) {
+                            showAlert(result.message, 'success');
+                            this.reset();
+                            charCount.textContent = '0';
+                        } else {
+                            showAlert(result.message || 'Erreur lors de l\'envoi du témoignage.', 'danger');
+                        }
+                        
+                    } catch (error) {
+                        console.error('Erreur:', error);
+                        showAlert('Erreur de connexion. Veuillez réessayer.', 'danger');
+                        
+                    } finally {
+                        // Réactiver le bouton
+                        submitBtn.innerHTML = btnOriginalText;
+                        submitBtn.disabled = false;
+                    }
+                });
+                
+                function showAlert(message, type) {
+                    messageAlert.textContent = message;
+                    messageAlert.className = `alert alert-${type} alert-dismissible fade show`;
+                    messageAlert.style.display = 'block';
+                    
+                    // Ajouter le bouton de fermeture
+                    messageAlert.innerHTML = `
+                        ${message}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    `;
+                    
+                    // Masquer automatiquement après 8 secondes
+                    if (type === 'success') {
+                        setTimeout(() => {
+                            if (messageAlert.style.display !== 'none') {
+                                messageAlert.style.display = 'none';
+                            }
+                        }, 8000);
+                    }
+                }
+            }
+            
+            // Charger les témoignages
+            loadTemoignages();
+            
+            // Charger les réflexions avec pagination
+            loadReflexions();
+            
+            // Vérifier le message de succès
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('temoignage') === 'success') {
+                showNotification('Votre témoignage a été soumis avec succès ! Il sera examiné et publié prochainement.', 'success');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+            
+            // Smooth scroll pour les ancres
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Prévenir les clics droits sur les images (optionnel)
+            document.querySelectorAll('.media-card img, .media-card video').forEach(media => {
+                media.addEventListener('contextmenu', e => e.preventDefault());
+            });
+        });
+
+        // Fonctions pour ouvrir les modales avec les données stockées
+        function openPriereModal(index) {
+            if (window.prieresData && window.prieresData[index]) {
+                openContentModal(window.prieresData[index], 'priere');
+            }
+        }
+
+        function openReflexionModal(index) {
+            if (window.reflexionsData && window.reflexionsData[index]) {
+                openContentModal(window.reflexionsData[index], 'reflexion');
+            }
+        }
+
+        // Fonction pour ouvrir la modale avec le contenu
+        function openContentModal(item, type) {
+            console.log('🔍 DEBUG: openContentModal appelé avec:', { item, type }); // Debug amélioré
+            
+            // Définir le type
+            document.getElementById('modalType').textContent = type === 'priere' ? 'Prière' : 'Réflexion';
+            
+            // Titre
+            document.getElementById('modalTitle').textContent = item.title || '';
+            
+            // Catégorie (uniquement pour les prières)
+            const categoryDiv = document.getElementById('modalCategory');
+            if (type === 'priere' && item.category) {
+                const categoryLabels = {
+                    'comfort': 'Réconfort',
+                    'healing': 'Guérison',
+                    'protection': 'Protection',
+                    'peace': 'Paix',
+                    'hope': 'Espérance'
+                };
+                document.getElementById('modalCategoryText').textContent = categoryLabels[item.category] || item.category;
+                categoryDiv.style.display = 'inline-flex';
+            } else {
+                categoryDiv.style.display = 'none';
+            }
+            
+            // Référence biblique (pour les prières) ou Thème principal (pour les réflexions)
+            const referenceDiv = document.getElementById('modalReference');
+            console.log('Référence biblique trouvée:', item.reference_biblique); // Debug
+            
+            if (type === 'priere') {
+                // Pour les prières : afficher la référence biblique
+                let referenceBiblique = item.reference_biblique || ''; // Référence par défaut vide
+                if (referenceBiblique) {
+                    document.getElementById('modalReferenceText').textContent = referenceBiblique;
+                    // Changer l'icône en bible
+                    document.querySelector('#modalReference i').className = 'fas fa-bible';
+                    referenceDiv.style.display = 'flex';
+                    console.log('Référence biblique affichée:', referenceBiblique); // Debug
+                } else {
+                    referenceDiv.style.display = 'none';
+                    console.log('Pas de référence biblique trouvée'); // Debug
+                }
+            } else if (type === 'reflexion') {
+                // Pour les réflexions : afficher la catégorie (toujours visible)
+                const categoryDiv = document.getElementById('modalCategory');
+                
+                // Toujours afficher une catégorie pour les réflexions
+                const categoryLabels = {
+                    'faith': 'Foi et confiance',
+                    'hope': 'Espérance et avenir',
+                    'peace': 'Paix intérieure',
+                    'perseverance': 'Persévérance',
+                    'comfort': 'Réconfort divin'
+                };
+                
+                // Utiliser la catégorie si disponible, sinon le thème, sinon une valeur par défaut
+                const categoryText = categoryLabels[item.category] || categoryLabels[item.theme] || categoryLabels[item.theme] || 'Foi et confiance';
+                document.getElementById('modalCategoryText').textContent = categoryText;
+                categoryDiv.style.display = 'inline-flex';
+                
+                // Style spécial pour les réflexions - police élégante
+                categoryDiv.style.background = 'linear-gradient(135deg, #9b59b6, #8b5cf6)';
+                categoryDiv.style.border = '2px solid #e0e7ff';
+                categoryDiv.style.boxShadow = '0 4px 15px rgba(155, 89, 182, 0.3)';
+                categoryDiv.style.fontFamily = "'Georgia', 'Times New Roman', serif";
+                
+                // Cacher la section référence pour éviter le double affichage
+                const referenceDiv = document.getElementById('modalReference');
+                referenceDiv.style.display = 'none';
+                console.log('Catégorie de réflexion affichée:', categoryText); // Debug
+            }
+            
+            // Contenu
+            document.getElementById('modalContent').textContent = item.content || '';
+            
+            // Auteur
+            document.getElementById('modalAuthor').textContent = item.author || 'Baume de la Foi';
+            
+            // Média (image ou vidéo)
+            const mediaContainer = document.getElementById('modalMediaContainer');
+            const modalImage = document.getElementById('modalImage');
+            const modalVideo = document.getElementById('modalVideo');
+            
+            if (item.image_url || item.video_url) {
+                const mediaUrl = item.image_url || item.video_url;
+                const isVideo = (item.media_type === 'video' || (item.video_url && item.video_url.match(/\.(mp4|webm|ogg|mov)$/i))) && !item.image_url;
+                
+                mediaContainer.style.display = 'block';
+                
+                if (isVideo) {
+                    modalImage.style.display = 'none';
+                    modalVideo.style.display = 'block';
+                    const videoSource = modalVideo.querySelector('source');
+                    videoSource.src = mediaUrl;
+                    modalVideo.load();
+                } else {
+                    modalVideo.style.display = 'none';
+                    modalImage.style.display = 'block';
+                    modalImage.src = mediaUrl;
+                    modalImage.alt = item.title || '';
+                }
+            } else {
+                mediaContainer.style.display = 'none';
+            }
+            
+            // Ouvrir la modale
+            contentModal.show();
+        }
+
+        // Variables pour les témoignages
+        const temoignagesPerPage = 6;
+        
+        // Variables pour les réflexions
+        const reflexionsPerPage = 5; // 5 réflexions par page
+        let currentReflexionPage = 1;
+        let allReflexionsData = [];
+
+        // Charger les témoignages
+        async function loadTemoignages() {
+            console.log('🔍 DEBUG: loadTemoignages() appelée');
+            try {
+                // Toujours charger TOUS les témoignages (approuvés et en attente) pour la vue publique
+                console.log('🔍 DEBUG: Appel API /api/baume/temoignages');
+                const response = await fetch('/api/baume/temoignages');
+                
+                console.log('🔍 DEBUG: Response status:', response.status);
+                console.log('🔍 DEBUG: Response ok:', response.ok);
+                
+                if (!response.ok) {
+                    console.log('🔍 DEBUG: Response not ok - throwing error');
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                console.log('🔍 DEBUG: Result success:', result.success);
+                console.log('🔍 DEBUG: Result data length:', result.data ? result.data.length : 0);
+                console.log('🔍 DEBUG: Result data:', result.data);
+                
+                if (result.success && result.data && result.data.length > 0) {
+                    console.log('🔍 DEBUG: Appel displayTemoignages avec', result.data.length, 'témoignages');
+                    displayTemoignages(result.data);
+                } else {
+                    console.log('🔍 DEBUG: Appel displayNoTemoignages');
+                    displayNoTemoignages();
+                }
+            } catch (error) {
+                console.error('❌ Erreur lors du chargement des témoignages:', error);
+                console.log('🔍 DEBUG: Appel displayNoTemoignages depuis catch');
+                displayNoTemoignages();
+            }
+        }
+
+        // Charger les réflexions avec pagination
+        function loadReflexions() {
+            console.log('loadReflexions appelé'); // Debug
+            console.log('window.reflexionsData:', window.reflexionsData); // Debug
+            
+            try {
+                // Utiliser les données déjà chargées dans window.reflexionsData
+                const reflexions = window.reflexionsData || [];
+                console.log('Nombre de réflexions:', reflexions.length); // Debug
+                
+                if (reflexions.length > 0) {
+                    allReflexionsData = reflexions;
+                    
+                    // Vérifier si on est sur mobile
+                    const isMobile = window.innerWidth <= 768;
+                    console.log('Est mobile?', isMobile, 'Largeur:', window.innerWidth); // Debug
+                    
+                    // Utiliser la pagination pour mobile et PC
+                    console.log('Affichage avec pagination'); // Debug
+                    displayReflexionsPaginated();
+                    createReflexionsPagination(); // Créer la pagination sur mobile et PC
+                } else {
+                    console.log('Aucune réflexion trouvée'); // Debug
+                    displayNoReflexions();
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des réflexions:', error);
+                displayNoReflexions();
+            }
+        }
+
+        // Afficher les témoignages
+        function displayTemoignages(temoignages) {
+            console.log('🔍 DEBUG: displayTemoignages() appelée avec', temoignages.length, 'témoignages');
+            console.log('🔍 DEBUG: Témoignages reçus:', temoignages);
+            
+            const container = document.getElementById('temoignages-container');
+            if (!container) {
+                console.log('❌ DEBUG: Container temoignages-container non trouvé');
+                return;
+            }
+            
+            // Vider le conteneur
+            console.log('🔍 DEBUG: Vidage du container');
+            container.innerHTML = '';
+            
+            // Stocker TOUS les témoignages dans une variable globale pour le "Voir plus"
+            window.allTemoignages = temoignages;
+            
+            // Filtrer uniquement les témoignages approuvés (is_approved = 1)
+            const temoignagesApprouves = temoignages.filter(t => t.is_approved === 1);
+            
+            console.log('🔍 DEBUG: Témoignages approuvés:', temoignagesApprouves.length);
+            console.log('🔍 DEBUG: Témoignages approuvés IDs:', temoignagesApprouves.map(t => t.id));
+            
+            // Afficher uniquement les 12 premiers témoignages approuvés
+            const temoignagesToShow = temoignagesApprouves.slice(0, 12);
+            console.log('🔍 DEBUG: Témoignages à afficher:', temoignagesToShow.length);
+            
+            temoignagesToShow.forEach((temoignage, index) => {
+                console.log(`🔍 DEBUG: Création carte ${index + 1} pour témignage ID:`, temoignage.id);
+                if (temoignage && temoignage.id) {
+                    const temoignageCard = createTemoignageCard(temoignage);
+                    console.log('🔍 DEBUG: Ajout de la carte au container');
+                    container.appendChild(temoignageCard);
+                } else {
+                    console.log('❌ DEBUG: Témoignage sans ID ou null:', temoignage);
+                }
+            });
+            
+            console.log('🔍 DEBUG: Nombre d\'éléments dans le container:', container.children.length);
+            
+            // Gérer l'affichage du bouton "voir plus"
+            const loadMoreBtn = document.querySelector('button[onclick="loadMoreTemoignages()"]');
+            if (loadMoreBtn) {
+                const currentlyDisplayed = container.children.length;
+                if (currentlyDisplayed >= temoignagesApprouves.length) {
+                    // Masquer le bouton s'il y a tous les témoignages approuvés sont affichés
+                    loadMoreBtn.style.display = 'none';
+                    console.log('🔍 DEBUG: Bouton "voir plus" masqué');
+                } else {
+                    // Afficher le bouton s'il y a encore des témoignages approuvés à afficher
+                    loadMoreBtn.style.display = 'inline-flex';
+                    console.log('🔍 DEBUG: Bouton "voir plus" affiché');
+                }
+            } else {
+                console.log('❌ DEBUG: Bouton "voir plus" non trouvé');
+            }
+        }
+
+        // Créer une carte de témoignage - Style inspiré des cartes programmes
+        function createTemoignageCard(temoignage) {
+            console.log('🔍 DEBUG: createTemoignageCard appelée pour:', temoignage.id);
+            
+            const col = document.createElement('div');
+            col.className = 'col-md-6 col-lg-4 mb-4';
+            
+            const card = document.createElement('div');
+            card.className = 'temoignage-program-card';
+            
+            // Créer une version courte du témoignage (première phrase complète)
+            let shortContent;
+            const sentences = temoignage.content.match(/[^.!?]+[.!?]+/g);
+            if (sentences && sentences.length > 0) {
+                shortContent = sentences[0].trim();
+            } else {
+                // Fallback : prendre les 100 premiers caractères
+                shortContent = temoignage.content.substring(0, 100) + (temoignage.content.length > 100 ? '...' : '');
+            }
+            const fullContent = temoignage.content;
+            
+            // Limiter la longueur pour l'affichage dans la carte
+            const displayContent = shortContent.length > 120 ? shortContent.substring(0, 120) + '...' : shortContent;
+            
+            card.innerHTML = `
+                <div class="temoignage-icon">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h3>${temoignage.author_name || 'Anonyme'}</h3>
+                <div class="temoignage-date">
+                    ${temoignage.ville ? temoignage.ville + ' • ' : ''}
+                    ${new Date(temoignage.created_at).toLocaleDateString('fr-FR')}
+                </div>
+                <p>"${displayContent}"</p>
+                <a href="#" class="temoignage-link" onclick="toggleTemoignageDetail(${temoignage.id}); return false;" 
+                   id="detail-btn-${temoignage.id}"
+                   data-short="${shortContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
+                   data-full="${fullContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
+                   data-short-raw="${shortContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
+                   data-full-raw="${fullContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}">
+                    Lire le témoignage complet →
+                </a>
+            `;
+            
+            col.appendChild(card);
+            console.log('🔍 DEBUG: Carte créée et ajoutée au col');
+            return col;
+        }
+        
+        // Fonction pour basculer entre vue courte et vue détaillée - Style programme-card
+        function toggleTemoignageDetail(temoignageId) {
+            const buttonElement = document.getElementById(`detail-btn-${temoignageId}`);
+            
+            if (!buttonElement) return;
+            
+            // Récupérer les données depuis les attributs data-*
+            const shortContent = buttonElement.getAttribute('data-short');
+            const fullContent = buttonElement.getAttribute('data-full');
+            
+            // Vérifier l'état actuel en regardant le texte du bouton
+            const buttonText = buttonElement.textContent.trim();
+            
+            // Trouver la carte parente
+            const card = buttonElement.closest('.temoignage-program-card');
+            const paragraph = card.querySelector('p');
+            
+            if (buttonText === 'Lire le témoignage complet →') {
+                // Passer en mode détaillé
+                paragraph.innerHTML = `"${fullContent}"`;
+                buttonElement.innerHTML = '← Revenir au résumé';
+                buttonElement.style.color = 'var(--baume-accent)';
+            } else {
+                // Revenir en mode court
+                const displayContent = shortContent.length > 120 ? shortContent.substring(0, 120) + '...' : shortContent;
+                paragraph.innerHTML = `"${displayContent}"`;
+                buttonElement.innerHTML = 'Lire le témoignage complet →';
+                buttonElement.style.color = '';
+            }
+        }
+
+        // Afficher un message quand il n'y a pas de témoignages
+        function displayNoTemoignages() {
+            const container = document.getElementById('temoignages-container');
+            if (!container) return;
+            
+            container.innerHTML = `
+                <div class="col-12 text-center">
+                    <div class="text-muted">
+                        <i class="fas fa-heart" style="font-size: 3rem; opacity: 0.5;"></i>
+                        <h4 class="mt-3">Aucun témoignage publié pour le moment</h4>
+                        <p>Soyez le premier à partager votre expérience de foi !</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Animer les cartes de témoignages après chargement
+        function animateTemoignageCards() {
+            const temoignageCards = document.querySelectorAll('.temoignage-program-card');
+            temoignageCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+                card.style.animation = 'fadeInUp 0.6s ease forwards';
+                card.style.opacity = '0';
+            });
+        }
+
+        // Charger plus de témoignages
+        function loadMoreTemoignages() {
+            const container = document.getElementById('temoignages-container');
+            if (!container || !window.allTemoignages) return;
+            
+            // Calculer combien de témoignages sont déjà affichés
+            const currentlyDisplayed = container.children.length;
+            
+            // Afficher TOUS les témoignages restants d'un coup
+            const remainingTemoignages = window.allTemoignages.slice(currentlyDisplayed);
+            
+            remainingTemoignages.forEach(temoignage => {
+                if (temoignage && temoignage.id) {
+                    const temoignageCard = createTemoignageCard(temoignage);
+                    container.appendChild(temoignageCard);
+                }
+            });
+            
+            // Animer les nouvelles cartes ajoutées
+            animateTemoignageCards();
+            
+            // Masquer le bouton car tous les témoignages sont maintenant affichés
+            const loadMoreBtn = document.querySelector('button[onclick="loadMoreTemoignages()"]');
+            if (loadMoreBtn) {
+                loadMoreBtn.style.display = 'none';
+            }
+            
+            // Message de confirmation
+            console.log('✅ Tous les témoignages ont été affichés');
+        }
+
+        // Afficher toutes les réflexions pour mobile
+        function displayAllReflexions() {
+            console.log('displayAllReflexions appelé'); // Debug
+            const container = document.getElementById('reflexionsCarousel');
+            console.log('Container trouvé:', !!container); // Debug
+            
+            if (!container) return;
+            
+            // Vider le conteneur
+            container.innerHTML = '';
+            
+            if (allReflexionsData.length > 0) {
+                console.log('Affichage de', allReflexionsData.length, 'réflexions'); // Debug
+                
+                // Utiliser flexbox en colonne pour afficher les cartes verticalement sur mobile
+                container.className = 'carousel-track';
+                container.style.cssText = 'display: flex; flex-direction: column; gap: 1rem; padding: 0 15px;';
+                
+                // Ajouter chaque réflexion
+                allReflexionsData.forEach((reflexion, index) => {
+                    if (reflexion) {
+                        console.log('Création de la carte', index, reflexion.title); // Debug
+                        const reflexionCard = createReflexionCard(reflexion, index);
+                        // Adapter la taille pour mobile - carte pleine largeur
+                        reflexionCard.style.cssText = 'flex: 0 0 auto; width: 100%; max-width: 100%; padding: 0;';
+                        container.appendChild(reflexionCard);
+                    }
+                });
+                
+                console.log('Nombre d\'éléments dans le container:', container.children.length); // Debug
+            } else {
+                console.log('Aucune réflexion à afficher'); // Debug
+            }
+        }
+
+        // Afficher les réflexions pour la page actuelle
+        function displayReflexionsPaginated() {
+            const container = document.getElementById('reflexionsCarousel');
+            if (!container) return;
+            
+            // Calculer les réflexions à afficher pour cette page (5 par page)
+            const startIndex = (currentReflexionPage - 1) * reflexionsPerPage;
+            const endIndex = startIndex + reflexionsPerPage;
+            const reflexionsToShow = allReflexionsData.slice(startIndex, endIndex);
+            
+            // Vider et reconstruire le conteneur
+            container.innerHTML = '';
+            
+            // Vérifier si on est sur mobile pour adapter l'affichage
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Sur mobile : afficher en colonne verticale
+                container.className = 'carousel-track';
+                container.style.cssText = 'display: flex; flex-direction: column; gap: 1rem; padding: 0 15px;';
+                
+                // Ajouter chaque réflexion en colonne
+                reflexionsToShow.forEach((reflexion, index) => {
+                    if (reflexion) {
+                        const reflexionCard = createReflexionCard(reflexion, startIndex + index);
+                        // Adapter la taille pour mobile - carte pleine largeur
+                        reflexionCard.style.cssText = 'flex: 0 0 auto; width: 100%; max-width: 100%; padding: 0;';
+                        container.appendChild(reflexionCard);
+                    }
+                });
+            } else {
+                // Sur PC : afficher en ligne horizontale
+                container.className = 'carousel-track';
+                container.style.cssText = 'display: flex; transition: transform 0.5s ease; overflow: hidden; white-space: nowrap; padding: 0 15px;';
+                
+                // Ajouter chaque réflexion à la ligne
+                reflexionsToShow.forEach((reflexion, index) => {
+                    if (reflexion) {
+                        const reflexionCard = createReflexionCard(reflexion, startIndex + index);
+                        container.appendChild(reflexionCard);
+                    }
+                });
+            }
+        }
+
+        // Créer une carte de réflexion
+        function createReflexionCard(reflexion, globalIndex) {
+            const mediaUrl = reflexion.image_url || reflexion.video_url;
+            const isVideo = (reflexion.media_type === 'video' || (reflexion.video_url && reflexion.video_url.match(/\.(mp4|webm|ogg|mov)$/i))) && !reflexion.image_url;
+            
+            const div = document.createElement('div');
+            div.className = 'reflexion-single-line'; // Utiliser flexbox pour ligne unique
+            div.style.cssText = 'flex: 0 0 auto; width: 280px; max-width: 280px; padding: 0 12px;';
+            
+            div.innerHTML = `
+                <div class="content-card-reflexion" onclick="incrementReflexionView('${reflexion.id || ''}'); openReflexionModal(${globalIndex})" style="height: 280px;">
+                    <!-- Image en haut -->
+                    <div class="reflexion-image-container">
+                        ${reflexion.video_url || reflexion.image_url ? 
+                            (isVideo ? 
+                                `<video muted loop playsinline preload="metadata" class="reflexion-image">
+                                    <source src="${mediaUrl}" type="video/mp4">
+                                </video>` :
+                                `<img src="${mediaUrl}" alt="${reflexion.title}" loading="lazy" class="reflexion-image">`
+                            ) :
+                            `<div class="reflexion-placeholder">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>`
+                        }
+                    </div>
+                    
+                    <!-- Contenu en bas avec étiquette -->
+                    <div class="reflexion-content">
+                        <!-- Étiquette style TOPCHRÉTIEN -->
+                        <div class="reflexion-badge">
+                            <i class="fas fa-book-open"></i>
+                            RÉFLEXION
+                        </div>
+                        
+                        <!-- Titre -->
+                        <h3 class="reflexion-title">
+                            ${reflexion.title}
+                        </h3>
+                        
+                        <!-- Vues masquées dans la page publique, mais incrémentées en arrière-plan -->
+                    </div>
+                    
+                    <!-- Contenu caché pour la modale -->
+                    <div class="card-body-hidden">
+                        <div class="hidden-content">${reflexion.content || ''}</div>
+                        ${reflexion.reference_biblique ? `<div class="hidden-reference">${reflexion.reference_biblique}</div>` : ''}
+                        <div class="hidden-author">${reflexion.author || 'Baume de la Foi'}</div>
+                    </div>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Créer la pagination pour les réflexions
+        function createReflexionsPagination() {
+            const totalPages = Math.ceil(allReflexionsData.length / reflexionsPerPage);
+            
+            if (totalPages <= 1) return; // Pas de pagination si une seule page
+            
+            // Créer le conteneur de pagination
+            const paginationContainer = document.createElement('div');
+            paginationContainer.className = 'reflexions-pagination';
+            paginationContainer.style.cssText = `
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 10px;
+                margin-top: 30px;
+                padding: 20px;
+                flex-wrap: wrap;
+            `;
+            
+            // Bouton précédent
+            const prevBtn = document.createElement('button');
+            prevBtn.innerHTML = 'Précédent';
+            prevBtn.className = 'btn btn-outline-primary';
+            prevBtn.style.cssText = 'padding: 8px 16px; border-radius: 25px;';
+            prevBtn.onclick = () => changeReflexionPage(currentReflexionPage - 1);
+            prevBtn.disabled = currentReflexionPage === 1;
+            
+            // Numéros de page (limités à 2 pages maximum visibles)
+            const maxVisiblePages = 2;
+            let startPage = Math.max(1, currentReflexionPage - 1);
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.textContent = i;
+                pageBtn.className = i === currentReflexionPage ? 'btn btn-primary' : 'btn btn-outline-secondary';
+                pageBtn.style.cssText = `
+                    padding: 8px 12px;
+                    border-radius: 50%;
+                    width: 40px;
+                    height: 40px;
+                    margin: 0 5px;
+                `;
+                pageBtn.onclick = () => changeReflexionPage(i);
+                paginationContainer.appendChild(pageBtn);
+            }
+            
+            // Bouton suivant
+            const nextBtn = document.createElement('button');
+            nextBtn.innerHTML = 'Suivant';
+            nextBtn.className = 'btn btn-outline-primary';
+            nextBtn.style.cssText = 'padding: 8px 16px; border-radius: 25px;';
+            nextBtn.onclick = () => changeReflexionPage(currentReflexionPage + 1);
+            nextBtn.disabled = currentReflexionPage === totalPages;
+            
+            // Assembler la pagination
+            paginationContainer.insertBefore(prevBtn, paginationContainer.firstChild);
+            paginationContainer.appendChild(nextBtn);
+            
+            // Ajouter la pagination juste après le carrousel des réflexions uniquement
+            const reflexionsCarousel = document.getElementById('reflexionsCarousel');
+            if (reflexionsCarousel && reflexionsCarousel.parentNode) {
+                reflexionsCarousel.parentNode.insertBefore(paginationContainer, reflexionsCarousel.nextSibling);
+            }
+        }
+
+        // Changer de page de réflexions
+        function changeReflexionPage(page) {
+            const totalPages = Math.ceil(allReflexionsData.length / reflexionsPerPage);
+            
+            if (page < 1 || page > totalPages) return;
+            
+            currentReflexionPage = page;
+            displayReflexionsPaginated();
+            
+            // Mettre à jour la pagination
+            const paginationContainer = document.querySelector('.reflexions-pagination');
+            if (paginationContainer) {
+                paginationContainer.remove();
+            }
+            createReflexionsPagination();
+            
+            // Faire défiler vers le haut des réflexions
+            document.getElementById('reflexions').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Afficher un message quand il n'y a pas de réflexions
+        function displayNoReflexions() {
+            const container = document.getElementById('reflexionsCarousel');
+            if (!container) return;
+            
+            container.innerHTML = `
+                <div class="carousel-slide" style="min-width: 100%; padding: 0 15px;">
+                    <div class="empty-state text-center">
+                        <i class="fas fa-lightbulb" style="font-size: 3rem; opacity: 0.5;"></i>
+                        <h4>Aucune réflexion pour le moment</h4>
+                        <p>Revenez plus tard pour découvrir de nouvelles réflexions</p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Afficher des notifications
+        function showNotification(message, type = 'info') {
+            // Map 'error' to Bootstrap 'danger' and ensure valid bs alert types
+            const bsType = type === 'error' ? 'danger' : (type === 'success' ? 'success' : (type === 'info' ? 'info' : type));
+            const iconName = bsType === 'success' ? 'check-circle' : (bsType === 'danger' ? 'exclamation-circle' : 'info-circle');
+
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${bsType} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                border-radius: 12px;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            `;
+
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${iconName} me-2"></i>
+                    <div class="flex-grow-1">${message}</div>
+                    <button type="button" class="btn-close ms-2" data-bs-dismiss="alert"></button>
+                </div>
+            `;
+
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+        
+        // Activer la catégorie au scroll
+        const sections = document.querySelectorAll('section[id]');
+        const navItems = document.querySelectorAll('.category-pill');
+        
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navItems.forEach(item => {
+                item.classList.remove('active');
+                if (item.getAttribute('href') === '#' + current) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Gestionnaire d'erreur pour les images
+        window.addEventListener('error', function(e) {
+            if (e.target.tagName === 'IMG') {
+                e.target.style.backgroundColor = 'var(--baume-primary)';
+                e.target.style.objectFit = 'contain';
+                e.target.src = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%232E5C4E"/><text x="50" y="50" font-family="Arial" font-size="14" fill="white" text-anchor="middle" dominant-baseline="middle">Image non disponible</text></svg>';
+            }
+        }, true);
+
+        // ===== ROTATION AUTOMATIQUE DES IMAGES DE PRÉSENTATION =====
+        const presentationImages = [
+            '/images/Baume4.png',
+            '/images/Baume6.png',
+            '/images/Baume7.png',
+            '/images/Baume8.png'
+        ];
+        
+        let currentImageIndex = 0;
+        const presentationImageElement = document.getElementById('presentationImage');
+        
+        function rotatePresentationImage() {
+            if (!presentationImageElement) return;
+            
+            // Fondu sortant
+            presentationImageElement.style.opacity = '0';
+            
+            setTimeout(() => {
+                // Changer l'image
+                currentImageIndex = (currentImageIndex + 1) % presentationImages.length;
+                presentationImageElement.src = presentationImages[currentImageIndex];
+                
+                // Fondu entrant
+                setTimeout(() => {
+                    presentationImageElement.style.opacity = '1';
+                }, 100);
+            }, 500);
+        }
+        
+        // ===== ANIMATION DES IMAGES FLOTTANTES DÉPLACEMENT LENT =====
+        const floatingLeftImage = document.querySelector('.floating-image-left');
+        const floatingRightImage = document.querySelector('.floating-image-right');
+        
+        function animateFloatingImages() {
+            if (!floatingLeftImage || !floatingRightImage) return;
+            
+            // Calculer la position actuelle
+            const currentTopLeft = parseFloat(floatingLeftImage.style.top) || -10;
+            const currentTopRight = parseFloat(floatingRightImage.style.top) || -10;
+            
+            // Déplacer lentement vers le bas (de -10% à 100%)
+            const newTopLeft = Math.min(100, currentTopLeft + 0.5);
+            const newTopRight = Math.min(100, currentTopRight + 0.6);
+            
+            floatingLeftImage.style.top = newTopLeft + '%';
+            floatingRightImage.style.top = newTopRight + '%';
+            
+            // Réinitialiser quand on arrive en bas
+            if (newTopLeft >= 100) {
+                floatingLeftImage.style.top = '-10%';
+            }
+            if (newTopRight >= 100) {
+                floatingRightImage.style.top = '-10%';
+            }
+        }
+        
+        // Démarrer l'animation toutes les 50ms pour un déplacement fluide
+        setInterval(animateFloatingImages, 50);
+        
+        // ===== FONCTIONS POUR AFFICHER TOUTES LES PRIÈRES ET RÉFLEXIONS =====
+        function showAllPrieres() {
+            // Rediriger vers une page qui affiche toutes les prières
+            window.location.href = '/baume-de-la-foi/prieres/toutes';
+        }
+        
+        function showAllReflexions() {
+            // Rediriger vers une page qui affiche toutes les réflexions
+            window.location.href = '/baume-de-la-foi/reflexions/toutes';
+        }
+        
+        // ===== GESTION DES CARROUSELS AVEC DÉFILEMENT AUTOMATIQUE =====
+        let currentPriereSlide = 0;
+        let currentReflexionSlide = 0;
+        let autoSlideInterval;
+        let isPaused = false;
+        
+        // Fonctions pour les carrousels
+        function changePriereSlide(direction) {
+            const carousel = document.getElementById('prieresCarousel');
+            if (!carousel) return;
+            
+            const slides = carousel.querySelectorAll('.carousel-slide');
+            if (slides.length === 0) return;
+            
+            currentPriereSlide += direction;
+            
+            // Boucle infinie
+            if (currentPriereSlide < 0) {
+                currentPriereSlide = slides.length - 1;
+            } else if (currentPriereSlide >= slides.length) {
+                currentPriereSlide = 0;
+            }
+            
+            updateCarousel(carousel, currentPriereSlide);
+            resetAutoSlide();
+        }
+        
+        function changeReflexionSlide(direction) {
+            const carousel = document.getElementById('reflexionsCarousel');
+            if (!carousel) return;
+            
+            // Chercher les cartes de réflexions individuelles
+            const slides = carousel.querySelectorAll('.content-card-reflexion');
+            if (slides.length === 0) return;
+            
+            currentReflexionSlide += direction;
+            
+            // Boucle infinie
+            if (currentReflexionSlide < 0) {
+                currentReflexionSlide = slides.length - 1;
+            } else if (currentReflexionSlide >= slides.length) {
+                currentReflexionSlide = 0;
+            }
+            
+            // Utiliser updateCarousel comme pour les réflexions
+            updateCarousel(carousel, currentReflexionSlide);
+            resetAutoSlide();
+        }
+        
+        function updateCarousel(carousel, slideIndex) {
+            // Adapter pour les réflexions en ligne unique
+            if (carousel.id === 'reflexionsCarousel') {
+                // Pour les réflexions : déplacement par article de 280px + 24px gap
+                const articleWidth = 280 + 24; // 280px + 24px gap
+                const offset = -slideIndex * articleWidth;
+                carousel.style.transform = `translateX(${offset}px)`;
+                carousel.style.transition = 'transform 0.5s ease';
+            } else {
+                // Pour les prières : système original en pourcentage
+                const offset = -slideIndex * 100;
+                carousel.style.transform = `translateX(${offset}%)`;
+            }
+        }
+        
+        function autoSlide() {
+            if (!isPaused) {
+                changePriereSlide(1);
+                // Ne pas automatiquement changer les réflexions - navigation manuelle uniquement
+            }
+        }
+        
+        function resetAutoSlide() {
+            clearInterval(autoSlideInterval);
+            autoSlideInterval = setInterval(autoSlide, 5000); // 5 secondes
+        }
+        
+        // Initialiser les carrousels
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM chargé - Initialisation des carrousels'); // Debug
+            
+            // Initialiser le carrousel de réflexions
+            const reflexionCarousel = document.getElementById('reflexionsCarousel');
+            if (reflexionCarousel) {
+                console.log('Carrousel réflexions trouvé'); // Debug
+                currentReflexionSlide = 0; // Forcer l'initialisation
+                reflexionCarousel.style.transform = 'translateX(0px)'; // Position initiale
+                
+                // Navigation au clavier (flèches gauche/droite)
+                document.addEventListener('keydown', function(e) {
+                    // Vérifier si le focus est sur ou près du carrousel
+                    const rect = reflexionCarousel.getBoundingClientRect();
+                    const isInCarouselArea = e.clientX >= rect.left && e.clientX <= rect.right && 
+                                           e.clientY >= rect.top && e.clientY <= rect.bottom;
+                    
+                    if (isInCarouselArea || e.target.closest('#reflexions')) {
+                        if (e.key === 'ArrowLeft') {
+                            e.preventDefault();
+                            changeReflexionSlide(-1);
+                        } else if (e.key === 'ArrowRight') {
+                            e.preventDefault();
+                            changeReflexionSlide(1);
+                        }
+                    }
+                });
+            } else {
+                console.log('Carrousel réflexions NON trouvé'); // Debug
+            }
+            
+            // Initialiser le carrousel de prières
+            const priereCarousel = document.getElementById('prieresCarousel');
+            if (priereCarousel) {
+                currentPriereSlide = 0;
+                updateCarousel(priereCarousel, 0);
+            }
+            
+            // Démarrer le défilement automatique
+            resetAutoSlide();
+        });
+        
+        // Mettre en pause quand on survole les carrousels
+        const carousels = document.querySelectorAll('.carousel-wrapper');
+        carousels.forEach(carousel => {
+            carousel.addEventListener('mouseenter', () => {
+                isPaused = true;
+            });
+            
+            carousel.addEventListener('mouseleave', () => {
+                isPaused = false;
+            });
+        });
+        
+        // ===== QUIZ BIBLIQUE QUOTIDIEN =====
+        const allQuizQuestions = [
+            // Semaine 1 - Questions 1-5
+            {
+                question: "Qui a été le premier roi d'Israël ?",
+                options: ["Saül", "David", "Salomon", "Samuel"],
+                correctAnswer: 0,
+                verse: "Samuel oignit Saül comme roi sur Israël, et l'Esprit de Dieu se saisit de Saül.",
+                reference: "1 Samuel 10:1"
+            },
+            {
+                question: "Combien de jours Dieu a-t-il mis pour créer le monde ?",
+                options: ["3 jours", "6 jours", "7 jours", "1 jour"],
+                correctAnswer: 1,
+                verse: "Ainsi le ciel et la terre furent achevés avec toute leur armée. Dieu acheva au septième jour son œuvre qu'il avait faite.",
+                reference: "Genèse 2:1-2"
+            },
+            {
+                question: "Qui a été jeté dans la fosse aux lions ?",
+                options: ["Daniel", "David", "Josué", "Moïse"],
+                correctAnswer: 0,
+                verse: "Le roi donna l'ordre et on amena Daniel, on le jeta dans la fosse aux lions.",
+                reference: "Daniel 6:16"
+            },
+            {
+                question: "Quel est le fruit de l'Esprit mentionné dans Galates 5:22 ?",
+                options: ["Joie", "Amour", "Paix", "Toutes ces réponses"],
+                correctAnswer: 3,
+                verse: "Mais le fruit de l'Esprit, c'est l'amour, la joie, la paix, la patience, la bonté, la fidélité, la douceur, la maîtrise de soi.",
+                reference: "Galates 5:22-23"
+            },
+            {
+                question: "Qui a marché sur l'eau ?",
+                options: ["Paul", "Pierre", "Jean", "Jacques"],
+                correctAnswer: 1,
+                verse: "Pierre descendit de la barque et marcha sur les eaux pour aller vers Jésus.",
+                reference: "Matthieu 14:29"
+            },
+            // Semaine 2 - Questions 6-10
+            {
+                question: "Quel est le premier livre de la Bible ?",
+                options: ["Exode", "Genèse", "Lévitique", "Nombres"],
+                correctAnswer: 1,
+                verse: "Au commencement, Dieu créa les cieux et la terre.",
+                reference: "Genèse 1:1"
+            },
+            {
+                question: "Qui a construit l'arche ?",
+                options: ["Abraham", "Moïse", "Noé", "Jacob"],
+                correctAnswer: 2,
+                verse: "Noé construisit une arche pour sauver sa famille des animaux pendant le déluge.",
+                reference: "Genèse 6:14"
+            },
+            {
+                question: "Combien de commandements Dieu a-t-il donnés à Moïse ?",
+                options: ["5", "7", "10", "12"],
+                correctAnswer: 2,
+                verse: "Et Dieu prononça toutes ces paroles, en disant: Je suis l'Éternel, ton Dieu.",
+                reference: "Exode 20:1-2"
+            },
+            {
+                question: "Qui a été tenté dans le désert pendant 40 jours ?",
+                options: ["David", "Jésus", "Moïse", "Élie"],
+                correctAnswer: 1,
+                verse: "Jésus fut mené par l'Esprit dans le désert pour être tenté par le diable.",
+                reference: "Matthieu 4:1"
+            },
+            {
+                question: "Quel est le plus grand commandement ?",
+                options: ["Ne pas tuer", "Aimer Dieu", "Honorer ses parents", "Ne pas voler"],
+                correctAnswer: 1,
+                verse: "Tu aimeras le Seigneur, ton Dieu, de tout ton cœur, de toute ton âme, et de toute ta force.",
+                reference: "Matthieu 22:37"
+            },
+            // Semaine 3 - Questions 11-15
+            {
+                question: "Qui a vu un buisson ardent ?",
+                options: ["Abraham", "Moïse", "Élie", "Josué"],
+                correctAnswer: 1,
+                verse: "L'ange de l'Éternel lui apparut dans une flamme de feu, au milieu d'un buisson.",
+                reference: "Exode 3:2"
+            },
+            {
+                question: "Combien de disciples Jésus avait-il ?",
+                options: ["7", "10", "12", "15"],
+                correctAnswer: 2,
+                verse: "Il en institua douze pour être avec lui et pour les envoyer prêcher.",
+                reference: "Marc 3:14"
+            },
+            {
+                question: "Qui a renié Jésus trois fois ?",
+                options: ["Jean", "Pierre", "Judas", "Thomas"],
+                correctAnswer: 1,
+                verse: "Pierre lui répondit: Je ne te connais pas. Et aussitôt un coq chanta.",
+                reference: "Luc 22:57"
+            },
+            {
+                question: "Quel est le livre des Psaumes ?",
+                options: ["Livre de prières", "Livre de lois", "Livre d'histoires", "Livre de prophéties"],
+                correctAnswer: 0,
+                verse: "Seigneur, tu sondes les cœurs, tu connais les pensées.",
+                reference: "Psaumes 139:23"
+            },
+            {
+                question: "Qui a été transporté au ciel dans un char de feu ?",
+                options: ["Énoch", "Moïse", "Élie", "Abraham"],
+                correctAnswer: 2,
+                verse: "Élie monta au ciel dans un tourbillon de vent, avec un char de feu.",
+                reference: "2 Rois 2:11"
+            }
+        ];
+        
+        // Obtenir 5 questions basées sur le jour actuel
+        function getDailyQuestions() {
+            const today = new Date();
+            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+            const weekNumber = Math.floor(dayOfYear / 7) % 3; // Rotation sur 3 semaines
+            const startQuestionIndex = weekNumber * 5;
+            return allQuizQuestions.slice(startQuestionIndex, startQuestionIndex + 5);
+        }
+        
+        const quizQuestions = getDailyQuestions();
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedAnswerIndex = null;
+        
+        function loadQuestion() {
+            const question = quizQuestions[currentQuestionIndex];
+            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
+            document.getElementById('quizScore').textContent = score;
+            document.getElementById('quizProgress').style.width = ((currentQuestionIndex + 1) / quizQuestions.length * 100) + '%';
+            
+            // Mettre à jour la question
+            document.querySelector('.question-text').textContent = question.question;
+            
+            // Mettre à jour les options
+            const options = document.querySelectorAll('.answer-option');
+            const optionTexts = document.querySelectorAll('.option-text');
+            options.forEach((option, index) => {
+                optionTexts[index].textContent = question.options[index];
+                option.classList.remove('bg-primary', 'text-white', 'border-primary');
+                option.classList.add('border-secondary');
+                option.style.borderColor = '#e0e0e0';
+                option.style.background = 'white';
+            });
+            
+            // Cacher l'explication et réinitialiser les boutons
+            document.getElementById('verseExplanation').style.display = 'none';
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').innerHTML = currentQuestionIndex === quizQuestions.length - 1 ? 'Terminer<i class="fas fa-check ms-2"></i>' : 'Suivant<i class="fas fa-arrow-right ms-2"></i>';
+            
+            selectedAnswerIndex = null;
+        }
+        
+        function selectAnswer(index) {
+            // Réinitialiser toutes les options
+            document.querySelectorAll('.answer-option').forEach(opt => {
+                opt.classList.remove('bg-primary', 'text-white', 'border-primary');
+                opt.classList.add('border-secondary');
+                opt.style.borderColor = '#e0e0e0';
+                opt.style.background = 'white';
+            });
+            
+            // Mettre en évidence l'option sélectionnée
+            const selectedOption = document.querySelectorAll('.answer-option')[index];
+            selectedOption.classList.remove('border-secondary');
+            selectedOption.classList.add('bg-primary', 'text-white', 'border-primary');
+            selectedOption.style.borderColor = 'var(--baume-primary)';
+            selectedOption.style.background = 'var(--baume-gradient)';
+            
+            selectedAnswerIndex = index;
+        }
+        
+        function nextQuestion() {
+            if (selectedAnswerIndex === null) {
+                alert('Veuillez sélectionner une réponse avant de continuer.');
+                return;
+            }
+            
+            // Vérifier la réponse
+            const question = quizQuestions[currentQuestionIndex];
+            if (selectedAnswerIndex === question.correctAnswer) {
+                score++;
+            }
+            
+            // Afficher l'explication
+            const explanation = document.getElementById('verseExplanation');
+            explanation.style.display = 'block';
+            explanation.querySelector('p:first-of-type').textContent = `"${question.verse}"`;
+            explanation.querySelector('p:last-of-type').innerHTML = `<strong>Référence :</strong> ${question.reference}`;
+            
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                // Passer à la question suivante
+                currentQuestionIndex++;
+                setTimeout(() => {
+                    loadQuestion();
+                }, 3000);
+            } else {
+                // Afficher les résultats
+                setTimeout(() => {
+                    showResults();
+                }, 3000);
+            }
+        }
+        
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
+            }
+        }
+        
+        function showResults() {
+            document.getElementById('quizContent').style.display = 'none';
+            document.getElementById('quizResults').style.display = 'block';
+            document.getElementById('finalScore').textContent = score;
+            
+            const percentage = (score / quizQuestions.length) * 100;
+            let message = '';
+            
+            if (percentage === 100) {
+                message = ' Excellent ! Vous connaissez parfaitement la Parole de Dieu !';
+            } else if (percentage >= 80) {
+                message = ' Très bien ! Vous avez une excellente connaissance biblique !';
+            } else if (percentage >= 60) {
+                message = ' Bien ! Continuez à étudier la Parole de Dieu !';
+            } else if (percentage >= 40) {
+                message = ' Pas mal ! Continuez à lire votre Bible !';
+            } else {
+                message = ' Continuez à prier et étudier les Écritures !';
+            }
+            
+            document.getElementById('resultsMessage').textContent = message;
+        }
+        
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedAnswerIndex = null;
+            
+            document.getElementById('quizContent').style.display = 'block';
+            document.getElementById('quizResults').style.display = 'none';
+            
+            // Recharger les questions du jour
+            const newQuestions = getDailyQuestions();
+            quizQuestions.length = 0;
+            quizQuestions.push(...newQuestions);
+            
+            loadQuestion();
+        }
+        
+        // Initialiser le quiz au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            loadQuestion();
+        });
+        
+        // Démarrer la rotation toutes les 4 secondes
+        setInterval(rotatePresentationImage, 4000);
+    </script>
+</body>
+</html>

@@ -203,62 +203,36 @@
             background: white;
         }
         
-        /* Options de partage */
-        .share-options {
-            background: #f8f9fa;
+        /* Styles pour les miniatures de vidéo */
+        .video-thumbnail {
+            position: relative;
             border-radius: 8px;
-            padding: 20px;
-            margin-top: 15px;
-        }
-        
-        .share-options h5 {
-            color: var(--telex-blue);
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .share-checkboxes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-        
-        .share-option {
+            overflow: hidden;
+            background: #f8f9fa;
+            aspect-ratio: 16/9;
             display: flex;
             align-items: center;
-            padding: 10px 15px;
-            background: white;
+            justify-content: center;
             border: 1px solid #dee2e6;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
         }
         
-        .share-option:hover {
-            border-color: var(--telex-red);
-            box-shadow: 0 2px 8px rgba(230, 57, 70, 0.1);
+        .video-thumbnail-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .share-option input[type="checkbox"] {
-            margin-right: 8px;
-            transform: scale(1.2);
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        
-        .share-option label {
-            margin: 0;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        
-        .share-option i {
-            margin-left: 8px;
-            font-size: 1.1rem;
-        }
-        
-        .share-facebook i { color: #1877f2; }
-        .share-twitter i { color: #1da1f2; }
-        .share-linkedin i { color: #0077b5; }
-        .share-whatsapp i { color: #25d366; }
         
         /* Responsive */
         @media (max-width: 992px) {
@@ -327,6 +301,12 @@
                 </a>
             </div>
             <div class="nav-item">
+                <a href="/admin/baume-de-la-foi" class="nav-link">
+                    <i class="fas fa-cross"></i>
+                    <span>Baume de la Foi</span>
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="/admin/contacts" class="nav-link">
                     <i class="fas fa-envelope"></i>
                     <span>Messages</span>
@@ -374,10 +354,6 @@
                 <a href="/admin/news" class="btn btn-outline-secondary me-2">
                     <i class="fas fa-arrow-left me-2"></i>Retour
                 </a>
-                <button type="submit" form="newsForm" class="btn btn-telex">
-                    <i class="fas fa-save me-2"></i>
-                    <% if (news) { %>Mettre à jour<% } else { %>Publier<% } %>
-                </button>
             </div>
         </div>
         
@@ -416,7 +392,7 @@
                             <div class="mb-4">
                                 <label for="title" class="form-label">
                                     Titre de l'actualité *
-                                    <span class="badge bg-secondary ms-2" id="titleCount">0/70</span>
+                                    <span class="badge bg-secondary ms-2" id="titleCount">0/150</span>
                                 </label>
                                 <input type="text" 
                                        class="form-control form-control-lg" 
@@ -424,7 +400,7 @@
                                        name="title" 
                                        value="<%= news ? news.title : '' %>"
                                        placeholder="Titre accrocheur..."
-                                       maxlength="70"
+                                       maxlength="150"
                                        required>
                                 <div class="form-text d-flex justify-content-between">
                                     <span>Un titre clair et informatif pour le SEO</span>
@@ -436,13 +412,13 @@
                             <div class="mb-4">
                                 <label for="excerpt" class="form-label">
                                     Extrait / Description courte *
-                                    <span class="badge bg-secondary ms-2" id="excerptCount">0/160</span>
+                                    <span class="badge bg-secondary ms-2" id="excerptCount">0/300</span>
                                 </label>
                                 <textarea class="form-control" 
                                           id="excerpt" 
                                           name="excerpt" 
                                           rows="3"
-                                          maxlength="160"
+                                          maxlength="300"
                                           placeholder="Résumé en 1-2 phrases..."
                                           required><%= news ? news.excerpt : '' %></textarea>
                                 <div class="form-text d-flex justify-content-between">
@@ -518,18 +494,58 @@
                             <div class="mb-3">
                                 <label for="category" class="form-label">Catégorie</label>
                                 <select class="form-select" id="category" name="category">
-                                    <option value="Actualité" <%= news && news.category === 'Actualité' ? 'selected' : '' %>>Actualité</option>
-                                    <option value="Annonce" <%= news && news.category === 'Annonce' ? 'selected' : '' %>>Annonce</option>
-                                    <option value="Événement" <%= news && news.category === 'Événement' ? 'selected' : '' %>>Événement</option>
-                                    <option value="Interview" <%= news && news.category === 'Interview' ? 'selected' : '' %>>Interview</option>
-                                    <option value="Reportage" <%= news && news.category === 'Reportage' ? 'selected' : '' %>>Reportage</option>
-                                    <option value="Formation" <%= news && news.category === 'Formation' ? 'selected' : '' %>>Formation</option>
+                                    <option value="politique" <%= news && news.category === 'politique' ? 'selected' : '' %>>Politique</option>
+                                    <option value="economie" <%= news && news.category === 'economie' ? 'selected' : '' %>>Économie</option>
+                                    <option value="social" <%= news && news.category === 'social' ? 'selected' : '' %>>Social</option>
+                                    <option value="sport" <%= news && news.category === 'sport' ? 'selected' : '' %>>Sport</option>
+                                    <option value="culturel" <%= news && news.category === 'culturel' ? 'selected' : '' %>>Culturel</option>
+                                    <option value="annonce" <%= news && news.category === 'annonce' ? 'selected' : '' %>>Annonce</option>
+                                    <option value="autre" <%= news && news.category === 'autre' ? 'selected' : '' %>>Autre</option>
                                 </select>
                             </div>
                             
-                            <!-- Image - NOUVELLE SECTION -->
+                            <!-- Choix du média principal -->
                             <div class="mb-4">
-                                <label class="form-label">Image de l'actualité</label>
+                                <label class="form-label">
+                                    <i class="fas fa-photo-video me-2"></i>Type de média principal
+                                </label>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" 
+                                           type="radio" 
+                                           name="media_type" 
+                                           id="media_image" 
+                                           value="image"
+                                           <%= (!news || !news.video_url || (news.image_url && !news.video_url)) ? 'checked' : '' %>
+                                           onchange="toggleMediaType('image')">
+                                    <label class="form-check-label" for="media_image">
+                                        <i class="fas fa-image me-1"></i>
+                                        Image
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" 
+                                           type="radio" 
+                                           name="media_type" 
+                                           id="media_video" 
+                                           value="video"
+                                           <%= (news && news.video_url) ? 'checked' : '' %>
+                                           onchange="toggleMediaType('video')">
+                                    <label class="form-check-label" for="media_video">
+                                        <i class="fas fa-video me-1"></i>
+                                        Vidéo
+                                    </label>
+                                </div>
+                                <div class="form-text">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Choisissez un seul type de média pour votre actualité
+                                </div>
+                            </div>
+                            
+                            <!-- Image - SECTION CONDITIONNELLE -->
+                            <div class="mb-4" id="imageSection" style="<%= (news && news.video_url) ? 'display: none;' : '' %>">
+                                <label class="form-label">
+                                    <i class="fas fa-image me-2"></i>Image de l'actualité
+                                </label>
                                 
                                 <!-- Zone de drag & drop -->
                                 <div class="upload-area" id="uploadArea">
@@ -544,17 +560,6 @@
                                        id="image_file" 
                                        name="image_file"
                                        accept=".jpg,.jpeg,.png,.gif,.webp">
-                                
-                                <!-- URL alternative -->
-                                <div class="mt-3">
-                                    <label class="form-label small">OU entrez une URL d'image</label>
-                                    <input type="url" 
-                                           class="form-control" 
-                                           id="image_url" 
-                                           name="image_url" 
-                                           value="<%= news ? news.image_url : '' %>"
-                                           placeholder="https://exemple.com/image.jpg">
-                                </div>
                                 
                                 <!-- Prévisualisation -->
                                 <div id="imagePreview" class="mt-3" style="<%= (news && news.image_url) ? '' : 'display: none;' %>">
@@ -580,62 +585,79 @@
                                 </div>
                             </div>
                             
-                            <!-- Options de partage -->
-                            <div class="share-options">
-                                <h5>
-                                    <i class="fas fa-share-alt me-2"></i>Options de partage
-                                </h5>
-                                <div class="share-checkboxes">
-                                    <div class="share-option">
-                                        <input type="checkbox" 
-                                               id="share_facebook" 
-                                               name="share_facebook" 
-                                               value="1"
-                                               <%= news && news.share_facebook ? 'checked' : 'checked' %>>
-                                        <label for="share_facebook">
-                                            Facebook
-                                            <i class="fab fa-facebook"></i>
-                                        </label>
+                            <!-- Vidéo - SECTION CONDITIONNELLE -->
+                            <div class="mb-4" id="videoSection" style="<%= (news && news.video_url) ? '' : 'display: none;' %>">
+                                <label class="form-label">
+                                    <i class="fas fa-video me-2"></i>Vidéo de l'actualité
+                                </label>
+                                
+                                <!-- Upload de fichier vidéo -->
+                                <div class="mb-3">
+                                    <label class="form-label small">Téléchargez votre fichier vidéo</label>
+                                    <div class="upload-area" id="videoUploadArea">
+                                        <i class="fas fa-video"></i>
+                                        <h5>Glissez-déposez votre vidéo ici</h5>
+                                        <p>ou cliquez pour sélectionner</p>
+                                        <p class="small text-muted">MP4, WebM, OGG (max 1000MB)</p>
                                     </div>
                                     
-                                    <div class="share-option">
-                                        <input type="checkbox" 
-                                               id="share_twitter" 
-                                               name="share_twitter" 
-                                               value="1"
-                                               <%= news && news.share_twitter ? 'checked' : '' %>>
-                                        <label for="share_twitter">
-                                            Twitter
-                                            <i class="fab fa-twitter"></i>
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="share-option">
-                                        <input type="checkbox" 
-                                               id="share_linkedin" 
-                                               name="share_linkedin" 
-                                               value="1"
-                                               <%= news && news.share_linkedin ? 'checked' : '' %>>
-                                        <label for="share_linkedin">
-                                            LinkedIn
-                                            <i class="fab fa-linkedin"></i>
-                                        </label>
-                                    </div>
-                                    
-                                    <div class="share-option">
-                                        <input type="checkbox" 
-                                               id="share_whatsapp" 
-                                               name="share_whatsapp" 
-                                               value="1"
-                                               <%= news && news.share_whatsapp ? 'checked' : '' %>>
-                                        <label for="share_whatsapp">
-                                            WhatsApp
-                                            <i class="fab fa-whatsapp"></i>
-                                        </label>
-                                    </div>
+                                    <input type="file" 
+                                           class="form-control d-none" 
+                                           id="video_file" 
+                                           name="video_file"
+                                           accept=".mp4,.webm,.ogg,.mov,.avi">
                                 </div>
-                                <div class="form-text mt-2">
-                                    Cochez les plateformes où vous souhaitez permettre le partage de cette actualité
+                                
+                                <!-- Prévisualisation vidéo -->
+                                <div id="videoPreview" class="mt-3" style="<%= (news && news.video_url) ? '' : 'display: none;' %>">
+                                    <div class="preview-card">
+                                        <p class="small mb-2"><strong>Vidéo actuelle :</strong></p>
+                                        <div id="videoPreviewContainer">
+                                            <% if (news && news.video_url) { %>
+                                                <% if (news.video_url.includes('youtube.com') || news.video_url.includes('youtu.be')) { %>
+                                                    <div class="video-thumbnail">
+                                                        <img src="https://img.youtube.com/vi/<%= news.video_url.split(/v=|youtu.be\//)[1].split('&')[0] %>/hqdefault.jpg" 
+                                                             alt="Miniature YouTube" 
+                                                             class="video-thumbnail-img">
+                                                        <div class="video-overlay">
+                                                            <i class="fab fa-youtube fa-3x text-white"></i>
+                                                        </div>
+                                                    </div>
+                                                <% } else if (news.video_url.includes('vimeo.com')) { %>
+                                                    <div class="video-thumbnail">
+                                                        <i class="fab fa-vimeo fa-3x text-primary"></i>
+                                                        <p class="mt-2 mb-0">Vidéo Vimeo</p>
+                                                    </div>
+                                                <% } else { %>
+                                                    <div class="video-thumbnail">
+                                                        <video 
+                                                            class="video-thumbnail-img" 
+                                                            muted 
+                                                            preload="metadata"
+                                                            onloadeddata="this.poster=''"
+                                                            onerror="handleVideoError(this)">
+                                                            <source src="<%= news.video_url %>" type="video/mp4">
+                                                            <source src="<%= news.video_url %>" type="video/webm">
+                                                            <source src="<%= news.video_url %>" type="video/ogg">
+                                                            Votre navigateur ne supporte pas la lecture de vidéos.
+                                                        </video>
+                                                        <div class="video-overlay" onclick="this.previousElementSibling.play()">
+                                                            <i class="fas fa-play-circle fa-3x text-white"></i>
+                                                        </div>
+                                                    </div>
+                                                <% } %>
+                                                <div class="mt-2">
+                                                    <button type="button" 
+                                                            class="btn btn-sm btn-outline-danger" 
+                                                            onclick="removeVideo()">
+                                                        <i class="fas fa-trash me-1"></i>Supprimer la vidéo
+                                                    </button>
+                                                </div>
+                                            <% } else { %>
+                                                <p class="text-muted">Aucune vidéo sélectionnée</p>
+                                            <% } %>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -661,9 +683,6 @@
                         </div>
                         <div class="card-body">
                             <% if (news) { %>
-                            <div class="mb-2">
-                                <strong>ID :</strong> #<%= news.id %>
-                            </div>
                             <div class="mb-2">
                                 <strong>Créée le :</strong>
                                 <%= new Date(news.created_at).toLocaleDateString('fr-FR') %>
@@ -709,6 +728,7 @@
             ],
             placeholder: 'Écrivez votre contenu ici...'
         });
+        console.log('🔍 DEBUG: Summernote réactivé - éditeur riche disponible');
         
         // ========== COMPTEURS DE CARACTÈRES ==========
         const titleInput = document.getElementById('title');
@@ -744,25 +764,27 @@
         
         // Initialiser les compteurs
         if (titleInput) {
-            titleInput.addEventListener('input', () => updateCharacterCount(titleInput, titleCount, 70, titleStatus));
-            updateCharacterCount(titleInput, titleCount, 70, titleStatus);
+            titleInput.addEventListener('input', () => updateCharacterCount(titleInput, titleCount, 150, titleStatus));
+            updateCharacterCount(titleInput, titleCount, 150, titleStatus);
         }
         
         if (excerptInput) {
-            excerptInput.addEventListener('input', () => updateCharacterCount(excerptInput, excerptCount, 160, excerptStatus));
-            updateCharacterCount(excerptInput, excerptCount, 160, excerptStatus);
+            excerptInput.addEventListener('input', () => updateCharacterCount(excerptInput, excerptCount, 300, excerptStatus));
+            updateCharacterCount(excerptInput, excerptCount, 300, excerptStatus);
         }
         
         // ========== GESTION DE L'UPLOAD D'IMAGE ==========
         const uploadArea = document.getElementById('uploadArea');
         const fileInput = document.getElementById('image_file');
-        const imageUrlInput = document.getElementById('image_url');
         const imagePreview = document.getElementById('imagePreview');
         const previewContainer = document.getElementById('previewContainer');
         
         // Variables globales
         let uploadedFile = null;
         let imageRemoved = false;
+        let isUploading = false; // Variable pour suivre l'état d'upload
+        
+        console.log('🔍 DEBUG: Initialisation du formulaire');
         
         // Cliquer sur la zone = cliquer sur le input file
         uploadArea.addEventListener('click', function() {
@@ -776,31 +798,6 @@
             }
         });
         
-        // Gérer le changement d'URL
-        imageUrlInput.addEventListener('input', function() {
-            if (this.value.trim() !== '') {
-                // Afficher la prévisualisation de l'URL
-                previewContainer.innerHTML = `
-                    <img src="${this.value}" 
-                         alt="Prévisualisation URL" 
-                         class="image-preview"
-                         onerror="this.style.display='none'; document.querySelector('#imagePreview .preview-card').innerHTML += '<p class=\\'text-danger mt-2\\'>Impossible de charger l\\'image</p>';">
-                    <div class="mt-2">
-                        <p class="small text-success mb-1">
-                            <i class="fas fa-link me-1"></i>
-                            Image URL
-                        </p>
-                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
-                            <i class="fas fa-times me-1"></i>Supprimer
-                        </button>
-                    </div>
-                `;
-                imagePreview.style.display = 'block';
-                fileInput.value = ''; // Réinitialiser le fichier uploadé
-                uploadedFile = null;
-            }
-        });
-        
         // Drag & drop
         ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
             uploadArea.addEventListener(eventName, preventDefaults, false);
@@ -809,6 +806,7 @@
         function preventDefaults(e) {
             e.preventDefault();
             e.stopPropagation();
+            e.stopImmediatePropagation();
         }
         
         ['dragenter', 'dragover'].forEach(eventName => {
@@ -832,9 +830,13 @@
         
         // Fonction pour gérer l'upload
         function handleFileUpload(file) {
+            console.log('🔍 DEBUG: Début upload image - fichier:', file.name, 'taille:', file.size);
+            isUploading = true; // Marquer l'état d'upload
+            
             // Vérifier la taille (max 5MB)
             if (file.size > 5 * 1024 * 1024) {
                 showNotification('❌ Fichier trop volumineux. Maximum 5MB autorisé.', 'danger');
+                isUploading = false;
                 return;
             }
             
@@ -842,6 +844,7 @@
             const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
             if (!validTypes.includes(file.type)) {
                 showNotification('❌ Format non supporté. Utilisez JPG, PNG, GIF ou WebP.', 'danger');
+                isUploading = false;
                 return;
             }
             
@@ -865,8 +868,10 @@
                 `;
                 
                 imagePreview.style.display = 'block';
-                // Effacer l'URL si elle existe
-                imageUrlInput.value = '';
+                isUploading = false; // Terminer l'état d'upload
+                
+                // Libérer l'URL pour éviter les fuites de mémoire
+                URL.revokeObjectURL(e.target.result);
             };
             reader.readAsDataURL(file);
         }
@@ -882,7 +887,6 @@
         // Supprimer l'image existante
         window.removeImage = function() {
             imageRemoved = true;
-            imageUrlInput.value = '';
             fileInput.value = '';
             uploadedFile = null;
             imagePreview.style.display = 'none';
@@ -896,6 +900,147 @@
                 input.value = '1';
                 document.getElementById('newsForm').appendChild(input);
             }
+        }
+        
+        // ========== FONCTION DE BASCULEMENT MÉDIA ==========
+        window.toggleMediaType = function(type) {
+            const imageSection = document.getElementById('imageSection');
+            const videoSection = document.getElementById('videoSection');
+            
+            console.log('🔍 DEBUG: Toggle media type vers:', type);
+            
+            // Simplement afficher/masquer les sections sans supprimer les médias
+            if (type === 'image') {
+                // Afficher la section image, cacher la section vidéo
+                imageSection.style.display = 'block';
+                videoSection.style.display = 'none';
+                console.log('🔍 DEBUG: Mode image activé - vidéo masquée');
+                
+            } else if (type === 'video') {
+                // Afficher la section vidéo, cacher la section image
+                videoSection.style.display = 'block';
+                imageSection.style.display = 'none';
+                console.log('🔍 DEBUG: Mode vidéo activé - image masquée');
+            }
+        }
+        
+        // ========== GESTION DE LA VIDÉO ==========
+        const videoUploadArea = document.getElementById('videoUploadArea');
+        const videoFileInput = document.getElementById('video_file');
+        const videoPreview = document.getElementById('videoPreview');
+        const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+        
+        let uploadedVideoFile = null;
+        let videoRemoved = false;
+        let currentVideoUrl = null; // Pour libérer l'URL plus tard
+        
+        // Cliquer sur la zone de vidéo = cliquer sur le input file
+        if (videoUploadArea) {
+            videoUploadArea.addEventListener('click', function() {
+                videoFileInput.click();
+            });
+            
+            // Gérer la sélection de fichier vidéo
+            videoFileInput.addEventListener('change', function(e) {
+                if (this.files && this.files[0]) {
+                    handleVideoUpload(this.files[0]);
+                }
+            });
+            
+            // Drag & drop
+            videoUploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.classList.add('dragover');
+            });
+            
+            videoUploadArea.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+            });
+            
+            videoUploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.classList.remove('dragover');
+                
+                const files = e.dataTransfer.files;
+                if (files && files[0]) {
+                    handleVideoUpload(files[0]);
+                }
+            });
+        }
+        
+        function handleVideoUpload(file) {
+            console.log('🔍 DEBUG: Début upload vidéo - fichier:', file.name, 'taille:', file.size);
+            isUploading = true; // Marquer l'état d'upload
+            
+            // Validation du type de fichier
+            const allowedTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime', 'video/x-msvideo'];
+            if (!allowedTypes.includes(file.type)) {
+                showNotification('❌ Type de fichier non supporté. Utilisez MP4, WebM ou OGG.', 'danger');
+                isUploading = false;
+                return;
+            }
+            
+            // Validation de la taille (max 1000MB)
+            const maxSize = 1000 * 1024 * 1024; // 1000MB
+            if (file.size > maxSize) {
+                showNotification('❌ Fichier trop volumineux. Maximum 1000MB autorisé.', 'danger');
+                isUploading = false;
+                return;
+            }
+            
+            uploadedVideoFile = file;
+            
+            // Afficher la prévisualisation
+            currentVideoUrl = URL.createObjectURL(file);
+            const videoUrl = currentVideoUrl;
+            videoPreviewContainer.innerHTML = `
+                <video controls class="video-preview" style="max-width: 100%; max-height: 200px; border-radius: 8px;">
+                    <source src="${videoUrl}" type="${file.type}">
+                    Votre navigateur ne supporte pas la lecture de vidéos.
+                </video>
+                <div class="mt-2">
+                    <p class="small text-success mb-1">
+                        <i class="fas fa-file-video me-1"></i>
+                        Fichier sélectionné : ${file.name}
+                    </p>
+                    <p class="small text-muted mb-2">
+                        Taille : ${(file.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
+                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
+                        <i class="fas fa-trash me-1"></i>Supprimer la vidéo
+                    </button>
+                </div>
+            `;
+            videoPreview.style.display = 'block';
+            
+            showNotification('✅ Vidéo chargée avec succès', 'success');
+            isUploading = false; // Terminer l'état d'upload
+        }
+        
+        window.removeVideo = function() {
+            videoRemoved = true;
+            videoFileInput.value = '';
+            uploadedVideoFile = null;
+            videoPreview.style.display = 'none';
+            
+            // Libérer l'URL pour éviter les fuites de mémoire
+            if (currentVideoUrl) {
+                URL.revokeObjectURL(currentVideoUrl);
+                currentVideoUrl = null;
+            }
+            
+            // Ajouter un champ caché pour indiquer la suppression
+            if (!document.getElementById('remove_video')) {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.id = 'remove_video';
+                input.name = 'remove_video';
+                input.value = '1';
+                document.getElementById('newsForm').appendChild(input);
+            }
+            
+            showNotification('🗑️ Vidéo supprimée', 'info');
         }
         
         // ========== SYSTÈME DE NOTIFICATIONS ==========
@@ -919,31 +1064,51 @@
             }, 5000);
         }
         
+        // ========== GESTION DES ERREURS VIDÉO ==========
+        window.handleVideoError = function(videoElement) {
+            const thumbnailDiv = videoElement.parentElement;
+            thumbnailDiv.innerHTML = `
+                <div class="video-thumbnail">
+                    <i class="fas fa-video fa-3x text-secondary"></i>
+                    <p class="mt-2 mb-0">Vidéo externe</p>
+                </div>
+            `;
+        }
+        
         // ========== VALIDATION AMÉLIORÉE DU FORMULAIRE ==========
         document.getElementById('newsForm').addEventListener('submit', function(e) {
+            console.log('🔍 DEBUG: Formulaire soumis - début validation');
+            
             const title = document.getElementById('title').value.trim();
             const excerpt = document.getElementById('excerpt').value.trim();
             const content = document.getElementById('content').value.trim();
             
+            console.log('🔍 DEBUG: Titre:', title, 'Extrait:', excerpt?.substring(0, 50), 'Contenu:', content?.substring(0, 50));
+            
             // Validation des champs obligatoires
             if (!title || !excerpt || !content) {
+                console.log('🔍 DEBUG: Validation échouée - champs manquants');
                 e.preventDefault();
                 showNotification('❌ Veuillez remplir tous les champs obligatoires.', 'danger');
                 return false;
             }
             
             // Validation de la longueur
-            if (title.length > 70) {
+            if (title.length > 150) {
                 e.preventDefault();
-                showNotification('❌ Le titre ne doit pas dépasser 70 caractères.', 'danger');
+                console.log('🔍 DEBUG: Validation échouée - titre trop long');
+                showNotification('❌ Le titre ne doit pas dépasser 150 caractères.', 'danger');
                 return false;
             }
             
-            if (excerpt.length > 160) {
+            if (excerpt.length > 300) {
                 e.preventDefault();
-                showNotification('❌ L\'extrait ne doit pas dépasser 160 caractères.', 'danger');
+                showNotification('❌ L\'extrait ne doit pas dépasser 300 caractères.', 'danger');
                 return false;
             }
+            
+            // Validation simple - pas de suppression automatique des médias
+            console.log('🔍 DEBUG: Validation simple - conservation des médias existants');
             
             // Désactiver le bouton pendant l'envoi
             const submitBtn = this.querySelector('button[type="submit"]');
@@ -960,40 +1125,59 @@
         
         // ========== AUTOSAVE (BROUILLON) ==========
         let autosaveTimeout;
+        
         function autosave() {
+            // Ne pas lancer l'auto-sauvegarde pendant un upload
+            if (isUploading) return;
+            
             clearTimeout(autosaveTimeout);
             autosaveTimeout = setTimeout(() => {
-                const formData = new FormData(document.getElementById('newsForm'));
-                formData.append('autosave', 'true');
-                
-                fetch('/admin/news/autosave', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        showNotification('✅ Brouillon sauvegardé automatiquement', 'success');
-                    }
-                })
-                .catch(error => {
-                    console.log('Autosave failed:', error);
-                });
+                try {
+                    const formData = new FormData(document.getElementById('newsForm'));
+                    formData.append('autosave', 'true');
+                    
+                    fetch('/admin/news/autosave', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.success) {
+                            // Ne pas afficher de notification pour ne pas déranger l'utilisateur
+                            console.log('✅ Auto-sauvegarde réussie:', data.message);
+                        } else {
+                            console.warn('⚠️ Auto-sauvegarde échouée:', data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.warn('⚠️ Auto-sauvegarde failed:', error);
+                        // Ne pas afficher d'erreur à l'utilisateur pour ne pas le déranger
+                    });
+                } catch (error) {
+                    console.error('❌ Erreur lors de l\'auto-sauvegarde:', error);
+                }
             }, 30000); // 30 secondes après la dernière modification
         }
         
-        // Activer l'autosave sur les changements
-        ['title', 'excerpt', 'author', 'category'].forEach(id => {
-            const element = document.getElementById(id);
-            if (element) {
-                element.addEventListener('input', autosave);
-            }
-        });
+        // Activer l'autosave sur les changements - DÉSACTIVÉ TEMPORAIREMENT POUR TEST
+        // ['title', 'excerpt', 'author', 'category'].forEach(id => {
+        //     const element = document.getElementById(id);
+        //     if (element) {
+        //         element.addEventListener('input', autosave);
+        //     }
+        // });
+        console.log('🔍 DEBUG: Autosave sur tous les champs désactivé pour test');
         
-        // Autosave pour Summernote
-        $('#content').on('summernote.change', function() {
-            autosave();
-        });
+        // Autosave pour Summernote - DÉSACTIVÉ TEMPORAIREMENT POUR TEST
+        // $('#content').on('summernote.change', function() {
+        //     autosave();
+        // });
+        console.log('🔍 DEBUG: Autosave Summernote désactivé pour test');
     });
     </script>
 </body>

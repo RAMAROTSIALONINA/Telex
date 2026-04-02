@@ -1,6 +1,9 @@
-// TELEX Main JavaScript - Version corrigée et optimisée
+// Telex Main JavaScript - Version corrigée et optimisée
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('TELEX - Interface professionnelle chargée avec succès');
+    console.log('Telex - Interface professionnelle chargée avec succès');
+    
+    // Reset des styles problématiques au chargement
+    resetProblematicStyles();
     
     // Initialiser toutes les fonctionnalités
     initNavigationSystem();
@@ -12,6 +15,27 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollEffects();
     initGallery(); // IMPORTANT : Ajouté
 });
+
+// ===== RESET DES STYLES PROBLÉMATIQUES - DÉSACTIVÉ POUR VIDÉOS =====
+function resetProblematicStyles() {
+    // DÉSACTIVÉ : Ne pas toucher aux éléments vidéo pour éviter les conflits
+    // Les configurations vidéo sont maintenant gérées dans news.ejs et news-single.ejs
+    console.log('🚫 Reset des styles problématiques désactivé pour les vidéos');
+}
+
+// ===== APPLICATION DE DIMENSIONS COHÉRENTES PAR CONTEXTE - DÉSACTIVÉ POUR VIDÉOS =====
+function applyConsistentDimensions() {
+    // DÉSACTIVÉ : Ne pas appliquer de styles sur les conteneurs vidéo
+    // Les configurations vidéo sont maintenant gérées dans news.ejs et news-single.ejs
+    console.log('🚫 Application des dimensions désactivée pour les vidéos');
+}
+
+// ===== EMPÊCHER LES OVERRIDES CSS GLOBAUX - DÉSACTIVÉ POUR VIDÉOS =====
+function preventGlobalOverrides() {
+    // DÉSACTIVÉ : Ne pas appliquer de styles globaux qui affectent les vidéos
+    // Les configurations vidéo sont maintenant gérées dans news.ejs et news-single.ejs
+    console.log('🚫 Empêchement des overrides CSS désactivé pour les vidéos');
+}
 
 // ===== OPTIMISATION DES IMAGES CORRIGÉE =====
 function initImageOptimization() {
@@ -255,9 +279,10 @@ function initNavigationSystem() {
         link.addEventListener('click', function(e) {
             // Smooth scroll pour les ancres
             const href = this.getAttribute('href');
-            if (href.startsWith('#')) {
+            if (href && href.startsWith('#') && href.length > 1) {
                 e.preventDefault();
-                const target = document.querySelector(href);
+                const targetId = href.substring(1); // Enlever le #
+                const target = document.getElementById(targetId) || document.querySelector(`[id="${targetId}"]`);
                 if (target) {
                     window.scrollTo({
                         top: target.offsetTop - 80,
@@ -529,16 +554,256 @@ window.addEventListener('load', function() {
         });
     });
     
-    // Vérifier spécifiquement la galerie
-    const galleryImages = document.querySelectorAll('.gallery-item img');
-    console.log(`Galerie: ${galleryImages.length} images détectées`);
-    
-    galleryImages.forEach((img, index) => {
-        console.log(`Image ${index + 1}: ${img.src}`);
+    // Vérifier spécifiquement la galerie uniquement si on est sur la page galerie
+    if (window.location.pathname.includes('/gallery')) {
+        const galleryImages = document.querySelectorAll('.gallery-item img');
+        console.log(`Galerie: ${galleryImages.length} images détectées`);
         
-        // Forcer l'affichage correct
+        galleryImages.forEach((img, index) => {
+            console.log(`Image ${index + 1}: ${img.src}`);
+            
+            // Forcer l'affichage correct
+            img.style.objectFit = 'cover';
+            img.style.width = '100%';
+            img.style.height = '100%';
+        });
+    }
+    // ===== CORRECTION DES IMAGES AU CHARGEMENT =====
+function fixArticleImages() {
+    console.log('Correction des images d\'articles...');
+    
+    // Images dans la page article unique
+    const articlePageImages = document.querySelectorAll('.article-page img, .article-hero-image img');
+    articlePageImages.forEach(img => {
+        img.style.height = 'auto';
+        img.style.maxHeight = '500px';
+        img.style.objectFit = 'contain';
+        img.style.width = '100%';
+    });
+    
+    // Images dans les cartes d'articles
+    const cardImages = document.querySelectorAll('.news-article-card img, .news-card-image img');
+    cardImages.forEach(img => {
+        img.style.height = '200px';
         img.style.objectFit = 'cover';
         img.style.width = '100%';
-        img.style.height = '100%';
     });
+    
+    // Images dans le contenu des articles
+    const contentImages = document.querySelectorAll('.article-content img');
+    contentImages.forEach(img => {
+        img.style.height = 'auto';
+        img.style.maxHeight = '400px';
+        img.style.objectFit = 'contain';
+        img.style.width = '100%';
+    });
+}
+
+// ===== SURVEILLANCE DES CHANGEMENTS D'IMAGES =====
+function monitorImageChanges() {
+    // Observer les changements dans le DOM
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1 && node.matches && 
+                        (node.matches('img') || node.querySelector('img'))) {
+                        setTimeout(fixArticleImages, 100);
+                    }
+                });
+            }
+        });
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+}
+
+// ===== MODIFIER LA FONCTION DOMContentLoaded =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Telex - Interface professionnelle chargée avec succès');
+    
+    // Initialiser toutes les fonctionnalités
+    initNavigationSystem();
+    initContactForm();
+    initNewsletterForm();
+    initAnimations();
+    initMobileMenu();
+    initImageOptimization();
+    initScrollEffects();
+    initGallery();
+    
+    // AJOUTER CES DEUX LIGNES
+    fixArticleImages();
+    monitorImageChanges();
+});
+// ===== FIXATION DÉFINITIVE DES IMAGES =====
+function fixAllImages() {
+    console.log('Fixation des images en cours...');
+    
+    // 1. Page article unique
+    const articlePageImages = document.querySelectorAll('.article-page img:not(.logo-img)');
+    articlePageImages.forEach(img => {
+        img.style.height = 'auto';
+        img.style.maxHeight = '';
+        img.style.objectFit = 'contain';
+        img.style.width = 'auto';
+        img.style.maxWidth = '100%';
+        img.style.display = 'block';
+        img.style.margin = '0 auto';
+    });
+    
+    // 2. Cartes d'articles (liste)
+    const cardImages = document.querySelectorAll('.news-article-card img');
+    cardImages.forEach(img => {
+        const container = img.closest('.article-image-container');
+        if (container) {
+            img.style.height = 'auto';
+            img.style.maxHeight = '170px';
+            img.style.objectFit = 'contain';
+            img.style.width = 'auto';
+            img.style.maxWidth = '100%';
+            img.style.display = 'block';
+            img.style.margin = '0 auto';
+        }
+    });
+    
+    // 3. Images du contenu
+    const contentImages = document.querySelectorAll('.article-content img');
+    contentImages.forEach(img => {
+        img.style.maxHeight = '400px';
+        img.style.objectFit = 'contain';
+        img.style.width = 'auto';
+        img.style.maxWidth = '100%';
+    });
+    
+    // 4. Empêcher les overrides CSS globaux
+    document.querySelectorAll('img').forEach(img => {
+        if (!img.classList.contains('logo-img') && 
+            !img.classList.contains('hero-camera-img')) {
+            img.style.setProperty('height', 'auto', 'important');
+            img.style.setProperty('max-height', 'none', 'important');
+        }
+    });
+}
+
+// ===== SURVEILLANCE AVANCÉE =====
+function monitorDOMChanges() {
+    const observer = new MutationObserver((mutations) => {
+        let shouldFixImages = false;
+        
+        mutations.forEach((mutation) => {
+            if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) {
+                        if (node.matches && (node.matches('img') || node.querySelector('img'))) {
+                            shouldFixImages = true;
+                        }
+                    }
+                });
+            }
+        });
+        
+        if (shouldFixImages) {
+            setTimeout(fixAllImages, 50);
+        }
+    });
+    
+    observer.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+    
+    // Surveiller aussi les changements de style
+    const styleObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+                const img = mutation.target;
+                if (img.tagName === 'IMG' && !img.classList.contains('logo-img')) {
+                    // Vérifier si un style problématique a été appliqué
+                    const currentHeight = img.style.height;
+                    if (currentHeight && currentHeight.includes('100%')) {
+                        setTimeout(() => {
+                            img.style.height = 'auto';
+                        }, 10);
+                    }
+                }
+            }
+        });
+    });
+    
+    // Observer quelques images critiques
+    document.querySelectorAll('.article-page img, .news-article-card img').forEach(img => {
+        styleObserver.observe(img, { attributes: true });
+    });
+}
+
+// ===== MODIFIER LA FONCTION PRINCIPALE =====
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('TELEX - Interface chargée, application des correctifs...');
+    
+    // Initialisation standard
+    initNavigationSystem();
+    initContactForm();
+    initNewsletterForm();
+    initAnimations();
+    initMobileMenu();
+    initImageOptimization();
+    initScrollEffects();
+    initGallery();
+    
+    // CORRECTIONS CRITIQUES
+    fixAllImages();
+    monitorDOMChanges();
+    
+    // Protection contre les overrides tardifs
+    setTimeout(fixAllImages, 500);
+    setTimeout(fixAllImages, 1000);
+    
+    // Vérifier après chargement complet
+    window.addEventListener('load', function() {
+        setTimeout(fixAllImages, 200);
+    });
+});
+
+// ===== EMPÊCHER LES REDIMENSIONNEMENTS AGRESSIFS =====
+function protectImagesFromCSS() {
+    const style = document.createElement('style');
+    style.id = 'image-protection-styles';
+    style.textContent = `
+        /* Protection contre les overrides CSS globaux */
+        .article-page img,
+        .news-page img,
+        .article-hero-image img,
+        .article-image-container img,
+        .article-content img {
+            height: auto !important;
+            max-height: none !important;
+            width: auto !important;
+            max-width: 100% !important;
+            object-fit: contain !important;
+        }
+        
+        /* Spécifique pour les cartes */
+        .news-article-card .article-image-container img {
+            max-height: 170px !important;
+        }
+        
+        /* Spécifique pour la page article */
+        .article-page .article-hero-image img {
+            max-height: 450px !important;
+        }
+        
+        .article-page .article-content img {
+            max-height: 400px !important;
+        }
+    `;
+    
+    document.head.appendChild(style);
+}
+
+// Appeler cette fonction au tout début
+protectImagesFromCSS();
 });

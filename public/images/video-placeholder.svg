@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360">
+  <rect width="640" height="360" fill="#f8f9fa"/>
+  <rect width="640" height="360" fill="#e9ecef"/>
+  <circle cx="320" cy="180" r="60" fill="#6c757d" opacity="0.3"/>
+  <path d="M 300 160 L 300 200 L 340 180 Z" fill="#495057"/>
+  <text x="320" y="260" font-family="Arial, sans-serif" font-size="18" fill="#6c757d" text-anchor="middle">
+    Vidéo
+  </text>
+</svg>

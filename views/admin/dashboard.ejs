@@ -46,6 +46,11 @@
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar:hover {
+            box-shadow: 8px 0 25px rgba(0, 0, 0, 0.15);
         }
         
         .sidebar-brand {
@@ -174,13 +179,15 @@
             display: flex;
             align-items: center;
             color: rgba(255, 255, 255, 0.8);
-            padding: 14px 18px;
+            padding: 16px 20px;
             text-decoration: none;
-            border-radius: 10px;
-            transition: all var(--transition-speed);
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-weight: 500;
             position: relative;
             overflow: hidden;
+            border: 1px solid transparent;
+            backdrop-filter: blur(10px);
         }
         
         .nav-link::before {
@@ -190,36 +197,78 @@
             top: 0;
             height: 100%;
             width: 4px;
-            background: var(--telex-red);
-            transform: translateX(-10px);
-            transition: transform var(--transition-speed);
+            background: linear-gradient(180deg, var(--telex-red), #ff6b6b);
+            transform: translateX(-100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 0 2px 2px 0;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
         
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             color: white;
-            transform: translateX(5px);
+            transform: translateX(8px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
         
         .nav-link:hover::before {
             transform: translateX(0);
         }
         
+        .nav-link:hover::after {
+            opacity: 1;
+        }
+        
         .nav-link.active {
-            background: rgba(230, 57, 70, 0.15);
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.2), rgba(230, 57, 70, 0.1));
             color: white;
-            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+            transform: translateX(5px);
+            border-color: rgba(230, 57, 70, 0.3);
+            box-shadow: 0 8px 30px rgba(230, 57, 70, 0.25);
+            font-weight: 600;
         }
         
         .nav-link.active::before {
             transform: translateX(0);
+            background: linear-gradient(180deg, var(--telex-red), #ff6b6b);
+            box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+        }
+        
+        .nav-link.active::after {
+            opacity: 1;
+            background: linear-gradient(135deg, rgba(230, 57, 70, 0.1), transparent);
         }
         
         .nav-link i {
-            width: 24px;
-            font-size: 1.1rem;
-            margin-right: 12px;
+            width: 28px;
+            font-size: 1.2rem;
+            margin-right: 15px;
             text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .nav-link:hover i {
+            transform: scale(1.1);
+            color: white;
+        }
+        
+        .nav-link.active i {
+            color: white;
+            transform: scale(1.1);
         }
         
         .nav-link.logout {
@@ -864,21 +913,96 @@
     <!-- Logo Watermark -->
     <img src="/images/Telex.png" alt="TELEX" class="logo-watermark">
     
+        
+    <!-- Bouton flottant pour réafficher la sidebar -->
+    <button id="showSidebarBtn" style="position: fixed; top: 20px; left: 20px; z-index: 1001; background: linear-gradient(135deg, var(--telex-blue), var(--telex-red)); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); display: none; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Afficher la sidebar">
+        <i class="fas fa-bars" style="font-size: 18px;"></i>
+    </button>
+    
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-brand">
-            <div class="sidebar-logo">
+            <div class="sidebar-logo" onclick="toggleSidebar()" style="cursor: pointer;" title="Cliquer pour agrandir/réduire la sidebar">
                 <img src="/images/11.png" alt="Telex Logo">
                 <div class="brand-text">Telex Admin</div>
             </div>
         </div>
         
+        <script>
+            // Fonction toggle sidebar directement ici
+            function toggleSidebar() {
+                var sidebar = document.querySelector('.sidebar');
+                var mainContent = document.querySelector('.main-content');
+                var logo = document.querySelector('.sidebar-logo img');
+                var showBtn = document.getElementById('showSidebarBtn');
+                
+                if (sidebar.style.marginLeft === '-280px' || sidebar.style.transform === 'translateX(-100%)') {
+                    // Afficher la sidebar
+                    sidebar.style.marginLeft = '0';
+                    sidebar.style.transform = 'translateX(0)';
+                    mainContent.style.marginLeft = 'var(--sidebar-width)';
+                    logo.style.transform = 'scale(1.05) rotate(2deg)';
+                    // Cacher le bouton flottant
+                    showBtn.style.display = 'none';
+                } else {
+                    // Cacher la sidebar
+                    sidebar.style.marginLeft = '-280px';
+                    sidebar.style.transform = 'translateX(-100%)';
+                    mainContent.style.marginLeft = '0';
+                    logo.style.transform = 'scale(1) rotate(0deg)';
+                    // Afficher le bouton flottant
+                    showBtn.style.display = 'flex';
+                }
+            }
+            
+            // Gestion indépendante du bouton flottant
+            document.addEventListener('DOMContentLoaded', function() {
+                var sidebar = document.querySelector('.sidebar');
+                var mainContent = document.querySelector('.main-content');
+                var logo = document.querySelector('.sidebar-logo img');
+                var showBtn = document.getElementById('showSidebarBtn');
+                
+                // Fonction indépendante pour le bouton flottant
+                function toggleSidebarWithButton() {
+                    if (sidebar.style.marginLeft === '-280px' || sidebar.style.transform === 'translateX(-100%)') {
+                        // Afficher la sidebar via le bouton
+                        sidebar.style.marginLeft = '0';
+                        sidebar.style.transform = 'translateX(0)';
+                        mainContent.style.marginLeft = 'var(--sidebar-width)';
+                        logo.style.transform = 'scale(1.05) rotate(2deg)';
+                        showBtn.style.display = 'none';
+                    } else {
+                        // Cacher la sidebar via le bouton
+                        sidebar.style.marginLeft = '-280px';
+                        sidebar.style.transform = 'translateX(-100%)';
+                        mainContent.style.marginLeft = '0';
+                        logo.style.transform = 'scale(1) rotate(0deg)';
+                        showBtn.style.display = 'flex';
+                    }
+                }
+                
+                // Clic sur le bouton flottant - utilise sa propre fonction
+                showBtn.addEventListener('click', toggleSidebarWithButton);
+                
+                // Animation du bouton flottant au survol
+                showBtn.addEventListener('mouseenter', function() {
+                    this.style.transform = 'scale(1.1)';
+                    this.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
+                });
+                
+                showBtn.addEventListener('mouseleave', function() {
+                    this.style.transform = 'scale(1)';
+                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
+                });
+            });
+        </script>
+        
         <div class="user-info">
             <div class="user-avatar">
-                <%= user.username.charAt(0).toUpperCase() %>
+                <%= user ? user.username.charAt(0).toUpperCase() : 'A' %>
             </div>
             <div class="user-details">
-                <h5><%= user.username %></h5>
+                <h5><%= user ? user.username : 'Admin' %></h5>
                 <small>Administrateur</small>
             </div>
         </div>
@@ -888,6 +1012,12 @@
                 <a href="/admin/dashboard" class="nav-link active">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/about" class="nav-link">
+                    <i class="fas fa-info-circle"></i>
+                    <span>À Propos</span>
                 </a>
             </div>
             <div class="nav-item">
@@ -918,6 +1048,12 @@
                 <a href="/admin/gallery" class="nav-link">
                     <i class="fas fa-images"></i>
                     <span>Galerie</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/album" class="nav-link" onclick="console.log('🔍 DEBUG: Clic sur Album link', event)">
+                    <i class="fas fa-book"></i>
+                    <span>Album</span>
                 </a>
             </div>
             <div class="nav-item">
@@ -954,7 +1090,7 @@
                     <img src="/images/Telex.png" alt="TELEX" class="telex-mini-logo">
                     Tableau de bord Telex
                 </h1>
-                <p>Bonjour <%= user.username %>, voici un résumé de votre activité</p>
+                <p>Bonjour <%= user ? user.username : 'Admin' %>, voici un résumé de votre activité</p>
             </div>
             <div>
                 <a href="/" class="btn btn-telex" target="_blank">
@@ -1430,6 +1566,16 @@
             
             // Charger le tableau détaillé
             loadBaumeDetailsTable();
+            
+            // Attacher l'écouteur d'événement au sélecteur de type de graphique
+            const chartTypeSelector = document.getElementById('chartTypeSelector');
+            if (chartTypeSelector) {
+                // Retirer l'écouteur existant pour éviter les doublons
+                chartTypeSelector.removeEventListener('change', handleChartTypeChange);
+                // Ajouter le nouvel écouteur
+                chartTypeSelector.addEventListener('change', handleChartTypeChange);
+                console.log('✅ Écouteur d\'événement attaché au sélecteur de type de graphique');
+            }
         }
         
         // Fonction pour mettre à jour les compteurs dans la modale
@@ -1494,24 +1640,28 @@
                 
                 if (type === 'news') {
                     const newsCount = Math.min(Math.max(2, Math.floor(daysDiff / 2)), 5);
+                    const newsCategories = ['Politique', 'Économie', 'Société', 'International', 'Culture'];
                     for (let i = 0; i < newsCount; i++) {
                         const date = new Date(start);
                         date.setDate(start.getDate() + Math.floor(i * daysDiff / newsCount));
                         testPublications.push({
                             title: `Actualité: Développement ${i + 1}`,
                             views: Math.floor(Math.random() * 400) + 100,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00'
+                            created_at: date.toISOString().split('T')[0] + ' 12:00:00',
+                            category: newsCategories[i % newsCategories.length]
                         });
                     }
                 } else if (type === 'programs') {
                     const programCount = Math.min(Math.max(1, Math.floor(daysDiff / 3)), 3);
+                    const programCategories = ['Émissions', 'Séries', 'Films', 'Documentaires'];
                     for (let i = 0; i < programCount; i++) {
                         const date = new Date(start);
                         date.setDate(start.getDate() + Math.floor(i * daysDiff / programCount));
                         testPublications.push({
                             title: `Programme: Session ${i + 1}`,
                             views: Math.floor(Math.random() * 300) + 150,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00'
+                            created_at: date.toISOString().split('T')[0] + ' 12:00:00',
+                            category: programCategories[i % programCategories.length]
                         });
                     }
                 } else if (type === 'baume') {
@@ -1731,8 +1881,8 @@
         }
         
         // Fonction séparée pour gérer le changement de type de graphique
-        async function handleChartTypeChange() {
-            const selectedType = this.value;
+        async function handleChartTypeChange(event) {
+            const selectedType = event.target.value;
             const chartTitle = document.getElementById('chart-title');
             
             // Réinitialiser les dates lors du changement de type
@@ -2179,6 +2329,17 @@
                             const stats = data.data;
                             console.log('🔢 Stats est un objet avec les clés:', Object.keys(stats));
                             
+                            // 🔑 METTRE À JOUR currentStatsData avec les données réelles
+                            currentStatsData.baumePrieres = stats.prieres_count || 0;
+                            currentStatsData.baumeReflexions = stats.reflexions_count || 0;
+                            currentStatsData.baumeTemoignages = stats.temoignages_approuves || 0;
+                            currentStatsData.baumeTotalViews = stats.total_views || 0;
+                            
+                            console.log('📊 currentStatsData mis à jour:', currentStatsData);
+                            
+                            // 🔑 APPELER LE TABLEAU DÉTAILLÉ après mise à jour des données
+                            loadBaumeDetailsTable();
+                            
                             let summaryText = '';
                             
                             // Vérifier chaque type de contenu avec des valeurs par défaut
@@ -2289,55 +2450,37 @@
             
             // Fermer automatiquement la modale lors du clic à l'extérieur
             document.addEventListener('click', function(e) {
-                const modal = document.querySelector('.modal');
+                var modal = document.querySelector('.modal');
                 if (modal && !modal.contains(e.target) && !modal.querySelector('.modal-dialog').contains(e.target)) {
                     closeBaumeStatsModal();
                 }
             });
         });
-            
-        
-        
-        // Animation des cartes de statistiques
-        // Animation du logo au survol
-        const telexLogo = document.querySelector('.sidebar-logo img');
-        if (telexLogo) {
-            telexLogo.addEventListener('mouseenter', function() {
-                this.style.transform = 'scale(1.05) rotate(2deg)';
-            });
-            
-            telexLogo.addEventListener('mouseleave', function() {
-                this.style.transform = 'scale(1) rotate(0deg)';
-            });
-        }
         
         // Données des statistiques pour les graphiques
-        const statsData = {
+        var statsData = {
             totalNews: <%- JSON.stringify(stats.totalNews || 0) %>,
             totalNewsViews: <%- JSON.stringify(stats.totalNewsViews || 0) %>,
             totalPrograms: <%- JSON.stringify(stats.totalPrograms || 0) %>,
             totalProgramsViews: <%- JSON.stringify(stats.totalProgramsViews || 0) %>,
-            baumeTotalCount: <%- JSON.stringify(stats.baumeTotalCount || 0) %>,
             baumeTotalViews: <%- JSON.stringify(stats.baumeTotalViews || 0) %>
         };
         
+        // METTRE À JOUR currentStatsData avec les données réelles du serveur
+        currentStatsData.totalNews = statsData.totalNews;
+        currentStatsData.totalNewsViews = statsData.totalNewsViews;
+        currentStatsData.totalPrograms = statsData.totalPrograms;
+        currentStatsData.totalProgramsViews = statsData.totalProgramsViews;
+        
+        console.log('📊 currentStatsData initialisé avec les données du serveur:', currentStatsData);
+        
         // Variables globales pour stocker les instances de graphiques
-        let chartInstances = {
+        var chartInstances = {
             baume: null,
             general: null,
             overview: null,
             detailedVisitors: null  // NOUVEAU: Graphique de diagnostic
         };
-        
-        // Variables pour les périodes des graphiques
-        let currentStatsPeriod = 'day';
-        let currentOverviewPeriod = 'day';
-        let currentStatsValue = new Date().toISOString().split('T')[0]; // Aujourd'hui par défaut
-        let currentOverviewValue = new Date().toISOString().split('T')[0]; // Aujourd'hui par défaut
-        
-        // Compteur pour détecter les boucles infinies
-        let chartInitCount = 0;
-        const MAX_CHART_INIT = 5;
         
         // Fonction pour générer les options des listes déroulantes selon les spécifications
         function generateValueOptions(period) {
@@ -3681,6 +3824,13 @@
                     `;
                     
                     if (publications.length > 0) {
+                        // Trier les publications par date décroissante (plus récent d'abord)
+                        publications.sort((a, b) => {
+                            const dateA = new Date(a.created_at);
+                            const dateB = new Date(b.created_at);
+                            return dateB - dateA; // Plus récent d'abord
+                        });
+                        
                         publications.forEach((pub, index) => {
                             const typeIcon = currentType === 'news' ? 'fa-newspaper text-primary' : 
                                            currentType === 'programs' ? 'fa-tv text-success' : 

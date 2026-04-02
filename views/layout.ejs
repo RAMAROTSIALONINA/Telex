@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<%= currentLang || 'fr' %>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title || 'TELEX' %> - TELEX</title>
+    <title><%= title || 'Telex' %> - Telex</title>
     
     <!-- Bootstrap 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,7 +11,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Style TELEX -->
+    <!-- Style Telex -->
     <link rel="stylesheet" href="/css/style.css">
     
     <style>
@@ -39,24 +39,6 @@
             }
         }
         
-        /* MENU ACTIF */
-        .nav-link.active {
-            color: #E63946 !important;
-            font-weight: 600;
-            position: relative;
-        }
-        
-        .nav-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 15px;
-            right: 15px;
-            height: 3px;
-            background: #E63946;
-            border-radius: 2px;
-        }
-        
         /* COMPENSATION MENU FIXE */
         body {
             padding-top: 76px !important;
@@ -67,18 +49,6 @@
             margin-top: -76px;
             padding-top: 176px;
         }
-        
-        /* MOBILE */
-        @media (max-width: 992px) {
-            .nav-link.active::after {
-                display: none;
-            }
-            
-            .nav-link.active {
-                background-color: rgba(230, 57, 70, 0.1);
-                border-radius: 5px;
-            }
-        }
     </style>
 </head>
 <body>
@@ -87,7 +57,7 @@
         <div class="container">
             <!-- Logo -->
             <a class="navbar-brand" href="#" onclick="showPage('home'); return false;">
-                <img src="/images/Telex.png" alt="Logo TELEX" class="logo-img">
+                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
                 <span class="logo-text">TE<span class="text-danger">LEX</span></span>
             </a>
             
@@ -101,61 +71,80 @@
             <!-- Menu principal -->
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="mainNavMenu">
+                    <!-- Sélecteur de langue global -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-globe"></i>
+                            <span class="ms-1"><%= currentLang === 'en' ? 'EN' : 'FR' %></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item <%= currentLang === 'fr' ? 'active' : '' %>" 
+                                   href="?lang=fr">
+                                    <i class="fas fa-flag me-2"></i>Français
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <%= currentLang === 'en' ? 'active' : '' %>" 
+                                   href="?lang=en">
+                                    <i class="fas fa-flag-usa me-2"></i>English
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <!-- Tous les liens sont visibles -->
                     <li class="nav-item">
                         <a class="nav-link <%= page === 'home' ? 'active' : '' %>" 
                            href="#" 
                            onclick="showPage('home'); return false;">
-                            <i class="fas fa-home me-2"></i>Accueil
+                            <i class="fas fa-home me-2"></i><%= __("navigation.home") %>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <%= page === 'about' ? 'active' : '' %>" 
                            href="#" 
                            onclick="showPage('about'); return false;">
-                            <i class="fas fa-info-circle me-2"></i>À propos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('mission'); return false;">
-                            <i class="fas fa-bullseye me-2"></i>Mission
+                            <i class="fas fa-info-circle me-2"></i><%= __("navigation.about") %>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" 
                            href="#" 
                            onclick="showPage('programs'); return false;">
-                            <i class="fas fa-tv me-2"></i>Programmes
+                            <i class="fas fa-tv me-2"></i><%= __("navigation.programs") %>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" 
                            href="#" 
                            onclick="showPage('gallery'); return false;">
-                            <i class="fas fa-images me-2"></i>Galerie
+                            <i class="fas fa-images me-2"></i><%= __("navigation.gallery") %>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'album' ? 'active' : '' %>" 
+                           href="/album">
+                            <i class="fas fa-book me-2"></i>Album
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <%= page === 'baume-de-la-foi' ? 'active' : '' %>" 
+                           href="/baume-de-la-foi">
+                            <i class="fas fa-cross me-2"></i>Baume de la Foi
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <%= page === 'news' ? 'active' : '' %>" 
                            href="#" 
                            onclick="showPage('news'); return false;">
-                            <i class="fas fa-newspaper me-2"></i>Actualités
+                            <i class="fas fa-newspaper me-2"></i><%= __("navigation.news") %>
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" 
                            href="#" 
                            onclick="showPage('contact'); return false;">
-                            <i class="fas fa-envelope me-2"></i>Contact
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'social' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('social'); return false;">
-                            <i class="fas fa-share-alt me-2"></i>Réseaux
+                            <i class="fas fa-envelope me-2"></i><%= __("navigation.contact") %>
                         </a>
                     </li>
                     
@@ -172,7 +161,7 @@
                 <!-- Bouton CTA -->
                 <div class="d-flex ms-lg-3">
                     <a href="#" onclick="showPage('contact'); return false;" class="btn btn-telex">
-                        <i class="fas fa-plus me-2"></i>Rejoindre TELEX
+                        <i class="fas fa-plus me-2"></i><%= currentLang === "en" ? "Join Telex" : "Rejoindre Telex" %>
                     </a>
                 </div>
             </div>
@@ -219,11 +208,14 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5>Navigation</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" onclick="showPage('home'); return false;">Accueil</a></li>
-                        <li><a href="#" onclick="showPage('about'); return false;">À propos</a></li>
-                        <li><a href="#" onclick="showPage('mission'); return false;">Mission</a></li>
-                        <li><a href="#" onclick="showPage('programs'); return false;">Programmes</a></li>
-                        <li><a href="#" onclick="showPage('gallery'); return false;">Galerie</a></li>
+                        <li><a href="#" onclick="showPage('home'); return false;" style="color: #3AAFA9;">Accueil</a></li>
+                        <li><a href="#" onclick="showPage('about'); return false;" style="color: #3AAFA9;">À propos</a></li>
+                        <li><a href="#" onclick="showPage('programs'); return false;" style="color: #3AAFA9;">Programmes</a></li>
+                        <li><a href="#" onclick="showPage('gallery'); return false;" style="color: #3AAFA9;">Galerie</a></li>
+                        <li><a href="/album" style="color: #3AAFA9;">Album</a></li>
+                        <li><a href="/baume-de-la-foi" style="color: #3AAFA9;">Baume de la Foi</a></li>
+                        <li><a href="#" onclick="showPage('news'); return false;" style="color: #3AAFA9;">Actualités</a></li>
+                        <li><a href="#" onclick="showPage('contact'); return false;" style="color: #3AAFA9;">Contact</a></li>
                     </ul>
                 </div>
                 
@@ -231,9 +223,9 @@
                 <div class="col-lg-3 col-md-6 mb-4">
                     <h5>Informations</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" onclick="showPage('news'); return false;">Actualités</a></li>
-                        <li><a href="#" onclick="showPage('contact'); return false;">Contact</a></li>
-                        <li><a href="#" onclick="showPage('social'); return false;">Réseaux</a></li>
+                        <li><a href="#" onclick="showPage('news'); return false;" style="color: #3AAFA9;">Actualités</a></li>
+                        <li><a href="#" onclick="showPage('contact'); return false;" style="color: #3AAFA9;">Contact</a></li>
+                        <li><a href="#" onclick="showPage('social'); return false;" style="color: #3AAFA9;">Réseaux</a></li>
                     </ul>
                 </div>
                 
@@ -255,13 +247,16 @@
             
             <!-- Copyright -->
             <div class="copyright">
-                <p class="mb-0">&copy; 2026 TELEX - Tous droits réservés | Développé avec <i class="fas fa-heart text-danger"></i> par l'équipe TELEX</p>
+                <p class="mb-0"><%= footer.copyright_text || '2026 Telex - Tous droits réservés' %> | Développé avec <i class="fas fa-heart text-danger"></i> par l'équipe Telex</p>
             </div>
         </div>
     </footer>
     
     <!-- SCRIPTS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script de gestion de langue globale -->
+    <script src="/js/global-language.js"></script>
     
     <!-- SCRIPT DE NAVIGATION -->
     <script>
@@ -333,7 +328,7 @@
         const title = document.querySelector('.nav-link.active').textContent.trim();
         
         history.pushState({ page: pageName }, title, url);
-        document.title = `${title} - TELEX`;
+        document.title = `${title} - Telex`;
     }
     
     // Réinitialiser les scripts
@@ -565,5 +560,580 @@
         });
     }
     </script>
+
+    <!-- Bannière de consentement RGPD Telex -->
+    <div id="cookieConsent" class="cookie-consent-banner" style="display: none;">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="cookie-consent-text">
+                <h4>🛡️ Consentement RGPD - Telex</h4>
+                <p>
+                    Telex utilise des cookies pour améliorer votre expérience, 
+                    analyser le trafic et personnaliser les contenus. 
+                    En continuant, vous acceptez notre 
+                    <a href="/privacy" class="cookie-link">politique de confidentialité</a> 
+                    et nos <a href="/cookies" class="cookie-link">pratiques cookies</a>.
+                </p>
+            </div>
+            <div class="cookie-consent-buttons">
+                <button id="acceptAllBtn" class="btn btn-accept-all">
+                    <i class="fas fa-check me-1"></i>Tout accepter
+                </button>
+                <button id="acceptNecessaryBtn" class="btn btn-accept-necessary">
+                    <i class="fas fa-shield-alt me-1"></i>Uniquement essentiel
+                </button>
+                <button id="customizeBtn" class="btn btn-customize">
+                    <i class="fas fa-cog me-1"></i>Personnaliser
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de personnalisation des cookies -->
+    <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="cookieModalLabel">
+                        <i class="fas fa-cog me-2"></i>Personnaliser les cookies Telex
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="cookie-categories">
+                        <!-- Cookies essentiels -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-shield-alt text-success me-2"></i>Cookies essentiels</h6>
+                                    <p class="text-muted small">Nécessaires au fonctionnement du site</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="essentialCookies" checked disabled>
+                                    <label class="form-check-label" for="essentialCookies">Toujours actifs</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cookies de performance -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-chart-line text-info me-2"></i>Cookies de performance</h6>
+                                    <p class="text-muted small">Aident à améliorer le fonctionnement du site</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="performanceCookies">
+                                    <label class="form-check-label" for="performanceCookies">Activés</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cookies de personnalisation -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-palette text-warning me-2"></i>Cookies de personnalisation</h6>
+                                    <p class="text-muted small">Permettent de personnaliser votre expérience</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="personalizationCookies">
+                                    <label class="form-check-label" for="personalizationCookies">Activés</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cookies de marketing -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-bullhorn text-danger me-2"></i>Cookies de marketing</h6>
+                                    <p class="text-muted small">Utilisés pour les publicités ciblées</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="marketingCookies">
+                                    <label class="form-check-label" for="marketingCookies">Activés</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="savePreferencesBtn">
+                        <i class="fas fa-save me-1"></i>Enregistrer mes préférences
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Styles pour la bannière de cookies -->
+    <style>
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #FF4757 0%, #c1121f 100%);
+            color: white;
+            padding: 20px;
+            z-index: 9999;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+            border-top: 3px solid #FFD700;
+        }
+        
+        .cookie-consent-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .cookie-consent-icon {
+            font-size: 2rem;
+            color: #FFD700;
+            flex-shrink: 0;
+        }
+        
+        .cookie-consent-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .cookie-consent-text h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .cookie-consent-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            opacity: 0.9;
+        }
+        
+        .cookie-link {
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .cookie-link:hover {
+            text-decoration: underline;
+        }
+        
+        .cookie-consent-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-accept-all {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-accept-all:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .btn-accept-necessary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-accept-necessary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .btn-customize {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-customize:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+        
+        .cookie-category {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-info h6 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .category-info p {
+            margin: 5px 0 0 0;
+            font-size: 0.85rem;
+        }
+        
+        @media (max-width: 768px) {
+            .cookie-consent-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .cookie-consent-buttons {
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .cookie-consent-buttons button {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+    </style>
+
+    <!-- Script pour la gestion des cookies -->
+    <script>
+        // Gestion du consentement RGPD
+        class CookieConsent {
+            constructor() {
+                this.consentGiven = localStorage.getItem('telex_cookie_consent');
+                this.preferences = JSON.parse(localStorage.getItem('telex_cookie_preferences') || '{}');
+                this.init();
+            }
+            
+            init() {
+                if (!this.consentGiven) {
+                    this.showBanner();
+                }
+                this.setupEventListeners();
+            }
+            
+            showBanner() {
+                const banner = document.getElementById('cookieConsent');
+                if (banner) {
+                    console.log('Affichage de la bannière de cookies...');
+                    banner.style.display = 'block';
+                    banner.style.visibility = 'visible';
+                    banner.style.opacity = '1';
+                    banner.style.position = 'fixed';
+                    banner.style.bottom = '0';
+                    banner.style.left = '0';
+                    banner.style.right = '0';
+                    banner.style.zIndex = '9999';
+                    
+                    // Forcer le reflow pour l'animation
+                    banner.offsetHeight;
+                    
+                    setTimeout(() => {
+                        banner.style.animation = 'slideUp 0.5s ease';
+                    }, 100);
+                } else {
+                    console.error('Bannière de cookies non trouvée');
+                }
+            }
+            
+            hideBanner() {
+                const banner = document.getElementById('cookieConsent');
+                if (banner) {
+                    banner.style.animation = 'slideDown 0.5s ease';
+                    setTimeout(() => {
+                        banner.style.display = 'none';
+                    }, 500);
+                }
+            }
+            
+            acceptAll() {
+                this.preferences = {
+                    essential: true,
+                    performance: true,
+                    personalization: true,
+                    marketing: true
+                };
+                this.saveConsent();
+                this.hideBanner();
+                this.loadScripts();
+            }
+            
+            acceptNecessary() {
+                this.preferences = {
+                    essential: true,
+                    performance: false,
+                    personalization: false,
+                    marketing: false
+                };
+                this.saveConsent();
+                this.hideBanner();
+                this.loadEssentialScripts();
+            }
+            
+            saveCustomPreferences() {
+                this.preferences = {
+                    essential: true,
+                    performance: document.getElementById('performanceCookies').checked,
+                    personalization: document.getElementById('personalizationCookies').checked,
+                    marketing: document.getElementById('marketingCookies').checked
+                };
+                this.saveConsent();
+                this.hideBanner();
+                this.loadScripts();
+            }
+            
+            saveConsent() {
+                localStorage.setItem('telex_cookie_consent', 'given');
+                localStorage.setItem('telex_cookie_preferences', JSON.stringify(this.preferences));
+            }
+            
+            loadScripts() {
+                // Charger les scripts selon les préférences
+                if (this.preferences.performance) {
+                    console.log('Chargement des scripts de performance...');
+                    // Google Analytics, etc.
+                }
+                
+                if (this.preferences.personalization) {
+                    console.log('Chargement des scripts de personnalisation...');
+                    // Scripts de personnalisation
+                }
+                
+                if (this.preferences.marketing) {
+                    console.log('Chargement des scripts de marketing...');
+                    // Scripts de marketing/publicité
+                }
+                
+                // Les scripts essentiels sont toujours chargés
+                this.loadEssentialScripts();
+            }
+            
+            loadEssentialScripts() {
+                console.log('Chargement des scripts essentiels...');
+                // Scripts nécessaires au fonctionnement du site
+            }
+            
+            setupEventListeners() {
+                // Bouton "Tout accepter"
+                const acceptAllBtn = document.getElementById('acceptAllBtn');
+                if (acceptAllBtn) {
+                    acceptAllBtn.addEventListener('click', () => this.acceptAll());
+                }
+                
+                // Bouton "Uniquement essentiel"
+                const acceptNecessaryBtn = document.getElementById('acceptNecessaryBtn');
+                if (acceptNecessaryBtn) {
+                    acceptNecessaryBtn.addEventListener('click', () => this.acceptNecessary());
+                }
+                
+                // Bouton "Personnaliser"
+                const customizeBtn = document.getElementById('customizeBtn');
+                if (customizeBtn) {
+                    customizeBtn.addEventListener('click', () => {
+                        const modal = new bootstrap.Modal(document.getElementById('cookieModal'));
+                        modal.show();
+                    });
+                }
+                
+                // Bouton "Enregistrer les préférences"
+                const savePreferencesBtn = document.getElementById('savePreferencesBtn');
+                if (savePreferencesBtn) {
+                    savePreferencesBtn.addEventListener('click', () => {
+                        this.saveCustomPreferences();
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('cookieModal'));
+                        modal.hide();
+                    });
+                }
+                
+                // Mettre à jour les switches dans la modal selon les préférences
+                const modal = document.getElementById('cookieModal');
+                if (modal) {
+                    modal.addEventListener('show.bs.modal', () => {
+                        document.getElementById('performanceCookies').checked = this.preferences.performance || false;
+                        document.getElementById('personalizationCookies').checked = this.preferences.personalization || false;
+                        document.getElementById('marketingCookies').checked = this.preferences.marketing || false;
+                    });
+                }
+            }
+        }
+        
+        // Animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideDown {
+                from {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialiser la gestion des cookies
+        document.addEventListener('DOMContentLoaded', function() {
+            new CookieConsent();
+            
+            // Bouton de test pour afficher la bannière (à enlever en production)
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                const testBtn = document.createElement('button');
+                testBtn.innerHTML = '<i class="fas fa-cookie"></i> Test Bannière RGPD';
+                testBtn.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: #FF4757;
+                    color: white;
+                    border: none;
+                    padding: 10px 15px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    cursor: pointer;
+                    font-size: 12px;
+                    box-shadow: 0 4px 12px rgba(255,71,87,0.3);
+                `;
+                testBtn.onclick = function() {
+                    // Supprimer le consentement existant
+                    localStorage.removeItem('telex_cookie_consent');
+                    localStorage.removeItem('telex_cookie_preferences');
+                    
+                    // Forcer l'affichage immédiat
+                    const banner = document.getElementById('cookieConsent');
+                    if (banner) {
+                        banner.style.display = 'block';
+                        banner.style.visibility = 'visible';
+                        banner.style.opacity = '1';
+                        banner.style.position = 'fixed';
+                        banner.style.bottom = '0';
+                        banner.style.left = '0';
+                        banner.style.right = '0';
+                        banner.style.zIndex = '9999';
+                        console.log('Bannière forcée manuellement');
+                    } else {
+                        console.error('Bannière non trouvée même en forçage');
+                        // Recharger si la bannière n'existe pas
+                        window.location.reload();
+                    }
+                };
+                document.body.appendChild(testBtn);
+            }
+        });
+    </script>
+    
+    <% if (process.env.NODE_ENV === 'production') { %>
+    <script>
+        // PROTECTION CONTRE L'ACCÈS AU CODE SOURCE - PRODUCTION
+        (function() {
+            'use strict';
+            
+            // 1. Désactiver le clic droit
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 2. Bloquer les touches d'ouverture des outils de développement
+            document.addEventListener('keydown', function(e) {
+                // F12
+                if (e.keyCode === 123) {
+                    e.preventDefault();
+                    return false;
+                }
+                // Ctrl+Shift+I
+                if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                    e.preventDefault();
+                    return false;
+                }
+                // Ctrl+Shift+J (Chrome)
+                if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                    e.preventDefault();
+                    return false;
+                }
+                // Ctrl+U (Voir source)
+                if (e.ctrlKey && e.keyCode === 85) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+            
+            // 3. Détecter l'ouverture des outils de développement
+            let devtools = {open: false, orientation: null};
+            let threshold = 160;
+            
+            setInterval(function() {
+                if (window.outerHeight - window.innerHeight > threshold || 
+                    window.outerWidth - window.innerWidth > threshold) {
+                    if (!devtools.open) {
+                        devtools.open = true;
+                        // Rediriger vers une page blanche
+                        document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif; background: #f5f5f5;"><div style="text-align: center; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><h2 style="color: #e74c3c; margin-bottom: 20px;"> Accès Refusé</h2><p style="color: #555; margin-bottom: 20px;">Les outils de développement ne sont pas autorisés sur cette page.</p><button onclick="location.reload()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Recharger la page</button></div></div>';
+                        console.clear();
+                    }
+                } else {
+                    devtools.open = false;
+                }
+            }, 500);
+            
+            // 4. Masquer les console.log en production
+            console.log = function() {};
+            console.warn = function() {};
+            console.error = function() {};
+            console.info = function() {};
+            console.debug = function() {};
+            
+            // 5. Protection contre la copie de texte
+            document.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+            
+            // 6. Désactiver le drag and drop
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            });
+        })();
+    <% } %>
 </body>
 </html>

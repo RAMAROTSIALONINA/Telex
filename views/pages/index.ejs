@@ -16,61 +16,185 @@
     
     <!-- CSS TELEX -->
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/baume-navbar.css">
     
     <!-- Favicon -->
     <link rel="icon" href="/images/Telex.png" type="image/png">
+    
+    <style>
+        /* ===== STYLES POUR LE LOGO - INSPIRÉ DE BAUME-DE-LA-FOI ===== */
+        .navbar .navbar-brand,
+        .navbar-telex .navbar-brand,
+        .navbar-baume .navbar-brand {
+            color: #3AAFA9 !important;
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar .navbar-brand:hover,
+        .navbar-telex .navbar-brand:hover,
+        .navbar-baume .navbar-brand:hover {
+            color: #c1121f !important;
+            transform: translateY(-1px);
+        }
+        
+        .navbar .navbar-brand img,
+        .navbar-telex .navbar-brand img,
+        .navbar-baume .navbar-brand img {
+            height: 60px;
+            width: auto;
+            max-width: 200px;
+            margin-left: 0px !important;
+            transform: scale(1);
+            transform-origin: center;
+        }
+
+        /* ===== TOUS LES LIENS DU MENU ===== */
+        .navbar .navbar-nav .nav-link,
+        .navbar-telex .navbar-nav .nav-link,
+        .navbar-baume .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            font-family: 'League Spartan', sans-serif !important;
+            text-transform: uppercase !important;
+            padding: 8px 12px !important;
+            margin: 0 2px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+            white-space: nowrap;
+        }
+
+        .navbar .navbar-nav .nav-link i,
+        .navbar-telex .navbar-nav .nav-link i,
+        .navbar-baume .navbar-nav .nav-link i {
+            color: white !important;
+            margin-right: 8px;
+            font-size: 1rem !important;
+            transition: all 0.3s ease;
+        }
+
+        .navbar .navbar-nav .nav-link:hover,
+        .navbar-telex .navbar-nav .nav-link:hover,
+        .navbar-baume .navbar-nav .nav-link:hover {
+            color: white !important;
+            background: #dc3545 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .navbar .navbar-nav .nav-link.active,
+        .navbar-telex .navbar-nav .nav-link.active,
+        .navbar-baume .navbar-nav .nav-link.active {
+            color: white !important;
+            background: #dc3545 !important;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        /* Responsive pour mobile */
+        @media (max-width: 768px) {
+            .navbar .navbar-brand img,
+            .navbar-telex .navbar-brand img,
+            .navbar-baume .navbar-brand img {
+                height: 50px;
+                width: auto;
+                max-width: 160px;
+                margin-left: 0px !important;
+                transform: scale(1);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar .navbar-brand img,
+            .navbar-telex .navbar-brand img,
+            .navbar-baume .navbar-brand img {
+                height: 40px;
+                width: auto;
+                max-width: 130px;
+                margin-left: 0px !important;
+                transform: scale(1);
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
         <div class="container">
-            <!-- Logo TELEX -->
-            <a class="navbar-brand" href="/">
-                <img src="/images/Telex.png" alt="Logo TELEX" class="logo-img">
-                <span class="logo-text">Telex</span>
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
             </a>
             
-            <!-- Menu mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
                 <i class="fas fa-bars"></i>
             </button>
             
-            <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto">
+                    <!-- Sélecteur de langue -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-globe"></i>
+                            <span class="ms-1"><%= currentLang === 'en' ? 'EN' : 'FR' %></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item <%= currentLang === 'fr' ? 'active' : '' %>" 
+                                   href="?lang=fr">
+                                    <i class="fas fa-flag me-2"></i>Français
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <%= currentLang === 'en' ? 'active' : '' %>" 
+                                   href="?lang=en">
+                                    <i class="fas fa-flag-usa me-2"></i>English
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
-                            <i class="fas fa-home me-1"></i>Accueil
+                        <a class="nav-link active" href="/">
+                            <i class="fas fa-home"></i>ACCUEIL
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
-                            <i class="fas fa-info-circle me-1"></i>À propos
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle"></i>À PROPOS
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" href="/mission">
-                            <i class="fas fa-bullseye me-1"></i>Mission
+                        <a class="nav-link" href="/programs">
+                            <i class="fas fa-tv"></i>PROGRAMMES
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
-                            <i class="fas fa-tv me-1"></i>Programmes
+                        <a class="nav-link" href="/gallery">
+                            <i class="fas fa-images"></i>GALERIE
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
-                            <i class="fas fa-images me-1"></i>Galerie
+                        <a class="nav-link" href="/album">
+                            <i class="fas fa-book"></i>ALBUM
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
-                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        <a class="nav-link" href="/baume-de-la-foi">
+                            <i class="fas fa-cross"></i>BAUME DE LA FOI
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
-                            <i class="fas fa-envelope me-1"></i>Contact
+                        <a class="nav-link" href="/news">
+                            <i class="fas fa-newspaper"></i>ACTUALITÉS
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope"></i>CONTACT
                         </a>
                     </li>
                 </ul>
@@ -84,162 +208,192 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <h1 class="hero-title">
-                        <span class="text-primary">Telex</span><br>
-                        La Voix Étudiante
+                        <span class="text-primary" data-translate="home.title">Telex</span><br>
+                        <span data-translate="home.subtitle">La Voix Étudiante</span>
                     </h1>
-                    <p class="hero-subtitle">
-                        Première télévision étudiante 100% indépendante. 
-                        Nous donnons la parole à la jeunesse, formons les talents de demain 
+                    <p class="hero-subtitle" data-translate="home.description">
+                        Première télévision étudiante et média numérique 100 % indépendants.
+                        Nous donnons la parole à la jeunesse, formons les talents de demain
                         et produisons des contenus audiovisuels qui inspirent et font réfléchir.
                     </p>
                     <div class="hero-buttons">
                         <a href="/programs" class="btn btn-primary btn-lg">
-                            <i class="fas fa-play me-2"></i>Voir nos programmes
+                            <i class="fas fa-play me-2"></i><span data-translate="home.see_programs">Voir nos programmes</span>
                         </a>
                         <a href="/about" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-info-circle me-2"></i>Découvrir
+                            <i class="fas fa-info-circle me-2"></i><span data-translate="home.discover">Découvrir</span>
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div id="telexCarousel" class="carousel slide rounded shadow-lg overflow-hidden" data-bs-ride="carousel">
-        <!-- Slides AGGRANDIES ET MODIFIÉES -->
-        <div class="carousel-inner">
-            <!-- Slide 1 : ENSEMBLE TELEX -->
-            <div class="carousel-item active" data-bs-interval="4500">
-                <img src="/images/logo&expression.png" 
-                     class="d-block w-100 carousel-img-small" 
-                     alt="Ensemble Telex - La Voix Étudiante">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="telex-badge bg-telex-blue px-4 py-2 rounded-pill">
-                        <i class="fas fa-users me-2"></i>ENSEMBLE Telex
+                        <div class="carousel-inner">
+                            <!-- Slide 1 : ENSEMBLE TELEX -->
+                            <div class="carousel-item active" data-bs-interval="4500">
+                                <img src="/images/logo&expression.png" 
+                                     class="d-block w-100 carousel-img-small" 
+                                     alt="Ensemble Telex - La Voix Étudiante">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p class="mt-2 mb-0">L'aventure audiovisuelle étudiante en commun</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 2 : TELEX BAREA -->
+                            <div class="carousel-item" data-bs-interval="4500">
+                                <img src="/images/micro.png" 
+                                     class="d-block w-100 carousel-img-small" 
+                                     alt="TELEX BAREA12 - L'Équipe">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p class="mt-2 mb-0">L'équipe dynamique derrière la caméra</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 3 : FEMME TELEX -->
+                            <div class="carousel-item" data-bs-interval="4500">
+                                <img src="/images/femme%20telex.png" 
+                                     class="d-block w-100 carousel-img-small" 
+                                     alt="Femme Telex - Talent Féminin">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p class="mt-2 mb-0">Le talent féminin au cœur de nos productions</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 4 : BAUME DE LA FOI -->
+                            <div class="carousel-item" data-bs-interval="4500">
+                                <img src="/images/Hero.png" 
+                                     class="d-block w-100 carousel-img-small" 
+                                     alt="Baume de la Foi - Spiritualité">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p class="mt-2 mb-0">La spiritualité dans nos émissions</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Slide 5 : DÉBAT CAMPUS -->
+                            <div class="carousel-item" data-bs-interval="4500">
+                                <img src="/images/Débat.png" 
+                                     class="d-block w-100 carousel-img-small" 
+                                     alt="Débat Campus - Échange d'idées">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <p class="mt-2 mb-0">Face-à-face d'idées sur les grands sujets de société</p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Contrôles -->
+                        <button class="carousel-control-prev" type="button" data-bs-target="#telexCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Précédent</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#telexCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Suivant</span>
+                        </button>
                     </div>
-                    <p class="mt-2 mb-0">L'aventure audiovisuelle étudiante en commun</p>
                 </div>
-            </div>
-            
-            <!-- Slide 2 : FORMATION DES TALENTS -->
-            <div class="carousel-item" data-bs-interval="4500">
-                <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&h=550&q=80" 
-                     class="d-block w-100 carousel-img-large" 
-                     alt="Atelier de formation journalistique TELEX">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="telex-badge bg-telex-blue px-4 py-2 rounded-pill">
-                        <i class="fas fa-chalkboard-teacher me-2"></i>FORMATION DES TALENTS
-                    </div>
-                    <p class="mt-2 mb-0">Ateliers pratiques d'écriture et de reportage</p>
-                </div>
-            </div>
-            
-            <!-- Slide 3 : FORMATION TECHNIQUE -->
-            <div class="carousel-item" data-bs-interval="4500">
-                <img src="https://images.pexels.com/photos/3184325/pexels-photo-3184325.jpeg?auto=compress&cs=tinysrgb&w=900&h=550&fit=crop" 
-                     class="d-block w-100 carousel-img-large" 
-                     alt="Formation technique audiovisuelle TELEX">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="telex-badge bg-telex-red px-4 py-2 rounded-pill">
-                        <i class="fas fa-video me-2"></i>FORMATION TECHNIQUE
-                    </div>
-                    <p class="mt-2 mb-0">Apprentissage des métiers de l'audiovisuel</p>
-                </div>
-            </div>
-            
-            <!-- Slide 4 : PAROLE À LA JEUNESSE -->
-            <div class="carousel-item" data-bs-interval="4500">
-                <img src="https://images.pexels.com/photos/4144223/pexels-photo-4144223.jpeg?auto=compress&cs=tinysrgb&w=900&h=550&fit=crop" 
-                     class="d-block w-100 carousel-img-large" 
-                     alt="Débat étudiant - Parole à la jeunesse TELEX">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="telex-badge bg-telex-blue px-4 py-2 rounded-pill">
-                        <i class="fas fa-comments me-2"></i>PAROLE À LA JEUNESSE
-                    </div>
-                    <p class="mt-2 mb-0">Débats et discussions animés par les étudiants</p>
-                </div>
-            </div>
-            
-            <!-- Slide 5 : PRODUCTION TÉLÉVISUELLE -->
-            <div class="carousel-item" data-bs-interval="4500">
-                <img src="https://images.unsplash.com/photo-1562564055-71e051d33c19?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&h=550&q=80" 
-                     class="d-block w-100 carousel-img-large" 
-                     alt="Production télévisuelle étudiante TELEX">
-                <div class="carousel-caption d-none d-md-block">
-                    <div class="telex-badge bg-telex-red px-4 py-2 rounded-pill">
-                        <i class="fas fa-broadcast-tower me-2"></i>PRODUCTION TÉLÉVISUELLE
-                    </div>
-                    <p class="mt-2 mb-0">Création de contenus par et pour les étudiants</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Contrôles -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#telexCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Précédent</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#telexCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Suivant</span>
-        </button>
-    </div>
-</div>
             </div>
         </div>
     </section>
 
     <!-- Section Programmes -->
-    <section class="section section-programs">
+    <section class="section section-programs" id="section-programs-main">
         <div class="container">
-            <h2 class="section-title">Nos Programmes Phares</h2>
-            <p class="section-subtitle">Découvrez nos émissions produites par et pour les étudiants</p>
+            <h2 class="section-title" data-translate="home.featured_programs">Nos Programmes Phares</h2>
+            <p class="section-subtitle" data-translate="home.programs_subtitle">Explorez nos émissions, conçues par les étudiants et destinées aux étudiants</p>
             
             <div class="row">
-                <!-- Programme 1 -->
-                <div class="col-md-3">
-                    <div class="program-card">
-                        <div class="program-icon">
-                            <i class="fas fa-newspaper"></i>
+                <% if (programs && programs.length > 0) { %>
+                    <% programs.slice(0, 5).forEach((program, index) => { %>
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <div class="program-icon">
+                                <% if (program.program_type) { %>
+                                    <% if (program.program_type.includes('Information') || program.program_type.includes('Actus')) { %>
+                                        <i class="fas fa-newspaper"></i>
+                                    <% } else if (program.program_type.includes('Débat')) { %>
+                                        <i class="fas fa-comments"></i>
+                                    <% } else if (program.program_type.includes('Culture')) { %>
+                                        <i class="fas fa-film"></i>
+                                    <% } else if (program.program_type.includes('Sport')) { %>
+                                        <i class="fas fa-futbol"></i>
+                                    <% } else if (program.program_type.includes('Jeunesse')) { %>
+                                        <i class="fas fa-graduation-cap"></i>
+                                    <% } else if (program.program_type.includes('Environnement')) { %>
+                                        <i class="fas fa-leaf"></i>
+                                    <% } else if (program.program_type.includes('Éducation')) { %>
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                    <% } else if (program.program_type.includes('Technologie')) { %>
+                                        <i class="fas fa-microchip"></i>
+                                    <% } else if (program.program_type.includes('Économie')) { %>
+                                        <i class="fas fa-chart-line"></i>
+                                    <% } else { %>
+                                        <i class="fas fa-tv"></i>
+                                    <% } %>
+                                <% } else { %>
+                                    <i class="fas fa-tv"></i>
+                                <% } %>
+                            </div>
+                            <h3><%= program.title || 'Programme TELEX' %></h3>
+                            <p><%= program.description ? (program.description.length > 80 ? program.description.substring(0, 80) + '...' : program.description) : 'Découvrez ce programme passionnant.' %></p>
+                            <a href="/programs#program-<%= program.id %>" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
-                        <h3>Le Journal Campus</h3>
-                        <p>L'actualité étudiante décryptée chaque semaine.</p>
-                        <a href="/programs#journal" class="program-link">En savoir plus →</a>
                     </div>
-                </div>
-                
-                <!-- Programme 2 -->
-                <div class="col-md-3">
-                    <div class="program-card">
-                        <div class="program-icon">
-                            <i class="fas fa-comments"></i>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Programmes par défaut si aucun programme en base de données -->
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <div class="program-image">
+                                <img src="/images/Débat.png" alt="Le Journal Campus" class="program-img">
+                            </div>
+                            <h3 data-translate="programs.default.journal_campus.title">Le Journal Campus</h3>
+                            <p data-translate="programs.default.journal_campus.description">L'actualité étudiante décryptée chaque semaine.</p>
+                            <a href="/programs#journal" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
-                        <h3>Débat Campus</h3>
-                        <p>Face-à-face d'idées sur les grands sujets de société.</p>
-                        <a href="/programs#debat" class="program-link">En savoir plus →</a>
                     </div>
-                </div>
-                
-                <!-- Programme 3 -->
-                <div class="col-md-3">
-                    <div class="program-card">
-                        <div class="program-icon">
-                            <i class="fas fa-film"></i>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <div class="program-image">
+                                <img src="/images/micro.png" alt="Débat Campus" class="program-img">
+                            </div>
+                            <h3 data-translate="programs.default.debate_campus.title">Débat Campus</h3>
+                            <p data-translate="programs.default.debate_campus.description">Face-à-face d'idées sur les grands sujets de société.</p>
+                            <a href="/programs#debat" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
-                        <h3>Culture Express</h3>
-                        <p>Découverte de la scène culturelle étudiante.</p>
-                        <a href="/programs#culture" class="program-link">En savoir plus →</a>
                     </div>
-                </div>
-                
-                <!-- Programme 4 -->
-                <div class="col-md-3">
-                    <div class="program-card">
-                        <div class="program-icon">
-                            <i class="fas fa-futbol"></i>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <div class="program-image">
+                                <img src="/images/camera.png" alt="Culture Express" class="program-img">
+                            </div>
+                            <h3 data-translate="programs.default.culture_express.title">Culture Express</h3>
+                            <p data-translate="programs.default.culture_express.description">Découverte de la scène culturelle étudiante.</p>
+                            <a href="/programs#culture" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
-                        <h3>Telex Sports</h3>
-                        <p>Toute l'actualité sportive universitaire.</p>
-                        <a href="/programs#sports" class="program-link">En savoir plus →</a>
                     </div>
-                </div>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <div class="program-image">
+                                <img src="/images/femme telex.png" alt="Telex Sports" class="program-img">
+                            </div>
+                            <h3 data-translate="programs.default.telex_sports.title">Telex Sports</h3>
+                            <p data-translate="programs.default.telex_sports.description">Toute l'actualité sportive universitaire.</p>
+                            <a href="/programs#sports" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <div class="program-image">
+                                <img src="/images/TELEX INTEGRATION.png" alt="Coulisses" class="program-img">
+                            </div>
+                            <h3 data-translate="programs.default.behind_scenes.title">Coulisses</h3>
+                            <p data-translate="programs.default.behind_scenes.description">Les coulisses de la création audiovisuelle étudiante.</p>
+                            <a href="/programs#coulisses" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
+                        </div>
+                    </div>
+                <% } %>
             </div>
         </div>
     </section>
@@ -249,20 +403,20 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6">
-                    <h2 class="section-title">Qui sommes-nous ?</h2>
-                    <p>
+                    <h2 class="section-title" data-translate="home.who_are_we">Qui sommes-nous ?</h2>
+                    <p data-translate="home.about_text">
                         Telex est une télévision jeune, dynamique et engagée, 
                         portée par des étudiants et destinée à la jeunesse. 
                         Fondée en 2024, notre équipe compte plus de 50 étudiants 
                         bénévoles passionnés par l'audiovisuel.
                     </p>
                     <ul class="about-list">
-                        <li><i class="fas fa-check text-success me-2"></i>100% étudiant</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Formation professionnelle</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Contenus engagés</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Communauté active</li>
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.student_led">100% étudiant</span></li>
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.professional_training">Formation professionnelle</span></li>
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.engaged_content">Contenus engagés</span></li>
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.active_community">Communauté active</span></li>
                     </ul>
-                    <a href="/about" class="btn btn-outline-primary">En savoir plus sur nous</a>
+                    <a href="/about" class="btn btn-outline-primary" data-translate="home.learn_more">En savoir plus sur nous</a>
                 </div>
                 <div class="col-lg-6">
                     <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
@@ -272,15 +426,250 @@
         </div>
     </section>
 
+    <!-- Section Dernières Actualités -->
+    <section class="section section-programs" id="section-news">
+        <div class="container">
+            <h2 class="section-title" data-translate="home.latest_news">Dernières Actualités</h2>
+            <p class="section-subtitle" data-translate="home.news_subtitle">Découvrez nos derniers articles et productions vidéo</p>
+            
+            <div class="row">
+                <% if (news && news.length > 0) { %>
+                    <% news.slice(0, 5).forEach((article, index) => { %>
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3 data-translate="news.default.title"><%= article.title.length > 30 ? article.title.substring(0, 30) + '...' : article.title %></h3>
+                            <% if (article.image_url) { %>
+                                <div class="news-thumbnail">
+                                    <img src="<%= article.image_url %>" alt="<%= article.title %>" class="img-fluid rounded">
+                                </div>
+                            <% } else if (article.video_url) { %>
+                                <div class="news-thumbnail">
+                                    <video class="img-fluid rounded" controls preload="metadata">
+                                        <source src="<%= article.video_url %>" type="video/mp4">
+                                        Votre navigateur ne supporte pas les vidéos.
+                                    </video>
+                                </div>
+                            <% } %>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(article.created_at).toLocaleDateString('fr-FR') || new Date().toLocaleDateString('fr-FR') %>
+                                </span>
+                                <% if (article.category) { %>
+                                    <span class="news-category-small">
+                                        <i class="fas fa-tag me-1"></i><%= article.category %>
+                                    </span>
+                                <% } %>
+                            </div>
+                            <a href="/news/<%= article.id %>" class="program-link" data-translate="common.read_more">Lire la suite →</a>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Articles par défaut - 5 dernières actualités -->
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3>Lancement de la nouvelle saison TELEX</h3>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date().toLocaleDateString('fr-FR') %>
+                                </span>
+                                <span class="news-category-small">
+                                    <i class="fas fa-tag me-1"></i>Information
+                                </span>
+                            </div>
+                            <a href="/news" class="program-link">Lire la suite →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3>Nouveau tournage en cours</h3>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(Date.now() - 86400000).toLocaleDateString('fr-FR') %>
+                                </span>
+                                <span class="news-category-small">
+                                    <i class="fas fa-tag me-1"></i>Production
+                                </span>
+                            </div>
+                            <a href="/news" class="program-link">Lire la suite →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3>Interview exclusive</h3>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(Date.now() - 172800000).toLocaleDateString('fr-FR') %>
+                                </span>
+                                <span class="news-category-small">
+                                    <i class="fas fa-tag me-1"></i>Interview
+                                </span>
+                            </div>
+                            <a href="/news" class="program-link">Lire la suite →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3>Formation audiovisuelle</h3>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(Date.now() - 259200000).toLocaleDateString('fr-FR') %>
+                                </span>
+                                <span class="news-category-small">
+                                    <i class="fas fa-tag me-1"></i>Éducation
+                                </span>
+                            </div>
+                            <a href="/news" class="program-link">Lire la suite →</a>
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3>Prix du meilleur média étudiant</h3>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(Date.now() - 345600000).toLocaleDateString('fr-FR') %>
+                                </span>
+                                <span class="news-category-small">
+                                    <i class="fas fa-tag me-1"></i>Récompense
+                                </span>
+                            </div>
+                            <a href="/news" class="program-link">Lire la suite →</a>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <a href="/news" class="btn btn-primary btn-lg">
+                        <i class="fas fa-newspaper me-2"></i>Voir toutes les actualités
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Réflexions et Prières -->
+    <section class="section section-programs" id="section-baume">
+        <div class="container">
+            <h2 class="section-title" data-translate="home.baume_title">Baume de la Foi</h2>
+            <p class="section-subtitle" data-translate="home.baume_subtitle">Découvrez les derniers contenus spirituels pour nourrir votre foi</p>
+            
+            <div class="row g-5">
+                <% if (reflexions && reflexions.length > 0) { %>
+                    <% reflexions.forEach((reflexion, index) => { %>
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3><%= reflexion.title.length > 25 ? reflexion.title.substring(0, 25) + '...' : reflexion.title %></h3>
+                            <% if (reflexion.image_url) { %>
+                                <div class="news-thumbnail">
+                                    <img src="<%= reflexion.image_url %>" alt="<%= reflexion.title %>" class="img-fluid rounded">
+                                </div>
+                            <% } else if (reflexion.video_url) { %>
+                                <div class="news-thumbnail">
+                                    <video class="img-fluid rounded" controls preload="metadata">
+                                        <source src="<%= reflexion.video_url %>" type="video/mp4">
+                                        Votre navigateur ne supporte pas les vidéos.
+                                    </video>
+                                </div>
+                            <% } %>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(reflexion.publication_date || reflexion.created_at).toLocaleDateString('fr-FR') %>
+                                </span>
+                                <span class="news-category-small">
+                                    <i class="fas fa-lightbulb me-1"></i>Réflexion
+                                </span>
+                            </div>
+                            <a href="/baume-de-la-foi#reflexions" class="program-link" data-translate="common.read_more">Lire la suite →</a>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="col-12 text-center">
+                        <p>Aucune réflexion disponible pour le moment.</p>
+                    </div>
+                <% } %>
+                
+                <% if (prieres && prieres.length > 0) { %>
+                    <% prieres.forEach((priere, index) => { %>
+                    <div class="col-lg-2-4">
+                        <div class="program-card">
+                            <h3><%= priere.title.length > 25 ? priere.title.substring(0, 25) + '...' : priere.title %></h3>
+                            <% if (priere.image_url && priere.image_url.trim() !== '') { %>
+                                <div class="news-thumbnail">
+                                    <img src="<%= priere.image_url %>" alt="<%= priere.title %>" class="img-fluid rounded">
+                                </div>
+                            <% } else if (priere.video_url && priere.video_url.trim() !== '') { %>
+                                <% 
+                                const isVideoFile = /\.(mp4|webm|ogg|mov|avi)$/i.test(priere.video_url);
+                                %>
+                                <% if (isVideoFile) { %>
+                                    <div class="news-thumbnail">
+                                        <video class="img-fluid rounded" controls preload="metadata">
+                                            <source src="<%= priere.video_url %>" type="video/mp4">
+                                            Votre navigateur ne supporte pas les vidéos.
+                                        </video>
+                                    </div>
+                                <% } else { %>
+                                    <div class="news-thumbnail">
+                                        <img src="<%= priere.video_url %>" alt="<%= priere.title %>" class="img-fluid rounded">
+                                    </div>
+                                <% } %>
+                            <% } else { %>
+                                <div class="news-thumbnail">
+                                    <img src="/images/Prière.png" alt="Prière par défaut" class="img-fluid rounded">
+                                </div>
+                            <% } %>
+                            <div class="news-meta-small">
+                                <span class="news-date-small">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(priere.created_at).toLocaleDateString('fr-FR') %>
+                                </span>
+                                <span class="news-category-small">
+                                    <i class="fas fa-pray me-1"></i>Prière
+                                </span>
+                            </div>
+                            <a href="/baume-de-la-foi#prieres" class="program-link" data-translate="common.read_more">Lire la suite →</a>
+                        </div>
+                    </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="col-12 text-center">
+                        <p>Aucune prière disponible pour le moment.</p>
+                    </div>
+                <% } %>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <a href="/baume-de-la-foi" class="btn btn-primary btn-lg">
+                        <i class="fas fa-cross me-2"></i><span data-translate="home.see_all_reflections">Voir toutes les réflexions et prières</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- Section Contact -->
     <section class="section section-contact">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 text-center">
-                    <h2 class="section-title">Rejoignez l'aventure Telex</h2>
+                    <h2 class="section-title" data-translate="home.join_adventure">Rejoignez l'aventure Telex</h2>
                     <p class="section-subtitle">
-                        Vous êtes étudiant et passionné par l'audiovisuel ? 
-                        Contactez-nous pour participer à nos projets !
+                        Vous êtes étudiant et passionné par l'audiovisuel et journaliste ? 
+                        Contactez-nous pour participer à nos projets et donner vie à vos idées !
                     </p>
                     <a href="/contact" class="btn btn-primary btn-lg">
                         <i class="fas fa-user-plus me-2"></i>Nous rejoindre
@@ -290,70 +679,111 @@
         </div>
     </section>
 
+    
     <!-- Footer -->
-    <footer class="footer-telex">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4">
-                    <div class="footer-brand">
-                        <img src="<%= footer.footer_logo || '/images/11.png' %>" alt="TELEX" class="footer-logo">
-                        <h3>Telex</h3>
-                        <p><%= footer.footer_description || 'Télévision étudiante jeune et engagée' %></p>
-                    </div>
-                </div>
-                
-                <div class="col-lg-2">
-                    <h4>Navigation</h4>
-                    <ul class="footer-links">
-                        <li><a href="/">Accueil</a></li>
-                        <li><a href="/about">À propos</a></li>
-                        <li><a href="/programs">Programmes</a></li>
-                        <li><a href="/news">Actualités</a></li>
-                        <li><a href="/gallery">Galerie</a></li>
-                        <li><a href="/contact">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-3">
-                    <h4>Contact</h4>
-                    <ul class="footer-contact">
-                        <li><i class="fas fa-envelope me-2"></i><%= footer.contact_email || 'contact@telex.fr' %></li>
-                        <li><i class="fas fa-phone me-2"></i><%= footer.contact_phone || '01 23 45 67 89' %></li>
-                        <li><i class="fas fa-map-marker-alt me-2"></i><%= footer.contact_address || 'Campus Universitaire, Paris' %></li>
-                    </ul>
-                </div>
-                
-                <div class="col-lg-3">
-                    <h4>Suivez-nous</h4>
-                    <div class="social-icons">
-                        <% if (footer.youtube_url) { %>
-                        <a href="<%= footer.youtube_url %>" target="_blank" class="social-icon"><i class="fab fa-youtube"></i></a>
-                        <% } %>
-                        <% if (footer.instagram_url) { %>
-                        <a href="<%= footer.instagram_url %>" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>
-                        <% } %>
-                        <% if (footer.facebook_url) { %>
-                        <a href="<%= footer.facebook_url %>" target="_blank" class="social-icon"><i class="fab fa-facebook"></i></a>
-                        <% } %>
-                        <% if (footer.tiktok_url) { %>
-                        <a href="<%= footer.tiktok_url %>" target="_blank" class="social-icon"><i class="fab fa-tiktok"></i></a>
-                        <% } %>
-                        <% if (footer.twitter_url) { %>
-                        <a href="<%= footer.twitter_url %>" target="_blank" class="social-icon"><i class="fab fa-twitter"></i></a>
-                        <% } %>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2026 Telex - Tous droits réservés</p>
-            </div>
-        </div>
-    </footer>
+    <%- include('../partials/footer') %>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/location.js"></script>
+    <script src="/js/simple-language.js"></script>
+    
+    <style>
+        /* Styles pour les thumbnails d'actualités */
+        .news-thumbnail {
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            max-height: 120px;
+        }
+        
+        .news-thumbnail img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .news-thumbnail video {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        .news-thumbnail:hover img {
+            transform: scale(1.05);
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .news-thumbnail:hover .video-overlay {
+            opacity: 1;
+        }
+        
+        .video-overlay i {
+            font-size: 2rem;
+            color: white;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* Style pour les titres des programmes en gras */
+        #section-programs-main .program-card h3 {
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+        
+        /* Style pour les titres d'actualité non gras */
+        #section-news .program-card h3 {
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+        
+        /* Style pour les titres de réflexions et prières non gras */
+        #section-baume .program-card h3 {
+            font-weight: 400;
+            font-size: 1rem;
+            line-height: 1.3;
+            margin-bottom: 12px;
+        }
+        
+        /* Style pour les images des réflexions et prières */
+        #section-baume .news-thumbnail {
+            height: 120px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        
+        #section-baume .news-thumbnail img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+        
+        #section-baume .news-thumbnail video {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+        }
+    </style>
     
     <script>
     // Script pour la page d'accueil
@@ -366,6 +796,646 @@
             card.style.animationDelay = `${index * 0.1}s`;
         });
     });
+    </script>
+
+    <!-- Bannière de consentement Telex -->
+    <div id="cookieConsent" class="cookie-consent-banner" style="display: none;">
+        <div class="cookie-consent-content">
+            <div class="cookie-consent-icon">
+                <i class="fas fa-shield-alt"></i>
+            </div>
+            <div class="cookie-consent-text">
+                <h4>🛡️ Consentement - Telex</h4>
+                <p>
+                    Telex utilise des cookies pour améliorer votre expérience, 
+                    analyser le trafic et personnaliser les contenus. 
+                    En continuant, vous acceptez notre 
+                    <a href="/privacy" class="cookie-link">politique de confidentialité</a> 
+                    et nos <a href="/cookies" class="cookie-link">pratiques cookies</a>.
+                </p>
+            </div>
+            <div class="cookie-consent-buttons">
+                <button id="acceptAllBtn" class="btn btn-accept-all">
+                    <i class="fas fa-check me-1"></i>Tout accepter
+                </button>
+                <button id="acceptNecessaryBtn" class="btn btn-accept-necessary">
+                    <i class="fas fa-shield-alt me-1"></i>Uniquement essentiel
+                </button>
+                <button id="customizeBtn" class="btn btn-customize">
+                    <i class="fas fa-cog me-1"></i>Personnaliser
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de personnalisation des cookies -->
+    <div class="modal fade" id="cookieModal" tabindex="-1" aria-labelledby="cookieModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="cookieModalLabel">
+                        <i class="fas fa-cog me-2"></i>Personnaliser les cookies Telex
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="cookie-categories">
+                        <!-- Cookies essentiels -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-shield-alt text-success me-2"></i>Cookies essentiels</h6>
+                                    <p class="text-muted small">Nécessaires au fonctionnement du site</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="essentialCookies" checked disabled>
+                                    <label class="form-check-label" for="essentialCookies">Toujours actifs</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cookies de performance -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-chart-line text-info me-2"></i>Cookies de performance</h6>
+                                    <p class="text-muted small">Aident à améliorer le fonctionnement du site</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="performanceCookies">
+                                    <label class="form-check-label" for="performanceCookies">Activés</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cookies de personnalisation -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-palette text-warning me-2"></i>Cookies de personnalisation</h6>
+                                    <p class="text-muted small">Permettent de personnaliser votre expérience</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="personalizationCookies">
+                                    <label class="form-check-label" for="personalizationCookies">Activés</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cookies de marketing -->
+                        <div class="cookie-category">
+                            <div class="category-header">
+                                <div class="category-info">
+                                    <h6><i class="fas fa-bullhorn text-danger me-2"></i>Cookies de marketing</h6>
+                                    <p class="text-muted small">Utilisés pour les publicités ciblées</p>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="marketingCookies">
+                                    <label class="form-check-label" for="marketingCookies">Activés</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" id="savePreferencesBtn">
+                        <i class="fas fa-save me-1"></i>Enregistrer mes préférences
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Styles pour la bannière de cookies -->
+    <style>
+        .cookie-consent-banner {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 25px;
+            z-index: 9999;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+            border: 2px solid #ffffff;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            animation: slideInRight 0.5s ease;
+        }
+        
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes slideOutRight {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+        }
+        
+        .cookie-consent-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 15px;
+        }
+        
+        .cookie-consent-header {
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cookie-consent-icon {
+            font-size: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+        }
+        
+        .cookie-consent-text {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .cookie-consent-text h4 {
+            margin: 0 0 10px 0;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .cookie-consent-text p {
+            margin: 0;
+            font-size: 0.85rem;
+            line-height: 1.3;
+            opacity: 0.9;
+        }
+        
+        .cookie-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .cookie-link:hover {
+            text-decoration: underline;
+        }
+        
+        .cookie-consent-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .btn-accept-all {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-accept-all:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+        
+        .btn-accept-necessary {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-accept-necessary:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .btn-customize {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.5);
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .btn-customize:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: white;
+        }
+        
+        .cookie-category {
+            border: 1px solid #e9ecef;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-info h6 {
+            margin: 0;
+            font-weight: 600;
+        }
+        
+        .category-info p {
+            margin: 5px 0 0 0;
+            font-size: 0.85rem;
+        }
+        
+        /* Responsive pour mobile */
+        @media (max-width: 768px) {
+            .cookie-consent-banner {
+                width: 350px;
+                height: 350px;
+                bottom: 10px;
+                right: 10px;
+                padding: 20px;
+            }
+            
+            .cookie-consent-text h4 {
+                font-size: 0.9rem;
+            }
+            
+            .cookie-consent-text p {
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cookie-consent-banner {
+                width: 300px;
+                height: 300px;
+                bottom: 10px;
+                right: 10px;
+                padding: 15px;
+            }
+            
+            .cookie-consent-icon {
+                font-size: 2rem;
+            }
+        }
+        
+        /* Bouton de test - caché si consentement donné */
+        .cookie-test-btn.hidden {
+            display: none !important;
+        }
+    </style>
+
+    <!-- Script pour la gestion des cookies -->
+    <script>
+        // Gestion du consentement
+        class CookieConsent {
+            constructor() {
+                // Vérifier si le consentement a été donné AUJOURD'HUI
+                const consentData = localStorage.getItem('telex_cookie_consent');
+                const today = new Date().toDateString();
+                
+                if (!consentData) {
+                    this.consentGiven = false; // Premier visite
+                } else {
+                    try {
+                        const parsed = JSON.parse(consentData);
+                        const consentDate = new Date(parsed.timestamp).toDateString();
+                        this.consentGiven = consentDate === today; // True seulement si même jour
+                    } catch (e) {
+                        this.consentGiven = false; // Erreur, afficher la bannière
+                    }
+                }
+                
+                this.preferences = JSON.parse(localStorage.getItem('telex_cookie_preferences') || '{}');
+                this.init();
+            }
+            
+            init() {
+                if (!this.consentGiven) {
+                    this.showBanner();
+                }
+                this.setupEventListeners();
+            }
+            
+            showBanner() {
+                const banner = document.getElementById('cookieConsent');
+                if (banner) {
+                    console.log('Affichage de la bannière de cookies...');
+                    banner.style.display = 'block';
+                    banner.style.visibility = 'visible';
+                    banner.style.opacity = '1';
+                    banner.style.position = 'fixed';
+                    banner.style.bottom = '0';
+                    banner.style.left = '0';
+                    banner.style.right = '0';
+                    banner.style.zIndex = '9999';
+                    
+                    // Forcer le reflow pour l'animation
+                    banner.offsetHeight;
+                    
+                    setTimeout(() => {
+                        banner.style.animation = 'slideUp 0.5s ease';
+                    }, 100);
+                } else {
+                    console.error('Bannière de cookies non trouvée');
+                }
+            }
+            
+            hideBanner() {
+                const banner = document.getElementById('cookieConsent');
+                if (banner) {
+                    banner.style.animation = 'slideOutRight 0.5s ease';
+                    setTimeout(() => {
+                        banner.style.display = 'none';
+                    }, 500);
+                }
+            }
+            
+            acceptAll() {
+                this.preferences = {
+                    essential: true,
+                    performance: true,
+                    personalization: true,
+                    marketing: true
+                };
+                this.saveConsent();
+                this.hideBanner();
+                this.loadScripts();
+            }
+            
+            acceptNecessary() {
+                this.preferences = {
+                    essential: true,
+                    performance: false,
+                    personalization: false,
+                    marketing: false
+                };
+                this.saveConsent();
+                this.hideBanner();
+                this.loadEssentialScripts();
+            }
+            
+            saveCustomPreferences() {
+                this.preferences = {
+                    essential: true,
+                    performance: document.getElementById('performanceCookies').checked,
+                    personalization: document.getElementById('personalizationCookies').checked,
+                    marketing: document.getElementById('marketingCookies').checked
+                };
+                this.saveConsent();
+                this.hideBanner();
+                this.loadScripts();
+            }
+            
+            saveConsent() {
+                // Sauvegarder avec la date du jour
+                const consentData = {
+                    status: 'given',
+                    timestamp: new Date().toISOString(),
+                    date: new Date().toDateString()
+                };
+                localStorage.setItem('telex_cookie_consent', JSON.stringify(consentData));
+                localStorage.setItem('telex_cookie_preferences', JSON.stringify(this.preferences));
+                
+                // Enregistrer le consentement côté serveur pour le dashboard admin
+                this.recordConsent();
+            }
+            
+            recordConsent() {
+                // Envoyer les données de consentement au serveur
+                fetch('/api/cookie-consent', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        preferences: this.preferences,
+                        timestamp: new Date().toISOString(),
+                        userAgent: navigator.userAgent,
+                        consentType: this.getConsentType()
+                    })
+                }).catch(error => {
+                    console.log('Erreur lors de l\'enregistrement du consentement:', error);
+                });
+            }
+            
+            getConsentType() {
+                if (this.preferences.performance && this.preferences.personalization && this.preferences.marketing) {
+                    return 'all';
+                } else if (!this.preferences.performance && !this.preferences.personalization && !this.preferences.marketing) {
+                    return 'essential';
+                } else {
+                    return 'partial';
+                }
+            }
+            
+            loadScripts() {
+                // Charger les scripts selon les préférences
+                if (this.preferences.performance) {
+                    console.log('Chargement des scripts de performance...');
+                    // Google Analytics, etc.
+                }
+                
+                if (this.preferences.personalization) {
+                    console.log('Chargement des scripts de personnalisation...');
+                    // Scripts de personnalisation
+                }
+                
+                if (this.preferences.marketing) {
+                    console.log('Chargement des scripts de marketing...');
+                    // Scripts de marketing/publicité
+                }
+                
+                // Les scripts essentiels sont toujours chargés
+                this.loadEssentialScripts();
+            }
+            
+            loadEssentialScripts() {
+                console.log('Chargement des scripts essentiels...');
+                // Scripts nécessaires au fonctionnement du site
+            }
+            
+            setupEventListeners() {
+                // Bouton "Tout accepter"
+                const acceptAllBtn = document.getElementById('acceptAllBtn');
+                if (acceptAllBtn) {
+                    acceptAllBtn.addEventListener('click', () => this.acceptAll());
+                }
+                
+                // Bouton "Uniquement essentiel"
+                const acceptNecessaryBtn = document.getElementById('acceptNecessaryBtn');
+                if (acceptNecessaryBtn) {
+                    acceptNecessaryBtn.addEventListener('click', () => this.acceptNecessary());
+                }
+                
+                // Bouton "Personnaliser"
+                const customizeBtn = document.getElementById('customizeBtn');
+                if (customizeBtn) {
+                    customizeBtn.addEventListener('click', () => {
+                        const modal = new bootstrap.Modal(document.getElementById('cookieModal'));
+                        modal.show();
+                    });
+                }
+                
+                // Bouton "Enregistrer les préférences"
+                const savePreferencesBtn = document.getElementById('savePreferencesBtn');
+                if (savePreferencesBtn) {
+                    savePreferencesBtn.addEventListener('click', () => {
+                        this.saveCustomPreferences();
+                        const modal = bootstrap.Modal.getInstance(document.getElementById('cookieModal'));
+                        modal.hide();
+                    });
+                }
+                
+                // Mettre à jour les switches dans la modal selon les préférences
+                const modal = document.getElementById('cookieModal');
+                if (modal) {
+                    modal.addEventListener('show.bs.modal', () => {
+                        document.getElementById('performanceCookies').checked = this.preferences.performance || false;
+                        document.getElementById('personalizationCookies').checked = this.preferences.personalization || false;
+                        document.getElementById('marketingCookies').checked = this.preferences.marketing || false;
+                    });
+                }
+            }
+        }
+        
+        // Animation CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideUp {
+                from {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideDown {
+                from {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateY(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialiser la gestion des cookies
+        document.addEventListener('DOMContentLoaded', function() {
+            new CookieConsent();
+            
+            // Bouton de test pour afficher la bannière (à enlever en production)
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                const testBtn = document.createElement('button');
+                testBtn.innerHTML = '<i class="fas fa-cookie"></i> Test Bannière Consentement';
+                testBtn.className = 'cookie-test-btn';
+                testBtn.style.cssText = `
+                    position: fixed;
+                    top: 100px;
+                    right: 20px;
+                    background: #FF4757;
+                    color: white;
+                    border: none;
+                    padding: 10px 15px;
+                    border-radius: 8px;
+                    z-index: 10000;
+                    cursor: pointer;
+                    font-size: 12px;
+                    box-shadow: 0 4px 12px rgba(255,71,87,0.3);
+                `;
+                
+                function shouldShowBanner() {
+                    const consentData = localStorage.getItem('telex_cookie_consent');
+                    const today = new Date().toDateString();
+                    
+                    if (!consentData) {
+                        return true; // Premier visite
+                    }
+                    
+                    try {
+                        const parsed = JSON.parse(consentData);
+                        const consentDate = new Date(parsed.timestamp).toDateString();
+                        
+                        // Afficher si c'est un nouveau jour
+                        return consentDate !== today;
+                    } catch (e) {
+                        return true; // Erreur, afficher la bannière
+                    }
+                }
+                
+                const consentGiven = shouldShowBanner();
+                if (consentGiven) {
+                    testBtn.classList.remove('hidden');
+                } else {
+                    testBtn.classList.add('hidden');
+                }
+                
+                testBtn.onclick = function() {
+                    // Supprimer le consentement existant
+                    localStorage.removeItem('telex_cookie_consent');
+                    localStorage.removeItem('telex_cookie_preferences');
+                    localStorage.removeItem('cookieConsent');
+                    localStorage.removeItem('cookiePreferences');
+                    
+                    // Forcer l'affichage immédiat
+                    const banner = document.getElementById('cookieConsent');
+                    if (banner) {
+                        banner.style.display = 'flex';
+                        banner.style.visibility = 'visible';
+                        banner.style.opacity = '1';
+                        banner.style.position = 'fixed';
+                        banner.style.bottom = '20px';
+                        banner.style.right = '20px';
+                        banner.style.zIndex = '9999';
+                        console.log('Bannière forcée manuellement');
+                        
+                        // Cacher le bouton de test
+                        testBtn.classList.add('hidden');
+                    } else {
+                        console.error('Bannière non trouvée même en forçage');
+                        // Recharger si la bannière n'existe pas
+                        window.location.reload();
+                    }
+                };
+                document.body.appendChild(testBtn);
+            }
+        });
     </script>
 </body>
 </html>

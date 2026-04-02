@@ -1,0 +1,3218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baume de la Foi · Administration</title>
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        /* ===== VARIABLES CSS ===== */
+        :root {
+            --primary: #2E5C41;
+            --primary-dark: #27AE60;
+            --primary-light: #58D68D;
+            --accent: #C89F5C;
+            --accent-dark: #B8860B;
+            --accent-light: #D4A574;
+            --secondary: #6C757D;
+            --secondary-dark: #4C5666;
+            --success: #28A745;
+            --success-dark: #1E5F38;
+            --warning: #F59E0B;
+            --warning-dark: #D0821B;
+            --error: #DC3545;
+            --error-dark: #B91C1C;
+            --info: #17A2B8;
+            --info-dark: #0C4A6E;
+            --background: #F8F9FA;
+            --surface: #FFFFFF;
+            --text: #2C3E50;
+            --text-light: #6C757D;
+            --text-lighter: #95A5A6;
+            --border: #E9ECEF;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.2);
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* ===== ADMIN LAYOUT ===== */
+        .admin-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .admin-sidebar {
+            width: 280px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 32px 20px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-md);
+            z-index: 100;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .brand-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .brand-text {
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--primary-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-sub {
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-top: 2px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            background: transparent;
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: rgba(46, 92, 78, 0.08);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .nav-item.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-item i {
+            width: 24px;
+            font-size: 18px;
+            color: var(--text-lighter);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .nav-item:hover i {
+            color: var(--primary);
+        }
+
+        .nav-item.active i {
+            color: white;
+        }
+
+        .nav-item.with-submenu {
+            position: relative;
+            margin-bottom: 0;
+            padding: 0;
+            background: transparent;
+        }
+
+        .nav-link-main {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            gap: 12px;
+            width: 100%;
+            background: transparent;
+            position: relative;
+        }
+
+        .nav-link-main:hover {
+            background: rgba(46, 92, 78, 0.08);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .nav-item.with-submenu.active .nav-link-main {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .nav-link-main i {
+            width: 24px;
+            font-size: 18px;
+            color: var(--text-lighter);
+            transition: var(--transition);
+        }
+
+        .nav-link-main:hover i {
+            color: var(--primary);
+        }
+
+        .nav-item.with-submenu.active .nav-link-main i {
+            color: white;
+        }
+
+        .nav-link-main::after {
+            content: '\f107';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            margin-left: auto;
+            font-size: 14px;
+            color: var(--text-lighter);
+            transition: var(--transition);
+        }
+
+        .nav-link-main:hover::after {
+            color: var(--primary);
+        }
+
+        .nav-item.with-submenu.active .nav-link-main::after {
+            color: white;
+            transform: rotate(180deg);
+        }
+
+        .submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            min-width: 220px;
+            z-index: 1000;
+            margin-top: 4px;
+            margin-left: 0;
+            display: none !important;
+            flex-direction: column;
+            gap: 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .sidebar-nav .nav-item.with-submenu:hover .submenu,
+        .sidebar-nav .nav-item.with-submenu.active .submenu {
+            display: flex !important;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .submenu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            gap: 12px;
+            font-size: 0.9rem;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            font-weight: 400;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .submenu-item:last-child {
+            border-bottom: none;
+        }
+
+        .submenu-item:hover {
+            background: rgba(46, 92, 78, 0.08);
+            color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .submenu-item.active {
+            background: rgba(46, 92, 78, 0.1);
+            color: var(--primary);
+            font-weight: 500;
+            border-left: 3px solid var(--primary);
+        }
+
+        .submenu-item i {
+            width: 18px;
+            font-size: 0.9rem;
+            text-align: center;
+            color: var(--text-lighter);
+            transition: var(--transition);
+        }
+
+        .submenu-item:hover i {
+            color: var(--primary);
+        }
+
+        .submenu-item.active i {
+            color: var(--primary);
+        }
+
+        .submenu-item[target="_blank"] {
+            color: var(--accent);
+        }
+
+        .submenu-item[target="_blank"]:hover {
+            background: rgba(200, 159, 92, 0.08);
+            color: var(--accent-dark);
+        }
+
+        .admin-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px;
+            background: var(--background);
+        }
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 32px;
+            padding: 16px 24px;
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .page-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .page-title h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            letter-spacing: -0.5px;
+            margin: 0;
+        }
+
+        .page-title p {
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: 400;
+            margin: 0;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .separator {
+            height: 1px;
+            background: var(--border);
+            margin: 10px 0;
+        }
+
+        .stats-section {
+            margin-bottom: 32px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(46, 92, 78, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 24px;
+        }
+
+        .content-section {
+            background: var(--surface);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 32px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 24px 32px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .section-title i {
+            width: 48px;
+            height: 48px;
+            background: rgba(200, 159, 110, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            font-size: 24px;
+        }
+
+        .section-title h2 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .section-title p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 4px 0 0;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--background);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline-primary {
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline-primary:hover,
+        .btn-outline-primary.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-outline-success {
+            background: transparent;
+            border: 1px solid var(--success);
+            color: var(--success);
+        }
+
+        .btn-outline-success:hover,
+        .btn-outline-success.active {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-outline-warning {
+            background: transparent;
+            border: 1px solid var(--warning);
+            color: var(--warning);
+        }
+
+        .btn-outline-warning:hover,
+        .btn-outline-warning.active {
+            background: var(--warning);
+            color: white;
+        }
+
+        .btn-outline-secondary {
+            background: transparent;
+            border: 1px solid var(--secondary);
+            color: var(--secondary);
+        }
+
+        .btn-outline-secondary:hover,
+        .btn-outline-secondary.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .table-container {
+            padding: 24px 32px;
+        }
+
+        .modern-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .modern-table th {
+            text-align: left;
+            padding: 16px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-light);
+            background: var(--background);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .modern-table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .modern-table tbody tr:hover {
+            background: rgba(46, 92, 78, 0.02);
+        }
+
+        /* Fond blanc pour les témoignages */
+        .modern-table tbody tr {
+            background-color: white !important;
+        }
+
+        .modern-table tbody tr:nth-child(even) {
+            background-color: #f8f9fa !important;
+        }
+
+        /* Styles pour le champ de recherche */
+        .search-container input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(46, 92, 78, 0.2);
+        }
+
+        .search-container input:hover {
+            border-color: #bbb;
+        }
+
+        .search-container .fa-search {
+            transition: color 0.3s ease;
+        }
+
+        .search-container input:focus + .fa-search {
+            color: var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            .d-flex.gap-2 {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+            
+            .search-container {
+                margin-top: 10px;
+            }
+            
+            .search-container input {
+                width: 100% !important;
+            }
+        }
+
+        .table-title {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .table-title small {
+            display: block;
+            font-size: 12px;
+            color: var(--text-light);
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-success {
+            background: rgba(40, 167, 69, 0.1);
+            color: var(--success);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+
+        .badge-info {
+            background: rgba(23, 162, 184, 0.1);
+            color: var(--info);
+        }
+
+        .badge-secondary {
+            background: rgba(108, 117, 125, 0.1);
+            color: var(--secondary);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .table-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .table-btn:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .table-btn.edit-btn:hover {
+            background: var(--warning);
+            border-color: var(--warning);
+        }
+
+        .table-btn.delete-btn:hover {
+            background: var(--error);
+            border-color: var(--error);
+        }
+
+        .table-btn.approve-btn:hover {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .table-btn.reject-btn:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        .table-btn.view-btn:hover {
+            background: var(--info);
+            border-color: var(--info);
+        }
+
+        /* Styles pour les vues */
+        .views-count {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        .views-count i {
+            color: var(--primary);
+            font-size: 12px;
+        }
+
+        .views-number {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 48px;
+            color: var(--text-light);
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            color: var(--text-lighter);
+            margin-bottom: 16px;
+        }
+
+        .empty-state h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-bottom: 24px;
+        }
+
+        .modern-form {
+            padding: 32px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        .form-label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-label i {
+            color: var(--primary);
+            font-size: 14px;
+        }
+
+        .form-control {
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            transition: var(--transition);
+            background: var(--surface);
+            color: var(--text);
+            width: 100%;
+        }
+
+        .form-control:hover {
+            border-color: var(--text-light);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(46, 92, 78, 0.1);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        select.form-control {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236c757d' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
+        }
+
+        .media-type-selector {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .media-option {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .media-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .media-option input[type="radio"] + i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px;
+            background: var(--surface);
+            border: 2px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .media-option input[type="radio"]:checked + i {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .media-option i:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            text-align: center;
+            background: var(--surface);
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: var(--primary);
+            background: rgba(46, 92, 78, 0.02);
+        }
+
+        .upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .upload-content i {
+            font-size: 48px;
+            color: var(--primary);
+        }
+
+        .upload-content h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text);
+            margin: 0;
+        }
+
+        .upload-content p {
+            font-size: 14px;
+            color: var(--text-light);
+            margin: 0;
+        }
+
+        .btn-upload {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 16px;
+        }
+
+        .btn-upload:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .media-preview-card {
+            margin-top: 24px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: none;
+        }
+
+        .media-preview-card.active {
+            display: block;
+        }
+
+        .preview-content {
+            position: relative;
+            padding: 24px;
+            background: var(--background);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .preview-content video,
+        .preview-content img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn-remove {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--error);
+            color: white;
+            border: 2px solid white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+            opacity: 0.9;
+        }
+
+        .btn-remove:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+            opacity: 1;
+            background: #c82333;
+        }
+
+        .media-info {
+            width: 100%;
+            padding: 16px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .toggle-group {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 10px;
+            transition: var(--transition);
+        }
+
+        .toggle-switch input:checked + .toggle-slider {
+            transform: translateX(24px);
+            background: var(--primary);
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .notification-toast {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            padding: 16px 24px;
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--success);
+            z-index: 9999;
+            animation: slideIn 0.3s ease;
+            max-width: 400px;
+        }
+
+        .notification-toast.error {
+            border-left-color: var(--error);
+        }
+
+        .notification-toast.warning {
+            border-left-color: var(--warning);
+        }
+
+        .notification-toast.info {
+            border-left-color: var(--info);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--background);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--text-lighter);
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
+        }
+
+        @media (max-width: 1024px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-sidebar {
+                transform: translateX(-100%);
+                position: fixed;
+                transition: var(--transition);
+            }
+            
+            .admin-sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .admin-main {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-wrapper">
+        <!-- ===== SIDEBAR ===== -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-cross"></i>
+                </div>
+                <div>
+                    <div class="brand-text">Baume de la Foi</div>
+                    <div class="brand-sub">Espace sacré</div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="/admin/dashboard" class="nav-item">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/admin/news" class="nav-item">
+                    <i class="fas fa-newspaper"></i>
+                    <span>Actualités</span>
+                </a>
+                <a href="/admin/programs" class="nav-item">
+                    <i class="fas fa-tv"></i>
+                    <span>Programmes</span>
+                </a>
+                <a href="/admin/contacts" class="nav-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>Messages</span>
+                </a>
+                <a href="/admin/gallery" class="nav-item">
+                    <i class="fas fa-images"></i>
+                    <span>Galerie</span>
+                </a>
+                <a href="/admin/footer" class="nav-item">
+                    <i class="fas fa-globe"></i>
+                    <span>Footer</span>
+                </a>
+                <a href="/admin/settings" class="nav-item">
+                    <i class="fas fa-cog"></i>
+                    <span>Paramètres</span>
+                </a>
+                
+                <div class="separator"></div>
+                
+                <div class="nav-item with-submenu active">
+                    <a href="/admin/baume-de-la-foi" class="nav-link-main">
+                        <i class="fas fa-cross"></i>
+                        <span>Baume de la Foi</span>
+                    </a>
+                    <div class="submenu">
+                        <button class="submenu-item active" data-tab="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Tableau de bord</span>
+                        </button>
+                        <button class="submenu-item" data-tab="prieres">
+                            <i class="fas fa-pray"></i>
+                            <span>Prières</span>
+                        </button>
+                        <button class="submenu-item" data-tab="temoignages">
+                            <i class="fas fa-heart"></i>
+                            <span>Témoignages</span>
+                        </button>
+                        <button class="submenu-item" data-tab="reflexions">
+                            <i class="fas fa-book"></i>
+                            <span>Réflexions</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="separator"></div>
+                
+                <a href="/admin/logout" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Déconnexion</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- ===== MAIN CONTENT ===== -->
+        <main class="admin-main">
+            <!-- Top Bar -->
+            <div class="top-bar">
+                <div class="page-title">
+                    <div class="brand-icon">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <div>
+                        <h1>Baume de la Foi</h1>
+                        <p>Administration des contenus spirituels</p>
+                    </div>
+                </div>
+                <div class="top-actions">
+                    <button class="btn btn-primary" onclick="refreshDashboardData()">
+                        <i class="fas fa-sync-alt me-2"></i>Rafraîchir
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistics Dashboard -->
+            <div class="stats-section">
+                <div class="stats-grid">
+                    <%
+                        // Initialisation sécurisée des variables
+                        const prieresList = typeof prieres !== 'undefined' && prieres ? prieres : [];
+                        const reflexionsList = typeof reflexions !== 'undefined' && reflexions ? reflexions : [];
+                        
+                        const publishedPrieres = prieresList.filter(p => p && p.is_published).length;
+                        const draftPrieres = prieresList.filter(p => p && !p.is_published).length;
+                        const publishedReflexions = reflexionsList.filter(r => r && r.is_published).length;
+                        const draftReflexions = reflexionsList.filter(r => r && !r.is_published).length;
+                        const totalViews = (prieresList.reduce((sum, p) => sum + (p && p.views ? p.views : 0), 0) + 
+                                        reflexionsList.reduce((sum, r) => sum + (r && r.views ? r.views : 0), 0)) || 0;
+                    %>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number"><%= publishedPrieres + publishedReflexions %></div>
+                            <div class="stat-label">Contenus Publiés</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number"><%= draftPrieres + draftReflexions %></div>
+                            <div class="stat-label">Brouillons</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number"><%= prieresList.length %></div>
+                            <div class="stat-label">Prières</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-pray"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number"><%= reflexionsList.length %></div>
+                            <div class="stat-label">Réflexions</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <div class="stat-number"><%= totalViews.toLocaleString() %></div>
+                            <div class="stat-label">Vues Totales</div>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== TABLEAU DE BORD ===== -->
+            <div id="dashboard" class="tab-content fade-in" style="display: block;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h2>Activité récente</h2>
+                                <p>Les dernières interactions sur votre espace spirituel</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            <i class="fas fa-download"></i>
+                            Exporter
+                        </button>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="section-header" style="border-bottom: none; padding-bottom: 0;">
+                            <h3 style="margin: 0; color: var(--primary-dark);">
+                                <i class="fas fa-pray me-2"></i>Prières récentes
+                            </h3>
+                            <div class="btn-group" id="prieres-status-filters">
+                                <button class="btn btn-outline-primary active" data-status="all">Toutes</button>
+                                <button class="btn btn-outline-success" data-status="published">Publiées</button>
+                                <button class="btn btn-outline-secondary" data-status="draft">Brouillons</button>
+                            </div>
+                        </div>
+                        <table class="modern-table" id="prieres-table">
+                            <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Catégorie</th>
+                                    <th>Date</th>
+                                    <th>Média</th>
+                                    <th>Auteur</th>
+                                    <th>Vues</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (prieresList.length > 0) { %>
+                                    <% prieresList.slice(0, 5).forEach(function(priere) { %>
+                                        <tr data-id="<%= priere.id || '' %>">
+                                            <td>
+                                                <div class="table-title">
+                                                    <%= priere.title || 'Titre non défini' %>
+                                                    <small><%= (priere.content || '').substring(0, 50) + (priere.content && priere.content.length > 50 ? '...' : '') %></small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-info"><i class="fas fa-pray me-1"></i>Prière</span>
+                                            </td>
+                                            <td><%= priere.created_at ? new Date(priere.created_at).toLocaleDateString('fr-FR') : 'Date inconnue' %></td>
+                                            <td>
+                                                <% 
+                                                let mediaHtml = '';
+                                                if (priere.media_type === 'image' && priere.image_url) {
+                                                    mediaHtml = '<i class="fas fa-image" style="color: #28a745;"></i> Image';
+                                                } else if (priere.media_type === 'video' && priere.video_url) {
+                                                    mediaHtml = '<i class="fas fa-video" style="color: #dc3545;"></i> Vidéo';
+                                                } else if (priere.video_url) {
+                                                    const videoExt = /\.(mp4|webm|ogg|mov|avi|mkv)$/i;
+                                                    mediaHtml = priere.video_url.match(videoExt) 
+                                                        ? '<i class="fas fa-video" style="color: #dc3545;"></i> Vidéo'
+                                                        : '<i class="fas fa-image" style="color: #28a745;"></i> Image';
+                                                } else if (priere.image_url) {
+                                                    mediaHtml = '<i class="fas fa-image" style="color: #28a745;"></i> Image';
+                                                } else {
+                                                    mediaHtml = '<span style="color: #999;"><i class="fas fa-times"></i> Aucun</span>';
+                                                }
+                                                %>
+                                                <small><%- mediaHtml %></small>
+                                            </td>
+                                            <td><%= priere.author || 'Baume de la Foi' %></td>
+                                            <td>
+                                                <div class="views-count">
+                                                    <i class="fas fa-eye me-1"></i>
+                                                    <span class="views-number"><%= priere.views || 0 %></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <% if (priere.is_published) { %>
+                                                    <span class="badge badge-success"><i class="fas fa-circle me-1"></i>Publié</span>
+                                                <% } else { %>
+                                                    <span class="badge badge-warning"><i class="fas fa-clock me-1"></i>Brouillon</span>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <div class="table-actions">
+                                                    <button class="table-btn edit-btn" data-id="<%= priere.id || '' %>" data-action="edit" data-type="priere" title="Modifier">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="table-btn delete-btn" data-id="<%= priere.id || '' %>" data-action="delete" data-type="priere" title="Supprimer">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div class="empty-state">
+                                                <i class="fas fa-pray"></i>
+                                                <h4>Aucune prière</h4>
+                                                <p>Commencez par créer votre première prière</p>
+                                                <button class="btn btn-primary" onclick="switchTab('prieres')">
+                                                    <i class="fas fa-plus"></i>
+                                                    Créer une prière
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="section-header" style="border-bottom: none; padding-bottom: 0;">
+                            <h3 style="margin: 0; color: var(--primary-dark);">
+                                <i class="fas fa-book me-2"></i>Réflexions récentes
+                            </h3>
+                            <div class="btn-group" id="reflexions-status-filters">
+                                <button class="btn btn-outline-primary active" data-status="all">Toutes</button>
+                                <button class="btn btn-outline-success" data-status="published">Publiées</button>
+                                <button class="btn btn-outline-secondary" data-status="draft">Brouillons</button>
+                            </div>
+                        </div>
+                        <table class="modern-table" id="reflexions-table">
+                            <thead>
+                                <tr>
+                                    <th>Titre</th>
+                                    <th>Thème</th>
+                                    <th>Date</th>
+                                    <th>Média</th>
+                                    <th>Auteur</th>
+                                    <th>Vues</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (reflexionsList.length > 0) { %>
+                                    <% reflexionsList.slice(0, 5).forEach(function(reflexion) { %>
+                                        <tr data-id="<%= reflexion.id || '' %>">
+                                            <td>
+                                                <div class="table-title">
+                                                    <%= reflexion.title || 'Titre non défini' %>
+                                                    <small><%= (reflexion.content || '').substring(0, 50) + (reflexion.content && reflexion.content.length > 50 ? '...' : '') %></small>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-info"><i class="fas fa-book me-1"></i>Réflexion</span>
+                                            </td>
+                                            <td><%= reflexion.created_at ? new Date(reflexion.created_at).toLocaleDateString('fr-FR') : 'Date inconnue' %></td>
+                                            <td>
+                                                <% 
+                                                let mediaHtml = '';
+                                                if (reflexion.media_type === 'image' && reflexion.image_url) {
+                                                    mediaHtml = '<i class="fas fa-image" style="color: #28a745;"></i> Image';
+                                                } else if (reflexion.media_type === 'video' && reflexion.video_url) {
+                                                    mediaHtml = '<i class="fas fa-video" style="color: #dc3545;"></i> Vidéo';
+                                                } else if (reflexion.video_url) {
+                                                    const videoExt = /\.(mp4|webm|ogg|mov|avi|mkv)$/i;
+                                                    mediaHtml = reflexion.video_url.match(videoExt) 
+                                                        ? '<i class="fas fa-video" style="color: #dc3545;"></i> Vidéo'
+                                                        : '<i class="fas fa-image" style="color: #28a745;"></i> Image';
+                                                } else if (reflexion.image_url) {
+                                                    mediaHtml = '<i class="fas fa-image" style="color: #28a745;"></i> Image';
+                                                } else {
+                                                    mediaHtml = '<span style="color: #999;"><i class="fas fa-times"></i> Aucun</span>';
+                                                }
+                                                %>
+                                                <small><%- mediaHtml %></small>
+                                            </td>
+                                            <td><%= reflexion.author || 'Baume de la Foi' %></td>
+                                            <td>
+                                                <div class="views-count">
+                                                    <i class="fas fa-eye me-1"></i>
+                                                    <span class="views-number"><%= reflexion.views || 0 %></span>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <% if (reflexion.is_published) { %>
+                                                    <span class="badge badge-success"><i class="fas fa-circle me-1"></i>Publié</span>
+                                                <% } else { %>
+                                                    <span class="badge badge-warning"><i class="fas fa-clock me-1"></i>Brouillon</span>
+                                                <% } %>
+                                            </td>
+                                            <td>
+                                                <div class="table-actions">
+                                                    <button class="table-btn edit-btn" data-id="<%= reflexion.id || '' %>" data-action="edit" data-type="reflexion" title="Modifier">
+                                                        <i class="fas fa-edit"></i>
+                                                    </button>
+                                                    <button class="table-btn delete-btn" data-id="<%= reflexion.id || '' %>" data-action="delete" data-type="reflexion" title="Supprimer">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                <% } else { %>
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div class="empty-state">
+                                                <i class="fas fa-book"></i>
+                                                <h4>Aucune réflexion</h4>
+                                                <p>Commencez par créer votre première réflexion</p>
+                                                <button class="btn btn-primary" onclick="switchTab('reflexions')">
+                                                    <i class="fas fa-plus"></i>
+                                                    Créer une réflexion
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <% } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== GESTION DES PRIÈRES ===== -->
+            <div id="prieres" class="tab-content fade-in" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-pray"></i>
+                            <div>
+                                <h2>Créer une prière</h2>
+                                <p>Ajoutez une nouvelle prière avec vidéo ou image</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="priereForm" enctype="multipart/form-data" method="POST" class="modern-form">
+                        <input type="hidden" id="priereId" name="id" value="">
+                        <input type="hidden" id="existingPriereVideoUrl" name="existing_video_url" value="">
+                        <input type="hidden" id="existingPriereImageUrl" name="existing_image_url" value="">
+                        <input type="hidden" id="existingPriereMediaType" name="existing_media_type" value="">
+                        <input type="hidden" id="removePriereImage" name="remove_image" value="">
+                        <input type="hidden" id="removePriereVideo" name="remove_video" value="">
+                        
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-heading"></i>
+                                    Titre de la prière *
+                                </label>
+                                <input type="text" id="priereTitle" name="title" class="form-control" required placeholder="Ex: Prière de protection">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-tag"></i>
+                                    Catégorie
+                                </label>
+                                <select id="priereCategory" name="category" class="form-control">
+                                    <option value="comfort">Réconfort</option>
+                                    <option value="healing">Guérison</option>
+                                    <option value="protection">Protection</option>
+                                    <option value="peace">Paix</option>
+                                    <option value="hope">Espérance</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i>
+                                    Auteur
+                                </label>
+                                <input type="text" name="author" class="form-control" value="Baume de la Foi" placeholder="Auteur">
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-align-left"></i>
+                                    Contenu de la prière *
+                                </label>
+                                <textarea id="priereContent" name="content" class="form-control" rows="6" required placeholder="Rédigez le contenu de la prière..."></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-bible"></i>
+                                    Référence biblique
+                                </label>
+                                <input type="text" id="priereReference" name="reference" class="form-control" placeholder="Ex: Psaume 23:4">
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-photo-video"></i>
+                                    Type de média
+                                </label>
+                                <div class="media-type-selector">
+                                    <label class="media-option">
+                                        <input type="radio" name="media_type" value="image" checked onchange="updateMediaInterface('priere', 'image')">
+                                        <i class="fas fa-image"></i> Image
+                                    </label>
+                                    <label class="media-option">
+                                        <input type="radio" name="media_type" value="video" onchange="updateMediaInterface('priere', 'video')">
+                                        <i class="fas fa-video"></i> Vidéo
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-upload"></i>
+                                    Fichier média
+                                </label>
+                                <div class="upload-area" id="priereUploadArea">
+                                    <div class="upload-content" id="priereUploadContent">
+                                        <i class="fas fa-cloud-upload-alt" id="priereUploadIcon"></i>
+                                        <h4 id="priereUploadText">Glissez-déposez votre fichier ou cliquez pour choisir</h4>
+                                        <p id="priereUploadFormats">Formats acceptés: JPG, PNG, WebP, GIF (image)</p>
+                                    </div>
+                                    <button type="button" class="btn-upload" onclick="document.getElementById('priereMediaInput').click()">
+                                        <i class="fas fa-folder-open"></i>
+                                        Choisir un fichier
+                                    </button>
+                                </div>
+                                <input type="file" id="priereMediaInput" name="media_file" accept="image/*" style="display: none;">
+                            </div>
+
+                            <div class="media-preview-card" id="priereMediaPreview">
+                                <div class="preview-content">
+                                    <video id="priereMediaPlayer" style="display: none;" controls></video>
+                                    <img id="priereMediaImage" style="display: none; max-width: 100%; border-radius: 8px;">
+                                    <div id="priereMediaInfo" class="media-info" style="display: none;"></div>
+                                    <button type="button" class="btn-remove" onclick="removePriereMedia()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-toggle-on"></i>
+                                    Statut
+                                </label>
+                                <div class="toggle-group">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="prierePublished" name="is_published" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span>Publier immédiatement</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="submitPriereBtn">
+                                <i class="fas fa-save"></i>
+                                Enregistrer la prière
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="resetPriereForm()">
+                                <i class="fas fa-redo"></i>
+                                Réinitialiser
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ===== GESTION DES TÉMOIGNAGES ===== -->
+            <div id="temoignages" class="tab-content fade-in" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-heart"></i>
+                            <div>
+                                <h2>Gestion des témoignages</h2>
+                                <p>Modérez et publiez les témoignages des visiteurs</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid" id="temoignages-stats">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-number" id="totalTemoignages">0</div>
+                                <div class="stat-label">Total témoignages</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(220, 53, 69, 0.08); color: #dc3545;">
+                                <i class="fas fa-heart"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-number" id="approvedTemoignages">0</div>
+                                <div class="stat-label">Approuvés</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(40, 167, 69, 0.08); color: #28a745;">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-number" id="pendingTemoignages">0</div>
+                                <div class="stat-label">En attente</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(255, 193, 7, 0.08); color: #ffc107;">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-number" id="rejectedTemoignages">0</div>
+                                <div class="stat-label">Rejetés</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(108, 117, 125, 0.08); color: #6c757d;">
+                                <i class="fas fa-times-circle"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <div class="section-header" style="border-bottom: none; padding-bottom: 0;">
+                            <h3 style="margin: 0; color: var(--primary-dark);">
+                                <i class="fas fa-list me-2"></i>Liste des témoignages
+                            </h3>
+                            <div class="d-flex gap-2 align-items-center flex-wrap">
+                                <div class="btn-group" id="temoignages-filters">
+                                    <button class="btn btn-outline-primary active" data-filter="all">Tous</button>
+                                    <button class="btn btn-outline-success" data-filter="approved">Approuvés</button>
+                                    <button class="btn btn-outline-warning" data-filter="pending">En attente</button>
+                                    <button class="btn btn-outline-secondary" data-filter="rejected">Rejetés</button>
+                                </div>
+                                <div class="search-container" style="position: relative;">
+                                    <input type="text" id="temoignages-search" placeholder="Rechercher un témoignage..." 
+                                           class="form-control" 
+                                           style="padding-left: 12px; border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; width: 250px; font-size: 14px; transition: all 0.3s ease;">
+                                </div>
+                            </div>
+                        </div>
+                        <table class="modern-table" id="temoignages-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Auteur</th>
+                                    <th>Ville</th>
+                                    <th>Témoignage</th>
+                                    <th>Email</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="7" class="text-center">
+                                        <div class="empty-state">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                            <h4>Chargement...</h4>
+                                            <p>Récupération des témoignages en cours</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <!-- ===== PAGINATION DES TÉMOIGNAGES ===== -->
+                        <div class="pagination-container" id="temoignages-pagination" style="display: none; margin-top: 20px; text-align: center;">
+                            <div class="pagination-info" style="margin-bottom: 15px; color: var(--text-light); font-size: 14px;">
+                                <span id="temoignages-pagination-info">Affichage de 1-20 sur X témoignages</span>
+                            </div>
+                            <div class="pagination-controls" style="display: flex; justify-content: center; align-items: center; gap: 10px;">
+                                <button class="btn btn-outline-secondary btn-sm" id="temoignages-prev-page" onclick="changeTemoignagesPage(-1)" disabled>
+                                    <i class="fas fa-chevron-left"></i> Précédent
+                                </button>
+                                <div class="pagination-numbers" id="temoignages-page-numbers" style="display: flex; gap: 5px;">
+                                    <!-- Les numéros de page seront générés dynamiquement -->
+                                </div>
+                                <button class="btn btn-outline-secondary btn-sm" id="temoignages-next-page" onclick="changeTemoignagesPage(1)" disabled>
+                                    Suivant <i class="fas fa-chevron-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                                            </div>
+                </div>
+            </div>
+
+            <!-- ===== GESTION DES RÉFLEXIONS ===== -->
+            <div id="reflexions" class="tab-content fade-in" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h2>Créer une réflexion</h2>
+                                <p>Partagez une méditation profonde avec vidéo ou image</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <form id="reflexionForm" enctype="multipart/form-data" method="POST" class="modern-form">
+                        <input type="hidden" id="reflexionId" name="id" value="">
+                        <input type="hidden" id="existingReflexionVideoUrl" name="existing_video_url" value="">
+                        <input type="hidden" id="existingReflexionImageUrl" name="existing_image_url" value="">
+                        <input type="hidden" id="existingReflexionMediaType" name="existing_media_type" value="">
+                        <input type="hidden" id="removeReflexionImage" name="remove_image" value="">
+                        <input type="hidden" id="removeReflexionVideo" name="remove_video" value="">
+                        
+                        <div class="form-grid">
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-heading"></i>
+                                    Titre de la réflexion *
+                                </label>
+                                <input type="text" id="reflexionTitle" name="title" class="form-control" placeholder="Ex: La foi dans les épreuves" required>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-align-left"></i>
+                                    Contenu de la réflexion *
+                                </label>
+                                <textarea id="reflexionContent" name="content" class="form-control" placeholder="Partagez vos pensées et réflexions spirituelles..." required rows="6"></textarea>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-user"></i>
+                                    Auteur
+                                </label>
+                                <input type="text" name="author" class="form-control" value="Baume de la Foi">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-globe"></i>
+                                    Publication
+                                </label>
+                                <div class="toggle-group">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" name="is_published" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span>Publier immédiatement</span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-tag"></i>
+                                    Thème principal
+                                </label>
+                                <select id="reflexionTheme" name="theme" class="form-control">
+                                    <option value="faith">Foi et confiance</option>
+                                    <option value="hope">Espérance et avenir</option>
+                                    <option value="peace">Paix intérieure</option>
+                                    <option value="perseverance">Persévérance</option>
+                                    <option value="comfort">Réconfort divin</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-book"></i>
+                                    Référence biblique
+                                </label>
+                                <input type="text" id="reflexionReference" name="reference_biblique" class="form-control" placeholder="Ex: Jean 3:16">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="fas fa-calendar"></i>
+                                    Date de publication
+                                </label>
+                                <input type="date" id="reflexionPublicationDate" name="publication_date" class="form-control">
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-photo-video"></i>
+                                    Type de média
+                                </label>
+                                <div class="media-type-selector">
+                                    <label class="media-option">
+                                        <input type="radio" name="media_type" value="image" checked onchange="updateMediaInterface('reflexion', 'image')">
+                                        <i class="fas fa-image"></i> Image
+                                    </label>
+                                    <label class="media-option">
+                                        <input type="radio" name="media_type" value="video" onchange="updateMediaInterface('reflexion', 'video')">
+                                        <i class="fas fa-video"></i> Vidéo
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group full-width">
+                                <label class="form-label">
+                                    <i class="fas fa-upload"></i>
+                                    Fichier média
+                                </label>
+                                <div class="upload-area" id="reflexionUploadArea">
+                                    <div class="upload-content" id="reflexionUploadContent">
+                                        <i class="fas fa-cloud-upload-alt" id="reflexionUploadIcon"></i>
+                                        <h4 id="reflexionUploadText">Glissez-déposez votre fichier ou cliquez pour choisir</h4>
+                                        <p id="reflexionUploadFormats">Formats acceptés: JPG, PNG, WebP, GIF (image)</p>
+                                    </div>
+                                    <button type="button" class="btn-upload" onclick="document.getElementById('reflexionMediaInput').click()">
+                                        <i class="fas fa-folder-open"></i>
+                                        Choisir un fichier
+                                    </button>
+                                </div>
+                                <input type="file" id="reflexionMediaInput" name="media_file" accept="image/*" style="display: none;">
+                            </div>
+
+                            <div class="media-preview-card" id="reflexionMediaPreview">
+                                <div class="preview-content">
+                                    <video id="reflexionMediaPlayer" style="display: none;" controls></video>
+                                    <img id="reflexionMediaImage" style="display: none; max-width: 100%; border-radius: 8px;">
+                                    <div id="reflexionMediaInfo" class="media-info" style="display: none;"></div>
+                                    <button type="button" class="btn-remove" onclick="removeReflexionMedia()">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary" onclick="resetReflexionForm()">
+                                <i class="fas fa-times"></i>
+                                Annuler
+                            </button>
+                            <button type="submit" class="btn btn-primary" id="submitReflexionBtn">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                Publier la réflexion
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // ===== FONCTIONS UTILITAIRES =====
+        
+        // Fonction pour formater les nombres avec K, M, B
+        function formatNumber(num) {
+            if (num >= 1000000000) {
+                return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+            }
+            if (num >= 1000000) {
+                return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+            }
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+            }
+            return num.toString();
+        }
+
+        // Fonction pour formater les vues dans les tableaux
+        function formatBaumeViews() {
+            // Formater les vues des prières
+            const priereViewsElements = document.querySelectorAll('#prieres-table .views-number');
+            priereViewsElements.forEach(element => {
+                const views = parseInt(element.textContent);
+                element.textContent = formatNumber(views);
+            });
+
+            // Formater les vues des réflexions
+            const reflexionViewsElements = document.querySelectorAll('#reflexions-table .views-number');
+            reflexionViewsElements.forEach(element => {
+                const views = parseInt(element.textContent);
+                element.textContent = formatNumber(views);
+            });
+        }
+
+        // ===== VARIABLES GLOBALES =====
+        let priereUploader = null;
+        let reflexionUploader = null;
+        let currentTemoignagesFilter = 'all';
+        let currentTemoignagesPage = 1;
+        const temoignagesPerPage = 20;
+
+        // ===== CLASSE MEDIAUPLOADER =====
+        class MediaUploader {
+            constructor(uploadAreaId, inputId, previewId, videoPlayerId, imageId, infoId) {
+                this.uploadArea = document.getElementById(uploadAreaId);
+                this.input = document.getElementById(inputId);
+                this.preview = document.getElementById(previewId);
+                this.videoPlayer = document.getElementById(videoPlayerId);
+                this.image = document.getElementById(imageId);
+                this.info = document.getElementById(infoId);
+                this.currentMediaType = 'image';
+                
+                this.init();
+            }
+            
+            init() {
+                if (!this.uploadArea || !this.input) {
+                    console.error('❌ Éléments manquants pour MediaUploader');
+                    return;
+                }
+                
+                this.videoPlayer.style.display = 'none';
+                this.image.style.display = 'none';
+                this.preview.style.display = 'none';
+
+                this.input.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (file) this.handleFile(file);
+                });
+
+                this.uploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    this.uploadArea.classList.add('dragover');
+                });
+
+                this.uploadArea.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    this.uploadArea.classList.remove('dragover');
+                });
+
+                this.uploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    this.uploadArea.classList.remove('dragover');
+                    const file = e.dataTransfer.files[0];
+                    if (file) this.handleFile(file);
+                });
+            }
+            
+            handleFile(file) {
+                const isVideo = file.type.startsWith('video/');
+                const isImage = file.type.startsWith('image/');
+                
+                if (!isVideo && !isImage) {
+                    showNotification('Veuillez sélectionner un fichier vidéo ou image', 'error');
+                    return;
+                }
+                
+                this.currentMediaType = isVideo ? 'video' : 'image';
+                
+                const mediaTypeRadios = this.uploadArea.closest('form').querySelectorAll('input[name="media_type"]');
+                mediaTypeRadios.forEach(radio => {
+                    radio.checked = radio.value === this.currentMediaType;
+                });
+                
+                if (isVideo) {
+                    this.handleVideoFile(file);
+                } else {
+                    this.handleImageFile(file);
+                }
+            }
+            
+            handleVideoFile(file) {
+                const url = URL.createObjectURL(file);
+                
+                this.videoPlayer.src = url;
+                this.videoPlayer.style.display = 'block';
+                this.videoPlayer.load();
+                this.image.style.display = 'none';
+                
+                this.showPreview();
+                this.showFileInfo(file);
+            }
+            
+            handleImageFile(file) {
+                const url = URL.createObjectURL(file);
+                
+                this.image.src = url;
+                this.image.style.display = 'block';
+                this.videoPlayer.style.display = 'none';
+                
+                this.showPreview();
+                this.showFileInfo(file);
+            }
+            
+            showPreview() {
+                this.preview.style.display = 'block';
+                this.preview.classList.add('active');
+            }
+            
+            showFileInfo(file) {
+                var icon = this.currentMediaType === 'video' ? 'fa-video' : 'fa-image';
+                var color = this.currentMediaType === 'video' ? '#dc3545' : '#28a745';
+                
+                this.info.style.display = 'block';
+                this.info.innerHTML = 
+                    '<div style="padding: 10px; background: #e8f4fd; border-radius: 6px;">' +
+                        '<i class="fas ' + icon + '" style="color: ' + color + '; margin-right: 8px;"></i>' +
+                        '<span>' + file.name + ' (' + this.formatFileSize(file.size) + ')</span>' +
+                    '</div>';
+            }
+            
+            showExistingMedia(mediaUrl, mediaType) {
+                if (!mediaUrl) {
+                    console.warn('⚠️ Aucune URL média fournie pour showExistingMedia');
+                    return;
+                }
+                
+                // Nettoyer et valider l'URL
+                mediaUrl = String(mediaUrl).trim();
+                if (!mediaUrl || mediaUrl === 'undefined' || mediaUrl === 'null') {
+                    console.warn('⚠️ URL média invalide:', mediaUrl);
+                    return;
+                }
+                
+                this.currentMediaType = mediaType || 'image';
+                
+                try {
+                    if (this.currentMediaType === 'video') {
+                        this.videoPlayer.src = mediaUrl;
+                        this.videoPlayer.style.display = 'block';
+                        this.videoPlayer.load();
+                        this.image.style.display = 'none';
+                    } else {
+                        this.image.src = mediaUrl;
+                        this.image.style.display = 'block';
+                        this.videoPlayer.style.display = 'none';
+                    }
+                    
+                    this.showPreview();
+                    
+                    var fileName = mediaUrl.split('/').pop() || 'fichier média';
+                    var icon = this.currentMediaType === 'video' ? 'fa-video' : 'fa-image';
+                    var color = this.currentMediaType === 'video' ? '#dc3545' : '#28a745';
+                    
+                    this.info.style.display = 'block';
+                    this.info.innerHTML = 
+                        '<div style="padding: 10px; background: #e8f4fd; border-radius: 6px;">' +
+                            '<i class="fas ' + icon + '" style="color: ' + color + '; margin-right: 8px;"></i>' +
+                            '<span>' + fileName + '</span>' +
+                        '</div>';
+                } catch (error) {
+                    console.error('❌ Erreur lors de l\'affichage du média:', error);
+                    this.info.style.display = 'block';
+                    this.info.innerHTML = 
+                        '<div style="padding: 10px; background: #f8d7da; border-radius: 6px;">' +
+                            '<i class="fas fa-exclamation-triangle" style="color: #721c24; margin-right: 8px;"></i>' +
+                            '<span>Erreur lors de l\'affichage du média</span>' +
+                        '</div>';
+                }
+            }
+            
+            remove() {
+                this.input.value = '';
+                this.videoPlayer.src = '';
+                this.videoPlayer.style.display = 'none';
+                this.image.src = '';
+                this.image.style.display = 'none';
+                this.preview.style.display = 'none';
+                this.preview.classList.remove('active');
+                this.info.style.display = 'none';
+                this.info.innerHTML = '';
+                this.currentMediaType = 'image';
+            }
+            
+            formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+        }
+
+        // ===== GESTION DES ONGLETS =====
+        function switchTab(tabId) {
+            if (!tabId) return;
+            
+            document.querySelectorAll('.submenu-item').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            
+            const targetTab = document.querySelector(`[data-tab="${tabId}"]`);
+            if (targetTab) {
+                targetTab.classList.add('active');
+            }
+            
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) {
+                targetContent.style.display = 'block';
+                targetContent.classList.add('fade-in');
+                setTimeout(() => targetContent.classList.remove('fade-in'), 500);
+                
+                if (tabId === 'temoignages') {
+                    setTimeout(() => loadTemoignages(), 100);
+                }
+            }
+        }
+
+        // ===== FILTRES DES TABLEAUX =====
+        function filterTable(tableId, filter, statusColumnIndex) {
+            const table = document.getElementById(tableId);
+            if (!table) return;
+            
+            const rows = table.querySelectorAll('tbody tr');
+            
+            rows.forEach(row => {
+                if (row.querySelector('.empty-state')) return;
+                
+                const statusCell = row.querySelector(`td:nth-child(${statusColumnIndex})`);
+                if (!statusCell) return;
+                
+                const statusText = statusCell.textContent.toLowerCase();
+                
+                if (filter === 'all') {
+                    row.style.display = '';
+                } else if (filter === 'published') {
+                    row.style.display = statusText.includes('publié') ? '' : 'none';
+                } else if (filter === 'draft') {
+                    row.style.display = statusText.includes('brouillon') ? '' : 'none';
+                }
+            });
+        }
+
+        // ===== MISE À JOUR DE L'INTERFACE MÉDIA =====
+        function updateMediaInterface(formType, mediaType) {
+            const uploadIcon = document.getElementById(`${formType}UploadIcon`);
+            const uploadText = document.getElementById(`${formType}UploadText`);
+            const uploadFormats = document.getElementById(`${formType}UploadFormats`);
+            const mediaInput = document.getElementById(`${formType}MediaInput`);
+            
+            if (mediaType === 'image') {
+                if (uploadIcon) uploadIcon.className = 'fas fa-image';
+                if (uploadText) uploadText.textContent = 'Glissez-déposez votre image ou cliquez pour choisir';
+                if (uploadFormats) uploadFormats.textContent = 'Formats acceptés: JPG, PNG, WebP, GIF (image)';
+                if (mediaInput) mediaInput.accept = 'image/*';
+            } else {
+                if (uploadIcon) uploadIcon.className = 'fas fa-video';
+                if (uploadText) uploadText.textContent = 'Glissez-déposez votre vidéo ou cliquez pour choisir';
+                if (uploadFormats) uploadFormats.textContent = 'Formats acceptés: MP4, WebM, OGG, MOV (vidéo)';
+                if (mediaInput) mediaInput.accept = 'video/mp4,video/webm,video/ogg,video/quicktime';
+            }
+        }
+
+        // ===== SUPPRESSION MANUELLE DES MÉDIAS =====
+        function removeImage(formType) {
+            if (formType === 'priere') {
+                document.getElementById('removePriereImage').value = '1';
+                document.getElementById('existingPriereImageUrl').value = '';
+                if (priereUploader) {
+                    priereUploader.image.style.display = 'none';
+                    priereUploader.info.style.display = 'none';
+                }
+            } else if (formType === 'reflexion') {
+                document.getElementById('removeReflexionImage').value = '1';
+                document.getElementById('existingReflexionImageUrl').value = '';
+                if (reflexionUploader) {
+                    reflexionUploader.image.style.display = 'none';
+                    reflexionUploader.info.style.display = 'none';
+                }
+            }
+        }
+
+        function removeVideo(formType) {
+            if (formType === 'priere') {
+                document.getElementById('removePriereVideo').value = '1';
+                document.getElementById('existingPriereVideoUrl').value = '';
+                if (priereUploader) {
+                    priereUploader.videoPlayer.style.display = 'none';
+                    priereUploader.info.style.display = 'none';
+                }
+            } else if (formType === 'reflexion') {
+                document.getElementById('removeReflexionVideo').value = '1';
+                document.getElementById('existingReflexionVideoUrl').value = '';
+                if (reflexionUploader) {
+                    reflexionUploader.videoPlayer.style.display = 'none';
+                    reflexionUploader.info.style.display = 'none';
+                }
+            }
+        }
+
+        // ===== GESTION DES ACTIONS (ÉDITION/SUPPRESSION) =====
+        function handleTableAction(event) {
+            const button = event.target.closest('.table-btn');
+            if (!button) return;
+            
+            event.preventDefault();
+            
+            const id = button.dataset.id;
+            const action = button.dataset.action;
+            const type = button.dataset.type;
+            const table = button.closest('table');
+            
+            if (!id || id === 'undefined') {
+                showNotification('ID invalide', 'error');
+                return;
+            }
+            
+            if (action === 'edit') {
+                if (type === 'priere') {
+                    editPriere(id);
+                } else if (type === 'reflexion') {
+                    editReflexion(id);
+                }
+            } else if (action === 'delete') {
+                if (type === 'priere') {
+                    deletePriere(id);
+                } else if (type === 'reflexion') {
+                    deleteReflexion(id);
+                }
+            }
+        }
+
+        function editPriere(id) {
+            if (!id) {
+                showNotification('ID manquant', 'error');
+                return;
+            }
+            
+            // Récupérer les données depuis l'API
+            fetch(`/api/baume/prieres/${id}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Prière non trouvée');
+                    return response.json();
+                })
+                .then(result => {
+                    if (result.success) {
+                        const priere = result.data;
+                        switchTab('prieres');
+                        
+                        setTimeout(() => {
+                            fillPriereForm(priere, id);
+                            showNotification('Prière chargée pour modification', 'info');
+                        }, 300);
+                    } else {
+                        showNotification(result.error || 'Erreur lors du chargement', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('💥 Erreur:', error);
+                    showNotification('Erreur: ' + error.message, 'error');
+                });
+        }
+
+        function fillPriereForm(priere, id) {
+            document.getElementById('priereId').value = id;
+            document.getElementById('priereTitle').value = priere.title || '';
+            document.getElementById('priereContent').value = priere.content || '';
+            document.getElementById('priereCategory').value = priere.category || 'comfort';
+            document.getElementById('priereReference').value = priere.reference_biblique || '';
+            document.querySelector('#priereForm input[name="author"]').value = priere.author || 'Baume de la Foi';
+            document.getElementById('prierePublished').checked = priere.is_published === 1;
+            
+            // Pour les prières, seulement video_url existe
+            const mediaType = priere.media_type || (priere.video_url ? 'video' : 'image');
+            document.querySelectorAll('#priereForm input[name="media_type"]').forEach(radio => {
+                radio.checked = radio.value === mediaType;
+            });
+            
+            updateMediaInterface('priere', mediaType);
+            
+            document.getElementById('existingPriereVideoUrl').value = priere.video_url || '';
+            document.getElementById('existingPriereImageUrl').value = ''; // Les prières n'ont pas d'image
+            document.getElementById('existingPriereMediaType').value = mediaType;
+            
+            // Réinitialiser les champs de suppression
+            document.getElementById('removePriereImage').value = '';
+            document.getElementById('removePriereVideo').value = '';
+            
+            const submitBtn = document.getElementById('submitPriereBtn');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Mettre à jour la prière';
+            submitBtn.classList.remove('btn-primary');
+            submitBtn.classList.add('btn-success');
+            
+            document.getElementById('priereForm').action = `/api/baume/prieres/${id}`;
+            
+            // Gestion sécurisée de l'affichage du média existant
+            const mediaUrl = priere.video_url; // Pour les prières, seulement video_url existe
+            if (mediaUrl && priereUploader) {
+                try {
+                    priereUploader.showExistingMedia(mediaUrl, mediaType);
+                } catch (error) {
+                    console.warn('⚠️ Erreur lors de l\'affichage du média:', error);
+                    // Ne pas bloquer la modification si le média ne s'affiche pas
+                }
+            }
+        }
+
+        function editReflexion(id) {
+            if (!id) {
+                showNotification('ID manquant', 'error');
+                return;
+            }
+            
+            // Récupérer les données depuis l'API comme pour editPriere
+            fetch(`/api/baume/reflexions/${id}`)
+                .then(response => {
+                    if (!response.ok) throw new Error('Réflexion non trouvée');
+                    return response.json();
+                })
+                .then(result => {
+                    if (result.success) {
+                        const reflexion = result.data;
+                        switchTab('reflexions');
+                        
+                        setTimeout(() => {
+                            fillReflexionForm(reflexion, id);
+                            showNotification('Réflexion chargée pour modification', 'info');
+                        }, 300);
+                    } else {
+                        showNotification(result.error || 'Erreur lors du chargement', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('💥 Erreur:', error);
+                    showNotification('Erreur: ' + error.message, 'error');
+                });
+        }
+
+        function fillReflexionForm(reflexion, id) {
+            document.getElementById('reflexionId').value = id;
+            document.getElementById('reflexionTitle').value = reflexion.title || '';
+            document.getElementById('reflexionContent').value = reflexion.content || '';
+            document.getElementById('reflexionTheme').value = reflexion.theme || 'faith';
+            document.getElementById('reflexionReference').value = reflexion.reference_biblique || '';
+            document.querySelector('#reflexionForm input[name="author"]').value = reflexion.author || 'Baume de la Foi';
+            document.querySelector('#reflexionForm input[name="is_published"]').checked = reflexion.is_published === 1;
+            
+            if (reflexion.publication_date) {
+                const date = new Date(reflexion.publication_date);
+                document.getElementById('reflexionPublicationDate').value = date.toISOString().split('T')[0];
+            }
+            
+            const mediaType = reflexion.media_type || 
+                (reflexion.video_url ? 'video' : 
+                 (reflexion.image_url ? 'image' : 'image'));
+            document.querySelectorAll('#reflexionForm input[name="media_type"]').forEach(radio => {
+                radio.checked = radio.value === mediaType;
+            });
+            
+            updateMediaInterface('reflexion', mediaType);
+            
+            document.getElementById('existingReflexionVideoUrl').value = reflexion.video_url || '';
+            document.getElementById('existingReflexionImageUrl').value = reflexion.image_url || '';
+            document.getElementById('existingReflexionMediaType').value = mediaType;
+            
+            // Réinitialiser les champs de suppression
+            document.getElementById('removeReflexionImage').value = '';
+            document.getElementById('removeReflexionVideo').value = '';
+            
+            const submitBtn = document.getElementById('submitReflexionBtn');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Mettre à jour la réflexion';
+            submitBtn.classList.remove('btn-primary');
+            submitBtn.classList.add('btn-success');
+            
+            document.getElementById('reflexionForm').action = `/api/baume/reflexions/${id}`;
+            
+            // Gestion sécurisée de l'affichage du média existant
+            const mediaUrl = mediaType === 'video' ? reflexion.video_url : reflexion.image_url;
+            if (mediaUrl && reflexionUploader) {
+                try {
+                    reflexionUploader.showExistingMedia(mediaUrl, mediaType);
+                } catch (error) {
+                    console.warn('⚠️ Erreur lors de l\'affichage du média:', error);
+                    // Ne pas bloquer la modification si le média ne s'affiche pas
+                }
+            }
+        }
+
+        function deletePriere(id) {
+            if (!id) {
+                showNotification('ID manquant', 'error');
+                return;
+            }
+            
+            if (!confirm('Voulez-vous vraiment supprimer cette prière ?')) return;
+            
+            fetch(`/api/baume/prieres/${id}`, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        showNotification('Prière supprimée avec succès', 'success');
+                        setTimeout(() => refreshDashboardData(), 1000);
+                    } else {
+                        showNotification(result.error || 'Erreur lors de la suppression', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('💥 Erreur:', error);
+                    showNotification('Erreur: ' + error.message, 'error');
+                });
+        }
+
+        function deleteReflexion(id) {
+            if (!id) {
+                showNotification('ID manquant', 'error');
+                return;
+            }
+            
+            if (!confirm('Voulez-vous vraiment supprimer cette réflexion ?')) return;
+            
+            fetch(`/api/baume/reflexions/${id}`, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        showNotification('Réflexion supprimée avec succès', 'success');
+                        setTimeout(() => refreshDashboardData(), 1000);
+                    } else {
+                        showNotification(result.error || 'Erreur lors de la suppression', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('💥 Erreur:', error);
+                    showNotification('Erreur: ' + error.message, 'error');
+                });
+        }
+
+        function removePriereMedia() {
+            // Récupérer le type de média actuel
+            const mediaType = document.querySelector('input[name="media_type"]:checked').value;
+            
+            if (mediaType === 'image') {
+                removeImage('priere');
+            } else if (mediaType === 'video') {
+                removeVideo('priere');
+            }
+            
+            // Garder la prévisualisation visible
+            const preview = document.getElementById('priereMediaPreview');
+            if (preview) {
+                preview.classList.add('active');
+                preview.style.display = 'block';
+            }
+        }
+
+        function removeReflexionMedia() {
+            // Récupérer le type de média actuel
+            const mediaType = document.querySelector('input[name="media_type"]:checked').value;
+            
+            if (mediaType === 'image') {
+                removeImage('reflexion');
+            } else if (mediaType === 'video') {
+                removeVideo('reflexion');
+            }
+            
+            // Garder la prévisualisation visible
+            const preview = document.getElementById('reflexionMediaPreview');
+            if (preview) {
+                preview.classList.add('active');
+                preview.style.display = 'block';
+            }
+        }
+
+        function resetPriereForm() {
+            document.getElementById('priereForm').reset();
+            document.getElementById('priereId').value = '';
+            document.getElementById('existingPriereVideoUrl').value = '';
+            document.getElementById('existingPriereImageUrl').value = '';
+            document.getElementById('existingPriereMediaType').value = '';
+            document.getElementById('removePriereImage').value = '';
+            document.getElementById('removePriereVideo').value = '';
+            
+            if (priereUploader) priereUploader.remove();
+            
+            document.getElementById('priereForm').action = '/api/baume/prieres';
+            
+            const submitBtn = document.getElementById('submitPriereBtn');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Enregistrer la prière';
+            submitBtn.classList.remove('btn-success');
+            submitBtn.classList.add('btn-primary');
+        }
+
+        function resetReflexionForm() {
+            document.getElementById('reflexionForm').reset();
+            document.getElementById('reflexionId').value = '';
+            document.getElementById('existingReflexionVideoUrl').value = '';
+            document.getElementById('existingReflexionImageUrl').value = '';
+            document.getElementById('existingReflexionMediaType').value = '';
+            document.getElementById('removeReflexionImage').value = '';
+            document.getElementById('removeReflexionVideo').value = '';
+            
+            if (reflexionUploader) reflexionUploader.remove();
+            
+            document.getElementById('reflexionForm').action = '/api/baume/reflexions';
+            
+            const submitBtn = document.getElementById('submitReflexionBtn');
+            submitBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Publier la réflexion';
+            submitBtn.classList.remove('btn-success');
+            submitBtn.classList.add('btn-primary');
+        }
+
+        // ===== GESTION DES TÉMOIGNAGES =====
+        function loadTemoignages() {
+            console.log('🔍 Loading testimonials from admin...');
+            // Forcer le rafraîchissement pour éviter le cache
+            const timestamp = new Date().getTime();
+            const url = `/api/baume/temoignages?admin=true&t=${timestamp}`;
+            console.log('🔍 URL complète appelée:', url);
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) throw new Error('Erreur de chargement');
+                    return response.json();
+                })
+                .then(result => {
+                    console.log('📊 API Response:', result);
+                    console.log('📊 Total testimonials received:', result.data.length);
+                    console.log('📊 Sample testimonial:', result.data[0]);
+                    
+                    if (result.success) {
+                        displayTemoignages(result.data);
+                        updateTemoignagesStats(result.data);
+                    } else {
+                        showNotification(result.error || 'Erreur de chargement', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('💥 Erreur:', error);
+                    showNotification('Erreur: ' + error.message, 'error');
+                });
+        }
+
+        function displayTemoignages(temoignages, append = false) {
+            console.log('🎨 DISPLAY FUNCTION - Starting...');
+            console.log('🎨 temoignages received:', temoignages.length);
+            console.log('🎨 append mode:', append);
+            console.log('🎨 currentTemoignagesFilter:', currentTemoignagesFilter);
+            console.log('🎨 typeof temoignages:', typeof temoignages);
+            console.log('🎨 isArray:', Array.isArray(temoignages));
+            
+            const tbody = document.querySelector('#temoignages-table tbody');
+            if (!tbody) {
+                console.log('❌ tbody not found!');
+                return;
+            }
+            
+            // Si ce n'est pas un ajout, vider le tableau
+            if (!append) {
+                console.log('🎨 Clearing tbody...');
+                tbody.innerHTML = '';
+                // Stocker tous les témoignages pour la pagination
+                window.allTemoignagesAdmin = temoignages;
+                console.log('🎨 Stored in window.allTemoignagesAdmin:', window.allTemoignagesAdmin.length);
+            }
+            
+            const filtered = currentTemoignagesFilter === 'all' 
+                ? temoignages 
+                : temoignages.filter(t => t.status === currentTemoignagesFilter);
+            
+            console.log('🎨 Filter applied:', currentTemoignagesFilter);
+            console.log('🎨 Original temoignages length:', temoignages.length);
+            console.log('🎨 Filtered count:', filtered.length);
+            console.log('🎨 Filtered temoignages IDs:', filtered.map(t => t.id));
+            
+            if (filtered.length === 0 && !append) {
+                var emptyHtml = '<tr><td colspan="7" class="text-center"><div class="empty-state"><i class="fas fa-heart"></i><h4>Aucun témoignage</h4><p>' + (currentTemoignagesFilter === 'all' ? 'Aucun témoignage trouvé' : 'Aucun témoignage ' + (currentTemoignagesFilter === 'approved' ? 'approuvé' : currentTemoignagesFilter === 'pending' ? 'en attente' : 'rejeté')) + '</p></div></td></tr>';
+                tbody.innerHTML = emptyHtml;
+                return;
+            }
+            
+            // Pagination : calculer les indices
+            const startIndex = (currentTemoignagesPage - 1) * temoignagesPerPage;
+            const endIndex = Math.min(startIndex + temoignagesPerPage, filtered.length);
+            
+            console.log('🎨 Pagination - Page:', currentTemoignagesPage, 'Start:', startIndex, 'End:', endIndex, 'Total:', filtered.length);
+            
+            var rowsHtml = '';
+            
+            for (let i = startIndex; i < endIndex; i++) {
+                const t = filtered[i];
+                if (i < startIndex + 10) { // Log only first 10 for debugging
+                    console.log(`📝 Témoignage ${i + 1}:`, {
+                        id: t.id,
+                        status: t.status,
+                        is_approved: t.is_approved,
+                        author_name: t.author_name
+                    });
+                }
+                
+                rowsHtml += '<tr data-id="' + t.id + '">' +
+                    '<td>' + new Date(t.created_at).toLocaleDateString('fr-FR') + '</td>' +
+                    '<td><strong>' + (t.author_name || 'Anonyme') + '</strong></td>' +
+                    '<td>' + (t.ville || '-') + '</td>' +
+                    '<td>' + (t.content ? t.content.substring(0, 100) + (t.content.length > 100 ? '...' : '') : '-') + '</td>' +
+                    '<td>' + (t.author_email || '-') + '</td>' +
+                    '<td>' + getStatusBadge(t.status) + '</td>' +
+                    '<td>' +
+                        '<div class="table-actions">' +
+                            '<button class="table-btn view-btn" onclick="viewTemoignage(' + t.id + ')" title="Voir"><i class="fas fa-eye"></i></button>' +
+                            (t.status === 'pending' ? 
+                                '<button class="table-btn approve-btn" onclick="approveTemoignage(' + t.id + ')" title="Approuver"><i class="fas fa-check"></i></button>' +
+                                '<button class="table-btn reject-btn" onclick="rejectTemoignage(' + t.id + ')" title="Rejeter"><i class="fas fa-times"></i></button>' 
+                                : '') +
+                            '<button class="table-btn delete-btn" onclick="deleteTemoignage(' + t.id + ')" title="Supprimer"><i class="fas fa-trash"></i></button>' +
+                        '</div>' +
+                    '</td>' +
+                '</tr>';
+            }
+            
+            // Ajouter les nouvelles lignes
+            if (append) {
+                tbody.innerHTML += rowsHtml;
+            } else {
+                tbody.innerHTML = rowsHtml;
+            }
+            
+            // Mettre à jour la pagination
+            updateTemoignagesPagination(filtered.length);
+                        
+            console.log('✅ Generated HTML for', endIndex - startIndex, 'testimonials (total displayed:', tbody.children.length, ')');
+        }
+
+        
+        // Fonction de recherche pour les témoignages
+        function searchTemoignages() {
+            const searchInput = document.getElementById('temoignages-search');
+            if (!searchInput || !window.allTemoignagesAdmin) return;
+            
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            console.log('🔍 Searching for:', searchTerm);
+            
+            // Filtrer par statut ET par terme de recherche
+            let filtered = currentTemoignagesFilter === 'all' 
+                ? window.allTemoignagesAdmin 
+                : window.allTemoignagesAdmin.filter(t => t.status === currentTemoignagesFilter);
+            
+            // Appliquer la recherche
+            if (searchTerm) {
+                filtered = filtered.filter(t => {
+                    return t.author_name?.toLowerCase().includes(searchTerm) ||
+                           t.author_email?.toLowerCase().includes(searchTerm) ||
+                           t.ville?.toLowerCase().includes(searchTerm) ||
+                           t.content?.toLowerCase().includes(searchTerm);
+                });
+            }
+            
+            console.log('🔍 Search results:', filtered.length, 'testimonials');
+            displayTemoignages(filtered, false);
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                'approved': '<span class="badge badge-success"><i class="fas fa-check-circle me-1"></i>Approuvé</span>',
+                'pending': '<span class="badge badge-warning"><i class="fas fa-clock me-1"></i>En attente</span>',
+                'rejected': '<span class="badge badge-secondary"><i class="fas fa-times-circle me-1"></i>Rejeté</span>'
+            };
+            return badges[status] || '<span class="badge badge-secondary">Inconnu</span>';
+        }
+
+        function updateTemoignagesStats(temoignages) {
+            const total = temoignages.length;
+            const approved = temoignages.filter(t => t.status === 'approved').length;
+            const pending = temoignages.filter(t => t.status === 'pending').length;
+            const rejected = temoignages.filter(t => t.status === 'rejected').length;
+            
+            document.getElementById('totalTemoignages').textContent = total;
+            document.getElementById('approvedTemoignages').textContent = approved;
+            document.getElementById('pendingTemoignages').textContent = pending;
+            document.getElementById('rejectedTemoignages').textContent = rejected;
+        }
+
+        function viewTemoignage(id) {
+            fetch(`/api/baume/temoignages/${id}`)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        const t = result.data;
+                        alert(`Témoignage de ${t.author_name || 'Anonyme'}\n\n${t.content || 'Aucun contenu'}`);
+                    } else {
+                        showNotification('Témoignage non trouvé', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('💥 Erreur:', error);
+                    showNotification('Erreur: ' + error.message, 'error');
+                });
+        }
+
+        function approveTemoignage(id) {
+            if (!confirm('Approuver ce témoignage ?')) return;
+            
+            fetch(`/api/baume/temoignages/${id}/approve`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ approved: true })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    showNotification('Témoignage approuvé', 'success');
+                    loadTemoignages();
+                } else {
+                    showNotification(result.error || 'Erreur', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('💥 Erreur:', error);
+                showNotification('Erreur: ' + error.message, 'error');
+            });
+        }
+
+        function rejectTemoignage(id) {
+            if (!confirm('Rejeter ce témoignage ?')) return;
+            
+            fetch(`/api/baume/temoignages/${id}/approve`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ approved: false })
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    showNotification('Témoignage rejeté', 'info');
+                    loadTemoignages();
+                } else {
+                    showNotification(result.error || 'Erreur', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('💥 Erreur:', error);
+                showNotification('Erreur: ' + error.message, 'error');
+            });
+        }
+
+        function deleteTemoignage(id) {
+            if (!confirm('Supprimer définitivement ce témoignage ?')) return;
+            
+            fetch(`/api/baume/temoignages/${id}`, { method: 'DELETE' })
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success) {
+                        showNotification('Témoignage supprimé', 'success');
+                        loadTemoignages();
+                    } else {
+                        showNotification(result.error || 'Erreur', 'error');
+                    }
+                })
+                .catch(error => {
+                    console.error('💥 Erreur:', error);
+                    showNotification('Erreur: ' + error.message, 'error');
+                });
+        }
+
+        // ===== RAFRAÎCHISSEMENT DES DONNÉES =====
+        function refreshDashboardData() {
+            window.location.reload();
+        }
+
+        function exportData() {
+            showNotification('Fonction d\'export à implémenter', 'info');
+        }
+
+        // ===== NOTIFICATIONS =====
+        function showNotification(message, type) {
+            var notification = document.createElement('div');
+            notification.className = 'notification-toast ' + type;
+            
+            var icons = {
+                success: 'check-circle',
+                error: 'exclamation-circle',
+                warning: 'exclamation-triangle',
+                info: 'info-circle'
+            };
+            
+            var iconClass = icons[type] || 'info-circle';
+            
+            notification.innerHTML = 
+                '<i class="fas fa-' + iconClass + '"></i>' +
+                '<span style="flex: 1;">' + message + '</span>' +
+                '<button onclick="this.parentElement.remove()" style="background: none; border: none; color: var(--text-lighter); cursor: pointer;">' +
+                    '<i class="fas fa-times"></i>' +
+                '</button>';
+            
+            document.body.appendChild(notification);
+            setTimeout(function() {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+
+        // ===== GESTIONNAIRES DE FORMULAIRES =====
+        async function handlePriereSubmit(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const idField = document.getElementById('priereId');
+            const isUpdate = idField && idField.value && idField.value !== '';
+            
+            const submitBtn = document.getElementById('submitPriereBtn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+            submitBtn.disabled = true;
+            
+            try {
+                const url = isUpdate ? form.action : '/api/baume/prieres';
+                
+                const response = await fetch(url, {
+                    method: isUpdate ? 'PUT' : 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification(result.message || 'Succès', 'success');
+                    
+                    if (!isUpdate) {
+                        resetPriereForm();
+                    }
+                    
+                    setTimeout(() => refreshDashboardData(), 1500);
+                } else {
+                    showNotification(result.error || 'Erreur', 'error');
+                }
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        async function handleReflexionSubmit(e) {
+            e.preventDefault();
+            
+            const form = e.target;
+            const formData = new FormData(form);
+            const idField = document.getElementById('reflexionId');
+            const isUpdate = idField && idField.value && idField.value !== '';
+            
+            const submitBtn = document.getElementById('submitReflexionBtn');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enregistrement...';
+            submitBtn.disabled = true;
+            
+            try {
+                const url = isUpdate ? form.action : '/api/baume/reflexions';
+                
+                const response = await fetch(url, {
+                    method: isUpdate ? 'PUT' : 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showNotification(result.message || 'Succès', 'success');
+                    
+                    if (!isUpdate) {
+                        resetReflexionForm();
+                    }
+                    
+                    setTimeout(() => refreshDashboardData(), 1500);
+                } else {
+                    showNotification(result.error || 'Erreur', 'error');
+                }
+            } catch (error) {
+                showNotification('Erreur: ' + error.message, 'error');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }
+        }
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialiser les uploaders
+            priereUploader = new MediaUploader(
+                'priereUploadArea', 'priereMediaInput', 'priereMediaPreview',
+                'priereMediaPlayer', 'priereMediaImage', 'priereMediaInfo'
+            );
+            
+            reflexionUploader = new MediaUploader(
+                'reflexionUploadArea', 'reflexionMediaInput', 'reflexionMediaPreview',
+                'reflexionMediaPlayer', 'reflexionMediaImage', 'reflexionMediaInfo'
+            );
+            
+            window.priereUploader = priereUploader;
+            window.reflexionUploader = reflexionUploader;
+            
+            // Gestionnaire d'événements unifié pour les boutons de tableau
+            document.addEventListener('click', handleTableAction);
+            
+            // Gestionnaires d'onglets
+            document.querySelectorAll('.submenu-item[data-tab]').forEach(item => {
+                item.addEventListener('click', function() {
+                    switchTab(this.dataset.tab);
+                });
+            });
+            
+            // Filtres des prières
+            const prieresFilters = document.getElementById('prieres-status-filters');
+            if (prieresFilters) {
+                prieresFilters.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        prieresFilters.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        filterTable('prieres-table', this.dataset.status, 6);
+                    });
+                });
+            }
+            
+            // Filtres des réflexions
+            const reflexionsFilters = document.getElementById('reflexions-status-filters');
+            if (reflexionsFilters) {
+                reflexionsFilters.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        reflexionsFilters.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        filterTable('reflexions-table', this.dataset.status, 6);
+                    });
+                });
+            }
+            
+            // Filtres des témoignages
+            const temoignagesFilters = document.getElementById('temoignages-filters');
+            if (temoignagesFilters) {
+                temoignagesFilters.querySelectorAll('button').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        temoignagesFilters.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        currentTemoignagesFilter = this.dataset.filter;
+                        loadTemoignages();
+                    });
+                });
+            }
+            
+            // Gestionnaire de recherche pour les témoignages
+            const searchInput = document.getElementById('temoignages-search');
+            if (searchInput) {
+                let searchTimeout;
+                searchInput.addEventListener('input', function() {
+                    clearTimeout(searchTimeout);
+                    searchTimeout = setTimeout(() => {
+                        searchTemoignages();
+                    }, 300); // Attendre 300ms après la fin de la saisie
+                });
+                
+                searchInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        searchTemoignages();
+                    }
+                });
+            }
+            
+            // Soumission des formulaires
+            document.getElementById('priereForm').addEventListener('submit', handlePriereSubmit);
+            document.getElementById('reflexionForm').addEventListener('submit', handleReflexionSubmit);
+            
+            // Animation des cartes
+            document.querySelectorAll('.stat-card').forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.5s ease-out';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, i * 100);
+            });
+            
+            // Formater les vues avec K, M, B
+            formatBaumeViews();
+        });
+
+        // Exposer les fonctions globalement
+        window.switchTab = switchTab;
+        window.updateMediaInterface = updateMediaInterface;
+        window.removeImage = removeImage;
+        window.removeVideo = removeVideo;
+        window.removePriereMedia = removePriereMedia;
+        window.removeReflexionMedia = removeReflexionMedia;
+        window.resetPriereForm = resetPriereForm;
+        window.resetReflexionForm = resetReflexionForm;
+        window.refreshDashboardData = refreshDashboardData;
+        window.exportData = exportData;
+        window.viewTemoignage = viewTemoignage;
+        window.approveTemoignage = approveTemoignage;
+        window.rejectTemoignage = rejectTemoignage;
+        window.deleteTemoignage = deleteTemoignage;
+        window.showNotification = showNotification;
+
+        // ===== FONCTIONS DE PAGINATION DES TÉMOIGNAGES =====
+        function updateTemoignagesPagination(totalItems) {
+            const totalPages = Math.ceil(totalItems / temoignagesPerPage);
+            const paginationContainer = document.getElementById('temoignages-pagination');
+            const paginationInfo = document.getElementById('temoignages-pagination-info');
+            const prevBtn = document.getElementById('temoignages-prev-page');
+            const nextBtn = document.getElementById('temoignages-next-page');
+            const pageNumbers = document.getElementById('temoignages-page-numbers');
+            
+            console.log('🎨 Pagination update - Total:', totalItems, 'PerPage:', temoignagesPerPage, 'TotalPages:', totalPages);
+            
+            if (totalItems <= temoignagesPerPage) {
+                // Masquer la pagination s'il n'y a pas assez d'éléments
+                paginationContainer.style.display = 'none';
+                return;
+            }
+            
+            // Afficher la pagination
+            paginationContainer.style.display = 'block';
+            
+            // Mettre à jour les infos
+            const startItem = (currentTemoignagesPage - 1) * temoignagesPerPage + 1;
+            const endItem = Math.min(currentTemoignagesPage * temoignagesPerPage, totalItems);
+            paginationInfo.textContent = `Affichage de ${startItem}-${endItem} sur ${totalItems} témoignages`;
+            
+            // Activer/désactiver les boutons précédent/suivant
+            prevBtn.disabled = currentTemoignagesPage === 1;
+            nextBtn.disabled = currentTemoignagesPage === totalPages;
+            
+            // Générer les numéros de page
+            pageNumbers.innerHTML = '';
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentTemoignagesPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage < maxVisiblePages - 1) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            // Bouton première page si nécessaire
+            if (startPage > 1) {
+                pageNumbers.innerHTML += `<button class="btn btn-outline-primary btn-sm" onclick="goToTemoignagesPage(1)">1</button>`;
+                if (startPage > 2) {
+                    pageNumbers.innerHTML += `<span style="padding: 0 5px;">...</span>`;
+                }
+            }
+            
+            // Numéros de page
+            for (let i = startPage; i <= endPage; i++) {
+                const isActive = i === currentTemoignagesPage;
+                const btnClass = isActive ? 'btn-primary' : 'btn-outline-primary';
+                pageNumbers.innerHTML += `<button class="btn ${btnClass} btn-sm" onclick="goToTemoignagesPage(${i})">${i}</button>`;
+            }
+            
+            // Bouton dernière page si nécessaire
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    pageNumbers.innerHTML += `<span style="padding: 0 5px;">...</span>`;
+                }
+                pageNumbers.innerHTML += `<button class="btn btn-outline-primary btn-sm" onclick="goToTemoignagesPage(${totalPages})">${totalPages}</button>`;
+            }
+        }
+
+        function changeTemoignagesPage(direction) {
+            const filtered = currentTemoignagesFilter === 'all' 
+                ? window.allTemoignagesAdmin 
+                : window.allTemoignagesAdmin.filter(t => t.status === currentTemoignagesFilter);
+            
+            const totalPages = Math.ceil(filtered.length / temoignagesPerPage);
+            const newPage = currentTemoignagesPage + direction;
+            
+            if (newPage >= 1 && newPage <= totalPages) {
+                currentTemoignagesPage = newPage;
+                displayTemoignages(window.allTemoignagesAdmin, false);
+            }
+        }
+
+        function goToTemoignagesPage(page) {
+            currentTemoignagesPage = page;
+            displayTemoignages(window.allTemoignagesAdmin, false);
+        }
+
+        // Exposer les fonctions de pagination globalement
+        window.changeTemoignagesPage = changeTemoignagesPage;
+        window.goToTemoignagesPage = goToTemoignagesPage;
+    </script>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>²

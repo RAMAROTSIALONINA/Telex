@@ -1,0 +1,60 @@
+<!-- Composant de publicité réutilisable -->
+<div class="advertisement-container <%= adClass || '' %>">
+    <div class="advertisement-wrapper">
+        <!-- Header de la publicité -->
+        <div class="advertisement-header">
+            <span class="advertisement-label">Publicité</span>
+            <button class="advertisement-close" onclick="closeAd(this)">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <!-- Contenu de la publicité -->
+        <div class="advertisement-content <%= adSize || 'medium-rectangle' %>">
+            <% if (adType === 'adsense') { %>
+                <!-- Google AdSense -->
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                     data-ad-slot="<%= adSlot || '1234567890' %>"
+                     data-ad-format="<%= adFormat || 'auto' %>"
+                     data-full-width-responsive="true"></ins>
+                <script>
+                     (adsbygoogle = window.adsbygoogle || []).push({});
+                </script>
+            <% } else if (adType === 'custom') { %>
+                <!-- Publicité personnalisée -->
+                <a href="<%= adLink || '#' %>" target="_blank" class="custom-ad-link">
+                    <img src="<%= adImage || '/images/placeholder-ad.jpg' %>" 
+                         alt="Publicité" 
+                         class="custom-ad-image">
+                    <% if (adText) { %>
+                        <div class="custom-ad-text">
+                            <%= adText %>
+                        </div>
+                    <% } %>
+                </a>
+            <% } else { %>
+                <!-- Placeholder publicitaire -->
+                <div class="ad-placeholder">
+                    <div class="placeholder-content">
+                        <i class="fas fa-ad"></i>
+                        <p>Espace Publicitaire</p>
+                        <small><%= adSizeText || '300×250' %></small>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+function closeAd(button) {
+    const adContainer = button.closest('.advertisement-container');
+    adContainer.style.transition = 'opacity 0.3s ease';
+    adContainer.style.opacity = '0';
+    setTimeout(() => {
+        adContainer.style.display = 'none';
+    }, 300);
+}
+</script>

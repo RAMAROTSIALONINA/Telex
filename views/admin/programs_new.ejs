@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,410 +8,828 @@
     <link rel="icon" href="/images/Telex.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    
+    <!-- CSS CORRIGÉ -->
     <style>
+        /* ===== VARIABLES ===== */
         :root {
             --telex-red: #E63946;
             --telex-blue: #1D3557;
             --telex-light: #A8DADC;
             --sidebar-width: 280px;
+            --sidebar-collapsed: 70px;
+            --border-radius: 12px;
+            --border-radius-lg: 16px;
+            --border-radius-xl: 20px;
+            --box-shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --box-shadow-md: 0 4px 20px rgba(0,0,0,0.08);
+            --box-shadow-lg: 0 10px 40px rgba(0,0,0,0.08);
+            --transition: all 0.3s ease;
         }
-        
+
+        /* ===== RESET & BASE ===== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             background-color: #f8fafc;
-            font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Open Sans', 'Segoe UI', sans-serif;
             min-height: 100vh;
             color: #334155;
         }
-        
-        /* Sidebar */
-        .sidebar { 
-            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
-            color: white; 
-            width: var(--sidebar-width); 
-            height: 100vh; 
-            position: fixed; 
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%);
+            color: white;
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
             left: 0;
             top: 0;
-            padding: 0;
             z-index: 1000;
-            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
+            transition: width 0.3s;
         }
-        
+
         .sidebar-brand {
             padding: 25px 20px;
             text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.1);
         }
-        
+
         .sidebar-brand img {
-            max-width: 120px;
-            height: auto;
-            max-height: 60px;
+            max-width: 80px;
+            max-height: 40px;
             margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
-        
+
         .sidebar-brand h3 {
             font-weight: 700;
             font-size: 1.5rem;
             margin-bottom: 5px;
         }
-        
+
         .sidebar-nav {
             flex: 1;
             padding: 20px 15px;
             overflow-y: auto;
         }
-        
+
         .nav-item {
             margin-bottom: 8px;
         }
-        
+
         .nav-link {
             display: flex;
             align-items: center;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255,255,255,0.8);
             padding: 14px 18px;
             text-decoration: none;
             border-radius: 10px;
-            transition: all 0.3s;
+            transition: var(--transition);
             font-weight: 500;
         }
-        
+
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255,255,255,0.1);
             color: white;
             transform: translateX(5px);
         }
-        
+
         .nav-link.active {
-            background: rgba(230, 57, 70, 0.15);
+            background: rgba(230,57,70,0.15);
             color: white;
         }
-        
+
         .nav-link i {
             width: 24px;
             font-size: 1.1rem;
             margin-right: 12px;
             text-align: center;
         }
-        
-        /* Main Content */
-        .main-content { 
-            margin-left: var(--sidebar-width); 
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            margin-left: var(--sidebar-width);
             padding: 30px;
             min-height: 100vh;
+            transition: margin-left 0.3s;
         }
-        
-        /* Top Bar */
+
+        /* ===== TOP BAR ===== */
         .top-bar {
             background: white;
             padding: 25px 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--box-shadow-md);
             margin-bottom: 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
-        
+
         .page-title {
             display: flex;
             align-items: center;
             gap: 15px;
+            flex-wrap: wrap;
         }
-        
-        .page-logo {
-            height: 40px;
-            width: auto;
-            opacity: 0.9;
+
+        .page-title div {
+            flex: 1;
+            min-width: 200px;
         }
-        
+
         .page-title h1 {
             font-weight: 700;
             color: var(--telex-blue);
             font-size: 1.8rem;
             margin-bottom: 5px;
+            line-height: 1.2;
         }
-        
+
         .page-title p {
             color: #64748b;
             font-size: 1rem;
             margin: 0;
         }
-        
+
+        .page-logo {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
         .top-actions {
             display: flex;
             gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
         }
-        
+
+        /* ===== BOUTONS ===== */
+        .btn {
+            border-radius: 10px;
+            padding: 12px 24px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: var(--transition);
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
         .btn-telex {
             background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
             color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+            box-shadow: 0 4px 12px rgba(230,57,70,0.3);
         }
-        
+
         .btn-telex:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
+            box-shadow: 0 6px 18px rgba(230,57,70,0.4);
             color: white;
         }
-        
-        /* Form Container */
-        .form-container {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-        }
-        
-        .form-header {
-            border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .form-header h2 {
-            color: var(--telex-blue);
-            font-weight: 700;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .form-header p {
-            color: #64748b;
-            margin: 0;
-        }
-        
-        .form-group {
-            margin-bottom: 25px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--telex-blue);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: #f8fafc;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--telex-red);
-            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
-            background: white;
-        }
-        
-        textarea.form-control {
-            resize: vertical;
-            min-height: 120px;
-        }
-        
-        .form-check {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .form-check-input {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
-        
-        .form-check-label {
-            cursor: pointer;
-            font-weight: 500;
-            color: #334155;
-        }
-        
+
         .btn-success {
-            background: linear-gradient(135deg, #10B981, #047857);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
         }
-        
+
         .btn-success:hover {
-            background: #047857;
+            background: linear-gradient(135deg, #059669, #047857);
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 6px 20px rgba(16,185,129,0.4);
         }
-        
+
         .btn-outline-secondary {
             background: transparent;
             color: #64748b;
             border: 2px solid #e2e8f0;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
         }
-        
+
         .btn-outline-secondary:hover {
             background: #f1f5f9;
             border-color: #cbd5e1;
+            color: #475569;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
-        
-        /* Options de partage */
-        .share-options {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 20px;
-            border: 1px solid #e2e8f0;
+
+        .btn-outline-danger {
+            background: transparent;
+            color: #dc2626;
+            border: 2px solid #fee2e2;
         }
-        
-        .share-options h5 {
+
+        .btn-outline-danger:hover {
+            background: #fee2e2;
+            border-color: #dc2626;
+            color: #b91c1c;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .d-none {
+            display: none !important;
+        }
+
+        /* ===== FORMULAIRE ===== */
+        .form-container {
+            background: white;
+            border-radius: var(--border-radius-xl);
+            padding: 40px;
+            box-shadow: var(--box-shadow-lg);
+            margin-bottom: 30px;
+            border: 1px solid rgba(230,57,70,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--telex-red), var(--telex-blue));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .form-header {
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+        }
+
+        .form-header h2 {
             color: var(--telex-blue);
-            margin-bottom: 20px;
-            font-weight: 600;
-            font-size: 1.1rem;
-        }
-        
-        .share-checkboxes {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .share-option {
+            font-weight: 700;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
-            padding: 15px 20px;
-            background: white;
-            border: 2px solid #e2e8f0;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            gap: 12px;
+            font-size: 1.8rem;
         }
-        
-        .share-option:hover {
-            border-color: var(--telex-red);
-            box-shadow: 0 4px 15px rgba(230, 57, 70, 0.15);
-            transform: translateY(-2px);
+
+        .form-header p {
+            color: #64748b;
+            margin: 0 0 0 35px;
+            font-size: 0.95rem;
         }
-        
-        .share-option input[type="checkbox"] {
-            margin-right: 12px;
-            transform: scale(1.3);
-            accent-color: var(--telex-red);
+
+        .form-group {
+            margin-bottom: 28px;
         }
-        
-        .share-option label {
-            margin: 0;
-            cursor: pointer;
+
+        .form-label {
             font-weight: 600;
-            color: #334155;
+            color: #374151;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.95rem;
         }
-        
-        .share-option i {
+
+        .form-label i {
+            color: var(--telex-red);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            transition: var(--transition);
+            background: #fafbfc;
+        }
+
+        .form-control:focus {
+            border-color: var(--telex-red);
+            box-shadow: 0 0 0 4px rgba(230,57,70,0.1);
+            background: white;
+            outline: none;
+        }
+
+        .form-control:hover {
+            border-color: #d1d5db;
+            background: white;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* ===== OPTIONS PROGRAMMES ===== */
+        .form-control option {
+            font-weight: 500;
+        }
+
+        .form-control option[value="Programme d'Information"] { 
+            background-color: #eff6ff; 
+            color: #1d4ed8;
+        }
+        .form-control option[value="Programme Décryptage & Reportages"] { 
+            background-color: #f0f9ff; 
+            color: #1e40af;
+        }
+        .form-control option[value="Programme Débats"] { 
+            background-color: #f0fdf4; 
+            color: #059669;
+        }
+        .form-control option[value="Programme Humain & Sociétal"] { 
+            background-color: #fffbeb; 
+            color: #d97706;
+        }
+        .form-control option[value="Programme Éducatif"] { 
+            background-color: #fef2f2; 
+            color: #dc2626;
+        }
+        .form-control option[value="Programme Jeunesse"] { 
+            background-color: #fdf2f8; 
+            color: #db2777;
+        }
+        .form-control option[value="Programme Environnement"] { 
+            background-color: #f0fdf4; 
+            color: #059669;
+        }
+        .form-control option[value="Programme Culture & Identité"] { 
+            background-color: #f0f9ff; 
+            color: #1e40af;
+        }
+        .form-control option[value="Programme Vrai ou Faux / Madagascar en Carte"] { 
+            background-color: #fffbeb; 
+            color: #d97706;
+        }
+        .form-control option[value="Programme Économie & Travail"] { 
+            background-color: #eff6ff; 
+            color: #1d4ed8;
+        }
+
+        /* ===== SÉLECTEUR TYPE MÉDIA ===== */
+        .media-type-selector {
+            display: flex;
+            gap: 20px;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid #e2e8f0;
+            margin-bottom: 20px;
+        }
+
+        .media-type-selector .form-check {
+            flex: 1;
+            margin: 0;
+            padding-left: 0;
+            display: flex;
+        }
+
+        .media-type-selector .form-check-input {
+            display: none;
+        }
+
+        .media-type-selector .form-check-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            width: 100%;
+            margin: 0;
+            color: #374151;
+        }
+
+        .media-type-selector .form-check-label:hover {
+            border-color: var(--telex-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .media-type-selector .form-check-input:checked + .form-check-label {
+            border-color: var(--telex-blue);
+            background: linear-gradient(135deg, #e3f2fd, #f8fafc);
+            color: var(--telex-blue);
+            box-shadow: 0 2px 8px rgba(59,130,246,0.2);
+        }
+
+        .media-type-selector .form-check-label i {
+            margin-right: 10px;
             font-size: 1.2rem;
         }
-        
-        .share-facebook i { color: #1877f2; }
-        .share-twitter i { color: #1da1f2; }
-        .share-linkedin i { color: #0077b5; }
-        .share-whatsapp i { color: #25d366; }
-        .share-instagram i { color: #E4405F; }
-        
-        /* Alerts */
+
+        /* ===== ZONES D'UPLOAD ===== */
+        .upload-area {
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--border-radius-lg);
+            padding: 40px 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #ffffff, #f8fafc);
+            cursor: pointer;
+            transition: var(--transition);
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-area:hover {
+            border-color: var(--telex-red);
+            background: linear-gradient(135deg, #ffffff, #fef2f2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(230,57,70,0.15);
+        }
+
+        .upload-area i {
+            font-size: 3.5rem;
+            color: var(--telex-red);
+            margin-bottom: 20px;
+        }
+
+        .upload-area h5 {
+            margin: 15px 0 8px;
+            color: #374151;
+            font-weight: 600;
+        }
+
+        .upload-area p {
+            margin: 5px 0 0;
+            color: #6b7280;
+        }
+
+        /* ===== PRÉVISUALISATIONS ===== */
+        .preview-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            box-shadow: var(--box-shadow-sm);
+            transition: var(--transition);
+            margin-top: 20px;
+        }
+
+        .preview-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .preview-image {
+            max-width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .preview-image:hover {
+            transform: scale(1.02);
+        }
+
+        .preview-video {
+            width: 100%;
+            height: 250px;
+            border-radius: 8px;
+            background: #000;
+        }
+
+        /* ===== VIDÉO - YOUTUBE / VIMEO ===== */
+        .video-thumbnail {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .video-thumbnail:hover {
+            transform: scale(1.02);
+        }
+
+        .video-thumbnail-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+
+        .video-thumbnail:hover .video-overlay {
+            background: rgba(0,0,0,0.5);
+        }
+
+        .video-overlay i {
+            color: white;
+            font-size: 3rem;
+        }
+
+        .vimeo-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            background: #f8f9fa;
+            border: 2px dashed #007bff;
+            border-radius: 8px;
+            color: #007bff;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .vimeo-placeholder:hover {
+            background: #e3f2fd;
+            border-color: #0056b3;
+        }
+
+        .remove-media {
+            margin-top: 15px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* ===== SWITCH (PUBLIER) ===== */
+        .form-switch {
+            padding: 25px !important;
+            background: linear-gradient(135deg, #fef2f2, #ffffff) !important;
+            border-radius: var(--border-radius-lg) !important;
+            border: 1px solid rgba(230,57,70,0.15) !important;
+            display: flex !important;
+            align-items: center !important;
+            position: relative !important;
+            margin-bottom: 0 !important;
+        }
+
+        .form-switch::after {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            width: 4px !important;
+            height: 100% !important;
+            background: linear-gradient(180deg, var(--telex-red), var(--telex-blue)) !important;
+            border-radius: 16px 0 0 16px !important;
+        }
+
+        .form-switch .form-check-input {
+            width: 56px !important;
+            height: 28px !important;
+            background-color: #e5e7eb !important;
+            border-radius: 34px !important;
+            border: none !important;
+            position: relative !important;
+            cursor: pointer !important;
+            transition: all 0.3s !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            margin: 0 !important;
+            display: inline-block !important;
+        }
+
+        .form-switch .form-check-input:checked {
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b) !important;
+            box-shadow: 0 0 0 4px rgba(230,57,70,0.1) !important;
+        }
+
+        .form-switch .form-check-input::after {
+            content: "" !important;
+            position: absolute !important;
+            height: 22px !important;
+            width: 22px !important;
+            left: 3px !important;
+            bottom: 3px !important;
+            background-color: white !important;
+            border-radius: 50% !important;
+            transition: transform 0.3s !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2) !important;
+        }
+
+        .form-switch .form-check-input:checked::after {
+            transform: translateX(28px) !important;
+        }
+
+        .form-switch .form-check-label {
+            display: flex !important;
+            align-items: center !important;
+            margin-left: 15px !important;
+            font-weight: 600 !important;
+            color: #374151 !important;
+            cursor: pointer !important;
+        }
+
+        .form-switch .form-check-label i {
+            color: var(--telex-red) !important;
+            margin-right: 10px !important;
+        }
+
+        .form-switch small {
+            margin-left: 8px !important;
+            display: inline !important;
+            color: #64748b;
+        }
+
+        /* ===== SECTIONS CONDITIONNELLES ===== */
+        .conditional-fields,
+        #scheduled_fields,
+        #replay_fields {
+            opacity: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.4s ease-in-out;
+            margin: 0;
+            padding: 0;
+        }
+
+        .conditional-fields.show,
+        #scheduled_fields.show,
+        #replay_fields.show {
+            opacity: 1;
+            max-height: 200px;
+            margin: 1rem 0;
+            padding: 1rem;
+        }
+
+        #imageSection,
+        #videoSection {
+            transition: all 0.4s ease-in-out;
+        }
+
+        /* ===== ALERTS ===== */
         .alert {
             padding: 20px;
-            border-radius: 12px;
+            border-radius: var(--border-radius);
             margin-bottom: 30px;
             border-left: 4px solid;
             display: flex;
             align-items: flex-start;
             gap: 15px;
         }
-        
+
         .alert-success {
-            background: linear-gradient(135deg, rgba(219, 234, 254, 0.8), rgba(224, 242, 254, 0.8));
+            background: linear-gradient(135deg, rgba(219,234,254,0.8), rgba(224,242,254,0.8));
             border-color: var(--telex-blue);
             color: var(--telex-blue);
         }
-        
+
         .alert-danger {
-            background: linear-gradient(135deg, rgba(254, 243, 199, 0.8), rgba(253, 230, 138, 0.8));
+            background: linear-gradient(135deg, rgba(254,243,199,0.8), rgba(253,230,138,0.8));
             border-color: #F59E0B;
             color: #7d6608;
         }
-        
+
+        .alert-info {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            border-color: #0284c7;
+            color: #075985;
+        }
+
         .alert i {
             font-size: 1.5rem;
-            margin-top: 2px;
         }
-        
+
         .alert-content h4 {
             margin-bottom: 5px;
             font-weight: 700;
         }
-        
-        /* Responsive */
+
+        /* ===== UTILITAIRES ===== */
+        .row {
+            margin-bottom: 20px;
+        }
+
+        .row:last-child {
+            margin-bottom: 0;
+        }
+
+        .d-none {
+            display: none !important;
+        }
+
+        .d-flex {
+            display: flex !important;
+        }
+
+        .justify-content-between {
+            justify-content: space-between !important;
+        }
+
+        .mt-4 {
+            margin-top: 1.5rem !important;
+        }
+
+        .mb-4 {
+            margin-bottom: 1.5rem !important;
+        }
+
+        .me-2 {
+            margin-right: 0.5rem !important;
+        }
+
+        .ms-2 {
+            margin-left: 0.5rem !important;
+        }
+
+        .gap-2 {
+            gap: 0.5rem !important;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (min-width: 1201px) {
+            .sidebar {
+                width: var(--sidebar-width);
+            }
+            .main-content {
+                margin-left: var(--sidebar-width);
+            }
+            .sidebar-brand h3,
+            .sidebar-brand img {
+                display: block;
+            }
+            .nav-link span {
+                display: inline;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .page-title {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .page-title div {
+                min-width: auto;
+            }
+        }
+
         @media (max-width: 992px) {
             .sidebar {
-                width: 70px;
-                overflow: hidden;
+                width: var(--sidebar-collapsed);
             }
-            
             .sidebar-brand h3,
             .sidebar-brand img {
                 display: none;
             }
-            
             .sidebar-brand {
                 padding: 15px 10px;
             }
-            
             .sidebar-brand::after {
                 content: "P";
                 color: white;
@@ -418,47 +837,115 @@
                 font-weight: bold;
                 display: block;
             }
-            
             .nav-link span {
                 display: none;
             }
-            
             .nav-link {
                 justify-content: center;
                 padding: 15px;
             }
-            
             .nav-link i {
                 margin-right: 0;
                 font-size: 1.2rem;
             }
-            
             .main-content {
-                margin-left: 70px;
+                margin-left: var(--sidebar-collapsed);
                 padding: 20px;
             }
-            
             .top-bar {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
             }
-            
             .top-actions {
                 width: 100%;
                 justify-content: space-between;
             }
+            .page-title h1 {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+            }
+            .top-bar {
+                padding: 15px;
+            }
+            .form-container {
+                padding: 25px;
+            }
+            .page-title h1 {
+                font-size: 1.3rem;
+            }
+            .media-type-selector {
+                flex-direction: column;
+                gap: 15px;
+            }
+            .btn {
+                padding: 10px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                padding: 10px;
+            }
+            .top-bar {
+                padding: 10px;
+            }
+            .page-title h1 {
+                font-size: 1.2rem;
+            }
+            .form-control {
+                font-size: 16px;
+            }
+            .btn {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+            .d-flex.justify-content-between {
+                flex-direction: column;
+            }
+            .upload-area {
+                padding: 30px 15px;
+            }
+            .upload-area h5 {
+                font-size: 1rem;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                max-height: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                max-height: 1000px;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-brand">
-            <img src="/images/11.png" alt="TELEX">
+            <img src="/images/Telex.png" alt="TELEX">
             <h3>Telex Admin</h3>
         </div>
-        
+
         <nav class="sidebar-nav">
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link">
@@ -476,6 +963,12 @@
                 <a href="/admin/programs" class="nav-link active">
                     <i class="fas fa-tv"></i>
                     <span>Programmes</span>
+                </a>
+            </div>
+            <div class="nav-item">
+                <a href="/admin/baume-de-la-foi" class="nav-link">
+                    <i class="fas fa-cross"></i>
+                    <span>Baume de la Foi</span>
                 </a>
             </div>
             <div class="nav-item">
@@ -504,7 +997,7 @@
             </div>
         </nav>
     </div>
-    
+
     <!-- Main Content -->
     <div class="main-content">
         <!-- Top bar -->
@@ -517,190 +1010,297 @@
                 </div>
             </div>
             <div class="top-actions">
-                <a href="/admin/programs" class="btn btn-telex">
+                <a href="/admin/programs" class="btn btn-outline-secondary">
                     <i class="fas fa-arrow-left me-2"></i>Retour aux programmes
                 </a>
             </div>
         </div>
-        
-        <!-- Flash Messages -->
-        <% if (success_msg && success_msg.length > 0) { %>
-        <div class="alert alert-success">
-            <i class="fas fa-check-circle"></i>
-            <div class="alert-content">
-                <h4>Succès</h4>
-                <p><%= success_msg %></p>
-            </div>
-        </div>
-        <% } %>
-        
-        <% if (error_msg && error_msg.length > 0) { %>
-        <div class="alert alert-danger">
-            <i class="fas fa-exclamation-triangle"></i>
-            <div class="alert-content">
-                <h4>Erreur</h4>
-                <p><%= error_msg %></p>
-            </div>
-        </div>
-        <% } %>
-        
-        <!-- Form -->
+
+        <!-- SECTION SUPPRIMÉE : Messages flash supprimés -->
+        <!-- Les alertes de succès et erreur ont été retirées -->
+
+        <!-- Formulaire -->
         <div class="form-container">
             <div class="form-header">
                 <h2><i class="fas fa-tv"></i>Informations du programme</h2>
                 <p>Remplissez les informations essentielles pour créer votre programme</p>
             </div>
-            
-            <form action="/admin/programs/save" method="POST">
+
+            <form action="/admin/programs/save" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-8">
+                        <!-- Sélecteur de titre d'émission -->
                         <div class="form-group">
-                            <label for="title" class="form-label">Titre du programme *</label>
-                            <input type="text" 
-                                   class="form-control" 
-                                   id="title" 
-                                   name="title" 
-                                   required 
-                                   placeholder="Ex: Le Journal de TELEX">
+                            <label for="title" class="form-label">
+                                <i class="fas fa-heading me-2"></i>
+                                <strong>Titre de l'émission *</strong>
+                                <small class="text-muted ms-2">Choisissez parmi les titres des programmes TELEX</small>
+                            </label>
+                            <select class="form-control" id="title" name="title" required>
+                                <option value="">Sélectionnez un titre d'émission</option>
+                                <!-- I. Programme d'information -->
+                                <option value="TELEX Actus">TELEX Actus</option>
+                                <option value="L'Essentiel de la semaine">L'Essentiel de la semaine</option>
+                                <!-- II. Programme Décryptage & Reportages -->
+                                <option value="Décryptage">Décryptage</option>
+                                <option value="Reportages">Reportages</option>
+                                <option value="Documentaires">Documentaires</option>
+                                <!-- III. Programme Débats -->
+                                <option value="Face à Face">Face à Face</option>
+                                <option value="Parole Publique">Parole Publique</option>
+                                <!-- IV. Programme Humain & Sociétal -->
+                                <option value="À Cœur Ouvert">À Cœur Ouvert</option>
+                                <option value="Initiatives Locales">Initiatives Locales</option>
+                                <option value="Entrepreneurs & Associations">Entrepreneurs & Associations</option>
+                                <!-- V. Programme Éducatif -->
+                                <option value="1 notion en 3 minutes">1 notion en 3 minutes</option>
+                                <option value="École Citoyenne">École Citoyenne</option>
+                                <option value="Comment lire un contrat ?">Comment lire un contrat ?</option>
+                                <option value="Comment éviter les arnaques ?">Comment éviter les arnaques ?</option>
+                                <!-- VI. Programme Jeunesse -->
+                                <option value="La Question des Jeunes">La Question des Jeunes</option>
+                                <!-- VII. Programme Environnement -->
+                                <option value="Zoom Écologie">Zoom Écologie</option>
+                                <!-- VIII. Programme Culture & Identité -->
+                                <option value="Histoire politique de Madagascar">Histoire politique de Madagascar</option>
+                                <option value="Culture malgache moderne et traditionnelle">Culture malgache moderne et traditionnelle</option>
+                                <option value="Voix de Madagascar">Voix de Madagascar</option>
+                                <!-- IX. Programme Vrai ou Faux / Madagascar en Carte -->
+                                <option value="Vrai ou Faux">Vrai ou Faux</option>
+                                <option value="Madagascar en Carte">Madagascar en Carte</option>
+                                <!-- X. Programme Économie & Travail -->
+                                <option value="Travailler à Mada">Travailler à Mada</option>
+                                <option value="Comprendre l'Économie">Comprendre l'Économie</option>
+                            </select>
                         </div>
-                        
+
+                        <!-- Description -->
                         <div class="form-group">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" 
-                                      id="description" 
-                                      name="description" 
-                                      placeholder="Décrivez votre programme en quelques lignes..."></textarea>
+                            <textarea class="form-control" id="description" name="description"
+                                placeholder="Décrivez votre programme en quelques lignes..."></textarea>
                         </div>
-                        
+
+                        <!-- Type de diffusion -->
+                        <div class="form-group">
+                            <label for="broadcast_type" class="form-label">
+                                <i class="fas fa-broadcast-tower me-2"></i>
+                                <strong>Type de diffusion *</strong>
+                                <small class="text-muted ms-2">Choisissez le type de publication</small>
+                            </label>
+                            <select class="form-control" id="broadcast_type" name="broadcast_type"
+                                required onchange="toggleBroadcastFields()">
+                                <option value="">Sélectionnez un type de diffusion</option>
+                                <option value="announcement">📢 Annonce</option>
+                                <option value="live">� Programme live</option>
+                            </select>
+                        </div>
+
+                        <!-- Champs conditionnels selon le type -->
+                        <div id="announcement_fields" class="conditional-fields">
+                            <div class="alert alert-info" role="alert">
+                                <i class="fas fa-bullhorn me-2"></i>
+                                <strong>Annonce</strong> : Information sur un programme à venir. S'affiche sur les cartes publiques.
+                            </div>
+                        </div>
+
+                        <div id="live_fields" class="conditional-fields">
+                            <div class="alert alert-danger" role="alert">
+                                <i class="fas fa-broadcast-tower me-2"></i>
+                                <strong>Programme live</strong> : Programme en direct ou replay disponible. S'affiche partout.
+                            </div>
+                        </div>
+
+                        <!-- Détails -->
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="presenter" class="form-label">Présentateur</label>
-                                    <input type="text" 
-                                           class="form-control" 
-                                           id="presenter" 
-                                           name="presenter" 
-                                           placeholder="Nom du présentateur">
+                                    <input type="text" class="form-control" id="presenter"
+                                        name="presenter" placeholder="Nom du présentateur">
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="schedule_time" class="form-label">Horaire</label>
-                                    <input type="text" 
-                                           class="form-control" 
-                                           id="schedule_time" 
-                                           name="schedule_time" 
-                                           placeholder="Ex: 20h00">
+                                    <input type="text" class="form-control" id="schedule_time"
+                                        name="schedule_time" placeholder="Ex: 20h00">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="duration" class="form-label">Durée</label>
+                                    <input type="text" class="form-control" id="duration"
+                                        name="duration" placeholder="Ex: 30 min">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="program_date" class="form-label">
+                                        <i class="fas fa-calendar me-2"></i>
+                                        <strong>Date du programme</strong>
+                                    </label>
+                                    <input type="date" class="form-control" id="program_date"
+                                        name="program_date">
                                 </div>
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="col-md-4">
+                        <!-- Type de programme -->
                         <div class="form-group">
-                            <label for="category" class="form-label">Catégorie</label>
-                            <select class="form-control" id="category" name="category">
-                                <option value="">Sélectionner une catégorie</option>
-                                <option value="actualités">Actualités</option>
-                                <option value="divertissement">Divertissement</option>
-                                <option value="culture">Culture</option>
-                                <option value="sport">Sport</option>
-                                <option value="musique">Musique</option>
-                                <option value="documentaire">Documentaire</option>
-                                <option value="jeux">Jeux</option>
-                                <option value="autre">Autre</option>
+                            <label for="program_type" class="form-label">
+                                <i class="fas fa-tv me-2"></i>
+                                <strong>Programme *</strong>
+                                <small class="text-muted ms-2">Sélectionnez le programme officiel TELEX</small>
+                            </label>
+                            <select class="form-control" id="program_type" name="program_type" required>
+                                <option value="">Sélectionnez un programme TELEX</option>
+                                <option value="Programme d'Information">Programme d'Information</option>
+                                <option value="Programme Décryptage & Reportages">Programme Décryptage & Reportages</option>
+                                <option value="Programme Débats">Programme Débats</option>
+                                <option value="Programme Humain & Sociétal">Programme Humain & Sociétal</option>
+                                <option value="Programme Éducatif">Programme Éducatif</option>
+                                <option value="Programme Jeunesse">Programme Jeunesse</option>
+                                <option value="Programme Environnement">Programme Environnement</option>
+                                <option value="Programme Culture & Identité">Programme Culture & Identité</option>
+                                <option value="Programme Vrai ou Faux / Madagascar en Carte">Programme Vrai ou Faux / Madagascar en Carte</option>
+                                <option value="Programme Économie & Travail">Programme Économie & Travail</option>
                             </select>
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="duration" class="form-label">Durée</label>
-                            <input type="text" 
-                                   class="form-control" 
-                                   id="duration" 
-                                   name="duration" 
-                                   placeholder="Ex: 30 min">
-                        </div>
-                        
-                        <div class="form-check">
-                            <input type="checkbox" 
-                                   class="form-check-input" 
-                                   id="is_active" 
-                                   name="is_active" 
-                                   checked>
-                            <label class="form-check-label" for="is_active">
-                                Programme actif
+
+                        <!-- Médias du Programme -->
+                        <div class="form-group mt-4">
+                            <label class="form-label">
+                                <i class="fas fa-photo-video me-2"></i>
+                                <strong>Médias du Programme</strong>
+                                <small class="text-muted ms-2">Ajoutez une image ou une vidéo</small>
                             </label>
                         </div>
-                        
-                        <!-- Options de partage -->
-                        <div class="share-options">
-                            <h5>
-                                <i class="fas fa-share-alt me-2"></i>Options de partage
-                            </h5>
-                            <div class="share-checkboxes">
-                                <div class="share-option">
-                                    <input type="checkbox" 
-                                           id="share_facebook" 
-                                           name="share_facebook" 
-                                           value="1"
-                                           checked>
-                                    <label for="share_facebook">
-                                        Facebook
-                                        <i class="fab fa-facebook"></i>
-                                    </label>
-                                </div>
-                                
-                                <div class="share-option">
-                                    <input type="checkbox" 
-                                           id="share_twitter" 
-                                           name="share_twitter" 
-                                           value="1">
-                                    <label for="share_twitter">
-                                        Twitter
-                                        <i class="fab fa-twitter"></i>
-                                    </label>
-                                </div>
-                                
-                                <div class="share-option">
-                                    <input type="checkbox" 
-                                           id="share_linkedin" 
-                                           name="share_linkedin" 
-                                           value="1">
-                                    <label for="share_linkedin">
-                                        LinkedIn
-                                        <i class="fab fa-linkedin"></i>
-                                    </label>
-                                </div>
-                                
-                                <div class="share-option">
-                                    <input type="checkbox" 
-                                           id="share_whatsapp" 
-                                           name="share_whatsapp" 
-                                           value="1">
-                                    <label for="share_whatsapp">
-                                        WhatsApp
-                                        <i class="fab fa-whatsapp"></i>
-                                    </label>
-                                </div>
-                                
-                                <div class="share-option">
-                                    <input type="checkbox" 
-                                           id="share_instagram" 
-                                           name="share_instagram" 
-                                           value="1">
-                                    <label for="share_instagram">
-                                        Instagram
-                                        <i class="fab fa-instagram"></i>
-                                    </label>
-                                </div>
+
+                        <!-- Sélecteur de type média -->
+                        <div class="media-type-selector">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="media_type"
+                                    id="media_type_image" value="image" checked>
+                                <label class="form-check-label" for="media_type_image">
+                                    <i class="fas fa-image"></i> Image
+                                </label>
                             </div>
-                            <div class="form-text mt-3">
-                                Cochez les plateformes où vous souhaitez permettre le partage de ce programme
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="media_type"
+                                    id="media_type_video" value="video">
+                                <label class="form-check-label" for="media_type_video">
+                                    <i class="fas fa-video"></i> Vidéo
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                
+
+                <!-- SECTION IMAGE -->
+                <div id="imageSection" class="row mt-4">
+                    <div class="col-12">
+                        <div class="media-section" style="background: linear-gradient(135deg, #fafbfc, #f8fafc); border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; position: relative;">
+                            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--telex-red), var(--telex-blue)); border-radius: 16px 0 0 16px;"></div>
+                            <h5 class="mb-3"><i class="fas fa-image me-2"></i>Image du Programme</h5>
+                            
+                            <!-- Upload image -->
+                            <div class="upload-area" id="imageUploadArea">
+                                <i class="fas fa-image"></i>
+                                <h5>Glissez-déposez votre image ici</h5>
+                                <p>ou cliquez pour sélectionner</p>
+                                <p class="small text-muted">JPEG, JPG, PNG, GIF, WebP (max 50MB)</p>
+                            </div>
+                            
+                            <input type="file" class="d-none" id="image_file" name="image_file" accept=".jpg,.jpeg,.png,.gif,.webp">
+                            
+                            <!-- Prévisualisation image -->
+                            <div id="imagePreview" class="mt-3" style="display: none;">
+                                <div class="preview-card">
+                                    <p class="small mb-2"><strong>Image sélectionnée :</strong></p>
+                                    <div id="imagePreviewContainer"></div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
+                                            <i class="fas fa-trash me-1"></i>Supprimer l'image
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECTION VIDÉO (masquée par défaut) -->
+                <div id="videoSection" class="row mt-4" style="display: none;">
+                    <div class="col-12">
+                        <div class="media-section" style="background: linear-gradient(135deg, #fafbfc, #f8fafc); border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; position: relative;">
+                            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--telex-red), var(--telex-blue)); border-radius: 16px 0 0 16px;"></div>
+                            <h5 class="mb-3"><i class="fas fa-video me-2"></i>Vidéo du Programme</h5>
+                            
+                            <!-- Upload fichier vidéo -->
+                            <div class="mb-4">
+                                <label class="form-label">Télécharger un fichier vidéo</label>
+                                <div class="upload-area" id="videoUploadArea">
+                                    <i class="fas fa-video"></i>
+                                    <h5>Glissez-déposez votre vidéo ici</h5>
+                                    <p>ou cliquez pour sélectionner</p>
+                                    <p class="small text-muted">MP4, WebM, OGG, MOV, AVI (max 1000MB)</p>
+                                </div>
+                                <input type="file" class="d-none" id="video_file" name="video_file" accept=".mp4,.webm,.ogg,.mov,.avi">
+                            </div>
+                            
+                            <!-- OU URL vidéo -->
+                            <div class="mb-3">
+                                <label class="form-label">Ou lien URL de la vidéo</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-link"></i></span>
+                                    <input type="url" class="form-control" id="video_url" name="video_url"
+                                        placeholder="https://example.com/video.mp4"
+                                        pattern="https?://.+\.(mp4|webm|ogg|mov|avi)$"
+                                        title="URL directe de vidéo (MP4, WebM, OGG, MOV, AVI)">
+                                </div>
+                                <small class="text-muted">
+                                    <i class="fas fa-info-circle me-1"></i>
+                                    Formats supportés : MP4, WebM, OGG, MOV, AVI<br>
+                                    YouTube, Vimeo ou URL directe
+                                </small>
+                            </div>
+                            
+                            <!-- Prévisualisation vidéo -->
+                            <div id="videoPreview" class="mt-3" style="display: none;">
+                                <div class="preview-card">
+                                    <p class="small mb-2"><strong>Vidéo sélectionnée :</strong></p>
+                                    <div id="videoPreviewContainer"></div>
+                                    <div class="mt-2">
+                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
+                                            <i class="fas fa-trash me-1"></i>Supprimer la vidéo
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SWITCH PUBLIER -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <div class="form-switch">
+                                <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" checked>
+                                <label class="form-check-label" for="is_active">
+                                    <i class="fas fa-eye"></i>
+                                    <strong>Publier ce programme</strong>
+                                    <small class="text-muted ms-2">Activer pour rendre ce programme visible immédiatement sur le site public</small>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Boutons d'action -->
                 <div class="d-flex justify-content-between mt-4">
                     <a href="/admin/programs" class="btn btn-outline-secondary">
                         <i class="fas fa-times me-2"></i>Annuler
@@ -712,48 +1312,346 @@
             </form>
         </div>
     </div>
-    
+
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        // ===== VARIABLES GLOBALES =====
+        let uploadedImage = null;
+        let uploadedVideo = null;
+
+        // ===== INITIALISATION =====
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Page Nouveau Programme TELEX chargée');
             
-            // Auto-close alerts after 5 seconds
-            const alerts = document.querySelectorAll('.alert');
-            alerts.forEach(alert => {
-                setTimeout(() => {
-                    alert.style.opacity = '0';
-                    alert.style.transition = 'opacity 0.5s';
-                    setTimeout(() => alert.remove(), 500);
-                }, 5000);
-            });
-            
-            // Form validation
-            const form = document.querySelector('form');
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    const title = document.getElementById('title').value.trim();
+            // Initialiser les composants
+            initializeMediaTypeSelector();
+            initializeUploadAreas();
+            toggleBroadcastFields();
+        });
+
+        // ===== SÉLECTEUR TYPE MÉDIA =====
+        function initializeMediaTypeSelector() {
+            const mediaTypeRadios = document.querySelectorAll('input[name="media_type"]');
+            const imageSection = document.getElementById('imageSection');
+            const videoSection = document.getElementById('videoSection');
+
+            mediaTypeRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    // Masquer toutes les sections
+                    imageSection.style.display = 'none';
+                    videoSection.style.display = 'none';
                     
-                    if (!title) {
-                        e.preventDefault();
-                        alert('Le titre du programme est obligatoire.');
-                        return false;
+                    // Réinitialiser les fichiers uploadés
+                    if (this.value !== 'image') {
+                        removeImage();
+                    }
+                    if (this.value !== 'video') {
+                        removeVideo();
                     }
                     
-                    // Animation de soumission
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    const originalHTML = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Création...';
-                    submitBtn.disabled = true;
-                    
-                    // Réactiver après 5 secondes (au cas où)
-                    setTimeout(() => {
-                        submitBtn.innerHTML = originalHTML;
-                        submitBtn.disabled = false;
-                    }, 5000);
+                    // Afficher la section correspondante
+                    if (this.value === 'image') {
+                        imageSection.style.display = 'block';
+                    } else if (this.value === 'video') {
+                        videoSection.style.display = 'block';
+                    }
+                });
+            });
+        }
+
+        // ===== ZONES D'UPLOAD =====
+        function initializeUploadAreas() {
+            // Upload d'image
+            const imageUploadArea = document.getElementById('imageUploadArea');
+            const imageFileInput = document.getElementById('image_file');
+
+            if (imageUploadArea && imageFileInput) {
+                imageUploadArea.addEventListener('click', () => imageFileInput.click());
+
+                imageUploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    imageUploadArea.style.borderColor = 'var(--telex-blue)';
+                    imageUploadArea.style.background = '#e3f2fd';
+                });
+
+                imageUploadArea.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    imageUploadArea.style.borderColor = '#cbd5e1';
+                    imageUploadArea.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+                });
+
+                imageUploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    imageUploadArea.style.borderColor = '#cbd5e1';
+                    imageUploadArea.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        handleImageFile(files[0]);
+                    }
+                });
+
+                imageFileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        handleImageFile(e.target.files[0]);
+                    }
                 });
             }
-        });
+
+            // Upload de vidéo
+            const videoUploadArea = document.getElementById('videoUploadArea');
+            const videoFileInput = document.getElementById('video_file');
+
+            if (videoUploadArea && videoFileInput) {
+                videoUploadArea.addEventListener('click', () => videoFileInput.click());
+
+                videoUploadArea.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    videoUploadArea.style.borderColor = 'var(--telex-blue)';
+                    videoUploadArea.style.background = '#e3f2fd';
+                });
+
+                videoUploadArea.addEventListener('dragleave', (e) => {
+                    e.preventDefault();
+                    videoUploadArea.style.borderColor = '#cbd5e1';
+                    videoUploadArea.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+                });
+
+                videoUploadArea.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    videoUploadArea.style.borderColor = '#cbd5e1';
+                    videoUploadArea.style.background = 'linear-gradient(135deg, #ffffff, #f8fafc)';
+
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        handleVideoFile(files[0]);
+                    }
+                });
+
+                videoFileInput.addEventListener('change', (e) => {
+                    if (e.target.files.length > 0) {
+                        handleVideoFile(e.target.files[0]);
+                    }
+                });
+            }
+
+            // URL de vidéo
+            const videoUrlInput = document.getElementById('video_url');
+            if (videoUrlInput) {
+                videoUrlInput.addEventListener('input', (e) => {
+                    const url = e.target.value.trim();
+                    if (url) {
+                        // Désactiver l'upload de fichier
+                        if (videoFileInput) videoFileInput.disabled = true;
+                        showVideoPreview(url);
+                    } else {
+                        // Réactiver l'upload de fichier
+                        if (videoFileInput) videoFileInput.disabled = false;
+                        hideVideoPreview();
+                    }
+                });
+            }
+        }
+
+        // ===== GESTION IMAGE =====
+        function handleImageFile(file) {
+            const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Format non supporté. Utilisez JPG, PNG, GIF ou WebP.');
+                return;
+            }
+
+            if (file.size > 50 * 1024 * 1024) {
+                alert('L\'image ne doit pas dépasser 50MB.');
+                return;
+            }
+
+            uploadedImage = file;
+            showImagePreview(file);
+        }
+
+        function showImagePreview(file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imagePreview = document.getElementById('imagePreview');
+                const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+
+                imagePreviewContainer.innerHTML = `<img src="${e.target.result}" alt="Prévisualisation" class="preview-image">`;
+                imagePreview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ===== GESTION VIDÉO =====
+        function handleVideoFile(file) {
+            const allowedTypes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime', 'video/x-msvideo'];
+            if (!allowedTypes.includes(file.type)) {
+                alert('Format non supporté. Utilisez MP4, WebM, OGG, MOV ou AVI.');
+                return;
+            }
+
+            if (file.size > 1000 * 1024 * 1024) {
+                alert('La vidéo ne doit pas dépasser 1000MB.');
+                return;
+            }
+
+            uploadedVideo = file;
+            
+            // Vider l'URL
+            const videoUrlInput = document.getElementById('video_url');
+            if (videoUrlInput) videoUrlInput.value = '';
+            
+            showVideoPreview(file);
+        }
+
+        function showVideoPreview(fileOrUrl) {
+            const videoPreview = document.getElementById('videoPreview');
+            const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+
+            videoPreview.style.display = 'block';
+
+            if (fileOrUrl instanceof File) {
+                // Fichier vidéo
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    videoPreviewContainer.innerHTML = `
+                        <video class="preview-video" controls preload="metadata">
+                            <source src="${e.target.result}" type="${fileOrUrl.type}">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <div class="remove-media">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
+                                <i class="fas fa-trash me-1"></i>Supprimer la vidéo
+                            </button>
+                        </div>
+                    `;
+                };
+                reader.readAsDataURL(fileOrUrl);
+            } else {
+                // URL ou YouTube/Vimeo
+                if (fileOrUrl.includes('youtube.com') || fileOrUrl.includes('youtu.be')) {
+                    const videoId = fileOrUrl.includes('youtube.com')
+                        ? fileOrUrl.split('v=')[1]?.split('&')[0]
+                        : fileOrUrl.split('youtu.be/')[1]?.split('?')[0];
+
+                    videoPreviewContainer.innerHTML = `
+                        <div class="video-thumbnail" onclick="window.open('${fileOrUrl}', '_blank')">
+                            <img src="https://img.youtube.com/vi/${videoId}/hqdefault.jpg" alt="Miniature YouTube" class="video-thumbnail-img">
+                            <div class="video-overlay">
+                                <i class="fab fa-youtube fa-3x text-white"></i>
+                            </div>
+                        </div>
+                        <div class="remove-media">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
+                                <i class="fas fa-trash me-1"></i>Supprimer la vidéo
+                            </button>
+                        </div>
+                    `;
+                } else if (fileOrUrl.includes('vimeo.com')) {
+                    videoPreviewContainer.innerHTML = `
+                        <div class="vimeo-placeholder" onclick="window.open('${fileOrUrl}', '_blank')">
+                            <i class="fab fa-vimeo fa-4x"></i>
+                            <p class="mt-2 mb-0">Voir sur Vimeo</p>
+                        </div>
+                        <div class="remove-media">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
+                                <i class="fas fa-trash me-1"></i>Supprimer la vidéo
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    videoPreviewContainer.innerHTML = `
+                        <video class="preview-video" controls preload="metadata">
+                            <source src="${fileOrUrl}" type="video/mp4">
+                            <source src="${fileOrUrl}" type="video/webm">
+                            <source src="${fileOrUrl}" type="video/ogg">
+                            Votre navigateur ne supporte pas la lecture de vidéos.
+                        </video>
+                        <div class="remove-media">
+                            <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
+                                <i class="fas fa-trash me-1"></i>Supprimer la vidéo
+                            </button>
+                        </div>
+                    `;
+                }
+            }
+        }
+
+        function hideVideoPreview() {
+            const videoPreview = document.getElementById('videoPreview');
+            if (videoPreview) videoPreview.style.display = 'none';
+        }
+
+        // ===== SUPPRESSIONS =====
+        function removeImage() {
+            uploadedImage = null;
+            const imageFileInput = document.getElementById('image_file');
+            if (imageFileInput) imageFileInput.value = '';
+            
+            const imagePreview = document.getElementById('imagePreview');
+            if (imagePreview) imagePreview.style.display = 'none';
+            
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            if (imagePreviewContainer) imagePreviewContainer.innerHTML = '';
+        }
+
+        function removeVideo() {
+            uploadedVideo = null;
+            
+            const videoFileInput = document.getElementById('video_file');
+            if (videoFileInput) {
+                videoFileInput.value = '';
+                videoFileInput.disabled = false;
+            }
+            
+            const videoUrlInput = document.getElementById('video_url');
+            if (videoUrlInput) videoUrlInput.value = '';
+            
+            hideVideoPreview();
+            
+            const videoPreviewContainer = document.getElementById('videoPreviewContainer');
+            if (videoPreviewContainer) videoPreviewContainer.innerHTML = '';
+        }
+
+        // ===== TYPE DE DIFFUSION =====
+        window.toggleBroadcastFields = function() {
+            const broadcastType = document.getElementById('broadcast_type').value;
+            const announcementFields = document.getElementById('announcement_fields');
+            const liveFields = document.getElementById('live_fields');
+            const programDate = document.getElementById('program_date');
+            const scheduleTime = document.getElementById('schedule_time');
+
+            // Masquer tous les champs conditionnels
+            announcementFields.classList.remove('show');
+            liveFields.classList.remove('show');
+
+            // Réinitialiser les champs
+            if (programDate) {
+                programDate.required = false;
+                programDate.disabled = false;
+            }
+            if (scheduleTime) {
+                scheduleTime.required = false;
+                scheduleTime.disabled = false;
+            }
+
+            switch(broadcastType) {
+                case 'live':
+                    liveFields.classList.add('show');
+                    // Pour les programmes live, la date et heure sont optionnelles
+                    break;
+                case 'announcement':
+                    announcementFields.classList.add('show');
+                    // Pour les annonces, la date et heure sont optionnelles
+                    break;
+            }
+        };
+
+        // ===== FONCTIONS GLOBALES =====
+        window.removeImage = removeImage;
+        window.removeVideo = removeVideo;
     </script>
 </body>
+
 </html>

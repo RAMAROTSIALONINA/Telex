@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration Album - Telex</title>
+    
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Style Admin -->
+    <link rel="stylesheet" href="/css/style.css">
+    
+    <style>
+        .admin-header {
+            background: linear-gradient(135deg, #1D3557 0%, #457B9D 100%);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .album-admin-section {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .category-card {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .category-card:hover {
+            border-color: #457B9D;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(69, 123, 157, 0.2);
+        }
+        
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .category-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1D3557;
+            margin: 0;
+        }
+        
+        .category-count {
+            background: #457B9D;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .image-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: #f8f9fa;
+        }
+        
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .image-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .image-actions {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .image-item:hover .image-actions {
+            opacity: 1;
+        }
+        
+        .image-action-btn {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .image-action-btn:hover {
+            background: white;
+            transform: scale(1.1);
+        }
+        
+        .image-action-btn.delete {
+            background: rgba(220, 53, 69, 0.9);
+            color: white;
+        }
+        
+        .image-action-btn.delete:hover {
+            background: #dc3545;
+        }
+        
+        .upload-area {
+            border: 3px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 3rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover,
+        .upload-area.dragover {
+            border-color: #457B9D;
+            background: rgba(69, 123, 157, 0.05);
+        }
+        
+        .upload-icon {
+            font-size: 3rem;
+            color: #457B9D;
+            margin-bottom: 1rem;
+        }
+        
+        .btn-admin-primary {
+            background: linear-gradient(135deg, #457B9D 0%, #1D3557 100%);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-admin-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(69, 123, 157, 0.3);
+        }
+        
+        .add-category-form {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .modal-header {
+            background: linear-gradient(135deg, #457B9D 0%, #1D3557 100%);
+            color: white;
+        }
+        
+        .stats-card {
+            background: linear-gradient(135deg, #457B9D 0%, #1D3557 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+        
+        .stats-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Admin -->
+    <div class="admin-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 class="mb-0">
+                        <i class="fas fa-images me-3"></i>Administration Album
+                    </h1>
+                    <p class="mb-0 mt-2">Gérez les photos et catégories de l'album TELEX</p>
+                </div>
+                <div class="col-md-6 text-md-end mt-3 mt-md-0">
+                    <a href="/admin/dashboard" class="btn btn-outline-light me-2">
+                        <i class="fas fa-arrow-left me-2"></i>Retour Dashboard
+                    </a>
+                    <a href="/album" class="btn btn-light">
+                        <i class="fas fa-eye me-2"></i>Voir l'Album
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Statistiques -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number" id="totalImages">0</div>
+                    <div class="stats-label">Total Images</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number" id="totalCategories">0</div>
+                    <div class="stats-label">Catégories</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number" id="recentUploads">0</div>
+                    <div class="stats-label">Uploads Récents</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stats-card">
+                    <div class="stats-number" id="storageUsed">0 MB</div>
+                    <div class="stats-label">Espace Utilisé</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ajouter une catégorie -->
+        <div class="add-category-form">
+            <h4 class="mb-3">
+                <i class="fas fa-plus-circle me-2"></i>Ajouter une nouvelle catégorie
+            </h4>
+            <form id="addCategoryForm">
+                <div class="row">
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="categoryName" placeholder="Nom de la catégorie" required>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" class="form-control" id="categoryDescription" placeholder="Description">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-admin-primary w-100">
+                            <i class="fas fa-plus me-2"></i>Ajouter la catégorie
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Upload d'images -->
+        <div class="album-admin-section">
+            <h3 class="mb-4">
+                <i class="fas fa-upload me-2"></i>Ajouter des images
+            </h3>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Sélectionner une catégorie</label>
+                    <select class="form-select" id="categorySelect" required>
+                        <option value="">Choisir une catégorie...</option>
+                    </select>
+                </div>
+                <div class="upload-area" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                    <h4>Glissez-déposez les images ici</h4>
+                    <p class="text-muted">ou cliquez pour sélectionner les fichiers</p>
+                    <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+                    <button type="button" class="btn btn-admin-primary mt-3" id="chooseFilesBtn">
+                        <i class="fas fa-folder-open me-2"></i>Choisir les fichiers
+                    </button>
+                </div>
+                <div id="filePreview" class="mt-3"></div>
+                <div class="mt-3 d-flex justify-content-between align-items-center">
+                    <div>
+                        <small class="text-muted" id="fileCounter">0 fichier(s) sélectionné(s)</small>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-admin-primary me-2" style="display: none;" id="uploadBtn">
+                            <i class="fas fa-upload me-2"></i>Uploader les images
+                        </button>
+                        <button type="button" class="btn btn-secondary" style="display: none;" id="clearBtn" onclick="clearFiles()">
+                            <i class="fas fa-times me-2"></i>Effacer
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Gestion des catégories -->
+        <div class="album-admin-section">
+            <h3 class="mb-4">
+                <i class="fas fa-folder me-2"></i>Gestion des catégories
+            </h3>
+            <div id="categoriesContainer">
+                <!-- Les catégories seront chargées dynamiquement -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmation de suppression -->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="fas fa-exclamation-triangle me-2"></i>Confirmation de suppression
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Êtes-vous sûr de vouloir supprimer cette image ?</p>
+                    <p class="text-muted">Cette action est irréversible.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="confirmDelete">
+                        <i class="fas fa-trash me-2"></i>Supprimer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Données des catégories (à remplacer par appel API)
+        let categories = [
+            {
+                id: 'culture',
+                name: 'Événements Culturels',
+                description: 'Photos des événements culturels',
+                images: [
+                    { id: 1, src: '/images/logo ensemble.png', title: 'Festival Culturel TELEX' },
+                    { id: 2, src: '/images/camera.png', title: 'Spectacle Traditionnel' },
+                    { id: 3, src: '/images/ensemble telex2.png', title: 'Ensemble Culturel' }
+                ]
+            },
+            {
+                id: 'sport',
+                name: 'Événements Sportifs',
+                description: 'Photos des événements sportifs',
+                images: [
+                    { id: 4, src: '/images/TELEX BAREA.png', title: 'Compétition Sportive' },
+                    { id: 5, src: '/images/Présentation telex.png', title: 'Équipe Sportive' }
+                ]
+            },
+            {
+                id: 'coutume',
+                name: 'Événements Coutumes',
+                description: 'Photos des coutumes et traditions',
+                images: [
+                    { id: 6, src: '/images/femme telex.png', title: 'Coutume Traditionnelle' }
+                ]
+            }
+        ];
+
+        let deleteTarget = null;
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategories();
+            updateStats();
+            setupUploadArea();
+        });
+
+        // Charger les catégories
+        function loadCategories() {
+            const container = document.getElementById('categoriesContainer');
+            const select = document.getElementById('categorySelect');
+            
+            container.innerHTML = '';
+            select.innerHTML = '<option value="">Choisir une catégorie...</option>';
+            
+            categories.forEach(category => {
+                // Ajouter au select
+                const option = document.createElement('option');
+                option.value = category.id;
+                option.textContent = category.name;
+                select.appendChild(option);
+                
+                // Créer la carte de catégorie
+                const categoryCard = createCategoryCard(category);
+                container.appendChild(categoryCard);
+            });
+        }
+
+        // Créer une carte de catégorie
+        function createCategoryCard(category) {
+            const card = document.createElement('div');
+            card.className = 'category-card';
+            card.innerHTML = `
+                <div class="category-header">
+                    <div>
+                        <h4 class="category-title">${category.name}</h4>
+                        <p class="text-muted mb-0">${category.description}</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="category-count">${category.images.length} photos</span>
+                        <button class="btn btn-sm btn-outline-primary" onclick="editCategory('${category.id}')">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory('${category.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="image-grid">
+                    ${category.images.map(image => `
+                        <div class="image-item" data-image-id="${image.id}">
+                            <img src="${image.src}" alt="${image.title}" title="${image.title}">
+                            <div class="image-actions">
+                                <button class="image-action-btn" onclick="viewImage('${image.src}', '${image.title}')">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="image-action-btn delete" onclick="deleteImage('${category.id}', '${image.filename}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            return card;
+        }
+
+        // Mettre à jour les statistiques
+        function updateStats() {
+            const totalImages = categories.reduce((sum, cat) => sum + cat.images.length, 0);
+            const totalCategories = categories.length;
+            
+            document.getElementById('totalImages').textContent = totalImages;
+            document.getElementById('totalCategories').textContent = totalCategories;
+            document.getElementById('recentUploads').textContent = Math.floor(Math.random() * 10) + 1;
+            document.getElementById('storageUsed').textContent = Math.floor(totalImages * 0.5) + ' MB';
+        }
+
+        // Configuration de la zone d'upload
+        function setupUploadArea() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+            const chooseFilesBtn = document.getElementById('chooseFilesBtn');
+            
+            // Événement pour la zone d'upload (cliquer sur la zone)
+            uploadArea.addEventListener('click', (e) => {
+                console.log('🔍 DEBUG: Upload area clicked, target:', e.target);
+                // Uniquement ouvrir le sélecteur si on ne clique pas sur le bouton
+                if (e.target !== chooseFilesBtn && !chooseFilesBtn.contains(e.target)) {
+                    console.log('🔍 DEBUG: Opening file selector from upload area');
+                    fileInput.click();
+                } else {
+                    console.log('🔍 DEBUG: Click was on chooseFilesBtn, ignoring');
+                }
+            });
+            
+            // Événement pour le bouton "Choisir les fichiers"
+            chooseFilesBtn.addEventListener('click', (e) => {
+                console.log('🔍 DEBUG: ChooseFilesBtn clicked');
+                e.stopPropagation(); // Empêcher la propagation vers uploadArea
+                fileInput.click();
+            });
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+                handleFiles(e.dataTransfer.files);
+            });
+            
+            // Uniquement cet événement doit appeler handleFiles
+            fileInput.addEventListener('change', (e) => {
+                console.log('🔍 DEBUG: File input change event');
+                console.log('🔍 DEBUG: Files selected:', e.target.files.length);
+                handleFiles(e.target.files);
+            });
+        }
+
+        // Variable globale pour stocker tous les fichiers sélectionnés
+        let allSelectedFiles = [];
+
+        // Gérer les fichiers
+        function handleFiles(files) {
+            console.log('🔍 DEBUG: === handleFiles called ===');
+            console.log('🔍 DEBUG: Files count:', files.length);
+            console.log('🔍 DEBUG: Current allSelectedFiles count:', allSelectedFiles.length);
+            console.log('🔍 DEBUG: Stack trace:', new Error().stack);
+            
+            const preview = document.getElementById('filePreview');
+            const uploadBtn = document.getElementById('uploadBtn');
+            
+            // NE PAS vider la prévisualisation - ajouter aux fichiers existants
+            // preview.innerHTML = '';  // LIGNE SUPPRIMÉE
+            
+            let validFiles = [];
+            
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    validFiles.push(file);
+                    
+                    // Ajouter aux fichiers globaux
+                    if (!allSelectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+                        allSelectedFiles.push(file);
+                        console.log('🔍 DEBUG: Added new file:', file.name);
+                    } else {
+                        console.log('🔍 DEBUG: Duplicate file skipped:', file.name);
+                    }
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        const previewItem = document.createElement('div');
+                        previewItem.className = 'col-md-2 mb-2';
+                        previewItem.innerHTML = `
+                            <img src="${e.target.result}" class="img-fluid rounded" style="max-height: 100px;">
+                            <p class="small mb-0">${file.name}</p>
+                        `;
+                        preview.appendChild(previewItem);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+            
+            console.log('🔍 DEBUG: Valid files:', validFiles.length);
+            console.log('🔍 DEBUG: Total files selected:', allSelectedFiles.length);
+            
+            if (allSelectedFiles.length > 0) {
+                uploadBtn.style.display = 'block';
+                document.getElementById('clearBtn').style.display = 'block';
+            } else {
+                uploadBtn.style.display = 'none';
+                document.getElementById('clearBtn').style.display = 'none';
+            }
+            
+            // Mettre à jour le compteur
+            document.getElementById('fileCounter').textContent = `${allSelectedFiles.length} fichier(s) sélectionné(s)`;
+            
+            console.log('🔍 DEBUG: === handleFiles completed ===');
+        }
+
+        // Effacer les fichiers sélectionnés
+        function clearFiles() {
+            const fileInput = document.getElementById('fileInput');
+            const preview = document.getElementById('filePreview');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            
+            fileInput.value = '';
+            preview.innerHTML = '';
+            uploadBtn.style.display = 'none';
+            clearBtn.style.display = 'none';
+            
+            // Vider aussi les fichiers globaux
+            allSelectedFiles = [];
+            
+            // Mettre à jour le compteur
+            document.getElementById('fileCounter').textContent = '0 fichier(s) sélectionné(s)';
+        }
+
+        // Charger les catégories depuis l'API
+        async function loadCategoriesFromAPI() {
+            try {
+                const response = await fetch('/admin/categories');
+                const result = await response.json();
+                
+                if (result.success) {
+                    categories = result.data;
+                    loadCategories();
+                } else {
+                    console.error('Erreur lors du chargement des catégories:', result.message);
+                }
+            } catch (error) {
+                console.error('Erreur lors du chargement des catégories:', error);
+            }
+        }
+
+        // Charger les catégories au démarrage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCategoriesFromAPI();
+        });
+
+        // Ajouter une catégorie
+        document.getElementById('addCategoryForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('categoryName').value;
+            const description = document.getElementById('categoryDescription').value;
+            
+            try {
+                const response = await fetch('/admin/categories', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        description: description
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Recharger les catégories depuis l'API
+                    await loadCategoriesFromAPI();
+                    updateStats();
+                    
+                    // Réinitialiser le formulaire
+                    this.reset();
+                    
+                    // Afficher une notification de succès
+                    showNotification('Catégorie ajoutée avec succès !', 'success');
+                } else {
+                    showNotification(result.message || 'Erreur lors de l\'ajout de la catégorie', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'ajout de la catégorie:', error);
+                showNotification('Erreur lors de l\'ajout de la catégorie', 'error');
+            }
+        });
+
+        // Upload d'images
+        document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const categoryId = document.getElementById('categorySelect').value;
+            
+            // Utiliser les fichiers globaux au lieu de fileInput.files
+            if (!categoryId || allSelectedFiles.length === 0) {
+                showNotification('Veuillez sélectionner une catégorie et des images', 'warning');
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                
+                // Ajouter tous les fichiers sélectionnés (globaux)
+                allSelectedFiles.forEach(file => {
+                    formData.append('images', file);
+                });
+                
+                console.log('🔍 DEBUG: Uploading', allSelectedFiles.length, 'files to category', categoryId);
+                
+                const response = await fetch(`/admin/upload/${categoryId}`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                // Vérifier si la réponse est OK
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Erreur HTTP:', response.status, response.statusText);
+                    console.error('Réponse serveur:', errorText);
+                    throw new Error(`Erreur HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Recharger les catégories depuis l'API
+                    await loadCategoriesFromAPI();
+                    updateStats();
+                    
+                    // Réinitialiser proprement le formulaire
+                    const fileInput = document.getElementById('fileInput');
+                    fileInput.value = ''; // Vider le file input
+                    document.getElementById('filePreview').innerHTML = ''; // Vider la prévisualisation
+                    document.getElementById('uploadBtn').style.display = 'none'; // Cacher le bouton upload
+                    document.getElementById('clearBtn').style.display = 'none'; // Cacher le bouton effacer
+                    
+                    // Vider les fichiers globaux
+                    allSelectedFiles = [];
+                    
+                    // Réinitialiser le compteur
+                    document.getElementById('fileCounter').textContent = '0 fichier(s) sélectionné(s)';
+                    
+                    // Afficher une notification de succès
+                    showNotification(result.message || 'Images uploadées avec succès !', 'success');
+                } else {
+                    showNotification(result.message || 'Erreur lors de l\'upload des images', 'error');
+                }
+            } catch (error) {
+                console.error('Erreur lors de l\'upload des images:', error);
+                showNotification('Erreur lors de l\'upload des images', 'error');
+                
+                // Réinitialiser aussi en cas d'erreur
+                const fileInput = document.getElementById('fileInput');
+                fileInput.value = '';
+                document.getElementById('filePreview').innerHTML = '';
+                document.getElementById('uploadBtn').style.display = 'none';
+                document.getElementById('clearBtn').style.display = 'none';
+                allSelectedFiles = [];
+                
+                // Réinitialiser le compteur
+                document.getElementById('fileCounter').textContent = '0 fichier(s) sélectionné(s)';
+            }
+        });
+
+        // Supprimer une image
+        function deleteImage(categoryId, filename) {
+            deleteTarget = { categoryId, filename };
+            const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+            modal.show();
+        }
+
+        // Confirmer la suppression
+        document.getElementById('confirmDelete').addEventListener('click', async function() {
+            if (deleteTarget) {
+                try {
+                    const response = await fetch(`/admin/images/${deleteTarget.categoryId}/${deleteTarget.filename}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Recharger les catégories depuis l'API
+                        await loadCategoriesFromAPI();
+                        updateStats();
+                        showNotification('Image supprimée avec succès', 'success');
+                    } else {
+                        showNotification(result.message || 'Erreur lors de la suppression de l\'image', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la suppression de l\'image:', error);
+                    showNotification('Erreur lors de la suppression de l\'image', 'error');
+                }
+            }
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('deleteModal'));
+            modal.hide();
+            deleteTarget = null;
+        });
+
+        // Voir une image
+        function viewImage(src, title) {
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.9);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10000;
+                cursor: pointer;
+            `;
+            
+            modal.innerHTML = `
+                <div style="position: relative; max-width: 90%; max-height: 90vh;">
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        position: absolute;
+                        top: -40px;
+                        right: -40px;
+                        background: white;
+                        border: none;
+                        border-radius: 50%;
+                        width: 40px;
+                        height: 40px;
+                        font-size: 20px;
+                        cursor: pointer;
+                    ">×</button>
+                    <img src="${src}" alt="${title}" style="
+                        max-width: 100%;
+                        max-height: 90vh;
+                        object-fit: contain;
+                        border-radius: 10px;
+                    ">
+                </div>
+            `;
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+            
+            document.body.appendChild(modal);
+        }
+
+        // Afficher une notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} position-fixed top-0 end-0 m-3`;
+            notification.style.zIndex = '9999';
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'warning' ? 'exclamation-triangle' : 'info-circle'} me-2"></i>
+                ${message}
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Éditer une catégorie (placeholder)
+        function editCategory(categoryId) {
+            showNotification('Fonction d\'édition bientôt disponible', 'info');
+        }
+
+        // Supprimer une catégorie
+        async function deleteCategory(categoryId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cette catégorie et toutes ses images ?')) {
+                try {
+                    const response = await fetch(`/admin/categories/${categoryId}`, {
+                        method: 'DELETE'
+                    });
+                    
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        // Recharger les catégories depuis l'API
+                        await loadCategoriesFromAPI();
+                        updateStats();
+                        showNotification('Catégorie supprimée avec succès', 'success');
+                    } else {
+                        showNotification(result.message || 'Erreur lors de la suppression de la catégorie', 'error');
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de la suppression de la catégorie:', error);
+                    showNotification('Erreur lors de la suppression de la catégorie', 'error');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

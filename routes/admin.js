@@ -4,8 +4,286 @@ const multer = require('multer');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const fs = require('fs');
+
+// ========== CONFIGURATION MULTTER ==========
+
+// Configuration de Multer pour les données de formulaire (sans fichiers)
+const formDataUpload = multer({});
 const { db, dbAll, dbGet, dbRun } = require('../config/database');
-const { sendEmail, createReplyHTML } = require('../services/emailService');
+
+// ========== ADMINISTRATION ALBUM ==========
+router.get('/album', (req, res) => {
+    try {
+        // Vérifier si l'utilisateur est admin ou superadmin
+        if (!req.user || (req.user.role !== 'admin' && req.user.role !== 'superadmin')) {
+            return res.redirect('/admin/login');
+        }
+        
+        res.render('admin/album-admin', {
+            title: 'Administration Album - TELEX',
+            page: 'admin-album',
+            user: req.user
+        });
+    } catch (error) {
+        console.error('❌ Erreur route /admin/album:', error);
+        res.render('admin/album-admin', {
+            title: 'Administration Album - TELEX',
+            page: 'admin-album',
+            user: req.user
+        });
+    }
+});
+
+// Route pour la page de planification des programmes
+router.get('/schedule', async (req, res) => {
+    try {
+        // Récupérer tous les programmes planifiés
+        const programs = await dbAll(`
+            SELECT id, title, program_type, schedule_time, program_date, broadcast_type, 
+                   presenter, is_active, created_at
+            FROM programs 
+            WHERE broadcast_type = 'scheduled' 
+            ORDER BY program_date, schedule_time
+        `);
+
+        // Organiser les programmes par jour
+        const schedule = {};
+        const joursSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        
+        joursSemaine.forEach(jour => {
+            schedule[jour] = [];
+        });
+
+        // Vérifier si des programmes existent dans la base
+        let hasDbPrograms = false;
+        if (programs && programs.length > 0) {
+            hasDbPrograms = true;
+            programs.forEach(program => {
+                if (program.program_date) {
+                    const programDate = new Date(program.program_date);
+                    const jourIndex = programDate.getDay();
+                    const jourName = joursSemaine[jourIndex === 0 ? 6 : jourIndex - 1];
+                    
+                    schedule[jourName].push({
+                        id: program.id,
+                        title: program.title,
+                        type: program.program_type,
+                        time: program.schedule_time,
+                        presenter: program.presenter,
+                        isActive: program.is_active,
+                        date: program.program_date,
+                        fromDb: true // Marquer comme venant de la base
+                    });
+                }
+            });
+        }
+
+        // Si aucun programme dans la base, ajouter les programmes par défaut
+        if (!hasDbPrograms) {
+            const defaultPrograms = [
+                { jour: 'Lundi', heure: '12:00', emission: '1 notion en 3 minutes', type: 'Éducatif', presenter: 'Prof. Rakoto', typeClass: 'education' },
+                { jour: 'Lundi', heure: '18:00', emission: 'TELEX Actus', type: 'Information', presenter: 'Sarah & Tom', typeClass: 'information' },
+                { jour: 'Mardi', heure: '20:00', emission: 'Décryptage & Reportages', type: 'Décryptage', presenter: 'Antoine', typeClass: 'decryptage' },
+                { jour: 'Mercredi', heure: '18:00', emission: 'Zoom Écologie', type: 'Environnement', presenter: 'Emma', typeClass: 'environnement' },
+                { jour: 'Mercredi', heure: '20:00', emission: 'Face à Face', type: 'Débat', presenter: 'Divers intervenants', typeClass: 'debats' },
+                { jour: 'Jeudi', heure: '18:00', emission: 'Travailler à Mada', type: 'Économie', presenter: 'M. Randria', typeClass: 'economie' },
+                { jour: 'Jeudi', heure: '19:00', emission: 'À Cœur Ouvert', type: 'Sociétal', presenter: 'Claire', typeClass: 'societe' },
+                { jour: 'Vendredi', heure: '17:00', emission: 'La Question des Jeunes', type: 'Jeunesse', presenter: 'Étudiants ambassadeurs', typeClass: 'jeunesse' },
+                { jour: 'Vendredi', heure: '19:00', emission: 'Culture & Identité', type: 'Culture', presenter: 'Léa & Jules', typeClass: 'culture' },
+                { jour: 'Samedi', heure: '17:00', emission: 'Telex Sports', type: 'Sport', presenter: 'Marc & Sophie', typeClass: 'sport' }
+            ];
+
+            defaultPrograms.forEach(program => {
+                schedule[program.jour].push({
+                    id: null, // Pas d'ID dans la base
+                    title: program.emission,
+                    type: `Programme ${program.type}`,
+                    time: program.heure,
+                    presenter: program.presenter,
+                    isActive: true, // Actif par défaut
+                    date: null, // Pas de date spécifique
+                    fromDb: false // Marquer comme programme par défaut
+                });
+            });
+        }
+
+        // Trier les programmes par heure pour chaque jour
+        Object.keys(schedule).forEach(jour => {
+            schedule[jour].sort((a, b) => {
+                const timeA = a.time.split('h')[0] * 60 + (a.time.split('h')[1] || 0);
+                const timeB = b.time.split('h')[0] * 60 + (b.time.split('h')[1] || 0);
+                return timeA - timeB;
+            });
+        });
+
+        res.render('admin/schedule', {
+            page: 'schedule',
+            schedule,
+            joursSemaine,
+            hasDbPrograms // Indiquer si les programmes viennent de la base
+        });
+    } catch (error) {
+        console.error('Erreur page schedule:', error);
+        res.status(500).send('Erreur serveur');
+    }
+});
+
+// Route pour mettre à jour la planification
+router.post('/schedule/update', async (req, res) => {
+    try {
+        const { programId, newDate, newTime, isActive } = req.body;
+        
+        await dbRun(`
+            UPDATE programs 
+            SET program_date = ?, schedule_time = ?, is_active = ?
+            WHERE id = ?
+        `, [newDate, newTime, isActive === 'true' ? 1 : 0, programId]);
+        
+        res.json({ success: true, message: 'Programme mis à jour avec succès' });
+    } catch (error) {
+        console.error('Erreur mise à jour schedule:', error);
+        res.status(500).json({ success: false, message: 'Erreur serveur' });
+    }
+});
+
+// Route pour supprimer un programme de la planification
+router.post('/schedule/delete/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        
+        await dbRun('DELETE FROM programs WHERE id = ?', [id]);
+        
+        res.json({ success: true, message: 'Programme supprimé avec succès' });
+    } catch (error) {
+        console.error('Erreur suppression schedule:', error);
+        res.status(500).json({ success: false, message: 'Erreur serveur' });
+    }
+});
+
+// Route pour ajouter un nouveau programme à la planification
+router.post('/schedule/add', async (req, res) => {
+    try {
+        const { title, description, presenter, schedule_time, program_type, duration, program_date, broadcast_type, is_active, image_url, video_url, quickAdd, jour, heure } = req.body;
+        
+        // Si ajout rapide selon le jour et l'heure
+        if (quickAdd === 'true' && jour && heure) {
+            const defaultPrograms = {
+                'Lundi': [
+                    { heure: '12:00', emission: '1 notion en 3 minutes', type: 'Programme Éducatif', presenter: 'Prof. Rakoto', program_type: 'Programme Éducatif' },
+                    { heure: '18:00', emission: 'TELEX Actus', type: 'Programme d\'Information', presenter: 'Sarah & Tom', program_type: 'Programme d\'Information' }
+                ],
+                'Mardi': [
+                    { heure: '20:00', emission: 'Décryptage & Reportages', type: 'Programme Décryptage & Reportages', presenter: 'Antoine', program_type: 'Programme Décryptage & Reportages' }
+                ],
+                'Mercredi': [
+                    { heure: '18:00', emission: 'Zoom Écologie', type: 'Programme Environnement', presenter: 'Emma', program_type: 'Programme Environnement' },
+                    { heure: '20:00', emission: 'Face à Face', type: 'Programme Débats', presenter: 'Divers intervenants', program_type: 'Programme Débats' }
+                ],
+                'Jeudi': [
+                    { heure: '18:00', emission: 'Travailler à Mada', type: 'Programme Économie & Travail', presenter: 'M. Randria', program_type: 'Programme Économie & Travail' },
+                    { heure: '19:00', emission: 'À Cœur Ouvert', type: 'Programme Humain & Sociétal', presenter: 'Claire', program_type: 'Programme Humain & Sociétal' }
+                ],
+                'Vendredi': [
+                    { heure: '17:00', emission: 'La Question des Jeunes', type: 'Programme Jeunesse', presenter: 'Étudiants ambassadeurs', program_type: 'Programme Jeunesse' },
+                    { heure: '19:00', emission: 'Culture & Identité', type: 'Programme Culture & Identité', presenter: 'Léa & Jules', program_type: 'Programme Culture & Identité' }
+                ],
+                'Samedi': [
+                    { heure: '17:00', emission: 'Telex Sports', type: 'Programme Sport', presenter: 'Marc & Sophie', program_type: 'Programme Sport' }
+                ]
+            };
+            
+            // Trouver le programme correspondant
+            const dayPrograms = defaultPrograms[jour];
+            const program = dayPrograms ? dayPrograms.find(p => p.heure === heure) : null;
+            
+            if (program) {
+                const result = await dbRun(
+                    `INSERT INTO programs (title, description, presenter, schedule_time, program_type, duration, program_date, broadcast_type, is_active, image_url, video_url, created_at) 
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`,
+                    [
+                        program.emission,
+                        `Programme ${program.type}`,
+                        program.presenter,
+                        program.heure,
+                        program.program_type,
+                        '30 min',
+                        new Date().toISOString().split('T')[0], // Date du jour
+                        'scheduled',
+                        1,
+                        '/images/programmes.png',
+                        null,
+                        new Date().toISOString().split('T')[0]
+                    ]
+                );
+                
+                return res.json({ 
+                    success: true, 
+                    message: 'Programme ajouté avec succès',
+                    programId: result.lastID
+                });
+            } else {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: 'Aucun programme trouvé pour ce jour et cette heure' 
+                });
+            }
+        }
+        
+        // Validation des champs obligatoires pour l'ajout manuel
+        if (!title || !schedule_time || !program_date || !program_type || !broadcast_type) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Les champs titre, heure, date, type et type de diffusion sont obligatoires' 
+            });
+        }
+        
+        // Validation du type de diffusion
+        if (!['scheduled', 'replay', 'announcement'].includes(broadcast_type)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Type de diffusion invalide' 
+            });
+        }
+        
+        // Validation des champs pour les programmes planifiés
+        if (broadcast_type === 'scheduled') {
+            if (!program_date || !schedule_time) {
+                return res.status(400).json({ 
+                    success: false, 
+                    message: 'La date et l\'heure sont obligatoires pour un programme planifié' 
+                });
+            }
+        }
+        
+        // Insérer dans la base de données
+        const result = await dbRun(
+            `INSERT INTO programs (title, description, presenter, schedule_time, program_type, duration, program_date, broadcast_type, is_active, image_url, video_url, created_at) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))`,
+            [
+                title.trim(),
+                description?.trim() || null,
+                presenter?.trim() || 'TELEX',
+                schedule_time.trim(),
+                program_type.trim(),
+                duration?.trim() || '30 min',
+                program_date.trim(),
+                broadcast_type,
+                is_active === 'true' ? 1 : 0,
+                image_url?.trim() || null,
+                video_url?.trim() || null
+            ]
+        );
+        
+        res.json({ 
+            success: true, 
+            message: 'Programme ajouté avec succès',
+            programId: result.lastID
+        });
+    } catch (error) {
+        console.error('Erreur ajout programme schedule:', error);
+        res.status(500).json({ success: false, message: 'Erreur serveur' });
+    }
+});
 
 // Route pour la page publique du Baume de la Foi
 router.get('/baume-de-la-foi-public', async (req, res) => {
@@ -49,6 +327,339 @@ router.get('/baume-de-la-foi-public', async (req, res) => {
     }
 });
 
+// ========== ABOUT ==========
+router.get('/about', requireAuth, async (req, res) => {
+    try {
+        // Vérifier si la table about existe
+        const tableExists = await dbGet(`
+            SELECT name FROM sqlite_master 
+            WHERE type='table' AND name='about'
+        `);
+        
+        if (!tableExists) {
+            return res.status(500).render('admin/error', {
+                title: 'Erreur | TELEX',
+                code: '500',
+                message: 'La table "about" n\'existe pas. Veuillez redémarrer le serveur.',
+                details: 'La table n\'a pas été trouvée dans la base de données.'
+            });
+        }
+        
+        // Récupérer les données
+        const aboutData = await dbGet(
+            'SELECT * FROM about ORDER BY id DESC LIMIT 1'
+        );
+        
+        // Si la table est vide, utiliser les valeurs par défaut
+        const defaultData = {
+            hero_title: 'À propos de Telex',
+            hero_subtitle: 'Découvrez notre histoire, notre équipe et notre vision',
+            hero_intro: 'Fondée par des étudiants passionnés, Telex est bien plus qu\'une télévision étudiante. C\'est un laboratoire d\'innovation, une école de talents et un média numérique pour la jeunesse engagée.',
+            hero_image: '/images/camera.png',
+            history_title: 'Notre Histoire',
+            history_paragraph1: 'Telex est né en 2024 de la passion commune d\'un groupe d\'étudiants déterminés à créer une télévision étudiante et un média numérique à leur image : innovants, indépendants et engagés. En partant d\'un simple projet d\'association, nous avons construit pas à pas une véritable chaîne de télévision étudiante reconnue aujourd\'hui comme la référence en matière d\'audiovisuel étudiant.',
+            history_paragraph2: 'Notre aventure a commencé avec une petite équipe de 10 passionnés et un studio improvisé. Aujourd\'hui, nous comptons plus de 50 membres actifs, un studio professionnel et une audience grandissante. Chaque jour, nous repoussons les limites de la créativité étudiante pour offrir des contenus de qualité.',
+            team_title: 'Notre Équipe',
+            team_intro: 'Notre force réside dans la diversité de nos profils. Journalistes, techniciens, monteurs, graphistes, communicants - tous étudiants et tous animés par la même passion pour l\'audiovisuel. Chaque membre contribue avec ses compétences uniques pour créer des contenus exceptionnels.',
+            team_redaction_title: 'Rédaction',
+            team_redaction_count: '2 journalistes et reporters',
+            team_redaction_image: '/images/TELEX INTEGRATION.png',
+            team_redaction_description: 'Notre équipe éditoriale travaille sur l\'écriture, les reportages et la vérification des informations.',
+            team_redaction_skills: 'Journalisme, Reportage, Édition',
+            team_technique_title: 'Technique',
+            team_technique_count: '2 techniciens audiovisuels',
+            team_technique_image: '/images/femme telex.png',
+            team_technique_description: 'Spécialistes de la prise de vue, du son et de l\'éclairage pour une production de qualité professionnelle.',
+            team_technique_skills: 'Caméra, Son, Éclairage',
+            team_postproduction_title: 'Post-production',
+            team_postproduction_count: '3 monteurs vidéo',
+            team_postproduction_image: '/images/ordi_telex.png',
+            team_postproduction_description: 'Experts en montage, étalonnage et effets spéciaux pour donner vie à nos contenus audiovisuels.',
+            team_postproduction_skills: 'Montage, Étalonnage, Motion Design',
+            team_communication_title: 'Communication',
+            team_communication_count: '1 chargés de communication',
+            team_communication_image: '/images/Présentation du Telex.png',
+            team_communication_description: 'Gestion des réseaux sociaux, relations presse et stratégie de diffusion pour maximiser notre audience.',
+            team_communication_skills: 'Réseaux sociaux, Stratégie, Community',
+            stats_title: 'Nos Chiffres',
+            stats_members_count: '50+',
+            stats_hours_count: '200+',
+            stats_views_count: '15K+',
+            stats_programs_count: '4'
+        };
+        
+        // Utiliser les données de la base ou les valeurs par défaut
+        const data = aboutData || {};
+        
+        // Créer un objet sécurisé avec toutes les clés nécessaires
+        const safeData = {
+            hero_title: data.hero_title || defaultData.hero_title,
+            hero_subtitle: data.hero_subtitle || defaultData.hero_subtitle,
+            hero_intro: data.hero_intro || defaultData.hero_intro,
+            hero_image: data.hero_image || defaultData.hero_image,
+            history_title: data.history_title || defaultData.history_title,
+            history_paragraph1: data.history_paragraph1 || defaultData.history_paragraph1,
+            history_paragraph2: data.history_paragraph2 || defaultData.history_paragraph2,
+            team_title: data.team_title || defaultData.team_title,
+            team_intro: data.team_intro || defaultData.team_intro,
+            team_redaction_title: data.team_redaction_title || defaultData.team_redaction_title,
+            team_redaction_count: data.team_redaction_count || defaultData.team_redaction_count,
+            team_redaction_image: data.team_redaction_image || defaultData.team_redaction_image,
+            team_redaction_description: data.team_redaction_description || defaultData.team_redaction_description,
+            team_redaction_skills: data.team_redaction_skills || defaultData.team_redaction_skills,
+            team_technique_title: data.team_technique_title || defaultData.team_technique_title,
+            team_technique_count: data.team_technique_count || defaultData.team_technique_count,
+            team_technique_image: data.team_technique_image || defaultData.team_technique_image,
+            team_technique_description: data.team_technique_description || defaultData.team_technique_description,
+            team_technique_skills: data.team_technique_skills || defaultData.team_technique_skills,
+            team_postproduction_title: data.team_postproduction_title || defaultData.team_postproduction_title,
+            team_postproduction_count: data.team_postproduction_count || defaultData.team_postproduction_count,
+            team_postproduction_image: data.team_postproduction_image || defaultData.team_postproduction_image,
+            team_postproduction_description: data.team_postproduction_description || defaultData.team_postproduction_description,
+            team_postproduction_skills: data.team_postproduction_skills || defaultData.team_postproduction_skills,
+            team_communication_title: data.team_communication_title || defaultData.team_communication_title,
+            team_communication_count: data.team_communication_count || defaultData.team_communication_count,
+            team_communication_image: data.team_communication_image || defaultData.team_communication_image,
+            team_communication_description: data.team_communication_description || defaultData.team_communication_description,
+            team_communication_skills: data.team_communication_skills || defaultData.team_communication_skills,
+            stats_title: data.stats_title || defaultData.stats_title,
+            stats_members_count: data.stats_members_count || defaultData.stats_members_count,
+            stats_hours_count: data.stats_hours_count || defaultData.stats_hours_count,
+            stats_views_count: data.stats_views_count || defaultData.stats_views_count,
+            stats_programs_count: data.stats_programs_count || defaultData.stats_programs_count
+        };
+        
+        // Rendre la page avec les données sécurisées
+        res.render('admin/about-admin', {
+            title: 'Admin - À Propos | TELEX',
+            page: 'admin-about',
+            user: req.session.user,
+            about: safeData
+        });
+        
+    } catch (error) {
+        console.error('❌ Erreur récupération données about:', error);
+        res.status(500).render('admin/error', {
+            title: 'Erreur | TELEX',
+            code: '500',
+            message: 'Erreur lors de la récupération des données de la page À Propos',
+            details: error.message,
+            stack: error.stack
+        });
+    }
+});
+
+router.post('/about', requireAuthApi, formDataUpload.none(), async (req, res) => {
+    try {
+        console.log('💾 Sauvegarde des données about...');
+        console.log('📥 Données reçues:', req.body);
+        
+        const {
+            hero_title, hero_subtitle, hero_intro, hero_image,
+            history_title, history_paragraph1, history_paragraph2,
+            team_title, team_intro,
+            team_redaction_title, team_redaction_count, team_redaction_image, team_redaction_description, team_redaction_skills,
+            team_technique_title, team_technique_count, team_technique_image, team_technique_description, team_technique_skills,
+            team_postproduction_title, team_postproduction_count, team_postproduction_image, team_postproduction_description, team_postproduction_skills,
+            team_communication_title, team_communication_count, team_communication_image, team_communication_description, team_communication_skills,
+            stats_title, stats_members_count, stats_hours_count, stats_views_count, stats_programs_count
+        } = req.body;
+        
+        // Vérifier si une entrée existe déjà
+        const existingEntry = await dbGet('SELECT id FROM about ORDER BY id DESC LIMIT 1');
+        
+        if (existingEntry) {
+            // Mettre à jour l'entrée existante
+            await dbRun(`
+                UPDATE about SET 
+                    hero_title = ?, hero_subtitle = ?, hero_intro = ?, hero_image = ?,
+                    history_title = ?, history_paragraph1 = ?, history_paragraph2 = ?,
+                    team_title = ?, team_intro = ?,
+                    team_redaction_title = ?, team_redaction_count = ?, team_redaction_image = ?, team_redaction_description = ?, team_redaction_skills = ?,
+                    team_technique_title = ?, team_technique_count = ?, team_technique_image = ?, team_technique_description = ?, team_technique_skills = ?,
+                    team_postproduction_title = ?, team_postproduction_count = ?, team_postproduction_image = ?, team_postproduction_description = ?, team_postproduction_skills = ?,
+                    team_communication_title = ?, team_communication_count = ?, team_communication_image = ?, team_communication_description = ?, team_communication_skills = ?,
+                    stats_title = ?, stats_members_count = ?, stats_hours_count = ?, stats_views_count = ?, stats_programs_count = ?,
+                    updated_at = CURRENT_TIMESTAMP
+                WHERE id = ?
+            `, [
+                hero_title, hero_subtitle, hero_intro, hero_image,
+                history_title, history_paragraph1, history_paragraph2,
+                team_title, team_intro,
+                team_redaction_title, team_redaction_count, team_redaction_image, team_redaction_description, team_redaction_skills,
+                team_technique_title, team_technique_count, team_technique_image, team_technique_description, team_technique_skills,
+                team_postproduction_title, team_postproduction_count, team_postproduction_image, team_postproduction_description, team_postproduction_skills,
+                team_communication_title, team_communication_count, team_communication_image, team_communication_description, team_communication_skills,
+                stats_title, stats_members_count, stats_hours_count, stats_views_count, stats_programs_count,
+                existingEntry.id
+            ]);
+            
+            console.log('✅ Données about mises à jour avec succès');
+        } else {
+            // Créer une nouvelle entrée
+            await dbRun(`
+                INSERT INTO about (
+                    hero_title, hero_subtitle, hero_intro, hero_image,
+                    history_title, history_paragraph1, history_paragraph2,
+                    team_title, team_intro,
+                    team_redaction_title, team_redaction_count, team_redaction_image, team_redaction_description, team_redaction_skills,
+                    team_technique_title, team_technique_count, team_technique_image, team_technique_description, team_technique_skills,
+                    team_postproduction_title, team_postproduction_count, team_postproduction_image, team_postproduction_description, team_postproduction_skills,
+                    team_communication_title, team_communication_count, team_communication_image, team_communication_description, team_communication_skills,
+                    stats_title, stats_members_count, stats_hours_count, stats_views_count, stats_programs_count
+                ) VALUES (
+                    ?, ?, ?, ?,
+                    ?, ?, ?,
+                    ?, ?,
+                    ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?,
+                    ?, ?, ?, ?, ?
+                )
+            `, [
+                hero_title, hero_subtitle, hero_intro, hero_image,
+                history_title, history_paragraph1, history_paragraph2,
+                team_title, team_intro,
+                team_redaction_title, team_redaction_count, team_redaction_image, team_redaction_description, team_redaction_skills,
+                team_technique_title, team_technique_count, team_technique_image, team_technique_description, team_technique_skills,
+                team_postproduction_title, team_postproduction_count, team_postproduction_image, team_postproduction_description, team_postproduction_skills,
+                team_communication_title, team_communication_count, team_communication_image, team_communication_description, team_communication_skills,
+                stats_title, stats_members_count, stats_hours_count, stats_views_count, stats_programs_count
+            ]);
+            
+            console.log('✅ Données about créées avec succès');
+        }
+        
+        res.json({ success: true, message: 'Données sauvegardées avec succès' });
+        
+    } catch (error) {
+        console.error('❌ Erreur sauvegarde données about:', error);
+        res.status(500).json({ success: false, message: 'Erreur lors de la sauvegarde des données' });
+    }
+});
+
+// ========== API ROUTES FOR SCHEDULE ==========
+// API pour récupérer tous les programmes planifiés
+router.get('/schedule/api/programs', async (req, res) => {
+    try {
+        // Récupérer tous les programmes planifiés
+        const programs = await dbAll(`
+            SELECT id, title, program_type, schedule_time, program_date, presenter, is_active, created_at, broadcast_type
+            FROM programs 
+            WHERE (broadcast_type = 'scheduled' OR (schedule_time IS NOT NULL AND program_date IS NOT NULL))
+            AND is_active = 1
+            ORDER BY program_date, schedule_time
+        `);
+
+        // Organiser les programmes par jour
+        const schedule = {};
+        const joursSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        
+        joursSemaine.forEach(jour => {
+            schedule[jour] = [];
+        });
+
+        programs.forEach(program => {
+            const programDate = new Date(program.program_date);
+            const jourIndex = programDate.getDay();
+            const jourName = joursSemaine[jourIndex === 0 ? 6 : jourIndex - 1];
+            
+            schedule[jourName].push({
+                id: program.id,
+                jour: jourName,
+                heure: program.schedule_time,
+                emission: program.title,
+                type: program.program_type,
+                typeClass: getTypeClass(program.program_type)
+            });
+        });
+
+        res.json({ 
+            success: true, 
+            programs: Object.values(schedule).flat() 
+        });
+    } catch (error) {
+        console.error('Erreur API programs:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur' 
+        });
+    }
+});
+
+// API pour récupérer les statistiques de la planification
+router.get('/api/schedule/stats', async (req, res) => {
+    try {
+        // Récupérer les statistiques des programmes planifiés
+        const totalScheduled = await dbGet('SELECT COUNT(*) as count FROM programs WHERE broadcast_type = "scheduled" AND is_active = 1');
+        const thisWeekScheduled = await dbGet(`
+            SELECT COUNT(*) as count 
+            FROM programs 
+            WHERE broadcast_type = "scheduled" 
+            AND is_active = 1 
+            AND program_date >= date('now', 'weekday 0', '-7 days')
+            AND program_date <= date('now', 'weekday 0', '7 days')
+        `);
+        
+        // Récupérer les programmes par jour pour cette semaine
+        const joursSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        const programsByDay = {};
+        
+        for (const jour of joursSemaine) {
+            const count = await dbGet(`
+                SELECT COUNT(*) as count 
+                FROM programs 
+                WHERE broadcast_type = "scheduled" 
+                AND is_active = 1 
+                AND strftime('%w', program_date) = ?
+            `, [joursSemaine.indexOf(jour) === 6 ? '0' : (joursSemaine.indexOf(jour) + 1).toString()]);
+            
+            programsByDay[jour] = count.count || 0;
+        }
+        
+        // Calculer le taux de couverture
+        const maxPossible = joursSemaine.length * 3; // 3 programmes par jour max
+        const totalThisWeek = Object.values(programsByDay).reduce((sum, count) => sum + count, 0);
+        const coverageRate = Math.round((totalThisWeek / maxPossible) * 100);
+        
+        res.json({
+            success: true,
+            stats: {
+                totalScheduled: totalScheduled.count || 0,
+                thisWeekScheduled: thisWeekScheduled.count || 0,
+                coverageRate: Math.min(coverageRate, 100),
+                programsByDay,
+                maxPossible,
+                totalThisWeek
+            }
+        });
+    } catch (error) {
+        console.error('Erreur API schedule/stats:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur' 
+        });
+    }
+});
+
+// Fonction utilitaire pour obtenir la classe CSS du type
+function getTypeClass(type) {
+    const typeMap = {
+        'Information': 'information',
+        'Décryptage': 'decryptage',
+        'Débat': 'debats',
+        'Sociétal': 'societe',
+        'Éducatif': 'education',
+        'Jeunesse': 'jeunesse',
+        'Environnement': 'environnement',
+        'Culture': 'culture',
+        'Économie': 'economie',
+        'Sport': 'sport'
+    };
+    return typeMap[type] || 'default';
+}
+
 // ========== CONFIGURATION MULTTER ==========
 
 // Configuration de Multer pour les programmes
@@ -68,7 +679,7 @@ const programsStorage = multer.diskStorage({
 
 const programsUpload = multer({
     storage: programsStorage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+    limits: { fileSize: 200 * 1024 * 1024 }, // 200MB (augmenté de 50MB)
     fileFilter: function (req, file, cb) {
         const allowedImageMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
         const allowedVideoMimes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
@@ -104,7 +715,7 @@ const newsStorage = multer.diskStorage({
 
 const newsUpload = multer({
     storage: newsStorage,
-    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB
+    limits: { fileSize: 500 * 1024 * 1024 }, // 500MB (augmenté de 50MB)
     fileFilter: function (req, file, cb) {
         const allowedImageMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
         const allowedVideoMimes = ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
@@ -134,7 +745,7 @@ const galleryStorage = multer.diskStorage({
 
 const galleryUpload = multer({
     storage: galleryStorage,
-    limits: { fileSize: 5 * 1024 * 1024 },
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50MB (augmenté de 5MB)
     fileFilter: function (req, file, cb) {
         const allowedMimes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'image/webp'];
         if (allowedMimes.includes(file.mimetype)) {
@@ -314,10 +925,9 @@ router.post('/login', async (req, res) => {
 
         // Fallback pour la compatibilité
         console.log('🔑 Tentative avec identifiants par défaut');
-        if ((username === 'admin' && password === 'admin123') ||
-            (username === 'telex' && password === 'telex2026')) {
+        if (username === 'tsialonina' && password === 'tsialonina1214') {
 
-            const role = username === 'admin' ? 'superadmin' : 'admin';
+            const role = 'superadmin';
 
             req.session.user = {
                 username: username,
@@ -526,129 +1136,145 @@ router.get('/news/edit/:id', requireAuth, async (req, res) => {
 
 router.post('/news/save', requireAuth, newsUpload.fields([{ name: 'image_file', maxCount: 1 }, { name: 'video_file', maxCount: 1 }]), async (req, res) => {
     try {
-        const { id, title, excerpt, content, author, program_type, image_url, video_url, is_published, remove_image, remove_video, media_type } = req.body;
+        const { id, title, excerpt, content, author, category, image_url, video_url, is_published, remove_image, remove_video, media_type } = req.body;
 
         if (!title || !content) {
             req.flash('error', 'Le titre et le contenu sont obligatoires');
             return res.redirect(id ? `/admin/news/edit/${id}` : '/admin/news/new');
         }
 
+        // Générer un slug à partir du titre
+        function createSlug(title) {
+            return title
+                .toLowerCase()
+                .trim()
+                .replace(/[àáâãäå]/g, 'a')
+                .replace(/[èéêë]/g, 'e')
+                .replace(/[ìíîï]/g, 'i')
+                .replace(/[òóôõö]/g, 'o')
+                .replace(/[ùúûü]/g, 'u')
+                .replace(/[ýÿ]/g, 'y')
+                .replace(/[ç]/g, 'c')
+                .replace(/[ñ]/g, 'n')
+                .replace(/[^a-z0-9\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .replace(/^-|-$/g, '');
+        }
+
+        let slug = createSlug(title);
+        
+        // Vérifier si le slug existe déjà (pour éviter les doublons)
+        if (!id) {
+            // Pour une nouvelle actualité
+            const existingSlug = await dbGet('SELECT id FROM news WHERE slug = ?', [slug]);
+            if (existingSlug) {
+                slug = `${slug}-${Date.now()}`; // Ajouter timestamp pour éviter les doublons
+            }
+        } else {
+            // Pour une édition, vérifier si le slug est utilisé par une autre actualité
+            const existingSlug = await dbGet('SELECT id FROM news WHERE slug = ? AND id != ?', [slug, id]);
+            if (existingSlug) {
+                slug = `${slug}-${id}`; // Ajouter l'ID pour éviter les doublons
+            }
+        }
+
         let finalImageUrl = null;
         let finalVideoUrl = null;
 
-        // Logique de choix exclusif entre image et vidéo
-        if (media_type === 'image') {
-            // Priorité à l'image, suppression de la vidéo
-            finalVideoUrl = null; // Toujours null pour le mode image
-
-            // Gestion de l'image
-            if (req.files && req.files.image_file && req.files.image_file[0]) {
-                finalImageUrl = `/uploads/news/${req.files.image_file[0].filename}`;
-            } else if (image_url && image_url.trim() !== '') {
-                finalImageUrl = image_url.trim();
-            }
-
-            // Suppression forcée de la vidéo existante
-            if (id && remove_video !== '1') {
-                const currentNews = await dbGet('SELECT video_url FROM news WHERE id = ?', [id]);
-                if (currentNews && currentNews.video_url) {
-                    if (currentNews.video_url.includes('/uploads/videos/')) {
-                        const filename = path.basename(currentNews.video_url);
-                        const filePath = path.join(__dirname, '..', 'public', 'uploads', 'videos', filename);
-                        if (fs.existsSync(filePath)) {
-                            fs.unlinkSync(filePath);
-                        }
-                    }
-                    finalVideoUrl = null; // Forcer la suppression en base
-                }
-            }
-
-        } else if (media_type === 'video') {
-            // Priorité à la vidéo, suppression de l'image
-            finalImageUrl = null; // Toujours null pour le mode vidéo
-
-            // Gestion de la vidéo
-            if (req.files && req.files.video_file && req.files.video_file[0]) {
-                finalVideoUrl = `/uploads/videos/${req.files.video_file[0].filename}`;
-            } else if (video_url && video_url.trim() !== '') {
-                finalVideoUrl = video_url.trim();
-            }
-
-            // Suppression forcée de l'image existante
-            if (id && remove_image !== '1') {
-                const currentNews = await dbGet('SELECT image_url FROM news WHERE id = ?', [id]);
-                if (currentNews && currentNews.image_url) {
-                    if (currentNews.image_url.includes('/uploads/news/')) {
-                        const filename = path.basename(currentNews.image_url);
-                        const filePath = path.join(__dirname, '..', 'public', 'uploads', 'news', filename);
-                        if (fs.existsSync(filePath)) {
-                            fs.unlinkSync(filePath);
-                        }
-                    }
-                    finalImageUrl = null; // Forcer la suppression en base
-                }
+        // RÈGLE : Si c'est une édition, récupérer d'abord les médias existants
+        if (id) {
+            const currentNews = await dbGet('SELECT image_url, video_url FROM news WHERE id = ?', [id]);
+            if (currentNews) {
+                finalImageUrl = currentNews.image_url;
+                finalVideoUrl = currentNews.video_url;
+                console.log('🔍 DEBUG: Médias existants - Image:', finalImageUrl, 'Vidéo:', finalVideoUrl);
             }
         }
 
-        // Gestion des suppressions explicites (champs remove_*)
+        // RÈGLE : Supprimer uniquement si demandé explicitement
         if (remove_image === '1') {
-            finalImageUrl = null;
-            if (id) {
-                const currentNews = await dbGet('SELECT image_url FROM news WHERE id = ?', [id]);
-                if (currentNews && currentNews.image_url && currentNews.image_url.includes('/uploads/news/')) {
-                    const filename = path.basename(currentNews.image_url);
-                    const filePath = path.join(__dirname, '..', 'public', 'uploads', 'news', filename);
-                    if (fs.existsSync(filePath)) {
-                        fs.unlinkSync(filePath);
-                    }
+            console.log('🔍 DEBUG: Suppression explicite de l\'image demandée');
+            if (finalImageUrl && finalImageUrl.includes('/uploads/news/')) {
+                const filename = path.basename(finalImageUrl);
+                const filePath = path.join(__dirname, '..', 'public', 'uploads', 'news', filename);
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath);
+                    console.log('🔍 DEBUG: Fichier image supprimé:', filename);
                 }
             }
+            finalImageUrl = null;
         }
 
         if (remove_video === '1') {
-            finalVideoUrl = null;
-            if (id) {
-                const currentNews = await dbGet('SELECT video_url FROM news WHERE id = ?', [id]);
-                if (currentNews && currentNews.video_url && currentNews.video_url.includes('/uploads/videos/')) {
-                    const filename = path.basename(currentNews.video_url);
-                    const filePath = path.join(__dirname, '..', 'public', 'uploads', 'videos', filename);
-                    if (fs.existsSync(filePath)) {
-                        fs.unlinkSync(filePath);
-                    }
+            console.log('🔍 DEBUG: Suppression explicite de la vidéo demandée');
+            if (finalVideoUrl && finalVideoUrl.includes('/uploads/videos/')) {
+                const filename = path.basename(finalVideoUrl);
+                const filePath = path.join(__dirname, '..', 'public', 'uploads', 'videos', filename);
+                if (fs.existsSync(filePath)) {
+                    fs.unlinkSync(filePath);
+                    console.log('🔍 DEBUG: Fichier vidéo supprimé:', filename);
                 }
             }
+            finalVideoUrl = null;
         }
+
+        // RÈGLE : Nouveau fichier uploaded = remplacer l'ancien
+        if (req.files && req.files.image_file && req.files.image_file[0]) {
+            console.log('🔍 DEBUG: Nouvelle image uploadée');
+            finalImageUrl = `/uploads/news/${req.files.image_file[0].filename}`;
+        }
+
+        if (req.files && req.files.video_file && req.files.video_file[0]) {
+            console.log('🔍 DEBUG: Nouvelle vidéo uploadée');
+            finalVideoUrl = `/uploads/videos/${req.files.video_file[0].filename}`;
+        }
+
+        // RÈGLE : URL externe (si fournie) = remplacer
+        if (image_url && image_url.trim() !== '') {
+            console.log('🔍 DEBUG: URL image externe fournie');
+            finalImageUrl = image_url.trim();
+        }
+
+        if (video_url && video_url.trim() !== '') {
+            console.log('🔍 DEBUG: URL vidéo externe fournie');
+            finalVideoUrl = video_url.trim();
+        }
+
+        console.log('🔍 DEBUG: Résultat final - Image:', finalImageUrl, 'Vidéo:', finalVideoUrl);
 
         if (id) {
             await dbRun(
                 `UPDATE news SET 
                  title = ?, excerpt = ?, content = ?, author = ?, 
-                 program_type = ?, image_url = ?, video_url = ?, is_published = ?, 
-                 updated_at = CURRENT_TIMESTAMP 
+                 category = ?, image_url = ?, video_url = ?, is_published = ?, 
+                 slug = ?, updated_at = CURRENT_TIMESTAMP 
                  WHERE id = ?`,
                 [title.trim(),
                 excerpt?.trim() || '',
                 content.trim(),
-                author?.trim() || 'TELEX',
-                program_type?.trim() || 'Actualité',
-                    finalImageUrl,
-                    finalVideoUrl,
+                author || 'TELEX',
+                category || 'Actualité',
+                finalImageUrl,
+                finalVideoUrl,
                 is_published ? 1 : 0,
-                    id]
+                slug,
+                id]
             );
             req.flash('success', 'Actualité mise à jour avec succès');
         } else {
             await dbRun(
-                `INSERT INTO news (title, excerpt, content, author, program_type, image_url, video_url, is_published) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+                `INSERT INTO news (title, excerpt, content, author, category, image_url, video_url, is_published, slug) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
                 [title.trim(),
                 excerpt?.trim() || '',
                 content.trim(),
                 author?.trim() || 'TELEX',
-                program_type?.trim() || 'Actualité',
+                category?.trim() || 'politique',
                     finalImageUrl,
                     finalVideoUrl,
-                is_published ? 1 : 0]
+                is_published ? 1 : 0,
+                slug]
             );
             req.flash('success', 'Actualité créée avec succès');
         }
@@ -658,6 +1284,95 @@ router.post('/news/save', requireAuth, newsUpload.fields([{ name: 'image_file', 
         console.error('Erreur sauvegarde:', error);
         req.flash('error', 'Erreur lors de la sauvegarde: ' + error.message);
         res.redirect('/admin/news');
+    }
+});
+
+// Route d'auto-sauvegarde pour les actualités
+router.post('/news/autosave', requireAuth, newsUpload.fields([{ name: 'image_file', maxCount: 1 }, { name: 'video_file', maxCount: 1 }]), async (req, res) => {
+    try {
+        const { id, title, excerpt, content, author, category, image_url, video_url, is_published, remove_image, remove_video, media_type } = req.body;
+
+        // Validation minimale pour l'auto-sauvegarde
+        if (!title || !content) {
+            return res.json({ success: false, error: 'Titre et contenu requis' });
+        }
+
+        let finalImageUrl = null;
+        let finalVideoUrl = null;
+
+        // Logique de choix exclusif entre image et vidéo (similaire à la route principale)
+        if (media_type === 'image') {
+            finalVideoUrl = null;
+            if (req.files && req.files.image_file && req.files.image_file[0]) {
+                finalImageUrl = `/uploads/news/${req.files.image_file[0].filename}`;
+            } else if (image_url && image_url.trim() !== '') {
+                finalImageUrl = image_url.trim();
+            }
+        } else if (media_type === 'video') {
+            finalImageUrl = null;
+            if (req.files && req.files.video_file && req.files.video_file[0]) {
+                finalVideoUrl = `/uploads/videos/${req.files.video_file[0].filename}`;
+            } else if (video_url && video_url.trim() !== '') {
+                finalVideoUrl = video_url.trim();
+            }
+        }
+
+        // Gestion des suppressions
+        if (remove_image === '1') {
+            finalImageUrl = null;
+        }
+        if (remove_video === '1') {
+            finalVideoUrl = null;
+        }
+
+        if (id) {
+            // Mise à jour d'une actualité existante
+            await dbRun(
+                `UPDATE news SET 
+                 title = ?, excerpt = ?, content = ?, author = ?, 
+                 category = ?, image_url = ?, video_url = ?, is_published = ?, 
+                 updated_at = CURRENT_TIMESTAMP 
+                 WHERE id = ?`,
+                [title.trim(),
+                excerpt?.trim() || '',
+                content.trim(),
+                author?.trim() || 'TELEX',
+                category?.trim() || 'politique',
+                finalImageUrl,
+                finalVideoUrl,
+                is_published ? 1 : 0,
+                id]
+            );
+        } else {
+            // Création d'une nouvelle actualité (brouillon)
+            const result = await dbRun(
+                `INSERT INTO news (title, excerpt, content, author, category, image_url, video_url, is_published, slug) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                [title.trim(),
+                excerpt?.trim() || '',
+                content.trim(),
+                author?.trim() || 'TELEX',
+                category?.trim() || 'politique',
+                finalImageUrl,
+                finalVideoUrl,
+                is_published ? 1 : 0,
+                slug]
+            );
+            id = result.id;
+        }
+
+        res.json({ 
+            success: true, 
+            message: 'Brouillon sauvegardé',
+            id: id
+        });
+
+    } catch (error) {
+        console.error('Erreur auto-sauvegarde:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: 'Erreur lors de l\'auto-sauvegarde' 
+        });
     }
 });
 
@@ -705,7 +1420,15 @@ router.get('/news/delete/:id', requireAuth, async (req, res) => {
 // ========== PROGRAMS ==========
 router.get('/programs', requireAuth, async (req, res) => {
     try {
-        const programs = await dbAll('SELECT * FROM programs ORDER BY created_at DESC');
+        // Récupérer uniquement les programmes non-planifiés (articles)
+        const programs = await dbAll(`
+            SELECT id, title, description, presenter, program_type, video_url, image_url, 
+                   is_active, created_at, updated_at, broadcast_type, program_date, schedule_time,
+                   views, total_views
+            FROM programs 
+            WHERE broadcast_type != 'scheduled' OR broadcast_type IS NULL 
+            ORDER BY created_at DESC
+        `);
         
         // Calculer les statistiques pour la page programmes
         const stats = {
@@ -754,9 +1477,10 @@ router.post('/programs/save', requireAuth, programsUpload.fields([{ name: 'image
         console.log('🔍 DEBUG programs/save - req.body:', req.body);
         console.log('🔍 DEBUG programs/save - req.files:', req.files);
 
-        const { title, description, presenter, schedule_time, program_type, duration, program_date, broadcast_type, is_active, image_url, video_url } = req.body;
+        const { title, description, presenter, schedule_time, program_type, duration, program_date, broadcast_type, is_active, video_url } = req.body;
 
-        console.log('🔍 DEBUG - Variables extraites:', { title, description, presenter, video_url, image_url, broadcast_type, is_active });
+        console.log('🔍 DEBUG - Variables extraites:', { title, description, presenter, video_url, broadcast_type, is_active });
+        console.log('🔍 DEBUG - Type de diffusion reçu:', broadcast_type);
 
         // Validation basique
         if (!title || !description) {
@@ -765,31 +1489,33 @@ router.post('/programs/save', requireAuth, programsUpload.fields([{ name: 'image
         }
 
         // Validation du type de diffusion
-        if (!broadcast_type || !['announcement', 'scheduled', 'replay'].includes(broadcast_type)) {
+        if (!broadcast_type || !['announcement', 'live'].includes(broadcast_type)) {
             req.flash('error', 'Le type de diffusion est obligatoire');
             return res.redirect('/admin/programs/new');
         }
 
         // Validation des champs obligatoires selon le type
-        if (broadcast_type === 'scheduled' && (!program_date || !schedule_time)) {
-            req.flash('error', 'La date et l\'heure sont obligatoires pour un programme planifié');
-            return res.redirect('/admin/programs/new');
-        }
+        // Les champs date/heure sont optionnels pour les nouveaux types
+        // Plus de validation spécifique requise
 
         // Préparer les URLs des médias
-        let finalImageUrl = image_url?.trim() || '';
+        let finalImageUrl = '';
         let finalVideoUrl = video_url?.trim() || '';
 
         // Gérer les fichiers uploadés
         if (req.files && req.files.image_file && req.files.image_file.length > 0) {
             const imageFile = req.files.image_file[0];
             finalImageUrl = `/uploads/programs/${imageFile.filename}`;
+            console.log('🔍 DEBUG - Image uploadée:', finalImageUrl);
         }
 
         if (req.files && req.files.video_file && req.files.video_file.length > 0) {
             const videoFile = req.files.video_file[0];
             finalVideoUrl = `/uploads/programs/${videoFile.filename}`;
+            console.log('🔍 DEBUG - Vidéo uploadée:', finalVideoUrl);
         }
+
+        console.log('🔍 DEBUG - URLs finales:', { finalImageUrl, finalVideoUrl });
 
         // Insérer dans la base de données
         const result = await dbRun(
@@ -994,24 +1720,60 @@ router.post('/programs/update/:id', requireAuth, programsUpload.fields([{ name: 
 router.get('/programs/delete/:id', requireAuth, async (req, res) => {
     try {
         const programId = req.params.id;
+        console.log('🗑️ [DELETE] Route de suppression appelée pour le programme ID:', programId);
+        console.log('🗑️ [DELETE] Utilisateur connecté:', req.session.user);
 
         // Récupérer le programme pour avoir son titre
         const program = await dbGet('SELECT title FROM programs WHERE id = ?', [programId]);
 
         if (!program) {
+            console.log('❌ [DELETE] Programme non trouvé:', programId);
             req.flash('error', 'Programme non trouvé');
             return res.redirect('/admin/programs');
         }
 
+        console.log('✅ [DELETE] Programme trouvé:', program.title, '- Suppression en cours...');
+
         // Supprimer le programme
         await dbRun('DELETE FROM programs WHERE id = ?', [programId]);
 
+        console.log('✅ [DELETE] Programme supprimé avec succès');
         req.flash('success', `Programme "${program.title}" supprimé avec succès`);
         res.redirect('/admin/programs');
 
     } catch (error) {
         console.error('❌ Erreur suppression programme:', error);
         req.flash('error', 'Erreur lors de la suppression du programme');
+        res.redirect('/admin/programs');
+    }
+});
+
+// Route pour nettoyer les programmes invalides (créés via la grille)
+router.post('/programs/cleanup', requireAuth, async (req, res) => {
+    try {
+        // Supprimer tous les programmes avec show_on_public = 0 et sans description valide
+        const result = await dbRun(`
+            DELETE FROM programs 
+            WHERE show_on_public = 0 
+            AND (title LIKE '%L\'Essentiel%' 
+                 OR title LIKE '%kjdfklsejkfsljk%'
+                 OR title LIKE '%kghklfgjkclfjbhfkl%'
+                 OR title LIKE '%kkkkk%'
+                 OR title LIKE '%gggghg%'
+                 OR title LIKE '%Tsy haiko%'
+                 OR title LIKE '%c b;:c,b:l,%'
+                 OR title LIKE '%Debas%'
+                 OR LENGTH(title) < 3
+                 OR title IS NULL
+                 OR title = '')
+        `);
+
+        req.flash('success', `${result.changes} programmes invalides supprimés avec succès`);
+        res.redirect('/admin/programs');
+
+    } catch (error) {
+        console.error('❌ Erreur nettoyage programmes:', error);
+        req.flash('error', 'Erreur lors du nettoyage des programmes');
         res.redirect('/admin/programs');
     }
 });
@@ -1151,70 +1913,20 @@ router.post('/contacts/reply/:id', requireAuth, async (req, res) => {
         
         console.log('✅ Réponse sauvegardée avec ID:', result.id);
         
-        // Envoyer l'email directement si demandé
-        if (send_directly === 'true' && sendEmail && createReplyHTML) {
-            console.log('📨 Envoi direct de l\'email à:', contact.email);
-            
-            const emailHTML = createReplyHTML(contact.name, reply_message, include_original ? contact : null);
-            const emailText = `Bonjour ${contact.name},\n\n${reply_message}${
-                include_original ? '\n\n--- Message original ---\n' + 
-                `De: ${contact.name} <${contact.email}>\n` +
-                `Date: ${new Date(contact.created_at).toLocaleString('fr-FR')}\n` +
-                `Sujet: ${contact.subject || 'Sans objet'}\n\n` +
-                contact.message : ''
-            }`;
-            
-            const emailResult = await sendEmail(
-                contact.email,
-                reply_subject,
-                emailHTML,
-                emailText
-            );
-            
-            if (emailResult.success) {
-                console.log('✅ Email envoyé directement avec succès');
-                return res.json({ 
-                    success: true, 
-                    message: 'Réponse sauvegardée et email envoyé directement!',
-                    reply_id: result.id,
-                    email_sent: true
-                });
-            } else {
-                console.error('❌ Erreur envoi email:', emailResult.error);
-                return res.status(500).json({ 
-                    success: false, 
-                    error: 'Erreur lors de l\'envoi de l\'email: ' + emailResult.error
-                });
-            }
-        } else {
-            // Fallback vers mailto (toujours fonctionnel)
-            console.log('📧 Fallback vers client email...');
-            const mailtoLink = 'mailto:' + encodeURIComponent(contact.email) + 
-                             '?subject=' + encodeURIComponent(reply_subject) + 
-                             '&body=' + encodeURIComponent(full_message);
-            
-            console.log('🔗 Lien mailto généré:', mailtoLink);
-            
-            try {
-                window.open(mailtoLink, '_blank');
-                console.log('✅ Client email ouvert');
-            } catch (error) {
-                console.error('❌ Erreur lors de l\'ouverture du client email:', error);
-                showNotification('Erreur lors de l\'ouverture du client email', 'danger');
-                return;
-            }
-            
-            // Vider le formulaire
-            document.getElementById('replyMessage').value = '';
-            
-            // Afficher une confirmation
-            showNotification('Réponse sauvegardée, ouverture du client email...', 'info');
-        }
+        // Désactivé: fonctionnalité d'envoi d'email direct
+        // Utilisation uniquement du fallback mailto
+        console.log('📧 Utilisation du client email par défaut...');
+        const mailtoLink = 'mailto:' + encodeURIComponent(contact.email) + 
+                         '?subject=' + encodeURIComponent(reply_subject) + 
+                         '&body=' + encodeURIComponent(full_message);
         
-        res.json({ 
+        console.log('🔗 Lien mailto généré:', mailtoLink);
+        
+        return res.json({ 
             success: true, 
-            message: 'Réponse sauvegardée avec succès',
+            message: 'Réponse sauvegardée! Utilisez votre client email pour envoyer.',
             reply_id: result.id,
+            mailto_link: mailtoLink,
             email_sent: false
         });
         
@@ -1353,8 +2065,8 @@ router.post('/gallery/upload', requireAuth, galleryUpload.array('images', 10), a
                     ]
                 );
                 
-                console.log('✅ Image uploadée:', file.originalname, 'ID:', result.lastID);
-                return { success: true, filename: file.filename, id: result.lastID };
+                console.log('✅ Image uploadée:', file.originalname, 'ID:', result.id);
+                return { success: true, filename: file.filename, id: result.id };
                 
             } catch (error) {
                 console.error('❌ Erreur upload image:', error);
@@ -1387,7 +2099,7 @@ router.post('/gallery/upload', requireAuth, galleryUpload.array('images', 10), a
 router.post('/gallery/update/:id', requireAuth, async (req, res) => {
     try {
         const imageId = req.params.id;
-        const { title, description, program_type } = req.body;
+        const { title, description, category } = req.body;
 
         // Vérifier si l'image existe
         const existingImage = await dbGet('SELECT * FROM gallery WHERE id = ?', [imageId]);
@@ -1405,12 +2117,12 @@ router.post('/gallery/update/:id', requireAuth, async (req, res) => {
         // Mettre à jour dans la base de données
         await dbRun(
             `UPDATE gallery 
-             SET title = ?, description = ?, program_type = ?, updated_at = CURRENT_TIMESTAMP 
+             SET title = ?, description = ?, category = ?, updated_at = CURRENT_TIMESTAMP 
              WHERE id = ?`,
             [
                 title.trim(),
                 description?.trim() || '',
-                program_type?.trim() || 'autres',
+                category?.trim() || 'autres',
                 imageId
             ]
         );
@@ -1491,14 +2203,14 @@ router.post('/footer/update', requireAuth, async (req, res) => {
             contact_email, contact_phone, contact_address,
             contact_phone_2, contact_phone_3,
             youtube_url, instagram_url, facebook_url, tiktok_url, twitter_url,
-            footer_logo, footer_description
+            footer_logo, footer_description, copyright_text
         } = req.body;
 
         const settings = {
             contact_email, contact_phone, contact_address,
             contact_phone_2, contact_phone_3,
             youtube_url, instagram_url, facebook_url, tiktok_url, twitter_url,
-            footer_logo, footer_description
+            footer_logo, footer_description, copyright_text
         };
 
         for (const [key, value] of Object.entries(settings)) {
@@ -1573,188 +2285,6 @@ router.post('/update-password', requireAuth, async (req, res) => {
         console.error('❌ Erreur mise à jour mot de passe:', error);
         req.flash('error', 'Erreur lors de la mise à jour du mot de passe');
         res.redirect('/admin/settings');
-    }
-});
-
-// ========== SCHEDULE ==========
-
-// Afficher la grille des programmes
-router.get('/schedule', requireAuth, async function(req, res) {
-    try {
-        const programs = await dbAll(`
-            SELECT 
-                ps.id,
-                CASE ps.day_of_week
-                    WHEN 1 THEN 'Lundi'
-                    WHEN 2 THEN 'Mardi'
-                    WHEN 3 THEN 'Mercredi'
-                    WHEN 4 THEN 'Jeudi'
-                    WHEN 5 THEN 'Vendredi'
-                    WHEN 6 THEN 'Samedi'
-                    WHEN 7 THEN 'Dimanche'
-                    ELSE 'Inconnu'
-                END as day,
-                ps.start_time as time,
-                ps.is_active,
-                p.title as program_name,
-                p.program_type,
-                p.presenter,
-                p.description,
-                p.image_url,
-                p.video_url
-            FROM program_schedule ps
-            LEFT JOIN programs p ON ps.program_id = p.id
-            WHERE ps.is_active = 1 
-            ORDER BY ps.day_of_week, ps.start_time
-        `);
-
-        res.render('admin/schedule', {
-            title: 'Grille des Programmes - TELEX',
-            user: req.session.user,
-            programs: programs,
-            success_msg: req.flash('success'),
-            error_msg: req.flash('error')
-        });
-    } catch (error) {
-        console.error('❌ Erreur chargement grille:', error);
-        req.flash('error', 'Erreur lors du chargement de la grille des programmes');
-        res.redirect('/admin/dashboard');
-    }
-});
-
-// Ajouter un programme à la grille
-router.post('/schedule/add', requireAuth, async (req, res) => {
-    try {
-        const { day, time, program_name, program_type } = req.body;
-
-        if (!day || !time || !program_name || !program_type) {
-            req.flash('error', 'Tous les champs sont obligatoires');
-            return res.redirect('/admin/schedule');
-        }
-
-        // Valider le format de l'heure
-        if (!/^\d{2}:\d{2}$/.test(time)) {
-            req.flash('error', 'L\'heure doit être au format HH:MM');
-            return res.redirect('/admin/schedule');
-        }
-
-        // Convertir le jour en numéro
-        const dayMap = {
-            'Lundi': 1, 'Mardi': 2, 'Mercredi': 3, 'Jeudi': 4,
-            'Vendredi': 5, 'Samedi': 6, 'Dimanche': 7
-        };
-        
-        const dayOfWeek = dayMap[day];
-        if (!dayOfWeek) {
-            req.flash('error', 'Jour invalide');
-            return res.redirect('/admin/schedule');
-        }
-
-        // D'abord créer ou trouver le programme
-        const existingProgram = await dbGet('SELECT id FROM programs WHERE title = ?', [program_name]);
-        let programId;
-        
-        if (existingProgram) {
-            programId = existingProgram.id;
-        } else {
-            // Créer un nouveau programme
-            const result = await dbRun(
-                'INSERT INTO programs (title, program_type, is_active) VALUES (?, ?, 1)',
-                [program_name, program_type]
-            );
-            programId = result.lastID;
-        }
-
-        // Ajouter à la grille
-        await dbRun(
-            'INSERT INTO program_schedule (program_id, day_of_week, start_time, is_active) VALUES (?, ?, ?, 1)',
-            [programId, dayOfWeek, time]
-        );
-
-        req.flash('success', 'Programme ajouté à la grille avec succès !');
-        res.redirect('/admin/schedule');
-
-    } catch (error) {
-        console.error('❌ Erreur ajout programme:', error);
-        req.flash('error', 'Erreur lors de l\'ajout du programme');
-        res.redirect('/admin/schedule');
-    }
-});
-
-// Mettre à jour un programme
-router.post('/schedule/update/:id', requireAuth, async (req, res) => {
-    try {
-        const { id } = req.params;
-        const { day, time, program_name, program_type } = req.body;
-
-        if (!day || !time || !program_name || !program_type) {
-            req.flash('error', 'Tous les champs sont obligatoires');
-            return res.redirect('/admin/schedule');
-        }
-
-        // Valider le format de l'heure
-        if (!/^\d{2}:\d{2}$/.test(time)) {
-            req.flash('error', 'L\'heure doit être au format HH:MM');
-            return res.redirect('/admin/schedule');
-        }
-
-        // Convertir le jour en numéro
-        const dayMap = {
-            'Lundi': 1, 'Mardi': 2, 'Mercredi': 3, 'Jeudi': 4,
-            'Vendredi': 5, 'Samedi': 6, 'Dimanche': 7
-        };
-        
-        const dayOfWeek = dayMap[day];
-        if (!dayOfWeek) {
-            req.flash('error', 'Jour invalide');
-            return res.redirect('/admin/schedule');
-        }
-
-        // D'abord créer ou trouver le programme
-        const existingProgram = await dbGet('SELECT id FROM programs WHERE title = ?', [program_name]);
-        let programId;
-        
-        if (existingProgram) {
-            programId = existingProgram.id;
-        } else {
-            // Créer un nouveau programme
-            const result = await dbRun(
-                'INSERT INTO programs (title, program_type, is_active) VALUES (?, ?, 1)',
-                [program_name, program_type]
-            );
-            programId = result.lastID;
-        }
-
-        // Mettre à jour la grille
-        await dbRun(
-            'UPDATE program_schedule SET program_id = ?, day_of_week = ?, start_time = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?',
-            [programId, dayOfWeek, time, id]
-        );
-
-        req.flash('success', 'Programme mis à jour avec succès !');
-        res.redirect('/admin/schedule');
-
-    } catch (error) {
-        console.error('❌ Erreur mise à jour programme:', error);
-        req.flash('error', 'Erreur lors de la mise à jour du programme');
-        res.redirect('/admin/schedule');
-    }
-});
-
-// Supprimer un programme
-router.post('/schedule/delete/:id', requireAuth, async (req, res) => {
-    try {
-        const { id } = req.params;
-
-        await dbRun('UPDATE program_schedule SET is_active = 0 WHERE id = ?', [id]);
-
-        req.flash('success', 'Programme supprimé de la grille avec succès !');
-        res.redirect('/admin/schedule');
-
-    } catch (error) {
-        console.error('❌ Erreur suppression programme:', error);
-        req.flash('error', 'Erreur lors de la suppression du programme');
-        res.redirect('/admin/schedule');
     }
 });
 
@@ -1986,26 +2516,6 @@ router.post('/baume-de-la-foi/reflexion/delete/:id', requireAuthApi, async (req,
     }
 });
 
-// API pour récupérer plus de témoignages
-router.get('/api/baume/temoignages', async (req, res) => {
-    try {
-        const { page = 1, limit = 6 } = req.query;
-        const offset = (page - 1) * limit;
-        const temoignages = await dbAll(`
-            SELECT id, author_name, content, created_at
-            FROM baume_temoignages 
-            WHERE is_approved = 1 
-            ORDER BY created_at DESC 
-            LIMIT ? OFFSET ?
-        `, [parseInt(limit), offset]);
-        
-        res.json({ success: true, data: temoignages });
-    } catch (error) {
-        console.error('❌ Erreur API témoignages:', error);
-        res.status(500).json({ success: false, error: 'Erreur lors du chargement' });
-    }
-});
-
 // API pour les statistiques du Baume de la Foi
 router.get('/baume-de-la-foi/stats', requireAuth, async (req, res) => {
     try {
@@ -2130,12 +2640,457 @@ router.delete('/baume-de-la-foi/temoignage/:id', requireAuth, async (req, res) =
             message: 'Témoignage supprimé avec succès'
         });
     } catch (error) {
-        console.error('❌ Erreur suppression témoignage:', error);
-        res.status(500).json({ success: false, error: 'Erreur lors de la suppression du témoignage' });
+        console.error('Erreur lors de la suppression du programme:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur lors de la suppression du programme' 
+        });
     }
 });
 
-// ========== EXPORT ==========
+// ========== ROUTES API POUR LES OPÉRATIONS AJAX ==========
+
+// GET - Récupérer tous les programmes
+router.get('/schedule/api/programs', async (req, res) => {
+    try {
+        const programs = await dbAll(`
+            SELECT id, title, description, presenter, schedule_time as time, program_type as type, 
+                   duration, program_date as date, broadcast_type, is_active, image_url, video_url
+            FROM programs 
+            WHERE broadcast_type = 'scheduled' 
+            ORDER BY program_date, schedule_time
+        `);
+        
+        // Transformer les données pour correspondre au format attendu
+        const formattedPrograms = programs.map(program => {
+            // Extraire le jour de la date si disponible, sinon utiliser une logique par défaut
+            let jour = 'Lundi'; // Valeur par défaut
+            
+            if (program.date) {
+                const programDate = new Date(program.date);
+                const dayOfWeek = programDate.getDay(); // 0 = Dimanche, 1 = Lundi, etc.
+                const jours = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+                jour = jours[dayOfWeek];
+            }
+            
+            // Nettoyer le type de programme
+            const cleanType = program.type.replace('Programme ', '');
+            
+            // Déterminer la classe CSS
+            const typeMap = {
+                'Information': 'information',
+                'Décryptage & Reportages': 'decryptage',
+                'Débats': 'debats',
+                'Humain & Sociétal': 'societe',
+                'Éducatif': 'education',
+                'Jeunesse': 'jeunesse',
+                'Environnement': 'environnement',
+                'Culture & Identité': 'culture',
+                'Économie & Travail': 'economie',
+                'Sport': 'sport'
+            };
+            
+            return {
+                id: program.id.toString(),
+                jour: jour,
+                heure: program.time,
+                emission: program.title,
+                type: cleanType,
+                typeClass: typeMap[cleanType] || 'default'
+            };
+        });
+        
+        res.json({
+            success: true,
+            programs: formattedPrograms
+        });
+    } catch (error) {
+        console.error('Erreur lors de la récupération des programmes:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Erreur serveur lors de la récupération des programmes'
+        });
+    }
+});
+
+// GET - Récupérer tous les programmes
+// Route pour la page de planification des programmes
+router.get('/schedule', requireAuth, async (req, res) => {
+    try {
+        // Récupérer tous les programmes planifiés
+        const programs = await dbAll(`
+            SELECT id, title, program_type, schedule_time, program_date, broadcast_type, 
+                   presenter, is_active, created_at
+            FROM programs 
+            WHERE broadcast_type = 'scheduled' 
+            ORDER BY program_date, schedule_time
+        `);
+
+        // Organiser les programmes par jour
+        const schedule = {};
+        const joursSemaine = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+        
+        joursSemaine.forEach(jour => {
+            schedule[jour] = [];
+        });
+
+        // Vérifier si des programmes existent dans la base
+        let hasDbPrograms = false;
+        if (programs && programs.length > 0) {
+            hasDbPrograms = true;
+            programs.forEach(program => {
+                if (program.program_date) {
+                    const programDate = new Date(program.program_date);
+                    const jourIndex = programDate.getDay();
+                    const jourName = joursSemaine[jourIndex === 0 ? 6 : jourIndex - 1];
+                    
+                    schedule[jourName].push({
+                        id: program.id,
+                        title: program.title,
+                        type: program.program_type,
+                        time: program.schedule_time,
+                        presenter: program.presenter,
+                        isActive: program.is_active,
+                        date: program.program_date,
+                        fromDb: true // Marquer comme venant de la base
+                    });
+                }
+            });
+        }
+
+        // Si aucun programme dans la base, ajouter les programmes par défaut
+        if (!hasDbPrograms) {
+            const defaultPrograms = [
+                { jour: 'Lundi', heure: '12:00', emission: '1 notion en 3 minutes', type: 'Éducatif', presenter: 'Prof. Rakoto' },
+                { jour: 'Lundi', heure: '18:00', emission: 'TELEX Actus', type: 'Information', presenter: 'Sarah & Tom' },
+                { jour: 'Mardi', heure: '20:00', emission: 'Décryptage & Reportages', type: 'Décryptage', presenter: 'Antoine' },
+                { jour: 'Mercredi', heure: '18:00', emission: 'Zoom Écologie', type: 'Environnement', presenter: 'Emma' },
+                { jour: 'Mercredi', heure: '20:00', emission: 'Face à Face', type: 'Débat', presenter: 'Divers intervenants' },
+                { jour: 'Jeudi', heure: '18:00', emission: 'Travailler à Mada', type: 'Économie', presenter: 'M. Randria' },
+                { jour: 'Jeudi', heure: '19:00', emission: 'À Cœur Ouvert', type: 'Sociétal', presenter: 'Claire' },
+                { jour: 'Vendredi', heure: '17:00', emission: 'La Question des Jeunes', type: 'Jeunesse', presenter: 'Étudiants ambassadeurs' },
+                { jour: 'Vendredi', heure: '19:00', emission: 'Culture & Identité', type: 'Culture', presenter: 'Léa & Jules' },
+                { jour: 'Samedi', heure: '17:00', emission: 'Telex Sports', type: 'Sport', presenter: 'Marc & Sophie' }
+            ];
+
+            defaultPrograms.forEach(program => {
+                schedule[program.jour].push({
+                    id: null, // Pas d'ID dans la base
+                    title: program.emission,
+                    type: program.type,
+                    time: program.heure,
+                    presenter: program.presenter,
+                    isActive: true, // Actif par défaut
+                    date: null, // Pas de date spécifique
+                    fromDb: false // Marquer comme programme par défaut
+                });
+            });
+        }
+
+        // Trier les programmes par heure pour chaque jour
+        Object.keys(schedule).forEach(jour => {
+            schedule[jour].sort((a, b) => a.time.localeCompare(b.time));
+        });
+
+        res.render('admin/schedule', {
+            title: 'Planification des Programmes - TELEX',
+            user: req.session.user,
+            schedule,
+            joursSemaine,
+            hasDbPrograms,
+            success_msg: req.flash('success'),
+            error_msg: req.flash('error')
+        });
+    } catch (error) {
+        console.error('Erreur page schedule:', error);
+        req.flash('error', 'Erreur lors du chargement de la planification');
+        res.redirect('/admin/dashboard');
+    }
+});
+
+// Route pour mettre à jour un programme (version API)
+router.put('/schedule/program/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, type, time, presenter, isActive, date, jour } = req.body;
+
+        if (!title || !time) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Le titre et l\'heure sont obligatoires' 
+            });
+        }
+
+        // Si le jour est fourni, calculer la date appropriée
+        let programDate = date;
+        if (jour) {
+            const joursMap = {
+                'Lundi': 1,
+                'Mardi': 2,
+                'Mercredi': 3,
+                'Jeudi': 4,
+                'Vendredi': 5,
+                'Samedi': 6,
+                'Dimanche': 0
+            };
+            
+            const today = new Date();
+            const currentDayOfWeek = today.getDay();
+            const targetDayOfWeek = joursMap[jour];
+            
+            let targetDate = new Date(today);
+            const dayDiff = targetDayOfWeek - currentDayOfWeek;
+            targetDate.setDate(today.getDate() + dayDiff);
+            programDate = targetDate.toISOString().split('T')[0];
+        }
+
+        await dbRun(`
+            UPDATE programs 
+            SET title = ?, program_type = ?, schedule_time = ?, presenter = ?, 
+                is_active = ?, program_date = ?, updated_at = CURRENT_TIMESTAMP
+            WHERE id = ?
+        `, [
+            title.trim(),
+            type?.trim() || 'Programme d\'Information',
+            time.trim(),
+            presenter?.trim() || 'TELEX',
+            isActive ? 1 : 0,
+            programDate || null,
+            id
+        ]);
+
+        res.json({ 
+            success: true, 
+            message: 'Programme mis à jour avec succès' 
+        });
+    } catch (error) {
+        console.error('Erreur mise à jour programme:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur lors de la mise à jour' 
+        });
+    }
+});
+
+// Route pour supprimer un programme (version API)
+router.delete('/schedule/program/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const program = await dbGet('SELECT title FROM programs WHERE id = ?', [id]);
+        if (!program) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Programme non trouvé' 
+            });
+        }
+
+        await dbRun('DELETE FROM programs WHERE id = ?', [id]);
+
+        res.json({ 
+            success: true, 
+            message: `Programme "${program.title}" supprimé avec succès` 
+        });
+    } catch (error) {
+        console.error('Erreur suppression programme:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur lors de la suppression' 
+        });
+    }
+});
+
+// Route pour ajouter un programme (version API)
+router.post('/schedule/program', async (req, res) => {
+    console.log('🚀 DEBUG - Route POST /schedule/program appelée');
+    console.log('🔍 DEBUG - Corps de la requête:', req.body);
+    
+    try {
+        const { title, type, time, presenter, isActive, date, jour } = req.body;
+        
+        console.log('🔍 DEBUG - Données extraites:', { title, type, time, presenter, isActive, date, jour });
+
+        if (!title || !time || !jour) {
+            console.log('❌ DEBUG - Données manquantes');
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Le titre, l\'heure et le jour sont obligatoires' 
+            });
+        }
+
+        // Créer une date fictive basée sur le jour
+        const joursMap = {
+            'Lundi': 1,
+            'Mardi': 2,
+            'Mercredi': 3,
+            'Jeudi': 4,
+            'Vendredi': 5,
+            'Samedi': 6,
+            'Dimanche': 0
+        };
+        
+        const today = new Date();
+        const currentDayOfWeek = today.getDay();
+        const targetDayOfWeek = joursMap[jour];
+        
+        let targetDate = new Date(today);
+        const dayDiff = targetDayOfWeek - currentDayOfWeek;
+        targetDate.setDate(today.getDate() + dayDiff);
+        const programDate = targetDate.toISOString().split('T')[0];
+
+        const result = await dbRun(
+            `INSERT INTO programs (title, program_type, schedule_time, presenter, is_active, program_date, broadcast_type, created_at) 
+             VALUES (?, ?, ?, ?, ?, ?, 'scheduled', CURRENT_TIMESTAMP)`,
+            [
+                title.trim(),
+                type?.trim() || 'Programme d\'Information',
+                time.trim(),
+                presenter?.trim() || 'TELEX',
+                isActive ? 1 : 0,
+                programDate
+            ]
+        );
+
+        console.log('🔍 DEBUG - Résultat complet de l\'insertion:', JSON.stringify(result, null, 2));
+        console.log('🔍 DEBUG - result.id:', result.id, 'type:', typeof result.id);
+
+        // Utiliser directement result.id (qui fonctionne correctement)
+        const programId = result.id;
+        console.log('🔍 DEBUG - programId final:', programId, 'type:', typeof programId);
+
+        if (!programId) {
+            console.log('❌ DEBUG - programId est null/undefined');
+            return res.status(500).json({ 
+                success: false, 
+                message: 'Erreur: Impossible d\'obtenir l\'ID du programme créé' 
+            });
+        }
+
+        const response = { 
+            success: true, 
+            message: 'Programme ajouté avec succès',
+            id: programId, // Utiliser l'ID extrait de manière fiable
+            program: {
+                id: programId, // Utiliser le même ID
+                title: title.trim(),
+                type: type?.trim() || 'Programme d\'Information',
+                time: time.trim(),
+                presenter: presenter?.trim() || 'TELEX',
+                isActive: isActive ? 1 : 0,
+                date: programDate,
+                jour
+            }
+        };
+        
+        console.log('🔍 DEBUG - Réponse JSON:', response);
+        res.json(response);
+    } catch (error) {
+        console.error('Erreur ajout programme:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur lors de l\'ajout' 
+        });
+    }
+});
+
+// Route pour ajouter rapidement un programme par défaut
+router.post('/schedule/quick-add', async (req, res) => {
+    try {
+        const { jour, heure } = req.body;
+
+        const defaultPrograms = {
+            'Lundi': [
+                { heure: '12:00', emission: '1 notion en 3 minutes', type: 'Éducatif', presenter: 'Prof. Rakoto' },
+                { heure: '18:00', emission: 'TELEX Actus', type: 'Information', presenter: 'Sarah & Tom' }
+            ],
+            'Mardi': [
+                { heure: '20:00', emission: 'Décryptage & Reportages', type: 'Décryptage', presenter: 'Antoine' }
+            ],
+            'Mercredi': [
+                { heure: '18:00', emission: 'Zoom Écologie', type: 'Environnement', presenter: 'Emma' },
+                { heure: '20:00', emission: 'Face à Face', type: 'Débat', presenter: 'Divers intervenants' }
+            ],
+            'Jeudi': [
+                { heure: '18:00', emission: 'Travailler à Mada', type: 'Économie', presenter: 'M. Randria' },
+                { heure: '19:00', emission: 'À Cœur Ouvert', type: 'Sociétal', presenter: 'Claire' }
+            ],
+            'Vendredi': [
+                { heure: '17:00', emission: 'La Question des Jeunes', type: 'Jeunesse', presenter: 'Étudiants ambassadeurs' },
+                { heure: '19:00', emission: 'Culture & Identité', type: 'Culture', presenter: 'Léa & Jules' }
+            ],
+            'Samedi': [
+                { heure: '17:00', emission: 'Telex Sports', type: 'Sport', presenter: 'Marc & Sophie' }
+            ]
+        };
+
+        const dayPrograms = defaultPrograms[jour];
+        const program = dayPrograms ? dayPrograms.find(p => p.heure === heure) : null;
+
+        if (!program) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Programme par défaut non trouvé pour ce jour et cette heure' 
+            });
+        }
+
+        // Créer une date fictive
+        const joursMap = {
+            'Lundi': 1,
+            'Mardi': 2,
+            'Mercredi': 3,
+            'Jeudi': 4,
+            'Vendredi': 5,
+            'Samedi': 6,
+            'Dimanche': 0
+        };
+        
+        const today = new Date();
+        const currentDayOfWeek = today.getDay();
+        const targetDayOfWeek = joursMap[jour];
+        
+        let targetDate = new Date(today);
+        const dayDiff = targetDayOfWeek - currentDayOfWeek;
+        targetDate.setDate(today.getDate() + dayDiff);
+        const programDate = targetDate.toISOString().split('T')[0];
+
+        const result = await dbRun(
+            `INSERT INTO programs (title, program_type, schedule_time, presenter, is_active, program_date, broadcast_type, created_at) 
+             VALUES (?, ?, ?, ?, ?, ?, 'scheduled', CURRENT_TIMESTAMP)`,
+            [
+                program.emission,
+                `Programme ${program.type}`,
+                program.heure,
+                program.presenter,
+                1,
+                programDate
+            ]
+        );
+
+        res.json({ 
+            success: true, 
+            message: 'Programme ajouté avec succès',
+            id: result.lastID,
+            program: {
+                id: result.lastID,
+                title: program.emission,
+                type: program.type,
+                time: program.heure,
+                presenter: program.presenter,
+                isActive: 1,
+                date: programDate,
+                jour
+            }
+        });
+
+    } catch (error) {
+        console.error('Erreur ajout rapide programme:', error);
+        res.status(500).json({ 
+            success: false, 
+            message: 'Erreur serveur lors de l\'ajout rapide' 
+        });
+    }
+});
+
 module.exports = router;
 module.exports.requireAuth = requireAuth;
 module.exports.requireAuthApi = requireAuthApi;

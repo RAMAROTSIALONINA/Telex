@@ -1,0 +1,259 @@
+/* ===== NAVBAR AMÉLIORÉ - STYLE GLOBAL UNIFIÉ ===== */
+
+/* Style de base pour toutes les navbars */
+.navbar,
+.navbar-telex,
+.navbar-baume {
+    background: #051d40 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 1030 !important;
+    padding-top: 0.05rem !important;
+    padding-bottom: 0.05rem !important;
+    min-height: 20px !important;
+}
+
+/* LOGO */
+.navbar .navbar-brand,
+.navbar-telex .navbar-brand,
+.navbar-baume .navbar-brand {
+    color: #3AAFA9 !important;
+    font-weight: 700;
+    font-size: 1.8rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.navbar .navbar-brand:hover,
+.navbar-telex .navbar-brand:hover,
+.navbar-baume .navbar-brand:hover {
+    color: #c1121f !important;
+    transform: translateY(-1px);
+}
+
+.navbar .navbar-brand img,
+.navbar-telex .navbar-brand img,
+.navbar-baume .navbar-brand img {
+    height: 40px;
+    width: auto;
+    max-width: 150px;
+    margin-right: 10px;
+    transform: scale(2);
+    transform-origin: center;
+}
+
+/* TOUS LES LIENS DU MENU */
+.navbar .navbar-nav .nav-link,
+.navbar-telex .navbar-nav .nav-link,
+.navbar-baume .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    font-family: 'League Spartan', sans-serif !important;
+    text-transform: uppercase !important;
+    padding: 8px 16px !important;
+    margin: 0 4px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+/* TOUTES LES ICÔNES */
+.navbar .navbar-nav .nav-link i,
+.navbar-telex .navbar-nav .nav-link i,
+.navbar-baume .navbar-nav .nav-link i {
+    color: white !important;
+    margin-right: 8px;
+    font-size: 1.1rem !important;
+    transition: all 0.3s ease;
+}
+
+/* SURVOL - ROUGE */
+.navbar .navbar-nav .nav-link:hover,
+.navbar-telex .navbar-nav .nav-link:hover,
+.navbar-baume .navbar-nav .nav-link:hover {
+    color: white !important;
+    background: #dc3545 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+}
+
+.navbar .navbar-nav .nav-link:hover i,
+.navbar-telex .navbar-nav .nav-link:hover i,
+.navbar-baume .navbar-nav .nav-link:hover i {
+    color: white !important;
+    transform: scale(1.1);
+}
+
+/* LIEN ACTIF - ROUGE */
+.navbar .navbar-nav .nav-link.active,
+.navbar-telex .navbar-nav .nav-link.active,
+.navbar-baume .navbar-nav .nav-link.active {
+    color: white !important;
+    background: #dc3545 !important;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.navbar .navbar-nav .nav-link.active i,
+.navbar-telex .navbar-nav .nav-link.active i,
+.navbar-baume .navbar-nav .nav-link.active i {
+    color: white !important;
+}
+
+/* Soulignement pour le lien actif */
+.navbar .navbar-nav .nav-link.active::after,
+.navbar-telex .navbar-nav .nav-link.active::after,
+.navbar-baume .navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 15px;
+    right: 15px;
+    height: 3px;
+    background: #0953b6;
+    border-radius: 2px;
+}
+
+/* BOUTON MENU MOBILE */
+.navbar .navbar-toggler,
+.navbar-telex .navbar-toggler,
+.navbar-baume .navbar-toggler {
+    border: 1px solid #3AAFA9 !important;
+    background: transparent;
+    padding: 0.5rem 0.75rem;
+}
+
+.navbar .navbar-toggler i,
+.navbar-telex .navbar-toggler i,
+.navbar-baume .navbar-toggler i {
+    color: #3AAFA9 !important;
+    font-size: 1.5rem;
+}
+
+.navbar .navbar-toggler:hover,
+.navbar-telex .navbar-toggler:hover,
+.navbar-baume .navbar-toggler:hover {
+    background-color: rgba(255, 71, 87, 0.1);
+}
+
+.navbar .navbar-toggler:hover i,
+.navbar-telex .navbar-toggler:hover i,
+.navbar-baume .navbar-toggler:hover i {
+    color: #c1121f !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 991.98px) {
+    .navbar .navbar-nav,
+    .navbar-telex .navbar-nav,
+    .navbar-baume .navbar-nav {
+        padding: 1rem 0;
+    }
+    
+    .navbar .navbar-nav .nav-link,
+    .navbar-telex .navbar-nav .nav-link,
+    .navbar-baume .navbar-nav .nav-link {
+        text-align: center;
+        padding: 12px !important;
+        margin: 4px 0;
+    }
+    
+    .navbar .navbar-nav .nav-link i,
+    .navbar-telex .navbar-nav .nav-link i,
+    .navbar-baume .navbar-nav .nav-link i {
+        margin-right: 8px;
+        width: 20px;
+    }
+    
+    .navbar .navbar-nav .nav-link.active::after,
+    .navbar-telex .navbar-nav .nav-link.active::after,
+    .navbar-baume .navbar-nav .nav-link.active::after {
+        bottom: 5px;
+        left: 30px;
+        right: 30px;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar .navbar-brand img,
+    .navbar-telex .navbar-brand img,
+    .navbar-baume .navbar-brand img {
+        height: 35px;
+        width: auto;
+        max-width: 120px;
+        transform: scale(2);
+        transform-origin: center;
+    }
+    
+    .navbar .navbar-brand,
+    .navbar-telex .navbar-brand,
+    .navbar-baume .navbar-brand {
+        font-size: 1.5rem;
+    }
+}
+
+/* ===== STYLES POUR LES MÉDIAS DES CARTES BAUME DE LA FOI ===== */
+.priere-media,
+.reflexion-media {
+    margin-bottom: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #f8f9fa;
+}
+
+.priere-video,
+.reflexion-video {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.priere-image,
+.reflexion-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.priere-image:hover,
+.reflexion-image:hover {
+    transform: scale(1.02);
+}
+
+.priere-content,
+.reflexion-content {
+    padding: 1.5rem;
+}
+
+.priere-card:hover .priere-media,
+.reflexion-card:hover .reflexion-media {
+    box-shadow: 0 6px 20px rgba(46, 92, 78, 0.15);
+}
+
+/* ===== AMÉLIORATIONS DES CARTES AVEC MÉDIAS ===== */
+.priere-card,
+.reflexion-card {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(46, 92, 78, 0.1);
+}
+
+.priere-card:hover,
+.reflexion-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(46, 92, 78, 0.15);
+}
+
+/* ===== POSTER PAR DÉFAUT POUR VIDÉOS ===== */
+video[poster] {
+    background-color: #FFD700;
+    background-image: url('/images/baume-poster.jpg');
+    background-size: cover;
+    background-position: center;
+}

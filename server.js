@@ -4,6 +4,7 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const path = require('path');
 const fs = require('fs');
+const simpleLanguage = require('./middleware/simple-language');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,8 +14,8 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // IMPORTANT: Middleware pour parser les données AVANT session
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '500mb' }));
+app.use(express.json({ limit: '500mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/uploads', express.static(path.join(__dirname, 'public', 'uploads')));
 
@@ -39,27 +40,30 @@ app.use(session({
 // ========== FLASH MESSAGES ==========
 app.use(flash());
 
-// ========== MIDDLEWARE DE DÉBOGAGE (optionnel) ==========
-app.use((req, res, next) => {
-    // Log toutes les requêtes
-    console.log('\n=== NOUVELLE REQUÊTE ===');
-    console.log(`📨 ${req.method} ${req.url}`);
-    console.log(`🔍 Session ID: ${req.sessionID}`);
-    console.log(`👤 User: ${JSON.stringify(req.session.user)}`);
-    console.log(`🍪 Cookies: ${req.headers.cookie}`);
-    
-    // S'assurer que req.session existe
-    if (!req.session) {
-        console.warn('⚠️  req.session est undefined!');
-        // Créer une session si elle n'existe pas
-        req.session = {};
-    }
-    
-    next();
-});
+// ========== MIDDLEWARE DE LANGUE SIMPLE (index et about uniquement) ==========
+app.use(simpleLanguage.middleware());
+
+// ========== MIDDLEWARE DE DÉBOGAGE (désactivé pour éviter les boucles infinies) ==========
+// app.use((req, res, next) => {
+//     // Log toutes les requêtes
+//     console.log('\n=== NOUVELLE REQUÊTE ===');
+//     console.log(`📨 ${req.method} ${req.url}`);
+//     console.log(`🔍 Session ID: ${req.sessionID}`);
+//     console.log(`👤 User: ${JSON.stringify(req.session.user)}`);
+//     console.log(`🍪 Cookies: ${req.headers.cookie}`);
+//     
+//     // S'assurer que req.session existe
+//     if (!req.session) {
+//         console.warn('⚠️  req.session est undefined!');
+//         // Créer une session si elle n'existe pas
+//         req.session = {};
+//     }
+//     
+//     next();
+// });
 
 // ========== MIDDLEWARE POUR VARIABLES GLOBALES ==========
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     // Toujours vérifier si req.session existe
     if (!req.session) {
         console.error('❌ req.session est undefined dans middleware global!');
@@ -71,11 +75,26 @@ app.use((req, res, next) => {
         req.session.user = null;
     }
     
+    // Charger les paramètres du footer pour toutes les pages
+    try {
+        const { dbAll } = require('./config/database');
+        const footerSettings = await dbAll('SELECT setting_key, setting_value FROM footer_settings');
+        const footerData = {};
+        footerSettings.forEach(setting => {
+            footerData[setting.setting_key] = setting.setting_value;
+        });
+        res.locals.footer = footerData;
+    } catch (error) {
+        console.error('❌ Erreur chargement footer global:', error);
+        res.locals.footer = {};
+    }
+    
     // Variables globales pour les templates
     res.locals.currentPath = req.path;
     res.locals.currentYear = new Date().getFullYear();
     res.locals.siteName = 'TELEX';
     res.locals.user = req.session.user;
+    req.user = req.session.user;  // 🔧 CRUCIAL: Ajout de req.user pour les routes
     res.locals.baseUrl = `${req.protocol}://${req.get('host')}`;
     
     // Flash messages
@@ -86,6 +105,13 @@ app.use((req, res, next) => {
     next();
 });
 
+// Middleware pour logger toutes les requêtes API
+app.use('/api', (req, res, next) => {
+    console.log('🔍 API Request:', req.method, req.url);
+    console.log('🔍 API Headers:', req.headers);
+    next();
+});
+
 // ========== IMPORT DES ROUTES ==========
 console.log('📂 Chargement des routes...');
 
@@ -93,7 +119,13 @@ console.log('📂 Chargement des routes...');
 const indexRoutes = require('./routes/index');
 const adminRoutes = require('./routes/admin');
 const apiRoutes = require('./routes/api');
+const baumeApiRoutes = require('./routes/baume-api');
+const adminBaumeRoutes = require('./routes/admin-baume-fix');
+const adminStatsRoutes = require('./routes/admin-stats-api');
 const userRoutes = require('./routes/users');
+const testRoutes = require('./routes/test');
+const adminAlbumRoutes = require('./routes/admin-album');
+const translationsApiRoutes = require('./routes/translations-api');
 
 // ========== ROUTE DE TEST ==========
 app.get('/debug-session', (req, res) => {
@@ -117,11 +149,31 @@ app.get('/debug-session', (req, res) => {
     });
 });
 
-// Utilisation des routes
+// Route de test pour les traductions
+app.get('/test-translation', (req, res) => {
+    res.render('pages/test-translation', {
+        title: 'Test Traductions - TELEX'
+    });
+});
+
+// Route de test simple pour les traductions
+app.get('/test-simple', (req, res) => {
+    res.render('pages/test-simple', {
+        title: 'Test Simple - TELEX'
+    });
+});
+
+// Utilisation des routes - Index en premier pour les routes publiques API
 app.use('/', indexRoutes);
 app.use('/admin', adminRoutes);
+app.use('/admin', adminBaumeRoutes);
+app.use('/admin', adminStatsRoutes);
+app.use('/admin', adminAlbumRoutes);
 app.use('/admin/users', userRoutes);
 app.use('/api', apiRoutes);
+app.use('/api/baume', baumeApiRoutes);
+app.use('/api/translations', translationsApiRoutes);
+app.use('/test', testRoutes);
 
 // ========== GESTION DES ERREURS ==========
 // 404

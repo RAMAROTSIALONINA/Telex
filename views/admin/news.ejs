@@ -662,6 +662,12 @@
                 </a>
             </div>
             <div class="nav-item">
+                <a href="/admin/baume-de-la-foi" class="nav-link">
+                    <i class="fas fa-cross"></i>
+                    <span>Baume de la Foi</span>
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="/admin/contacts" class="nav-link">
                     <i class="fas fa-envelope"></i>
                     <span>Messages</span>
@@ -749,7 +755,7 @@
                 <div class="stat-icon">
                     <i class="fas fa-eye"></i>
                 </div>
-                <div class="stat-number"><%= totalViews %></div>
+                <div class="stat-number" id="totalViewsDisplay"><%= totalViews %></div>
                 <div class="stat-label">Vues Totales</div>
             </div>
         </div>
@@ -768,13 +774,13 @@
                 <table class="table" id="newsTable">
                     <thead>
                         <tr>
-                            <th width="70">ID</th>
                             <th>Titre</th>
                             <th width="120">Auteur</th>
                             <th width="120">Catégorie</th>
                             <th width="120">Date</th>
                             <th width="100">Statut</th>
                             <th width="80">Vues</th>
+                            <th width="80">Vidéo</th>
                             <th width="140" class="text-center">Actions</th>
                         </tr>
                     </thead>
@@ -782,10 +788,7 @@
                         <% news.forEach(item => { %>
                         <tr>
                             <td>
-                                <span class="text-muted">#<%= item.id %></span>
-                            </td>
-                            <td>
-                                <a href="/news/<%= item.id %>" target="_blank" class="news-title">
+                                <a href="/news/<%= item.slug %>" target="_blank" class="news-title">
                                     <%= item.title %>
                                 </a>
                                 <% if (item.excerpt) { %>
@@ -803,7 +806,7 @@
                             <td>
                                 <span class="category-badge"><%= item.category %></span>
                             </td>
-                            <td>
+                            <td data-order="<%= new Date(item.created_at).getTime() %>">
                                 <div class="date-info">
                                     <span class="date-main">
                                         <%= new Date(item.created_at).toLocaleDateString('fr-FR') %>
@@ -826,12 +829,19 @@
                             <td>
                                 <div class="views-count">
                                     <i class="fas fa-eye"></i>
-                                    <%= item.views || 0 %>
+                                    <span class="views-number" id="views-<%= item.id %>"><%= item.views || 0 %></span>
                                 </div>
                             </td>
                             <td class="text-center">
+                                <% if (item.video_url) { %>
+                                    <i class="fas fa-video text-success" title="Contient une vidéo"></i>
+                                <% } else { %>
+                                    <i class="fas fa-video-slash text-muted" title="Pas de vidéo"></i>
+                                <% } %>
+                            </td>
+                            <td class="text-center">
                                 <div class="action-buttons">
-                                    <a href="/news/<%= item.id %>" 
+                                    <a href="/news/<%= item.slug %>" 
                                        target="_blank" 
                                        class="btn-action btn-view"
                                        title="Voir sur le site">
@@ -885,26 +895,63 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     
     <script>
+    // Fonction pour formater les nombres avec K, M, B
+    function formatNumber(num) {
+        if (num >= 1000000000) {
+            return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + 'B';
+        }
+        if (num >= 1000000) {
+            return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
+        }
+        if (num >= 1000) {
+            return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+        }
+        return num.toString();
+    }
+
     document.addEventListener('DOMContentLoaded', function() {
         console.log('Gestion des Actualités TELEX chargée');
+        
+        // Formater les vues totales
+        const totalViewsElement = document.getElementById('totalViewsDisplay');
+        if (totalViewsElement) {
+            const totalViews = parseInt(totalViewsElement.textContent);
+            totalViewsElement.textContent = formatNumber(totalViews);
+        }
+        
+        // Formater les vues de chaque actualité
+        document.querySelectorAll('.views-number').forEach(element => {
+            const views = parseInt(element.textContent);
+            element.textContent = formatNumber(views);
+        });
         
         // Initialiser DataTable
         const table = $('#newsTable').DataTable({
             language: {
-                url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/fr-FR.json'
+                "processing": "Traitement en cours...",
+                "search": "Rechercher:",
+                "lengthMenu": "Afficher _MENU_ éléments",
+                "info": "Affichage de _START_ à _END_ sur _TOTAL_ éléments",
+                "paginate": {
+                    "first": "Premier",
+                    "last": "Dernier",
+                    "next": "Suivant",
+                    "previous": "Précédent"
+                }
             },
             pageLength: 10,
-            order: [[0, 'desc']],
+            order: [[3, 'desc']], // Tri par colonne Date (index 3) du plus récent au plus ancien
             responsive: true,
             columnDefs: [
-                { orderable: false, targets: [7] }
+                { orderable: false, targets: [6, 7] }, // Colonnes Vidéo et Actions non triables
+                { type: 'date', targets: 3 } // Assurer que la colonne Date est traitée comme date
             ],
             initComplete: function() {
                 // Ajouter un champ de recherche personnalisé
                 this.api().columns().every(function() {
                     const column = this;
                     // Exclure les colonnes d'actions
-                    if (column.index() !== 7) {
+                    if (column.index() !== 6 && column.index() !== 7) {
                         const title = $(column.header()).text();
                         // Ajouter un champ de recherche pour chaque colonne
                     }

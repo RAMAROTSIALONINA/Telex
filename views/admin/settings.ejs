@@ -610,6 +610,12 @@
                 </a>
             </div>
             <div class="nav-item">
+                <a href="/admin/baume-de-la-foi" class="nav-link">
+                    <i class="fas fa-cross"></i>
+                    <span>Baume de la Foi</span>
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="/admin/contacts" class="nav-link">
                     <i class="fas fa-envelope"></i>
                     <span>Messages</span>
@@ -838,7 +844,7 @@
             </div>
         </div>
         
-        <!-- Password Change Form -->
+        <!-- Password Change Section -->
         <div class="password-section">
             <h3><i class="fas fa-key"></i>Modifier le mot de passe administrateur</h3>
             
@@ -850,48 +856,122 @@
             <% } %>
             
             <% if (success_msg && success_msg.length > 0) { %>
-            <div class="alert alert-info mb-4">
+            <div class="alert alert-success mb-4">
                 <i class="fas fa-check-circle me-2"></i>
                 <%= success_msg %>
             </div>
             <% } %>
             
-            <form action="/admin/update-password" method="POST">
+            <form action="/admin/update-password" method="POST" id="passwordChangeForm">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label for="current_password">Mot de passe actuel</label>
-                            <input type="password" id="current_password" name="current_password" 
-                                   class="form-control" required placeholder="Entrez votre mot de passe actuel">
+                            <label for="current_password" class="form-label">
+                                <i class="fas fa-lock"></i>
+                                Mot de passe actuel
+                            </label>
+                            <div class="input-group">
+                                <input type="password" id="current_password" name="current_password" 
+                                       class="form-control" required 
+                                       placeholder="Entrez votre mot de passe actuel"
+                                       autocomplete="current-password">
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('current_password')">
+                                    <i class="fas fa-eye" id="current_password_icon"></i>
+                                </button>
+                            </div>
+                            <small class="form-text text-muted">Requis pour vérification</small>
                         </div>
                     </div>
                     
-                    <div class="col-md-4">
+                    <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label for="new_password">Nouveau mot de passe</label>
-                            <input type="password" id="new_password" name="new_password" 
-                                   class="form-control" required placeholder="Minimum 6 caractères">
-                            <small class="text-muted">Minimum 6 caractères</small>
+                            <label for="new_password" class="form-label">
+                                <i class="fas fa-key"></i>
+                                Nouveau mot de passe
+                            </label>
+                            <div class="input-group">
+                                <input type="password" id="new_password" name="new_password" 
+                                       class="form-control" required 
+                                       placeholder="Minimum 8 caractères"
+                                       autocomplete="new-password"
+                                       minlength="8"
+                                       oninput="checkPasswordStrength(this.value)">
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('new_password')">
+                                    <i class="fas fa-eye" id="new_password_icon"></i>
+                                </button>
+                            </div>
+                            <div id="passwordStrength" class="password-strength">
+                                <div class="strength-bar">
+                                    <div class="strength-fill" id="strengthFill"></div>
+                                </div>
+                                <small class="strength-text" id="strengthText">Entrez un mot de passe</small>
+                            </div>
+                            <small class="form-text text-muted">
+                                <i class="fas fa-info-circle"></i>
+                                Doit contenir au moins 8 caractères, dont 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial
+                            </small>
                         </div>
                     </div>
                     
-                    <div class="col-md-4">
+                    <div class="col-md-6 mb-3">
                         <div class="form-group">
-                            <label for="confirm_password">Confirmer le mot de passe</label>
-                            <input type="password" id="confirm_password" name="confirm_password" 
-                                   class="form-control" required placeholder="Répétez le nouveau mot de passe">
+                            <label for="confirm_password" class="form-label">
+                                <i class="fas fa-check-circle"></i>
+                                Confirmer le mot de passe
+                            </label>
+                            <div class="input-group">
+                                <input type="password" id="confirm_password" name="confirm_password" 
+                                       class="form-control" required 
+                                       placeholder="Répétez le nouveau mot de passe"
+                                       autocomplete="new-password"
+                                       oninput="checkPasswordMatch()">
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('confirm_password')">
+                                    <i class="fas fa-eye" id="confirm_password_icon"></i>
+                                </button>
+                            </div>
+                            <small class="form-text text-muted" id="matchText">Les mots de passe doivent correspondre</small>
                         </div>
                     </div>
                 </div>
                 
-                <div class="mt-4">
-                    <button type="submit" class="btn-success">
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <div class="password-requirements">
+                            <h6><i class="fas fa-shield-alt"></i>Exigences de sécurité</h6>
+                            <ul class="requirements-list">
+                                <li id="lengthReq" class="requirement">
+                                    <i class="fas fa-times-circle"></i>
+                                    Au moins 8 caractères
+                                </li>
+                                <li id="uppercaseReq" class="requirement">
+                                    <i class="fas fa-times-circle"></i>
+                                    Au moins 1 majuscule
+                                </li>
+                                <li id="lowercaseReq" class="requirement">
+                                    <i class="fas fa-times-circle"></i>
+                                    Au moins 1 minuscule
+                                </li>
+                                <li id="numberReq" class="requirement">
+                                    <i class="fas fa-times-circle"></i>
+                                    Au moins 1 chiffre
+                                </li>
+                                <li id="specialReq" class="requirement">
+                                    <i class="fas fa-times-circle"></i>
+                                    Au moins 1 caractère spécial (!@#$%^&*)
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-actions mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg" id="submitPasswordBtn">
                         <i class="fas fa-save me-2"></i>
                         Mettre à jour le mot de passe
                     </button>
-                    <button type="reset" class="btn btn-outline-secondary ms-2">
-                        <i class="fas fa-times me-2"></i>
-                        Annuler
+                    <button type="reset" class="btn btn-outline-secondary btn-lg" onclick="resetPasswordForm()">
+                        <i class="fas fa-undo me-2"></i>
+                        Réinitialiser
                     </button>
                 </div>
             </form>
@@ -1031,46 +1111,170 @@
                 card.style.animationDelay = `${index * 0.1}s`;
             });
             
-            // Validation du formulaire de mot de passe
-            const passwordForm = document.querySelector('form[action="/admin/update-password"]');
-            if (passwordForm) {
-                passwordForm.addEventListener('submit', function(e) {
-                    const currentPassword = document.getElementById('current_password').value;
-                    const newPassword = document.getElementById('new_password').value;
-                    const confirmPassword = document.getElementById('confirm_password').value;
-                    
-                    // Validation basique
-                    if (newPassword.length < 6) {
-                        e.preventDefault();
-                        alert('Le nouveau mot de passe doit contenir au moins 6 caractères.');
-                        return false;
-                    }
-                    
-                    if (newPassword !== confirmPassword) {
-                        e.preventDefault();
-                        alert('Les mots de passe ne correspondent pas.');
-                        return false;
-                    }
-                    
-                    if (newPassword === currentPassword) {
-                        e.preventDefault();
-                        alert('Le nouveau mot de passe doit être différent de l\'ancien.');
-                        return false;
-                    }
-                    
-                    // Animation de chargement
-                    const submitBtn = this.querySelector('button[type="submit"]');
-                    const originalHTML = submitBtn.innerHTML;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mise à jour...';
-                    submitBtn.disabled = true;
-                    
-                    // Réactiver après 3 secondes (au cas où)
-                    setTimeout(() => {
-                        submitBtn.innerHTML = originalHTML;
-                        submitBtn.disabled = false;
-                    }, 3000);
-                });
+            // Fonctions améliorées pour la gestion du mot de passe
+        
+        // Fonction pour basculer la visibilité du mot de passe
+        function togglePasswordVisibility(fieldId) {
+            const field = document.getElementById(fieldId);
+            const icon = document.getElementById(fieldId + '_icon');
+            
+            if (field.type === 'password') {
+                field.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                field.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
+        }
+        
+        // Fonction pour vérifier la force du mot de passe
+        function checkPasswordStrength(password) {
+            const strengthFill = document.getElementById('strengthFill');
+            const strengthText = document.getElementById('strengthText');
+            
+            if (!password) {
+                strengthFill.style.width = '0%';
+                strengthFill.style.backgroundColor = '#e0e0e0';
+                strengthText.textContent = 'Entrez un mot de passe';
+                return;
+            }
+            
+            let strength = 0;
+            let feedback = '';
+            
+            // Vérifier la longueur
+            if (password.length >= 8) strength += 25;
+            if (password.length >= 12) strength += 25;
+            
+            // Vérifier les types de caractères
+            if (/[a-z]/.test(password)) strength += 15; // minuscules
+            if (/[A-Z]/.test(password)) strength += 15; // majuscules
+            if (/[0-9]/.test(password)) strength += 15; // chiffres
+            if (/[^a-zA-Z0-9]/.test(password)) strength += 20; // caractères spéciaux
+            
+            // Mettre à jour la barre de force
+            let width = Math.min(strength, 100);
+            let color = '#ff4757'; // rouge - faible
+            
+            if (strength >= 70) {
+                color = '#28a745'; // vert - fort
+                feedback = 'Très sécurisé';
+            } else if (strength >= 50) {
+                color = '#ffc107'; // orange - moyen
+                feedback = 'Sécurisé';
+            } else if (strength >= 25) {
+                color = '#ffd700'; // jaune - faible
+                feedback = 'Faible';
+            }
+            
+            strengthFill.style.width = width + '%';
+            strengthFill.style.backgroundColor = color;
+            strengthText.textContent = feedback || 'Force du mot de passe';
+        }
+        
+        // Fonction pour vérifier la correspondance des mots de passe
+        function checkPasswordMatch() {
+            const newPassword = document.getElementById('new_password').value;
+            const confirmPassword = document.getElementById('confirm_password').value;
+            const matchText = document.getElementById('matchText');
+            
+            if (confirmPassword && newPassword) {
+                if (newPassword === confirmPassword) {
+                    matchText.textContent = '✓ Les mots de passe correspondent';
+                    matchText.style.color = '#28a745';
+                    matchText.style.fontWeight = '600';
+                } else {
+                    matchText.textContent = '✗ Les mots de passe ne correspondent pas';
+                    matchText.style.color = '#dc3545';
+                    matchText.style.fontWeight = '600';
+                }
+            } else {
+                matchText.textContent = 'Veuillez confirmer le mot de passe';
+                matchText.style.color = '#6c757d';
+            }
+        }
+        
+        // Fonction pour réinitialiser le formulaire
+        function resetPasswordForm() {
+            document.getElementById('passwordChangeForm').reset();
+            document.getElementById('strengthFill').style.width = '0%';
+            document.getElementById('strengthText').textContent = 'Entrez un mot de passe';
+            document.getElementById('matchText').textContent = 'Les mots de passe doivent correspondre';
+            document.getElementById('matchText').style.color = '#6l757d';
+            
+            // Réinitialiser les exigences de sécurité
+            updateRequirements(false, false, false, false, false);
+        }
+        
+        // Fonction pour mettre à jour les exigences de sécurité
+        function updateRequirements(length, uppercase, lowercase, number, special) {
+            document.getElementById('lengthReq').className = length ? 'requirement met' : 'requirement';
+            document.getElementById('uppercaseReq').className = uppercase ? 'requirement met' : 'requirement';
+            document.getElementById('lowercaseReq').className = lowercase ? 'requirement met' : 'requirement';
+            document.getElementById('numberReq').className = number ? 'requirement met' : 'requirement';
+            document.getElementById('specialReq').className = special ? 'requirement met' : 'requirement';
+        }
+        
+        // Validation du formulaire de mot de passe améliorée
+        const passwordForm = document.querySelector('form[action="/admin/update-password"]');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', function(e) {
+                const currentPassword = document.getElementById('current_password').value;
+                const newPassword = document.getElementById('new_password').value;
+                const confirmPassword = document.getElementById('confirm_password').value;
+                
+                // Validation améliorée
+                if (newPassword.length < 8) {
+                    e.preventDefault();
+                    showNotification('Le nouveau mot de passe doit contenir au moins 8 caractères.', 'error');
+                    return false;
+                }
+                
+                if (!/[a-z]/.test(newPassword)) {
+                    e.preventDefault();
+                    showNotification('Le mot de passe doit contenir au moins une lettre minuscule.', 'error');
+                    return false;
+                }
+                
+                if (!/[A-Z]/.test(newPassword)) {
+                    e.preventDefault();
+                    showNotification('Le mot de passe doit contenir au moins une lettre majuscule.', 'error');
+                    return false;
+                }
+                
+                if (!/[0-9]/.test(newPassword)) {
+                    e.preventDefault();
+                    showNotification('Le mot de passe doit contenir au moins un chiffre.', 'error');
+                    return false;
+                }
+                
+                if (newPassword === currentPassword) {
+                    e.preventDefault();
+                    showNotification('Le nouveau mot de passe doit être différent de l\'ancien.', 'error');
+                    return false;
+                }
+                
+                if (newPassword !== confirmPassword) {
+                    e.preventDefault();
+                    showNotification('Les mots de passe ne correspondent pas.', 'error');
+                    return false;
+                }
+                
+                // Animation de chargement
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalHTML = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mise à jour...';
+                submitBtn.disabled = true;
+                
+                // Réactiver après 3 secondes
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalHTML;
+                    submitBtn.disabled = false;
+                }, 3000);
+            });
+        }
             
             // Effet de survol sur les cartes d'information
             const infoItems = document.querySelectorAll('.info-item');

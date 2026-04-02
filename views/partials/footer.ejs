@@ -1,0 +1,95 @@
+<!-- Footer -->
+<footer class="footer-telex">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <div class="footer-brand">
+                    <img src="<%= footer.footer_logo || '/images/11.png' %>" alt="Telex" class="footer-logo">
+                    <h3>Telex</h3>
+                    <p>Télévision étudiante jeune et engagée</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-2">
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="/">Accueil</a></li>
+                    <li><a href="/about">À propos</a></li>
+                    <li><a href="/gallery">Galerie</a></li>
+                    <li><a href="/album">Album</a></li>
+                    <li><a href="/programs">Programmes</a></li>
+                    <li><a href="/baume-de-la-foi">Baume de la Foi</a></li>
+                    <li><a href="/news">Actualités</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-4">
+                <h4>Contact</h4>
+                <ul class="footer-contact">
+                    <!-- Email Telex (toujours en premier) -->
+                    <li><i class="fas fa-envelope me-2"></i><%= footer.contact_email || 'contact@telex.fr' %></li>
+                    
+                    <% 
+                    var isMadagascarVisitor = (typeof userLocation !== 'undefined' && userLocation && userLocation.country === 'MG');
+                    
+                    // Afficher les téléphones disponibles
+                    if (footer.contact_phone) { 
+                    %>
+                        <li><i class="fas fa-phone me-2"></i><%= footer.contact_phone %></li>
+                    <% } %>
+                    
+                    <% if (footer.contact_phone_2) { %>
+                    <li><i class="fas fa-phone me-2"></i><%= footer.contact_phone_2 %></li>
+                    <% } %>
+                    
+                    <!-- Localisation Telex (toujours à la fin) -->
+                    <% if (isMadagascarVisitor) { 
+                        // Visiteur Madagascar : localisation Madagascar en premier
+                    %>
+                        <li><i class="fas fa-map-marker-alt me-2"></i><%= footer.contact_address || 'Campus Universitaire, Paris' %></li>
+                    <% } else { 
+                        // Visiteur international : localisation France en premier
+                    %>
+                        <li><i class="fas fa-map-marker-alt me-2"></i><%= footer.contact_address || 'Campus Universitaire, Paris' %></li>
+                    <% } %>
+                </ul>
+            </div>
+            
+            <div class="col-lg-2">
+                <h4>Réseaux Sociaux</h4>
+                <div class="footer-social">
+                    <% if (footer.youtube_url) { %>
+                    <a href="<%= footer.youtube_url %>" target="_blank" title="YouTube">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <% } %>
+                    <% if (footer.instagram_url) { %>
+                    <a href="<%= footer.instagram_url %>" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <% } %>
+                    <% if (footer.facebook_url) { %>
+                    <a href="<%= footer.facebook_url %>" target="_blank" title="Facebook">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                    <% } %>
+                    <% if (footer.tiktok_url) { %>
+                    <a href="<%= footer.tiktok_url %>" target="_blank" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <% } %>
+                    <% if (footer.twitter_url) { %>
+                    <a href="<%= footer.twitter_url %>" target="_blank" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2026 Telex - Tous droits réservés</p>
+        </div>
+    </div>
+</footer>

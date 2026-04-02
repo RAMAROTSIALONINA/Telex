@@ -7,13 +7,15 @@
     <link rel="icon" href="/images/Telex.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/baume-navbar.css">
     <style>
-        /* Styles spécifiques à la page About */
+        /* Styles spécifiques à la page About - THÈME BLEU */
         .page-hero {
             padding: 80px 0 40px;
             min-height: 280px;
-            background: linear-gradient(135deg, var(--telex-blue) 0%, var(--telex-blue-light) 100%);
+            background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
             color: white;
             position: relative;
             overflow: hidden;
@@ -32,7 +34,7 @@
             height: auto;
             border-radius: 20px;
             box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-            filter: drop-shadow(0 0 20px rgba(230, 57, 70, 0.3));
+            filter: drop-shadow(0 0 20px rgba(52, 152, 219, 0.3));
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
@@ -244,59 +246,159 @@
                 font-size: 1.6rem;
             }
         }
+        /* ===== NAVBAR UNIFIÉE - À GARDER DANS UN SEUL FICHIER ===== */
+
+.navbar,
+.navbar-telex {
+    background: #051d40 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    z-index: 1030 !important;
+    padding: 0.5rem 0;
+}
+
+.navbar .navbar-brand {
+    color: #3AAFA9 !important;
+    font-weight: 700;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.navbar .navbar-brand:hover {
+    color: #c1121f !important;
+    transform: translateY(-1px);
+}
+
+.navbar .navbar-brand img {
+    height: 60px;
+    width: auto;
+    max-width: 200px;
+    margin-left: 0px !important;
+    transform: scale(1);
+    transform-origin: center;
+}
+
+.navbar .navbar-nav .nav-link {
+    color: white !important;
+    font-weight: 700 !important;
+            font-size: 0.9rem !important;
+    font-family: 'League Spartan', sans-serif !important;
+    text-transform: uppercase !important;
+    padding: 8px 12px !important;
+    margin: 0 2px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    position: relative;
+    white-space: nowrap;
+}
+
+.navbar .navbar-nav .nav-link:hover {
+    color: white !important;
+    background: #dc3545 !important;
+}
+
+.navbar .navbar-nav .nav-link.active {
+    color: white !important;
+    background: #dc3545 !important;
+    font-weight: 700;
+}
+
+.navbar .navbar-toggler {
+    border: 1px solid rgba(255,255,255,0.3) !important;
+}
+
+.navbar .navbar-toggler i {
+    color: white !important;
+    font-size: 1.5rem;
+}
+
+@media (max-width: 991px) {
+    .navbar .navbar-nav {
+        padding: 1rem 0;
+    }
+    
+    .navbar .navbar-nav .nav-link {
+        text-align: center;
+        padding: 12px !important;
+    }
+}
     </style>
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-telex fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
         <div class="container">
-            <!-- Logo Telex -->
-            <a class="navbar-brand" href="/">
+            <a class="navbar-brand d-flex align-items-center" href="/">
                 <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
-                <span class="logo-text">Telex</span>
             </a>
             
-            <!-- Menu mobile -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
                 <i class="fas fa-bars"></i>
             </button>
             
-            <!-- Menu -->
             <div class="collapse navbar-collapse" id="navbarMenu">
                 <ul class="navbar-nav ms-auto">
+                    <!-- Sélecteur de langue -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-globe"></i>
+                            <span class="ms-1"><%= currentLang === 'en' ? 'EN' : 'FR' %></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item <%= currentLang === 'fr' ? 'active' : '' %>" 
+                                   href="?lang=fr">
+                                    <i class="fas fa-flag me-2"></i>Français
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <%= currentLang === 'en' ? 'active' : '' %>" 
+                                   href="?lang=en">
+                                    <i class="fas fa-flag-usa me-2"></i>English
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
-                            <i class="fas fa-home me-1"></i>Accueil
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home"></i>Accueil
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
-                            <i class="fas fa-info-circle me-1"></i>À propos
+                        <a class="nav-link active" href="/about">
+                            <i class="fas fa-info-circle"></i>À propos
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'mission' ? 'active' : '' %>" href="/mission">
-                            <i class="fas fa-bullseye me-1"></i>Mission
+                        <a class="nav-link" href="/programs">
+                            <i class="fas fa-tv"></i>Programmes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
-                            <i class="fas fa-tv me-1"></i>Programmes
+                        <a class="nav-link" href="/gallery">
+                            <i class="fas fa-images"></i>Galerie
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
-                            <i class="fas fa-images me-1"></i>Galerie
+                        <a class="nav-link" href="/album">
+                            <i class="fas fa-book"></i>Album
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
-                            <i class="fas fa-newspaper me-1"></i>Actualités
+                        <a class="nav-link" href="/baume-de-la-foi">
+                            <i class="fas fa-cross"></i>Baume de la Foi
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
-                            <i class="fas fa-envelope me-1"></i>Contact
+                        <a class="nav-link" href="/news">
+                            <i class="fas fa-newspaper"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope"></i>Contact
                         </a>
                     </li>
                 </ul>
@@ -311,21 +413,19 @@
                 <!-- Colonne pour l'image -->
                 <div class="col-lg-4 col-md-5">
                     <div class="hero-image-wrapper">
-                        <img src="/images/camera.png" alt="Caméra Telex" class="hero-camera-img">
+                        <img src="<%= about.hero_image || '/images/camera.png' %>" alt="Caméra Telex" class="hero-camera-img">
                     </div>
                 </div>
                 <!-- Colonne pour le texte -->
                 <div class="col-lg-8 col-md-7">
                     <div class="hero-content-wrapper">
                         <h1 class="display-4 fw-bold">
-                            <span class="text-primary">À propos</span> de Telex
+                            <span class="text-primary" data-translate="about.hero_title">À propos</span> de Telex
                         </h1>
-                        <p class="lead mb-0">Découvrez notre histoire, notre équipe et notre vision</p>
+                        <p class="lead mb-0" data-translate="about.hero_subtitle">Découvrez notre histoire, notre équipe et notre vision</p>
                         <div class="hero-separator"></div>
-                        <p class="hero-intro">
-                            Fondée par des étudiants passionnés, Telex est bien plus qu'une télévision étudiante. 
-                            C'est un laboratoire d'innovation, une école de talents et une plateforme d'expression 
-                            pour la jeunesse engagée.
+                        <p class="hero-intro" data-translate="about.hero_intro">
+                            Fondée par des étudiants passionnés, Telex est bien plus qu'une télévision étudiante. C'est un laboratoire d'innovation, une école de talents et un média numérique pour la jeunesse engagée.
                         </p>
                     </div>
                 </div>
@@ -340,33 +440,20 @@
                 <div class="col-lg-10 mx-auto">
                     <!-- Notre Histoire -->
                     <div class="about-section mb-5">
-                        <h2><i class="fas fa-history text-primary me-3"></i>Notre Histoire</h2>
-                        <p>
-                            Telex est né en 2024 de la passion commune d'un groupe d'étudiants 
-                            déterminés à créer une télévision à leur image : innovante, 
-                            indépendante et engagée. En partant d'un simple projet d'association, 
-                            nous avons construit pas à pas une véritable chaîne de télévision 
-                            étudiante reconnue aujourd'hui comme la référence en matière 
-                            d'audiovisuel étudiant.
+                        <h2><i class="fas fa-history text-primary me-3"></i><span data-translate="about.history_title">Notre Histoire</span></h2>
+                        <p data-translate="about.history_paragraph1">
+                            Telex est né en 2024 de la passion commune d'un groupe d'étudiants déterminés à créer une télévision étudiante et un média numérique à leur image : innovants, indépendants et engagés. En partant d'un simple projet d'association, nous avons construit pas à pas une véritable chaîne de télévision étudiante reconnue aujourd'hui comme la référence en matière d'audiovisuel étudiant.
                         </p>
-                        <p>
-                            Notre aventure a commencé avec une petite équipe de 10 passionnés 
-                            et un studio improvisé. Aujourd'hui, nous comptons plus de 50 membres 
-                            actifs, un studio professionnel et une audience grandissante. 
-                            Chaque jour, nous repoussons les limites de la créativité étudiante 
-                            pour offrir des contenus de qualité.
+                        <p data-translate="about.history_paragraph2">
+                            Notre aventure a commencé avec une petite équipe de 10 passionnés et un studio improvisé. Aujourd'hui, nous comptons plus de 50 membres actifs, un studio professionnel et une audience grandissante. Chaque jour, nous repoussons les limites de la créativité étudiante pour offrir des contenus de qualité.
                         </p>
                     </div>
 
                     <!-- Notre Équipe -->
                     <div class="about-section mb-5">
-                        <h2><i class="fas fa-users text-primary me-3"></i>Notre Équipe</h2>
-                        <p>
-                            Notre force réside dans la diversité de nos profils. Journalistes, 
-                            techniciens, monteurs, graphistes, communicants - tous étudiants et 
-                            tous animés par la même passion pour l'audiovisuel. Chaque membre 
-                            contribue avec ses compétences uniques pour créer des contenus 
-                            exceptionnels.
+                        <h2><i class="fas fa-users text-primary me-3"></i><span data-translate="about.team_title">Notre Équipe</span></h2>
+                        <p data-translate="about.team_intro">
+                            Notre force réside dans la diversité de nos profils. Journalistes, techniciens, monteurs, graphistes, communicants - tous étudiants et tous animés par la même passion pour l'audiovisuel. Chaque membre contribue avec ses compétences uniques pour créer des contenus exceptionnels.
                         </p>
                         
                         <div class="row mt-4">
@@ -374,22 +461,22 @@
                             <div class="col-md-6 mb-4">
                                 <div class="team-card">
                                     <div class="team-image">
-                                        <img src="/images/TELEX INTEGRATION.png" alt="Équipe de rédaction Telex" class="img-fluid">
+                                        <img src="<%= about.team_redaction_image || '/images/TELEX INTEGRATION.png' %>" alt="Équipe de rédaction Telex" class="img-fluid">
                                         <div class="team-overlay">
                                             <i class="fas fa-newspaper"></i>
                                         </div>
                                     </div>
                                     <div class="team-content">
-                                        <h4>Rédaction</h4>
-                                        <p class="team-count">15 journalistes et reporters</p>
-                                        <p class="team-description">
-                                            Notre équipe éditoriale travaille sur l'écriture, les reportages 
-                                            et la vérification des informations.
+                                        <h4 data-translate="about.team_redaction_title">Rédaction</h4>
+                                        <p class="team-count" data-translate="about.team_redaction_count">2 journalistes et reporters</p>
+                                        <p class="team-description" data-translate="about.team_redaction_description">
+                                            Notre équipe éditoriale travaille sur l'écriture, les reportages et la vérification des informations.
                                         </p>
                                         <div class="team-skills">
-                                            <span class="skill-tag">Journalisme</span>
-                                            <span class="skill-tag">Reportage</span>
-                                            <span class="skill-tag">Édition</span>
+                                            <% const redactionSkills = (about.team_redaction_skills || 'Journalisme, Reportage, Édition').split(','); %>
+                                            <% redactionSkills.forEach(skill => { %>
+                                                <span class="skill-tag"><%= skill.trim() %></span>
+                                            <% }); %>
                                         </div>
                                     </div>
                                 </div>
@@ -399,22 +486,22 @@
                             <div class="col-md-6 mb-4">
                                 <div class="team-card">
                                     <div class="team-image">
-                                        <img src="/images/femme telex.png" alt="Équipe technique Telex" class="img-fluid">
+                                        <img src="<%= about.team_technique_image || '/images/femme telex.png' %>" alt="Équipe technique Telex" class="img-fluid">
                                         <div class="team-overlay">
                                             <i class="fas fa-video"></i>
                                         </div>
                                     </div>
                                     <div class="team-content">
-                                        <h4>Technique</h4>
-                                        <p class="team-count">10 techniciens audiovisuels</p>
-                                        <p class="team-description">
-                                            Spécialistes de la prise de vue, du son et de l'éclairage pour 
-                                            une production de qualité professionnelle.
+                                        <h4 data-translate="about.team_technique_title">Technique</h4>
+                                        <p class="team-count" data-translate="about.team_technique_count">2 techniciens audiovisuels</p>
+                                        <p class="team-description" data-translate="about.team_technique_description">
+                                            Spécialistes de la prise de vue, du son et de l'éclairage pour une production de qualité professionnelle.
                                         </p>
                                         <div class="team-skills">
-                                            <span class="skill-tag">Caméra</span>
-                                            <span class="skill-tag">Son</span>
-                                            <span class="skill-tag">Éclairage</span>
+                                            <% const techniqueSkills = (about.team_technique_skills || 'Caméra, Son, Éclairage').split(','); %>
+                                            <% techniqueSkills.forEach(skill => { %>
+                                                <span class="skill-tag"><%= skill.trim() %></span>
+                                            <% }); %>
                                         </div>
                                     </div>
                                 </div>
@@ -424,22 +511,22 @@
                             <div class="col-md-6 mb-4">
                                 <div class="team-card">
                                     <div class="team-image">
-                                        <img src="/images/ordi_telex.png" alt="Équipe post-production Telex" class="img-fluid">
+                                        <img src="<%= about.team_postproduction_image || '/images/ordi_telex.png' %>" alt="Équipe post-production Telex" class="img-fluid">
                                         <div class="team-overlay">
                                             <i class="fas fa-edit"></i>
                                         </div>
                                     </div>
                                     <div class="team-content">
-                                        <h4>Post-production</h4>
-                                        <p class="team-count">8 monteurs vidéo</p>
-                                        <p class="team-description">
-                                            Experts en montage, étalonnage et effets spéciaux pour donner 
-                                            vie à nos contenus audiovisuels.
+                                        <h4 data-translate="about.team_postproduction_title">Post-production</h4>
+                                        <p class="team-count" data-translate="about.team_postproduction_count">3 monteurs vidéo</p>
+                                        <p class="team-description" data-translate="about.team_postproduction_description">
+                                            Experts en montage, étalonnage et effets spéciaux pour donner vie à nos contenus audiovisuels.
                                         </p>
                                         <div class="team-skills">
-                                            <span class="skill-tag">Montage</span>
-                                            <span class="skill-tag">Étalonnage</span>
-                                            <span class="skill-tag">Motion Design</span>
+                                            <% const postproductionSkills = (about.team_postproduction_skills || 'Montage, Étalonnage, Motion Design').split(','); %>
+                                            <% postproductionSkills.forEach(skill => { %>
+                                                <span class="skill-tag"><%= skill.trim() %></span>
+                                            <% }); %>
                                         </div>
                                     </div>
                                 </div>
@@ -449,22 +536,22 @@
                             <div class="col-md-6 mb-4">
                                 <div class="team-card">
                                     <div class="team-image">
-                                        <img src="/images/Présentation du Telex.png" alt="Équipe communication Telex" class="img-fluid">
+                                        <img src="<%= about.team_communication_image || '/images/Présentation du Telex.png' %>" alt="Équipe communication Telex" class="img-fluid">
                                         <div class="team-overlay">
                                             <i class="fas fa-bullhorn"></i>
                                         </div>
                                     </div>
                                     <div class="team-content">
-                                        <h4>Communication</h4>
-                                        <p class="team-count">12 chargés de communication</p>
-                                        <p class="team-description">
-                                            Gestion des réseaux sociaux, relations presse et stratégie 
-                                            de diffusion pour maximiser notre audience.
+                                        <h4 data-translate="about.team_communication_title">Communication</h4>
+                                        <p class="team-count" data-translate="about.team_communication_count">1 chargés de communication</p>
+                                        <p class="team-description" data-translate="about.team_communication_description">
+                                            Gestion des réseaux sociaux, relations presse et stratégie de diffusion pour maximiser notre audience.
                                         </p>
                                         <div class="team-skills">
-                                            <span class="skill-tag">Réseaux sociaux</span>
-                                            <span class="skill-tag">Stratégie</span>
-                                            <span class="skill-tag">Community</span>
+                                            <% const communicationSkills = (about.team_communication_skills || 'Réseaux sociaux, Stratégie, Community').split(','); %>
+                                            <% communicationSkills.forEach(skill => { %>
+                                                <span class="skill-tag"><%= skill.trim() %></span>
+                                            <% }); %>
                                         </div>
                                     </div>
                                 </div>
@@ -474,30 +561,30 @@
 
                     <!-- Nos Chiffres -->
                     <div class="about-section">
-                        <h2><i class="fas fa-chart-line text-primary me-3"></i>Nos Chiffres</h2>
+                        <h2><i class="fas fa-chart-line text-primary me-3"></i><span data-translate="about.stats_title">Nos Chiffres</span></h2>
                         <div class="row text-center">
                             <div class="col-md-3 mb-4">
                                 <div class="stat-item">
-                                    <div class="stat-number">50+</div>
-                                    <div class="stat-label">Membres actifs</div>
+                                    <div class="stat-number"><%= about.stats_members_count || '50+' %></div>
+                                    <div class="stat-label" data-translate="about.stats_members_label">Membres actifs</div>
                                 </div>
                             </div>
                             <div class="col-md-3 mb-4">
                                 <div class="stat-item">
-                                    <div class="stat-number">200+</div>
-                                    <div class="stat-label">Heures de production</div>
+                                    <div class="stat-number"><%= about.stats_hours_count || '200+' %></div>
+                                    <div class="stat-label" data-translate="about.stats_hours_label">Heures de production</div>
                                 </div>
                             </div>
                             <div class="col-md-3 mb-4">
                                 <div class="stat-item">
-                                    <div class="stat-number">15K+</div>
-                                    <div class="stat-label">Vues mensuelles</div>
+                                    <div class="stat-number"><%= about.stats_views_count || '15K+' %></div>
+                                    <div class="stat-label" data-translate="about.stats_views_label">Vues mensuelles</div>
                                 </div>
                             </div>
                             <div class="col-md-3 mb-4">
                                 <div class="stat-item">
-                                    <div class="stat-number">4</div>
-                                    <div class="stat-label">Émissions régulières</div>
+                                    <div class="stat-number"><%= about.stats_programs_count || '4' %></div>
+                                    <div class="stat-label" data-translate="about.stats_programs_label">Émissions régulières</div>
                                 </div>
                             </div>
                         </div>
@@ -508,16 +595,12 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer-telex">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2026 Telex - Tous droits réservés</p>
-            </div>
-        </div>
-    </footer>
+    <%- include('../partials/footer') %>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/js/location.js"></script>
+    <script src="/js/simple-language.js"></script>
     
     <script>
     // Animation des chiffres - VERSION SIMPLIFIÉE COMPATIBLE CSS GLOBAL

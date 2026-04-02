@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Album Photo - Telex | Télévision Étudiante</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/baume-navbar.css">
+    <style>
+        :root {
+            --telex-blue: #1d3557;
+            --telex-blue-light: #457b9d;
+            --telex-red: #e63946;
+            --telex-gold: #ffd60a;
+            --telex-white: #f1faee;
+        }
+
+        body {
+            padding-top: 0.1cm;
+            background: linear-gradient(135deg, #f8fafc 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+
+        /* ===== NAVBAR UNIFIÉE ===== */
+        .navbar .navbar-brand,
+        .navbar-telex .navbar-brand,
+        .navbar-baume .navbar-brand {
+            color: #3AAFA9 !important;
+            font-weight: 700;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar .navbar-brand:hover,
+        .navbar-telex .navbar-brand:hover,
+        .navbar-baume .navbar-brand:hover {
+            color: #c1121f !important;
+            transform: translateY(-1px);
+        }
+        
+        .navbar .navbar-brand img,
+        .navbar-telex .navbar-brand img,
+        .navbar-baume .navbar-brand img {
+            height: 60px;
+            width: auto;
+            max-width: 200px;
+            margin-left: 0px !important;
+            transform: scale(1);
+            transform-origin: center;
+        }
+
+        .navbar .navbar-nav .nav-link,
+        .navbar-telex .navbar-nav .nav-link,
+        .navbar-baume .navbar-nav .nav-link {
+            color: white !important;
+            font-weight: 700 !important;
+            font-size: 1rem !important;
+            font-family: 'League Spartan', sans-serif !important;
+            text-transform: uppercase !important;
+            padding: 8px 12px !important;
+            margin: 0 2px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .navbar .navbar-nav .nav-link:hover,
+        .navbar-telex .navbar-nav .nav-link:hover,
+        .navbar-baume .navbar-nav .nav-link:hover {
+            color: white !important;
+            background: #dc3545 !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+        }
+
+        .navbar .navbar-nav .nav-link.active,
+        .navbar-telex .navbar-nav .nav-link.active,
+        .navbar-baume .navbar-nav .nav-link.active {
+            color: white !important;
+            background: #dc3545 !important;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        /* ===== HERO SECTION ===== */
+        .album-hero {
+            background: linear-gradient(135deg, 
+                var(--telex-blue) 0%, 
+                var(--telex-blue-light) 25%, 
+                #2980b9 50%, 
+                var(--telex-blue) 75%, 
+                var(--telex-blue-light) 100%);
+            color: white;
+            padding: 120px 0 60px;
+            position: relative;
+            overflow: hidden;
+            animation: heroShift 15s ease-in-out infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes heroShift {
+            0%, 100% { background-position: 0% 50%; }
+            25% { background-position: 50% 25%; }
+            50% { background-position: 100% 50%; }
+            75% { background-position: 50% 75%; }
+        }
+
+        .album-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/images/Telex.png') no-repeat center;
+            background-size: contain;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .album-hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .album-hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            from { text-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); }
+            to { text-shadow: 0 4px 25px rgba(255, 255, 255, 0.5); }
+        }
+
+        .album-hero-content .lead {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        /* ===== ALBUM CATEGORIES ===== */
+        .album-categories {
+            padding: 60px 0;
+        }
+
+        .category-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .category-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--telex-blue);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .category-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--telex-red), var(--telex-gold));
+            border-radius: 2px;
+        }
+
+        .category-header p {
+            font-size: 1.1rem;
+            color: #6c757d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Empty Album State */
+        .empty-album {
+            padding: 60px 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 15px;
+            border: 2px dashed #dee2e6;
+            margin: 40px 0;
+        }
+
+        .empty-album .empty-icon {
+            font-size: 4rem;
+            color: #6c757d;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-album h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .empty-album p {
+            color: #6c757d;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        /* ===== ALBUM GRID ===== */
+        .album-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .album-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .album-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .album-cover {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+            background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+        }
+
+        .album-cover img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .album-card:hover .album-cover img {
+            transform: scale(1.1);
+        }
+
+        .album-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, 
+                rgba(29, 53, 87, 0.8) 0%, 
+                rgba(230, 57, 70, 0.8) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+        }
+
+        .album-card:hover .album-overlay {
+            opacity: 1;
+        }
+
+        .album-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .album-info {
+            padding: 25px;
+        }
+
+        .album-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--telex-blue);
+            margin-bottom: 10px;
+        }
+
+        .album-description {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .album-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        .album-count {
+            background: var(--telex-blue-light);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .album-date {
+            color: #999;
+            font-size: 0.85rem;
+        }
+
+        /* ===== CATEGORY COLORS ===== */
+        .category-culture { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .category-sport { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .category-coutume { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .category-exceptionnel { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .category-autres { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); }
+
+        /* ===== LIGHTBOX ===== */
+        .album-lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            padding: 20px;
+        }
+
+        .album-lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-album-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 1200px;
+            max-height: 90vh;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .lightbox-album-header {
+            background: linear-gradient(135deg, var(--telex-blue), var(--telex-blue-light));
+            color: white;
+            padding: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .lightbox-album-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .lightbox-close {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(90deg);
+        }
+
+/* ===== LIGHTBOX GALLERY ===== */
+.lightbox-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.lightbox-item {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    aspect-ratio: 16/9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-color: #d1d5db;
+}
+
+.lightbox-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lightbox-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Overlay pour le titre */
+.lightbox-item::after {
+    content: attr(data-title);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox-item:hover::after {
+    opacity: 1;
+}
+
+        /* ===== STATS SECTION ===== */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--telex-blue);
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .lightbox-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                gap: 16px;
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .album-hero {
+                padding: 100px 0 40px;
+            }
+            
+            .album-hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .album-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .lightbox-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 12px;
+                padding: 12px;
+                max-height: 60vh;
+            }
+            
+            .lightbox-item {
+                border-radius: 8px;
+            }
+            
+            .lightbox-item::after {
+                font-size: 12px;
+                padding: 8px;
+            }
+            
+            .stats-container {
+                gap: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .lightbox-gallery {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 8px;
+                padding: 8px;
+                max-height: 50vh;
+            }
+            
+            .lightbox-item {
+                border-radius: 6px;
+            }
+            
+            .lightbox-item::after {
+                font-size: 11px;
+                padding: 6px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .album-hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .lightbox-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .album-info {
+                padding: 20px;
+            }
+            
+            .album-title {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarMenu">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home"></i>Accueil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/about">
+                            <i class="fas fa-info-circle"></i>À propos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/programs">
+                            <i class="fas fa-tv"></i>Programmes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gallery">
+                            <i class="fas fa-images"></i>Galerie
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/album">
+                            <i class="fas fa-book"></i>Album
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/baume-de-la-foi">
+                            <i class="fas fa-cross"></i>Baume de la Foi
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news">
+                            <i class="fas fa-newspaper"></i>Actualités
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">
+                            <i class="fas fa-envelope"></i>Contact
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="album-hero">
+        <div class="container">
+            <div class="album-hero-content">
+                <h1>Album Photo Telex</h1>
+                <p class="lead">
+                    Explorez nos souvenirs immortalisés à travers nos différents événements et activités
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Album Categories -->
+    <section class="album-categories">
+        <div class="container">
+            <div class="category-header">
+                <h2>Nos Albums Thématiques</h2>
+                <p>Découvrez nos moments précieux organisés par catégories pour une expérience immersive</p>
+            </div>
+            
+            <!-- Élément caché pour stocker les données des catégories -->
+            <div id="categoriesData" style="display: none;" data-categories='<%= JSON.stringify(categories || []) %>'></div>
+
+            <div class="album-grid">
+                <% if (categories && categories.length > 0) { %>
+                    <% categories.forEach(category => { %>
+                        <!-- Album <%= category.name %> -->
+                        <div class="album-card" data-category="<%= category.id %>">
+                            <div class="album-cover">
+                                <% if (category.images && category.images.length > 0) { %>
+                                    <img src="<%= category.images[0].src %>" alt="Album <%= category.name %>">
+                                <% } else { %>
+                                    <img src="/images/Telex.png" alt="Album <%= category.name %>">
+                                <% } %>
+                                <div class="album-overlay <%= category.color %>">
+                                    <i class="<%= category.icon %> album-icon"></i>
+                                    <h3><%= category.name.split(' ')[1] || category.name %></h3>
+                                    <p><%= category.name.split(' ')[0] %></p>
+                                </div>
+                            </div>
+                            <div class="album-info">
+                                <h3 class="album-title"><%= category.name %></h3>
+                                <p class="album-description">
+                                    <%= category.description %>
+                                </p>
+                                <div class="album-meta">
+                                    <span class="album-count"><%= category.count %> photos</span>
+                                    <span class="album-date">2024-2025</span>
+                                </div>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <!-- Aucune catégorie disponible -->
+                    <div class="col-12 text-center">
+                        <div class="empty-album">
+                            <i class="fas fa-images empty-icon"></i>
+                            <h3>Aucun album disponible</h3>
+                            <p>Les albums seront bientôt disponibles. Revenez nous visiter !</p>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+                        <!-- Stats Section -->
+    <section class="album-stats">
+        <div class="container">
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number"><%= categories ? categories.length : 0 %></span>
+                    <span class="stat-label">Albums</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number"><%= categories ? categories.reduce((sum, cat) => sum + cat.count, 0) : 0 %></span>
+                    <span class="stat-label">Photos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number"><%= categories ? categories.length : 0 %></span>
+                    <span class="stat-label">Événements</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">2024-25</span>
+                    <span class="stat-label">Année</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="album-lightbox" id="albumLightbox">
+        <div class="lightbox-album-content">
+            <div class="lightbox-album-header">
+                <h2 class="lightbox-album-title" id="lightboxTitle">Album Photos</h2>
+                <button class="lightbox-close" onclick="closeLightbox()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="lightbox-album-body">
+                <div class="lightbox-gallery" id="lightboxGallery">
+                    <!-- Images will be loaded dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Global function for closing lightbox
+        function closeLightbox() {
+            const lightbox = document.getElementById('albumLightbox');
+            if (lightbox) {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+        // Récupérer les données depuis l'attribut data
+        const categoriesDataElement = document.getElementById('categoriesData');
+        const categoriesData = categoriesDataElement ? JSON.parse(categoriesDataElement.getAttribute('data-categories')) : [];
+        
+        // Convertir en format albumData
+        const albumData = {};
+        if (categoriesData && categoriesData.length > 0) {
+            categoriesData.forEach(cat => {
+                albumData[cat.id] = {
+                    title: cat.name,
+                    images: cat.images || []
+                };
+            });
+        }
+        
+        console.log('🔍 DEBUG: Album data:', albumData);
+        
+        // Elements
+        const lightbox = document.getElementById('albumLightbox');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxGallery = document.getElementById('lightboxGallery');
+
+        // Get all album cards
+        const albumCards = document.querySelectorAll('.album-card');
+
+        // Add click event to album cards
+        albumCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                console.log('🔍 DEBUG: Album card clicked, category:', category);
+                openAlbum(category);
+            });
+        });
+
+        // Open album function
+        function openAlbum(category) {
+            console.log('🔍 DEBUG: Opening album for category:', category);
+            const album = albumData[category];
+            console.log('🔍 DEBUG: Album data found:', album);
+            
+            if (!album) {
+                console.log('🔍 DEBUG: No album data found for category:', category);
+                return;
+            }
+
+            // Set title
+            lightboxTitle.textContent = album.title;
+            console.log('🔍 DEBUG: Set title to:', album.title);
+
+            // Clear and populate gallery
+            lightboxGallery.innerHTML = '';
+            console.log('🔍 DEBUG: Album images:', album.images);
+            
+            album.images.forEach((image, index) => {
+                console.log('🔍 DEBUG: Adding image:', image);
+                const item = document.createElement('div');
+                item.className = 'lightbox-item';
+                item.setAttribute('data-title', image.title || 'Image ' + (index + 1));
+                item.innerHTML = `
+                    <img src="${image.src}" alt="${image.title}" title="${image.title}">
+                `;
+                item.addEventListener('click', () => openImageModal(image));
+                lightboxGallery.appendChild(item);
+            });
+
+            // Show lightbox
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            console.log('🔍 DEBUG: Lightbox opened');
+        }
+
+        // Open image modal (simplified version)
+        function openImageModal(image) {
+            console.log('🔍 DEBUG: Opening image modal for:', image);
+            
+            // Create a simple image modal
+            const modal = document.createElement('div');
+            modal.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.95);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 10001;
+                cursor: pointer;
+                padding: 20px;
+                box-sizing: border-box;
+            `;
+            
+            modal.innerHTML = `
+                <div style="position: relative; max-width: 95%; max-height: 95vh; display: flex; align-items: center; justify-content: center;">
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        position: absolute;
+                        top: -50px;
+                        right: -50px;
+                        background: rgba(255, 255, 255, 0.9);
+                        border: none;
+                        border-radius: 50%;
+                        width: 40px;
+                        height: 40px;
+                        font-size: 20px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 10002;
+                        transition: all 0.3s ease;
+                    " onmouseover="this.style.background='white'" onmouseout="this.style.background='rgba(255, 255, 255, 0.9)'">
+                        ×
+                    </button>
+                    <img src="${image.src}" alt="${image.title}" style="
+                        max-width: 100%;
+                        max-height: 90vh;
+                        width: auto;
+                        height: auto;
+                        object-fit: contain;
+                        border-radius: 10px;
+                        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+                        transition: transform 0.3s ease;
+                    " onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                    <div style="
+                        position: absolute;
+                        bottom: -40px;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        color: white;
+                        text-align: center;
+                        font-size: 16px;
+                        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+                        background: rgba(0, 0, 0, 0.7);
+                        padding: 8px 16px;
+                        border-radius: 20px;
+                        backdrop-filter: blur(10px);
+                    ">
+                        ${image.title}
+                    </div>
+                </div>
+            `;
+            
+            // Add to body and close on click outside image
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Close on escape key
+            const handleEscape = (e) => {
+                if (e.key === 'Escape') {
+                    modal.remove();
+                    document.body.style.overflow = '';
+                    document.removeEventListener('keydown', handleEscape);
+                }
+            };
+            document.addEventListener('keydown', handleEscape);
+            
+            console.log('🔍 DEBUG: Image modal opened');
+        }
+
+        // Close lightbox on escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox on background click
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+    });
+    </script>
+</body>
+</html>

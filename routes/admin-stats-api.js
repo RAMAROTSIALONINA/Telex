@@ -444,7 +444,7 @@ router.get('/api/top-publications', async (req, res) => {
         
         if (type === 'news') {
             query = `
-                SELECT title, views, created_at 
+                SELECT title, views, created_at, category 
                 FROM news 
                 WHERE is_published = 1 
                 AND DATE(created_at) >= ? AND DATE(created_at) <= ?
@@ -454,7 +454,7 @@ router.get('/api/top-publications', async (req, res) => {
             params = [startDate, endDate];
         } else if (type === 'programs') {
             query = `
-                SELECT title, views, created_at 
+                SELECT title, views, created_at, program_type as category 
                 FROM programs 
                 WHERE is_active = 1 
                 AND DATE(created_at) >= ? AND DATE(created_at) <= ?
@@ -478,7 +478,7 @@ router.get('/api/top-publications', async (req, res) => {
                 
                 UNION ALL
                 
-                SELECT 'Témoignages' as category, author_name as title, COALESCE(views, 0) as views, created_at 
+                SELECT 'Témoignages' as category, author_name as title, 0 as views, created_at 
                 FROM baume_temoignages 
                 WHERE is_approved = 1 
                 AND DATE(created_at) >= ? AND DATE(created_at) <= ?
@@ -523,6 +523,93 @@ router.get('/api/top-publications', async (req, res) => {
             success: false, 
             error: 'Erreur lors du chargement des publications',
             details: error.message 
+        });
+    }
+});
+
+// API pour diagnostiquer les catégories manquantes
+router.get('/api/diagnose-categories', async (req, res) => {
+    try {
+        console.log('🔍 Diagnostic des catégories manquantes...');
+        
+        // Vérifier les actualités sans catégories
+        const newsWithoutCategory = await dbAll(`
+            SELECT id, title, category 
+            FROM news 
+            WHERE is_published = 1 
+            AND (category IS NULL OR category = '' OR category = 'null')
+            ORDER BY created_at DESC 
+            LIMIT 10
+        `);
+        
+        // Vérifier les programmes sans catégories
+        const programsWithoutCategory = await dbAll(`
+            SELECT id, title, program_type as category 
+            FROM programs 
+            WHERE is_active = 1 
+            AND (program_type IS NULL OR program_type = '' OR program_type = 'null')
+            ORDER BY created_at DESC 
+            LIMIT 10
+        `);
+        
+        console.log(`📊 Actualités sans catégorie: ${newsWithoutCategory.length}`);
+        console.log(`📺 Programmes sans catégorie: ${programsWithoutCategory.length}`);
+        
+        res.json({
+            success: true,
+            newsWithoutCategory,
+            programsWithoutCategory,
+            summary: {
+                newsCount: newsWithoutCategory.length,
+                programsCount: programsWithoutCategory.length
+            }
+        });
+        
+    } catch (error) {
+        console.error('Erreur diagnostic catégories:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: error.message 
+        });
+    }
+});
+
+// API pour mettre à jour les catégories manquantes
+router.post('/api/fix-categories', async (req, res) => {
+    try {
+        console.log('🔧 Mise à jour des catégories manquantes...');
+        
+        // Mise à jour des actualités sans catégories
+        const newsUpdate = await dbRun(`
+            UPDATE news 
+            SET category = 'Actualité' 
+            WHERE is_published = 1 
+            AND (category IS NULL OR category = '' OR category = 'null')
+        `);
+        
+        // Mise à jour des programmes sans catégories
+        const programsUpdate = await dbRun(`
+            UPDATE programs 
+            SET program_type = 'Programme' 
+            WHERE is_active = 1 
+            AND (program_type IS NULL OR program_type = '' OR program_type = 'null')
+        `);
+        
+        console.log(`✅ Actualités mises à jour: ${newsUpdate.changes || 0}`);
+        console.log(`✅ Programmes mis à jour: ${programsUpdate.changes || 0}`);
+        
+        res.json({
+            success: true,
+            message: 'Catégories mises à jour avec succès',
+            newsUpdated: newsUpdate.changes || 0,
+            programsUpdated: programsUpdate.changes || 0
+        });
+        
+    } catch (error) {
+        console.error('Erreur mise à jour catégories:', error);
+        res.status(500).json({ 
+            success: false, 
+            error: error.message 
         });
     }
 });

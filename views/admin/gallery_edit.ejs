@@ -294,6 +294,12 @@
                 </a>
             </div>
             <div class="nav-item">
+                <a href="/admin/baume-de-la-foi" class="nav-link">
+                    <i class="fas fa-cross"></i>
+                    <span>Baume de la Foi</span>
+                </a>
+            </div>
+            <div class="nav-item">
                 <a href="/admin/contacts" class="nav-link">
                     <i class="fas fa-envelope"></i>
                     <span>Messages</span>
@@ -376,10 +382,10 @@
                 <div class="form-group">
                     <label for="category" class="form-label">Catégorie</label>
                     <select class="form-select" id="category" name="category">
-                        <option value="actualites" <%= image.category === 'actualites' ? 'selected' : '' %>>Actualités</option>
-                        <option value="programmes" <%= image.category === 'programmes' ? 'selected' : '' %>>Programmes</option>
-                        <option value="telex" <%= image.category === 'telex' ? 'selected' : '' %>>Telex</option>
-                        <option value="evenements" <%= image.category === 'evenements' ? 'selected' : '' %>>Événements</option>
+                        <option value="evenement-culturel" <%= image.category === 'evenement-culturel' ? 'selected' : '' %>>Événement Culturel</option>
+                        <option value="evenement-sportif" <%= image.category === 'evenement-sportif' ? 'selected' : '' %>>Événement Sportif</option>
+                        <option value="evenement-coutume" <%= image.category === 'evenement-coutume' ? 'selected' : '' %>>Événement Coutume</option>
+                        <option value="evenement-exceptionnel" <%= image.category === 'evenement-exceptionnel' ? 'selected' : '' %>>Événement Exceptionnel</option>
                         <option value="autres" <%= image.category === 'autres' ? 'selected' : '' %>>Autres</option>
                     </select>
                 </div>
