@@ -1,99 +1,107 @@
-/* ===== NAVBAR AMÉLIORÉ - STYLE GLOBAL UNIFIÉ ===== */
+/* ===== NAVBAR TELEX - SOURCE UNIQUE DE VÉRITÉ ===== */
 
-/* Style de base pour toutes les navbars */
+/* --- Hauteur fixe de référence --- */
+:root {
+    --navbar-height: 70px;
+}
+
+/* Compensation navbar fixe pour toutes les pages */
+body {
+    padding-top: var(--navbar-height) !important;
+}
+
+/* --- Barre de navigation --- */
 .navbar,
 .navbar-telex,
 .navbar-baume {
     background: #051d40 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     z-index: 1030 !important;
-    padding-top: 0.05rem !important;
-    padding-bottom: 0.05rem !important;
-    min-height: 20px !important;
+    height: var(--navbar-height);
+    padding: 0 !important;
 }
 
-/* LOGO */
+/* --- Logo --- */
 .navbar .navbar-brand,
 .navbar-telex .navbar-brand,
 .navbar-baume .navbar-brand {
     color: #3AAFA9 !important;
     font-weight: 700;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     display: flex;
     align-items: center;
-    transition: all 0.3s ease;
+    padding: 0 !important;
+    height: var(--navbar-height);
+    transition: color 0.2s ease;
 }
 
 .navbar .navbar-brand:hover,
 .navbar-telex .navbar-brand:hover,
 .navbar-baume .navbar-brand:hover {
     color: #c1121f !important;
-    transform: translateY(-1px);
 }
 
 .navbar .navbar-brand img,
 .navbar-telex .navbar-brand img,
 .navbar-baume .navbar-brand img {
-    height: 40px;
+    height: 50px;
     width: auto;
-    max-width: 150px;
-    margin-right: 10px;
-    transform: scale(2);
-    transform-origin: center;
+    max-width: 180px;
+    object-fit: contain;
+    transform: none;
+    margin-right: 8px;
 }
 
-/* TOUS LES LIENS DU MENU */
+/* --- Liens de navigation --- */
 .navbar .navbar-nav .nav-link,
 .navbar-telex .navbar-nav .nav-link,
 .navbar-baume .navbar-nav .nav-link {
     color: white !important;
     font-weight: 700 !important;
-    font-size: 1.1rem !important;
-    font-family: 'League Spartan', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-family: 'League Spartan', 'Segoe UI', sans-serif !important;
     text-transform: uppercase !important;
-    padding: 8px 16px !important;
-    margin: 0 4px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
+    letter-spacing: 0.5px;
+    padding: 6px 10px !important;
+    margin: 0 2px;
+    border-radius: 6px;
+    transition: background 0.2s ease, transform 0.2s ease;
+    white-space: nowrap;
     position: relative;
 }
 
-/* TOUTES LES ICÔNES */
+/* --- Icônes --- */
 .navbar .navbar-nav .nav-link i,
 .navbar-telex .navbar-nav .nav-link i,
 .navbar-baume .navbar-nav .nav-link i {
     color: white !important;
-    margin-right: 8px;
-    font-size: 1.1rem !important;
-    transition: all 0.3s ease;
+    margin-right: 5px;
+    font-size: 0.85rem !important;
 }
 
-/* SURVOL - ROUGE */
+/* --- Hover --- */
 .navbar .navbar-nav .nav-link:hover,
 .navbar-telex .navbar-nav .nav-link:hover,
 .navbar-baume .navbar-nav .nav-link:hover {
     color: white !important;
     background: #dc3545 !important;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
 }
 
 .navbar .navbar-nav .nav-link:hover i,
 .navbar-telex .navbar-nav .nav-link:hover i,
 .navbar-baume .navbar-nav .nav-link:hover i {
     color: white !important;
-    transform: scale(1.1);
 }
 
-/* LIEN ACTIF - ROUGE */
+/* --- Lien actif --- */
 .navbar .navbar-nav .nav-link.active,
 .navbar-telex .navbar-nav .nav-link.active,
 .navbar-baume .navbar-nav .nav-link.active {
     color: white !important;
     background: #dc3545 !important;
-    font-weight: 600;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .navbar .navbar-nav .nav-link.active i,
@@ -102,27 +110,15 @@
     color: white !important;
 }
 
-/* Soulignement pour le lien actif */
-.navbar .navbar-nav .nav-link.active::after,
-.navbar-telex .navbar-nav .nav-link.active::after,
-.navbar-baume .navbar-nav .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 15px;
-    right: 15px;
-    height: 3px;
-    background: #0953b6;
-    border-radius: 2px;
-}
-
-/* MENU DÉROULANT */
+/* --- Menu déroulant --- */
 .navbar .dropdown-menu,
 .navbar-telex .dropdown-menu,
 .navbar-baume .dropdown-menu {
     background: #051d40 !important;
-    border: 1px solid rgba(255,255,255,0.15);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    min-width: 180px;
 }
 
 .navbar .dropdown-item,
@@ -130,11 +126,12 @@
 .navbar-baume .dropdown-item {
     color: white !important;
     font-weight: 700 !important;
-    font-size: 0.95rem !important;
-    font-family: 'League Spartan', sans-serif !important;
+    font-size: 0.85rem !important;
+    font-family: 'League Spartan', 'Segoe UI', sans-serif !important;
     text-transform: uppercase !important;
-    padding: 10px 20px !important;
-    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+    padding: 10px 18px !important;
+    transition: background 0.2s ease, padding-left 0.2s ease;
 }
 
 .navbar .dropdown-item:hover,
@@ -142,94 +139,85 @@
 .navbar-baume .dropdown-item:hover {
     background: #dc3545 !important;
     color: white !important;
-    padding-left: 28px !important;
+    padding-left: 24px !important;
 }
 
 .navbar .dropdown-item i,
 .navbar-telex .dropdown-item i,
 .navbar-baume .dropdown-item i {
     color: white !important;
+    width: 16px;
 }
 
-/* BOUTON MENU MOBILE */
+/* --- Bouton toggle mobile --- */
 .navbar .navbar-toggler,
 .navbar-telex .navbar-toggler,
 .navbar-baume .navbar-toggler {
-    border: 1px solid #3AAFA9 !important;
-    background: transparent;
-    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    background: transparent !important;
+    padding: 6px 10px;
 }
 
 .navbar .navbar-toggler i,
 .navbar-telex .navbar-toggler i,
 .navbar-baume .navbar-toggler i {
-    color: #3AAFA9 !important;
-    font-size: 1.5rem;
+    color: white !important;
+    font-size: 1.3rem;
 }
 
 .navbar .navbar-toggler:hover,
 .navbar-telex .navbar-toggler:hover,
 .navbar-baume .navbar-toggler:hover {
-    background-color: rgba(255, 71, 87, 0.1);
+    background: rgba(220, 53, 69, 0.3) !important;
 }
 
-.navbar .navbar-toggler:hover i,
-.navbar-telex .navbar-toggler:hover i,
-.navbar-baume .navbar-toggler:hover i {
-    color: #c1121f !important;
-}
-
-/* RESPONSIVE */
-@media (max-width: 991.98px) {
-    .navbar .navbar-nav,
-    .navbar-telex .navbar-nav,
-    .navbar-baume .navbar-nav {
-        padding: 1rem 0;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 991px) {
+    .navbar .navbar-collapse,
+    .navbar-telex .navbar-collapse,
+    .navbar-baume .navbar-collapse {
+        background: #051d40;
+        padding: 0.5rem 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     .navbar .navbar-nav .nav-link,
     .navbar-telex .navbar-nav .nav-link,
     .navbar-baume .navbar-nav .nav-link {
-        text-align: center;
-        padding: 12px !important;
-        margin: 4px 0;
+        padding: 10px 12px !important;
+        margin: 2px 0;
+        text-align: left;
     }
-    
-    .navbar .navbar-nav .nav-link i,
-    .navbar-telex .navbar-nav .nav-link i,
-    .navbar-baume .navbar-nav .nav-link i {
-        margin-right: 8px;
-        width: 20px;
-    }
-    
-    .navbar .navbar-nav .nav-link.active::after,
-    .navbar-telex .navbar-nav .nav-link.active::after,
-    .navbar-baume .navbar-nav .nav-link.active::after {
-        bottom: 5px;
-        left: 30px;
-        right: 30px;
+
+    .navbar .dropdown-menu,
+    .navbar-telex .dropdown-menu,
+    .navbar-baume .dropdown-menu {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: none;
+        box-shadow: none;
+        padding-left: 1rem;
     }
 }
 
 @media (max-width: 576px) {
+    :root {
+        --navbar-height: 60px;
+    }
+
     .navbar .navbar-brand img,
     .navbar-telex .navbar-brand img,
     .navbar-baume .navbar-brand img {
-        height: 35px;
-        width: auto;
-        max-width: 120px;
-        transform: scale(2);
-        transform-origin: center;
+        height: 38px;
     }
-    
-    .navbar .navbar-brand,
-    .navbar-telex .navbar-brand,
-    .navbar-baume .navbar-brand {
-        font-size: 1.5rem;
+
+    .navbar .navbar-nav .nav-link,
+    .navbar-telex .navbar-nav .nav-link,
+    .navbar-baume .navbar-nav .nav-link {
+        font-size: 0.8rem !important;
     }
 }
 
-/* ===== STYLES POUR LES MÉDIAS DES CARTES BAUME DE LA FOI ===== */
+/* ===== STYLES MÉDIAS BAUME DE LA FOI ===== */
 .priere-media,
 .reflexion-media {
     margin-bottom: 1rem;
@@ -267,12 +255,6 @@
     padding: 1.5rem;
 }
 
-.priere-card:hover .priere-media,
-.reflexion-card:hover .reflexion-media {
-    box-shadow: 0 6px 20px rgba(46, 92, 78, 0.15);
-}
-
-/* ===== AMÉLIORATIONS DES CARTES AVEC MÉDIAS ===== */
 .priere-card,
 .reflexion-card {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -283,12 +265,4 @@
 .reflexion-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(46, 92, 78, 0.15);
-}
-
-/* ===== POSTER PAR DÉFAUT POUR VIDÉOS ===== */
-video[poster] {
-    background-color: #FFD700;
-    background-image: url('/images/baume-poster.jpg');
-    background-size: cover;
-    background-position: center;
 }
