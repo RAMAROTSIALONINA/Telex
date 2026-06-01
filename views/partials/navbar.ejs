@@ -1,3 +1,5 @@
+<% const currentPage = (typeof page !== 'undefined') ? page : '';
+   const navLang = (typeof currentLang !== 'undefined') ? currentLang : 'fr'; %>
 <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
     <div class="container-fluid px-3">
         <a class="navbar-brand d-flex align-items-center" href="/">
@@ -15,16 +17,16 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-globe"></i>
-                        <span class="ms-1"><%= currentLang === 'en' ? 'EN' : 'FR' %></span>
+                        <span class="ms-1"><%= navLang ==='en' ? 'EN' : 'FR' %></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                         <li>
-                            <a class="dropdown-item <%= currentLang === 'fr' ? 'active' : '' %>" href="?lang=fr">
+                            <a class="dropdown-item <%= navLang ==='fr' ? 'active' : '' %>" href="?lang=fr">
                                 <i class="fas fa-flag me-2"></i>Français
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item <%= currentLang === 'en' ? 'active' : '' %>" href="?lang=en">
+                            <a class="dropdown-item <%= navLang ==='en' ? 'active' : '' %>" href="?lang=en">
                                 <i class="fas fa-flag-usa me-2"></i>English
                             </a>
                         </li>
@@ -32,42 +34,42 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'home' ? 'active' : '' %>" href="/">
+                    <a class="nav-link <%= currentPage === 'home' ? 'active' : '' %>" href="/">
                         <i class="fas fa-home"></i>ACCUEIL
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'about' ? 'active' : '' %>" href="/about">
+                    <a class="nav-link <%= currentPage === 'about' ? 'active' : '' %>" href="/about">
                         <i class="fas fa-info-circle"></i>À PROPOS
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" href="/programs">
+                    <a class="nav-link <%= currentPage === 'programs' ? 'active' : '' %>" href="/programs">
                         <i class="fas fa-tv"></i>PROGRAMMES
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" href="/gallery">
+                    <a class="nav-link <%= currentPage === 'gallery' ? 'active' : '' %>" href="/gallery">
                         <i class="fas fa-images"></i>GALERIE
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'album' ? 'active' : '' %>" href="/album">
+                    <a class="nav-link <%= currentPage === 'album' ? 'active' : '' %>" href="/album">
                         <i class="fas fa-book"></i>ALBUM
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'baume-de-la-foi' ? 'active' : '' %>" href="/baume-de-la-foi">
+                    <a class="nav-link <%= currentPage === 'baume-de-la-foi' ? 'active' : '' %>" href="/baume-de-la-foi">
                         <i class="fas fa-cross"></i>BAUME
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
+                    <a class="nav-link <%= currentPage === 'news' ? 'active' : '' %>" href="/news">
                         <i class="fas fa-newspaper"></i>ACTUALITÉS
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" href="/contact">
+                    <a class="nav-link <%= currentPage === 'contact' ? 'active' : '' %>" href="/contact">
                         <i class="fas fa-envelope"></i>CONTACT
                     </a>
                 </li>
