@@ -118,6 +118,11 @@ body {
     color: white !important;
     background: #dc3545 !important;
     border-radius: 6px;
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+    outline: none !important;
 }
 
 .navbar .navbar-nav .nav-link.active i,
