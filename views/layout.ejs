@@ -94,30 +94,30 @@
                     </li>
                     <!-- Tous les liens sont visibles -->
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('home'); return false;">
+                        <a class="nav-link <%= page === 'home' ? 'active' : '' %>"
+                           href="/"
+                           onclick="if(document.getElementById('home-page')){showPage('home');return false;}">
                             <i class="fas fa-home me-2"></i><%= __("navigation.home") %>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('about'); return false;">
+                        <a class="nav-link <%= page === 'about' ? 'active' : '' %>"
+                           href="/about"
+                           onclick="if(document.getElementById('about-page')){showPage('about');return false;}">
                             <i class="fas fa-info-circle me-2"></i><%= __("navigation.about") %>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('programs'); return false;">
+                        <a class="nav-link <%= page === 'programs' ? 'active' : '' %>"
+                           href="/programs"
+                           onclick="if(document.getElementById('programs-page')){showPage('programs');return false;}">
                             <i class="fas fa-tv me-2"></i><%= __("navigation.programs") %>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('gallery'); return false;">
+                        <a class="nav-link <%= page === 'gallery' ? 'active' : '' %>"
+                           href="/gallery"
+                           onclick="if(document.getElementById('gallery-page')){showPage('gallery');return false;}">
                             <i class="fas fa-images me-2"></i><%= __("navigation.gallery") %>
                         </a>
                     </li>
@@ -140,16 +140,16 @@
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('news'); return false;">
+                        <a class="nav-link <%= page === 'news' ? 'active' : '' %>"
+                           href="/news"
+                           onclick="if(document.getElementById('news-page')){showPage('news');return false;}">
                             <i class="fas fa-newspaper me-2"></i><%= __("navigation.news") %>
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>" 
-                           href="#" 
-                           onclick="showPage('contact'); return false;">
+                        <a class="nav-link <%= page === 'contact' ? 'active' : '' %>"
+                           href="/contact"
+                           onclick="if(document.getElementById('contact-page')){showPage('contact');return false;}">
                             <i class="fas fa-envelope me-2"></i><%= __("navigation.contact") %>
                         </a>
                     </li>
@@ -166,7 +166,7 @@
                 
                 <!-- Bouton CTA -->
                 <div class="d-flex ms-lg-3">
-                    <a href="#" onclick="showPage('contact'); return false;" class="btn btn-telex">
+                    <a href="/contact" onclick="if(document.getElementById('contact-page')){showPage('contact');return false;}" class="btn btn-telex">
                         <i class="fas fa-plus me-2"></i><%= currentLang === "en" ? "Join Telex" : "Rejoindre Telex" %>
                     </a>
                 </div>
@@ -214,14 +214,14 @@
                 <div class="col-lg-2 col-md-6 mb-4">
                     <h5>Navigation</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" onclick="showPage('home'); return false;" style="color: #3AAFA9;">Accueil</a></li>
-                        <li><a href="#" onclick="showPage('about'); return false;" style="color: #3AAFA9;">À propos</a></li>
-                        <li><a href="#" onclick="showPage('programs'); return false;" style="color: #3AAFA9;">Programmes</a></li>
-                        <li><a href="#" onclick="showPage('gallery'); return false;" style="color: #3AAFA9;">Galerie</a></li>
+                        <li><a href="/" style="color: #3AAFA9;">Accueil</a></li>
+                        <li><a href="/about" style="color: #3AAFA9;">À propos</a></li>
+                        <li><a href="/programs" style="color: #3AAFA9;">Programmes</a></li>
+                        <li><a href="/gallery" style="color: #3AAFA9;">Galerie</a></li>
                         <li><a href="/album" style="color: #3AAFA9;">Album</a></li>
                         <li><a href="/baume-de-la-foi" style="color: #3AAFA9;">Baume de la Foi</a></li>
-                        <li><a href="#" onclick="showPage('news'); return false;" style="color: #3AAFA9;">Actualités</a></li>
-                        <li><a href="#" onclick="showPage('contact'); return false;" style="color: #3AAFA9;">Contact</a></li>
+                        <li><a href="/news" style="color: #3AAFA9;">Actualités</a></li>
+                        <li><a href="/contact" style="color: #3AAFA9;">Contact</a></li>
                     </ul>
                 </div>
                 
