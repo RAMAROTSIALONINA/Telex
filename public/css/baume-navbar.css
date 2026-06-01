@@ -103,27 +103,41 @@ body {
     color: white !important;
 }
 
-/* Supprimer tout soulignement - ligne jaune ou bleue */
+/* ===== SUPPRESSION TOTALE DE TOUTE LIGNE SOUS LES LIENS ===== */
 .navbar .navbar-nav .nav-link,
+.navbar .navbar-nav .nav-link:hover,
+.navbar .navbar-nav .nav-link:focus,
+.navbar .navbar-nav .nav-link.active,
 .navbar-telex .navbar-nav .nav-link,
-.navbar-baume .navbar-nav .nav-link {
+.navbar-telex .navbar-nav .nav-link:hover,
+.navbar-telex .navbar-nav .nav-link:focus,
+.navbar-telex .navbar-nav .nav-link.active,
+.navbar-baume .navbar-nav .nav-link,
+.navbar-baume .navbar-nav .nav-link:hover,
+.navbar-baume .navbar-nav .nav-link:focus,
+.navbar-baume .navbar-nav .nav-link.active {
+    border: none !important;
     border-bottom: none !important;
     text-decoration: none !important;
     outline: none !important;
     box-shadow: none !important;
+    --bs-nav-link-color: white;
+    --bs-nav-link-hover-color: white;
+    --bs-navbar-active-color: white;
 }
 
 .navbar .navbar-nav .nav-link::after,
-.navbar-telex .navbar-nav .nav-link::after,
-.navbar-baume .navbar-nav .nav-link::after,
 .navbar .navbar-nav .nav-link::before,
+.navbar-telex .navbar-nav .nav-link::after,
 .navbar-telex .navbar-nav .nav-link::before,
+.navbar-baume .navbar-nav .nav-link::after,
 .navbar-baume .navbar-nav .nav-link::before {
     display: none !important;
-    content: none !important;
+    content: '' !important;
     border: none !important;
-    background: none !important;
+    background: transparent !important;
     height: 0 !important;
+    width: 0 !important;
 }
 
 /* --- Lien actif --- */
