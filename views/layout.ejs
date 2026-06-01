@@ -121,17 +121,23 @@
                             <i class="fas fa-images me-2"></i><%= __("navigation.gallery") %>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'album' ? 'active' : '' %>" 
-                           href="/album">
-                            <i class="fas fa-book me-2"></i>Album
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle <%= (page === 'album' || page === 'baume-de-la-foi') ? 'active' : '' %>"
+                           href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-ellipsis-h me-2"></i>Plus
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link <%= page === 'baume-de-la-foi' ? 'active' : '' %>" 
-                           href="/baume-de-la-foi">
-                            <i class="fas fa-cross me-2"></i>Baume de la Foi
-                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="moreDropdown">
+                            <li>
+                                <a class="dropdown-item <%= page === 'album' ? 'active' : '' %>" href="/album">
+                                    <i class="fas fa-book me-2"></i>Album
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item <%= page === 'baume-de-la-foi' ? 'active' : '' %>" href="/baume-de-la-foi">
+                                    <i class="fas fa-cross me-2"></i>Baume de la Foi
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link <%= page === 'news' ? 'active' : '' %>" 
@@ -221,11 +227,12 @@
                 
                 <!-- Colonne 3 -->
                 <div class="col-lg-3 col-md-6 mb-4">
-                    <h5>Informations</h5>
+                    <h5>Contact</h5>
                     <ul class="list-unstyled">
-                        <li><a href="#" onclick="showPage('news'); return false;" style="color: #3AAFA9;">Actualités</a></li>
-                        <li><a href="#" onclick="showPage('contact'); return false;" style="color: #3AAFA9;">Contact</a></li>
-                        <li><a href="#" onclick="showPage('social'); return false;" style="color: #3AAFA9;">Réseaux</a></li>
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2" style="color: #E63946;"></i>Madagascar</li>
+                        <li class="mb-2"><i class="fas fa-envelope me-2" style="color: #E63946;"></i><a href="#" onclick="showPage('contact'); return false;" style="color: #3AAFA9;">Nous écrire</a></li>
+                        <li class="mb-2"><i class="fas fa-share-alt me-2" style="color: #E63946;"></i><a href="#" onclick="showPage('social'); return false;" style="color: #3AAFA9;">Réseaux sociaux</a></li>
+                        <li class="mb-2"><i class="fas fa-cross me-2" style="color: #E63946;"></i><a href="/baume-de-la-foi" style="color: #3AAFA9;">Baume de la Foi</a></li>
                     </ul>
                 </div>
                 
@@ -552,11 +559,41 @@
     // Newsletter
     const newsletterForm = document.getElementById('newsletterForm');
     if (newsletterForm) {
-        newsletterForm.addEventListener('submit', function(e) {
+        newsletterForm.addEventListener('submit', async function(e) {
             e.preventDefault();
-            const email = this.querySelector('input[type="email"]').value;
-            alert(`Merci pour votre inscription avec l'email : ${email}`);
-            this.reset();
+            const emailInput = this.querySelector('input[type="email"]');
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalIcon = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            submitBtn.disabled = true;
+
+            try {
+                const response = await fetch('/newsletter/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({ email: emailInput.value })
+                });
+                const data = await response.json().catch(() => ({}));
+
+                const msg = document.createElement('p');
+                msg.className = response.ok ? 'text-success small mt-2' : 'text-warning small mt-2';
+                msg.textContent = response.ok
+                    ? (data.message || 'Merci pour votre inscription !')
+                    : (data.message || 'Une erreur est survenue, réessayez.');
+                this.appendChild(msg);
+                if (response.ok) this.reset();
+                setTimeout(() => msg.remove(), 4000);
+            } catch {
+                const msg = document.createElement('p');
+                msg.className = 'text-warning small mt-2';
+                msg.textContent = 'Impossible de contacter le serveur.';
+                this.appendChild(msg);
+                setTimeout(() => msg.remove(), 4000);
+            } finally {
+                submitBtn.innerHTML = originalIcon;
+                submitBtn.disabled = false;
+            }
         });
     }
     </script>
@@ -1014,125 +1051,16 @@
         // Initialiser la gestion des cookies
         document.addEventListener('DOMContentLoaded', function() {
             new CookieConsent();
-            
-            // Bouton de test pour afficher la bannière (à enlever en production)
-            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                const testBtn = document.createElement('button');
-                testBtn.innerHTML = '<i class="fas fa-cookie"></i> Test Bannière RGPD';
-                testBtn.style.cssText = `
-                    position: fixed;
-                    top: 100px;
-                    right: 20px;
-                    background: #FF4757;
-                    color: white;
-                    border: none;
-                    padding: 10px 15px;
-                    border-radius: 8px;
-                    z-index: 10000;
-                    cursor: pointer;
-                    font-size: 12px;
-                    box-shadow: 0 4px 12px rgba(255,71,87,0.3);
-                `;
-                testBtn.onclick = function() {
-                    // Supprimer le consentement existant
-                    localStorage.removeItem('telex_cookie_consent');
-                    localStorage.removeItem('telex_cookie_preferences');
-                    
-                    // Forcer l'affichage immédiat
-                    const banner = document.getElementById('cookieConsent');
-                    if (banner) {
-                        banner.style.display = 'block';
-                        banner.style.visibility = 'visible';
-                        banner.style.opacity = '1';
-                        banner.style.position = 'fixed';
-                        banner.style.bottom = '0';
-                        banner.style.left = '0';
-                        banner.style.right = '0';
-                        banner.style.zIndex = '9999';
-                        console.log('Bannière forcée manuellement');
-                    } else {
-                        console.error('Bannière non trouvée même en forçage');
-                        // Recharger si la bannière n'existe pas
-                        window.location.reload();
-                    }
-                };
-                document.body.appendChild(testBtn);
-            }
         });
     </script>
     
     <% if (process.env.NODE_ENV === 'production') { %>
     <script>
-        // PROTECTION CONTRE L'ACCÈS AU CODE SOURCE - PRODUCTION
         (function() {
             'use strict';
-            
-            // 1. Désactiver le clic droit
-            document.addEventListener('contextmenu', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // 2. Bloquer les touches d'ouverture des outils de développement
-            document.addEventListener('keydown', function(e) {
-                // F12
-                if (e.keyCode === 123) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+Shift+I
-                if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+Shift+J (Chrome)
-                if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
-                    e.preventDefault();
-                    return false;
-                }
-                // Ctrl+U (Voir source)
-                if (e.ctrlKey && e.keyCode === 85) {
-                    e.preventDefault();
-                    return false;
-                }
-            });
-            
-            // 3. Détecter l'ouverture des outils de développement
-            let devtools = {open: false, orientation: null};
-            let threshold = 160;
-            
-            setInterval(function() {
-                if (window.outerHeight - window.innerHeight > threshold || 
-                    window.outerWidth - window.innerWidth > threshold) {
-                    if (!devtools.open) {
-                        devtools.open = true;
-                        // Rediriger vers une page blanche
-                        document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif; background: #f5f5f5;"><div style="text-align: center; padding: 40px; background: white; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);"><h2 style="color: #e74c3c; margin-bottom: 20px;"> Accès Refusé</h2><p style="color: #555; margin-bottom: 20px;">Les outils de développement ne sont pas autorisés sur cette page.</p><button onclick="location.reload()" style="padding: 10px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer;">Recharger la page</button></div></div>';
-                        console.clear();
-                    }
-                } else {
-                    devtools.open = false;
-                }
-            }, 500);
-            
-            // 4. Masquer les console.log en production
+            // Masquer les logs de débogage en production
             console.log = function() {};
-            console.warn = function() {};
-            console.error = function() {};
-            console.info = function() {};
             console.debug = function() {};
-            
-            // 5. Protection contre la copie de texte
-            document.addEventListener('selectstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
-            
-            // 6. Désactiver le drag and drop
-            document.addEventListener('dragstart', function(e) {
-                e.preventDefault();
-                return false;
-            });
         })();
     <% } %>
 </body>

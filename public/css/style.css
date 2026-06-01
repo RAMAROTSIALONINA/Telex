@@ -40,7 +40,6 @@ body {
     color: var(--telex-black);
     background-color: #ffffff;
     line-height: 1.6;
-    padding-top: 76px;
 }
 
 h1,
@@ -113,14 +112,14 @@ h6 {
     transition: all 0.3s ease;
 }
 
-/* SURVOL - JAUNE */
+/* SURVOL - ROUGE FONCÉ (contraste WCAG AA sur fond blanc) */
 .navbar .navbar-nav .nav-link:hover,
 .navbar-telex .navbar-nav .nav-link:hover,
 .navbar-baume .navbar-nav .nav-link:hover {
     color: white !important;
-    background: #FFD700 !important;  /* Jaune */
+    background: #c1121f !important;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    box-shadow: 0 4px 12px rgba(193, 18, 31, 0.3);
 }
 
 .navbar .navbar-nav .nav-link:hover i,
@@ -130,12 +129,12 @@ h6 {
     transform: scale(1.1);
 }
 
-/* LIEN ACTIF (PAGE COURANTE) - JAUNE */
+/* LIEN ACTIF (PAGE COURANTE) - ROUGE FONCÉ */
 .navbar .navbar-nav .nav-link.active,
 .navbar-telex .navbar-nav .nav-link.active,
 .navbar-baume .navbar-nav .nav-link.active {
     color: white !important;
-    background: #FFD700 !important;  /* Jaune */
+    background: #c1121f !important;
     font-weight: 600;
     border-radius: 8px;
 }
@@ -156,7 +155,7 @@ h6 {
     left: 15px;
     right: 15px;
     height: 3px;
-    background: #FFD700;
+    background: #c1121f;
     border-radius: 2px;
 }
 
@@ -206,7 +205,7 @@ h6 {
 .navbar .dropdown-item:hover,
 .navbar-telex .dropdown-item:hover,
 .navbar-baume .dropdown-item:hover {
-    background-color: #FFD700 !important;
+    background-color: #c1121f !important;
     color: white !important;
     padding-left: 1.8rem;
 }
@@ -4665,7 +4664,7 @@ body[data-page="contact"] .page-hero .hero-camera-img[src*="TELEX BAREA.png"]:ho
 .navbar .dropdown-item:hover,
 .navbar-telex .dropdown-item:hover,
 .navbar-baume .dropdown-item:hover {
-    background-color: #FFD700 !important;
+    background-color: #c1121f !important;
     color: white !important;
     padding-left: 1.8rem;
 }
