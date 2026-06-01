@@ -145,19 +145,7 @@ h6 {
     color: white !important;
 }
 
-/* Soulignement pour le lien actif */
-.navbar .navbar-nav .nav-link.active::after,
-.navbar-telex .navbar-nav .nav-link.active::after,
-.navbar-baume .navbar-nav .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 15px;
-    right: 15px;
-    height: 3px;
-    background: #c1121f;
-    border-radius: 2px;
-}
+/* Soulignement supprimé - style géré par baume-navbar.css */
 
 /* BOUTON MENU MOBILE */
 .navbar .navbar-toggler,
@@ -4606,17 +4594,6 @@ body[data-page="contact"] .page-hero .hero-camera-img[src*="TELEX BAREA.png"]:ho
     color: white !important;
 }
 
-/* Soulignement pour le lien actif */
-.navbar .navbar-nav .nav-link.active::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 15px;
-    right: 15px;
-    height: 3px;
-    background: #FFD700;
-    border-radius: 2px;
-}
 
 /* ===== BOUTON MENU MOBILE - BLEU CANARD CLAIR ===== */
 .navbar .navbar-toggler,
@@ -4705,13 +4682,6 @@ body[data-page="contact"] .page-hero .hero-camera-img[src*="TELEX BAREA.png"]:ho
         width: 20px;
     }
     
-    .navbar .navbar-nav .nav-link.active::after,
-    .navbar-telex .navbar-nav .nav-link.active::after,
-    .navbar-baume .navbar-nav .nav-link.active::after {
-        bottom: 5px;
-        left: 30px;
-        right: 30px;
-    }
 }
 
 @media (max-width: 576px) {

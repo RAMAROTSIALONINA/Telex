@@ -1,22 +1,23 @@
 <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
-    <div class="container">
+    <div class="container-fluid px-3">
         <a class="navbar-brand d-flex align-items-center" href="/">
             <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
         </a>
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" aria-controls="navbarMenu" aria-expanded="false" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
 
         <div class="collapse navbar-collapse" id="navbarMenu">
-            <ul class="navbar-nav ms-auto">
+            <ul class="navbar-nav ms-auto align-items-lg-center">
+
                 <!-- Sélecteur de langue -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-globe"></i>
                         <span class="ms-1"><%= currentLang === 'en' ? 'EN' : 'FR' %></span>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
                         <li>
                             <a class="dropdown-item <%= currentLang === 'fr' ? 'active' : '' %>" href="?lang=fr">
                                 <i class="fas fa-flag me-2"></i>Français
@@ -50,27 +51,16 @@
                         <i class="fas fa-images"></i>GALERIE
                     </a>
                 </li>
-
-                <!-- Dropdown "Plus" : Album + Baume de la Foi -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle <%= (page === 'album' || page === 'baume-de-la-foi') ? 'active' : '' %>"
-                       href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-ellipsis-h"></i>PLUS
+                <li class="nav-item">
+                    <a class="nav-link <%= page === 'album' ? 'active' : '' %>" href="/album">
+                        <i class="fas fa-book"></i>ALBUM
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="moreDropdown">
-                        <li>
-                            <a class="dropdown-item <%= page === 'album' ? 'active' : '' %>" href="/album">
-                                <i class="fas fa-book me-2"></i>ALBUM
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item <%= page === 'baume-de-la-foi' ? 'active' : '' %>" href="/baume-de-la-foi">
-                                <i class="fas fa-cross me-2"></i>BAUME DE LA FOI
-                            </a>
-                        </li>
-                    </ul>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link <%= page === 'baume-de-la-foi' ? 'active' : '' %>" href="/baume-de-la-foi">
+                        <i class="fas fa-cross"></i>BAUME
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link <%= page === 'news' ? 'active' : '' %>" href="/news">
                         <i class="fas fa-newspaper"></i>ACTUALITÉS
@@ -81,6 +71,7 @@
                         <i class="fas fa-envelope"></i>CONTACT
                     </a>
                 </li>
+
             </ul>
         </div>
     </div>
