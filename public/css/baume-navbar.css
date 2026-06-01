@@ -103,12 +103,27 @@ body {
     color: white !important;
 }
 
-/* Supprimer tout soulignement sous les liens actifs */
+/* Supprimer tout soulignement - ligne jaune ou bleue */
+.navbar .navbar-nav .nav-link,
+.navbar-telex .navbar-nav .nav-link,
+.navbar-baume .navbar-nav .nav-link {
+    border-bottom: none !important;
+    text-decoration: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
 .navbar .navbar-nav .nav-link::after,
 .navbar-telex .navbar-nav .nav-link::after,
-.navbar-baume .navbar-nav .nav-link::after {
+.navbar-baume .navbar-nav .nav-link::after,
+.navbar .navbar-nav .nav-link::before,
+.navbar-telex .navbar-nav .nav-link::before,
+.navbar-baume .navbar-nav .nav-link::before {
     display: none !important;
     content: none !important;
+    border: none !important;
+    background: none !important;
+    height: 0 !important;
 }
 
 /* --- Lien actif --- */
