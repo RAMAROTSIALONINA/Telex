@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -124,83 +124,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-baume fixed-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
-                <i class="fas fa-bars"></i>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarMenu">
-                <ul class="navbar-nav ms-auto">
-                    <!-- Sélecteur de langue -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-globe"></i>
-                            <span class="ms-1"><%= currentLang === 'en' ? 'EN' : 'FR' %></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item <%= currentLang === 'fr' ? 'active' : '' %>" 
-                                   href="?lang=fr">
-                                    <i class="fas fa-flag me-2"></i>Français
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item <%= currentLang === 'en' ? 'active' : '' %>" 
-                                   href="?lang=en">
-                                    <i class="fas fa-flag-usa me-2"></i>English
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="/">
-                            <i class="fas fa-home"></i>ACCUEIL
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/about">
-                            <i class="fas fa-info-circle"></i>À PROPOS
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/programs">
-                            <i class="fas fa-tv"></i>PROGRAMMES
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/gallery">
-                            <i class="fas fa-images"></i>GALERIE
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/album">
-                            <i class="fas fa-book"></i>ALBUM
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/baume-de-la-foi">
-                            <i class="fas fa-cross"></i>BAUME DE LA FOI
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/news">
-                            <i class="fas fa-newspaper"></i>ACTUALITÉS
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/contact">
-                            <i class="fas fa-envelope"></i>CONTACT
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <%- include('../partials/navbar') %>
 
     <!-- Hero Section -->
     <section class="hero-section">

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -904,62 +904,7 @@
 </head>
 <body>
     <!-- Navigation -->
-<nav class="navbar navbar-expand-lg navbar-baume fixed-top">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="/">
-            <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMenu" style="border: none; color: var(--baume-primary);">
-            <i class="fas fa-bars"></i>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarMenu">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/">
-                        <i class="fas fa-home"></i>Accueil
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/about">
-                        <i class="fas fa-info-circle"></i>À propos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/programs">
-                        <i class="fas fa-tv"></i>Programmes
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="/gallery">
-                        <i class="fas fa-images"></i>Galerie
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/album">
-                        <i class="fas fa-book"></i>Album
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/baume-de-la-foi">
-                        <i class="fas fa-cross"></i>Baume de la Foi
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/news">
-                        <i class="fas fa-newspaper"></i>Actualités
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/contact">
-                        <i class="fas fa-envelope"></i>Contact
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+<%- include('../partials/navbar') %>
 
     <!-- Hero Section Galerie - TAILLE CORRIGÉE -->
     <section class="gallery-page-hero">
