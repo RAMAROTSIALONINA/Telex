@@ -116,6 +116,41 @@
     border-radius: 2px;
 }
 
+/* MENU DÉROULANT */
+.navbar .dropdown-menu,
+.navbar-telex .dropdown-menu,
+.navbar-baume .dropdown-menu {
+    background: #051d40 !important;
+    border: 1px solid rgba(255,255,255,0.15);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.navbar .dropdown-item,
+.navbar-telex .dropdown-item,
+.navbar-baume .dropdown-item {
+    color: white !important;
+    font-weight: 700 !important;
+    font-size: 0.95rem !important;
+    font-family: 'League Spartan', sans-serif !important;
+    text-transform: uppercase !important;
+    padding: 10px 20px !important;
+    transition: all 0.2s ease;
+}
+
+.navbar .dropdown-item:hover,
+.navbar-telex .dropdown-item:hover,
+.navbar-baume .dropdown-item:hover {
+    background: #dc3545 !important;
+    color: white !important;
+    padding-left: 28px !important;
+}
+
+.navbar .dropdown-item i,
+.navbar-telex .dropdown-item i,
+.navbar-baume .dropdown-item i {
+    color: white !important;
+}
+
 /* BOUTON MENU MOBILE */
 .navbar .navbar-toggler,
 .navbar-telex .navbar-toggler,
