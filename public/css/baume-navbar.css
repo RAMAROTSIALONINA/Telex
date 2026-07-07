@@ -60,8 +60,9 @@ body {
 .navbar-baume .navbar-nav .nav-link {
     color: white !important;
     font-weight: 700 !important;
-    font-size: 1rem !important;
-    font-family: 'League Spartan', sans-serif !important;
+    font-size: 16px !important;
+    font-style: normal !important;
+    font-family: 'Inter', Arial, Helvetica, sans-serif !important;
     text-transform: uppercase !important;
     padding: 8px 12px !important;
     margin: 0 2px;
@@ -126,6 +127,20 @@ body {
 .navbar-telex .navbar-nav .nav-link.active i,
 .navbar-baume .navbar-nav .nav-link.active i {
     color: white !important;
+}
+
+/* --- Barre bleue sous le lien actif --- */
+.navbar .navbar-nav .nav-link.active::after,
+.navbar-telex .navbar-nav .nav-link.active::after,
+.navbar-baume .navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 15px;
+    right: 15px;
+    height: 3px;
+    background: #0953b6;
+    border-radius: 2px;
 }
 
 /* --- Menu deroulant langue --- */
