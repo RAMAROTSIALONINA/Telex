@@ -40,6 +40,7 @@ body {
     color: var(--telex-black);
     background-color: #ffffff;
     line-height: 1.6;
+    overflow-x: hidden;
 }
 
 h1,
@@ -464,6 +465,8 @@ h6 {
 .program-card h3 {
     margin-bottom: 1rem;
     color: var(--telex-blue);
+    font-size: 1rem;
+    line-height: 1.3;
 }
 
 .program-card p {
@@ -491,26 +494,34 @@ h6 {
     flex: 0 0 auto;
     width: 20%;
     padding: 0 0.75rem;
+    margin-bottom: 1rem;
 }
 
 /* Responsive pour 5 programmes */
 @media (max-width: 1200px) {
     .col-lg-2-4 {
-        width: 50%;
-        margin-bottom: 1.5rem;
+        width: 33.333%;
+        margin-bottom: 1rem;
     }
-    
+
     .program-card {
-        min-height: 280px;
+        min-height: 260px;
+    }
+}
+
+@media (max-width: 992px) {
+    .col-lg-2-4 {
+        width: 50%;
+        margin-bottom: 1rem;
     }
 }
 
 @media (max-width: 768px) {
     .col-lg-2-4 {
-        width: 100%;
+        width: 50%;
         margin-bottom: 1rem;
     }
-    
+
     .program-card {
         padding: 1.5rem;
         min-height: 250px;
@@ -524,6 +535,13 @@ h6 {
     
     .program-image {
         height: 100px;
+    }
+}
+
+@media (max-width: 576px) {
+    .col-lg-2-4 {
+        width: 100%;
+        margin-bottom: 1rem;
     }
 }
 
@@ -2523,9 +2541,31 @@ body.article-page .article-image img {
 
 /* Styles pour images réduites - CORRIGÉ */
 .carousel-img-small {
-    height: 350px !important;         /* Même hauteur que notre image spécifique */
+    height: 350px !important;
     min-height: 350px !important;
     object-fit: cover !important;
+}
+
+@media (max-width: 991px) {
+    .carousel-img-small {
+        height: 260px !important;
+        min-height: 260px !important;
+    }
+    .carousel-item.active:first-child {
+        height: 260px !important;
+        min-height: 260px !important;
+    }
+}
+
+@media (max-width: 575px) {
+    .carousel-img-small {
+        height: 200px !important;
+        min-height: 200px !important;
+    }
+    .carousel-item.active:first-child {
+        height: 200px !important;
+        min-height: 200px !important;
+    }
 }
 
 /* Style spécifique pour l'image ensemble telex.png */
