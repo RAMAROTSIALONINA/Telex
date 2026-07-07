@@ -10,6 +10,158 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/baume-navbar.css">
+    <style>
+        /* ===== HERO GALERIE ===== */
+        .gallery-page-hero {
+            padding: 50px 0 30px;
+            min-height: 280px;
+            background: linear-gradient(135deg, var(--telex-blue) 0%, var(--telex-blue-light) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .gallery-hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        .gallery-hero-content .lead {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            max-width: 500px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+        .hero-side-image {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.15;
+            width: 180px;
+        }
+        .hero-left-image { left: 20px; }
+        .hero-right-image { right: 20px; }
+        .hero-side-image img { width: 100%; height: auto; }
+
+        /* ===== STATISTIQUES ===== */
+        .telex-stats {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .telex-stats .stat-item {
+            text-align: center;
+            padding: 8px 12px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        .telex-stats .stat-item:hover { transform: translateY(-3px); background: rgba(255,255,255,0.25); }
+        .telex-stats .stat-number { display: block; font-size: 1.3rem; font-weight: 700; color: white; }
+        .telex-stats .stat-label { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.9); font-weight: 500; margin-top: 2px; }
+
+        /* ===== FILTRES ===== */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+            padding: 15px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+        }
+        .gallery-filter-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 50px;
+            background: #f8f9fa;
+            color: var(--telex-blue);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .gallery-filter-btn:hover { background: var(--telex-blue); color: white; transform: translateY(-2px); }
+        .gallery-filter-btn.active { background: var(--telex-red); color: white; transform: translateY(-2px); box-shadow: 0 5px 20px rgba(230,57,70,0.3); }
+
+        /* ===== GRID ===== */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 35px;
+            padding: 0 15px;
+            max-width: 1400px;
+            margin: 0 auto 40px;
+        }
+        .gallery-item {
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            background: white;
+            aspect-ratio: 16/9;
+            width: 100%;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+        }
+        .gallery-item .image-wrapper {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; overflow: hidden; background: #f8fafc;
+        }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; display: block; }
+        .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        .gallery-item:hover img { transform: scale(1.05); }
+        .gallery-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
+            color: white; padding: 20px 15px 15px;
+            transform: translateY(100%); transition: transform 0.3s ease;
+        }
+        .gallery-item:hover .gallery-overlay { transform: translateY(0); }
+        .gallery-overlay h5 { color: white; margin-bottom: 5px; font-weight: 600; font-size: 1rem; }
+        .gallery-overlay p { color: rgba(255,255,255,0.85); font-size: 0.8rem; margin: 0; }
+
+        /* ===== INTRODUCTION ===== */
+        .gallery-introduction {
+            padding: 25px; background: linear-gradient(135deg, rgba(29,53,87,0.03) 0%, rgba(230,57,70,0.03) 100%);
+            border-radius: 12px; margin: 30px auto; max-width: 800px; text-align: center;
+            border: 1px solid rgba(29,53,87,0.08);
+        }
+        .gallery-intro-title { font-size: 1.6rem; font-weight: 700; color: var(--telex-blue); margin-bottom: 10px; }
+        .gallery-intro-text { font-size: 1rem; line-height: 1.6; color: #555; max-width: 600px; margin: 0 auto; }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.97); display: none; align-items: center;
+            justify-content: center; z-index: 10000; padding: 20px;
+        }
+        .lightbox.active { display: flex; }
+        .lightbox-content { position: relative; max-width: 90%; max-height: 90vh; display: flex; align-items: center; justify-content: center; }
+        .lightbox-content img { max-width: 100%; max-height: 85vh; object-fit: contain; border-radius: 8px; }
+        .lightbox .close {
+            position: absolute; top: 20px; right: 20px; color: white; font-size: 2.5rem; cursor: pointer;
+            background: rgba(0,0,0,0.5); border: none; width: 50px; height: 50px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; z-index: 10;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) { .gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 25px; } }
+        @media (max-width: 768px) { .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 25px; } .gallery-page-hero { padding: 35px 0 20px; min-height: 220px; } }
+        @media (max-width: 576px) { .gallery-grid { grid-template-columns: 1fr; max-width: 400px; } }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
