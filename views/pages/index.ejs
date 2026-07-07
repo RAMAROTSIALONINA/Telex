@@ -352,7 +352,7 @@
                     <% news.slice(0, 5).forEach((article, index) => { %>
                     <div class="col-lg-2-4">
                         <div class="program-card">
-                            <h3 data-translate="news.default.title"><%= article.title.length > 30 ? article.title.substring(0, 30) + '...' : article.title %></h3>
+                            <h3 ><%= article.title.length > 30 ? article.title.substring(0, 30) + '...' : article.title %></h3>
                             <% if (article.image_url) { %>
                                 <div class="news-thumbnail">
                                     <img src="<%= article.image_url %>" alt="<%= article.title %>" class="img-fluid rounded">
