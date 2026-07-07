@@ -15,10 +15,11 @@ body {
 .navbar-telex,
 .navbar-baume {
     background: #051d40 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     z-index: 1030 !important;
     min-height: var(--navbar-height);
-    padding: 0 !important;
+    padding-top: 0.05rem !important;
+    padding-bottom: 0.05rem !important;
 }
 
 /* --- Logo --- */
@@ -27,29 +28,30 @@ body {
 .navbar-baume .navbar-brand {
     color: #3AAFA9 !important;
     font-weight: 700;
-    font-size: 1.6rem;
+    font-size: 1.8rem;
     display: flex;
     align-items: center;
     padding: 0 !important;
     min-height: var(--navbar-height);
-    transition: color 0.2s ease;
+    transition: all 0.3s ease;
 }
 
 .navbar .navbar-brand:hover,
 .navbar-telex .navbar-brand:hover,
 .navbar-baume .navbar-brand:hover {
     color: #c1121f !important;
+    transform: translateY(-1px);
 }
 
 .navbar .navbar-brand img,
 .navbar-telex .navbar-brand img,
 .navbar-baume .navbar-brand img {
-    height: 50px;
+    height: 60px;
     width: auto;
-    max-width: 180px;
+    max-width: 200px;
     object-fit: contain;
-    transform: none;
-    margin-right: 8px;
+    margin-left: 0 !important;
+    transform: scale(1);
 }
 
 /* --- Liens de navigation --- */
@@ -58,25 +60,27 @@ body {
 .navbar-baume .navbar-nav .nav-link {
     color: white !important;
     font-weight: 700 !important;
-    font-size: 0.875rem !important;
-    font-family: 'League Spartan', 'Segoe UI', sans-serif !important;
+    font-size: 1rem !important;
+    font-family: 'League Spartan', sans-serif !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.8px;
     padding: 8px 12px !important;
     margin: 0 2px;
-    border-radius: 6px;
-    transition: background 0.2s ease, transform 0.2s ease;
+    border-radius: 8px;
+    transition: all 0.3s ease;
     white-space: nowrap;
     position: relative;
+    text-decoration: none !important;
+    border-bottom: none !important;
 }
 
-/* --- Icônes (masquées sur desktop pour gagner de la place) --- */
+/* --- Icones (masquees sur desktop) --- */
 .navbar .navbar-nav .nav-link i,
 .navbar-telex .navbar-nav .nav-link i,
 .navbar-baume .navbar-nav .nav-link i {
     color: white !important;
-    margin-right: 4px;
-    font-size: 0.875rem !important;
+    margin-right: 8px;
+    font-size: 1rem !important;
+    transition: all 0.3s ease;
 }
 
 @media (min-width: 1200px) {
@@ -93,22 +97,15 @@ body {
 .navbar-baume .navbar-nav .nav-link:hover {
     color: white !important;
     background: #dc3545 !important;
-    transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(220, 53, 69, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.3);
 }
 
 .navbar .navbar-nav .nav-link:hover i,
 .navbar-telex .navbar-nav .nav-link:hover i,
 .navbar-baume .navbar-nav .nav-link:hover i {
     color: white !important;
-}
-
-/* Pas de soulignement sur les liens */
-.navbar .navbar-nav .nav-link,
-.navbar-telex .navbar-nav .nav-link,
-.navbar-baume .navbar-nav .nav-link {
-    text-decoration: none !important;
-    border-bottom: none !important;
+    transform: scale(1.1);
 }
 
 /* --- Lien actif --- */
@@ -117,7 +114,7 @@ body {
 .navbar-baume .navbar-nav .nav-link.active {
     color: white !important;
     background: #dc3545 !important;
-    border-radius: 6px;
+    border-radius: 8px;
     border: none !important;
     border-bottom: none !important;
     box-shadow: none !important;
@@ -131,7 +128,7 @@ body {
     color: white !important;
 }
 
-/* --- Menu déroulant --- */
+/* --- Menu deroulant langue --- */
 .navbar .dropdown-menu,
 .navbar-telex .dropdown-menu,
 .navbar-baume .dropdown-menu {
@@ -139,7 +136,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.15);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    min-width: 180px;
+    min-width: 160px;
 }
 
 .navbar .dropdown-item,
@@ -147,10 +144,9 @@ body {
 .navbar-baume .dropdown-item {
     color: white !important;
     font-weight: 700 !important;
-    font-size: 0.85rem !important;
-    font-family: 'League Spartan', 'Segoe UI', sans-serif !important;
+    font-size: 0.9rem !important;
+    font-family: 'League Spartan', sans-serif !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.5px;
     padding: 10px 18px !important;
     transition: background 0.2s ease, padding-left 0.2s ease;
 }
@@ -205,7 +201,8 @@ body {
     .navbar .navbar-nav .nav-link,
     .navbar-telex .navbar-nav .nav-link,
     .navbar-baume .navbar-nav .nav-link {
-        padding: 10px 12px !important;
+        font-size: 0.9rem !important;
+        padding: 10px 8px !important;
         margin: 2px 0;
         text-align: left;
     }
@@ -220,6 +217,22 @@ body {
     }
 }
 
+@media (max-width: 768px) {
+    .navbar .navbar-brand img,
+    .navbar-telex .navbar-brand img,
+    .navbar-baume .navbar-brand img {
+        height: 35px;
+        max-width: 120px;
+    }
+
+    .navbar .navbar-nav .nav-link,
+    .navbar-telex .navbar-nav .nav-link,
+    .navbar-baume .navbar-nav .nav-link {
+        font-size: 0.9rem !important;
+        padding: 10px 8px !important;
+    }
+}
+
 @media (max-width: 576px) {
     :root {
         --navbar-height: 60px;
@@ -228,17 +241,19 @@ body {
     .navbar .navbar-brand img,
     .navbar-telex .navbar-brand img,
     .navbar-baume .navbar-brand img {
-        height: 38px;
+        height: 28px;
+        max-width: 90px;
     }
 
     .navbar .navbar-nav .nav-link,
     .navbar-telex .navbar-nav .nav-link,
     .navbar-baume .navbar-nav .nav-link {
         font-size: 0.8rem !important;
+        padding: 8px 6px !important;
     }
 }
 
-/* ===== STYLES MÉDIAS BAUME DE LA FOI ===== */
+/* ===== STYLES MEDIAS BAUME DE LA FOI ===== */
 .priere-media,
 .reflexion-media {
     margin-bottom: 1rem;
