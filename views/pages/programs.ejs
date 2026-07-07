@@ -45,26 +45,52 @@
 
         /* ===== HERO SECTION ===== */
         .page-hero {
-            padding: 80px 0 40px;
-            min-height: 280px;
+            padding: 50px 0 40px;
             background: linear-gradient(135deg, #2F3F59 0%, #3A4E6B 100%);
             color: white;
             position: relative;
             overflow: hidden;
-            margin-top: 0;
         }
-        
-        @media (max-width: 768px) {
+
+        .page-hero h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .page-hero p {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-image-wrapper img {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 991px) {
             .page-hero {
-                padding: 20px 0 15px;
-                min-height: 140px;
+                padding: 40px 0 30px;
+                text-align: center;
+            }
+            .hero-image-wrapper {
+                max-width: 300px;
+                margin: 0 auto 1.5rem;
             }
         }
 
         @media (max-width: 576px) {
             .page-hero {
-                padding: 15px 0 10px;
-                min-height: 120px;
+                padding: 30px 0 20px;
+            }
+            .page-hero h1 {
+                font-size: 1.6rem;
+            }
+            .hero-image-wrapper {
+                max-width: 220px;
             }
         }
 
@@ -491,11 +517,6 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .col-lg-6.mb-4.program-card {
-                flex: 0 0 100%;
-                max-width: 100%;
-            }
-
             .program-detail-card {
                 padding: 1.2rem;
             }
@@ -576,13 +597,13 @@
     <!-- Hero Section -->
     <section class="page-hero">
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 col-md-5">
+            <div class="row align-items-center g-4">
+                <div class="col-lg-4 col-md-5 col-sm-8 mx-auto mx-md-0">
                     <div class="hero-image-wrapper">
-                        <img src="/images/programmes.png" alt="Ordinateur Telex" class="hero-camera-img" style="width: 100%;">
+                        <img src="/images/programmes.png" alt="Ordinateur Telex" class="hero-camera-img">
                     </div>
                 </div>
-                <div class="col-lg-8 col-md-7">
+                <div class="col-lg-8 col-md-7 col-12">
                     <h1>Telex Programmes</h1>
                     <p>Explorez notre grille des 10 programmes principaux et découvrez des contenus créés par et pour les étudiants. Chaque programme a sa propre identité visuelle.</p>
                     
@@ -721,7 +742,7 @@
                             }
                         }
                     %>
-                    <div class="col-lg-6 mb-4 program-card clickable-program" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card clickable-program" 
                          data-program-id="<%= program.id %>"
                          data-title="<%= (program.title || '').toLowerCase() %>"
                          data-type="<%= (program.program_type || '').toLowerCase() %>"
@@ -844,7 +865,7 @@
                     <% }); %>
                 <% } else { %>
                     <!-- 10 PROGRAMMES PRINCIPAUX -->
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="le journal campus telex actus essentiel"
                          data-type="info information"
                          data-description="le rendez-vous info de la semaine toute l'actualité étudiante décryptée et analysée par notre rédaction">
@@ -879,7 +900,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="décryptage reportages enquête investigation"
                          data-type="decryptage reportage enquete"
                          data-description="analyse approfondie de l'actualité grands reportages et enquêtes de fond sur les sujets qui comptent">
@@ -914,7 +935,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="débat campus face à face parole publique discussion"
                          data-type="debat discussion"
                          data-description="face-à-face d'idées sur les grands sujets de société un espace de dialogue constructif et respectueux">
@@ -949,7 +970,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="cœur ouvert initiatives locales entrepreneurs associations"
                          data-type="societe social humain"
                          data-description="récits de vie initiatives solidaires portraits d'entrepreneurs et associations qui font bouger la société">
@@ -984,7 +1005,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="1 notion en 3 minutes école citoyenne contrat arnaque"
                          data-type="education pedagogie formation"
                          data-description="apprendre autrement des concepts clés expliqués simplement en quelques minutes pour tous les étudiants">
@@ -1019,7 +1040,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="question des jeunes étudiants campus"
                          data-type="jeunesse etudiants"
                          data-description="la parole aux jeunes leurs préoccupations leurs passions leurs projets d'avenir">
@@ -1054,7 +1075,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="zoom écologie nature environnement"
                          data-type="environnement ecologie nature"
                          data-description="décryptage des enjeux environnementaux initiatives écologiques étudiantes et solutions durables">
@@ -1089,7 +1110,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="culture express identité histoire politique madagascar"
                          data-type="culture identite art"
                          data-description="découverte de la scène culturelle étudiante musique cinéma théâtre expositions les talents de demain">
@@ -1124,7 +1145,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="travailler à mada économie business finance"
                          data-type="economie travail business"
                          data-description="tout savoir sur le monde du travail l'entrepreneuriat et l'économie pour réussir son insertion professionnelle">
@@ -1159,7 +1180,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 mb-4 program-card" 
+                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
                          data-title="telex sports athlétisme"
                          data-type="sport"
                          data-description="couverture complète des événements sportifs universitaires interviews d'athlètes et analyses techniques">
