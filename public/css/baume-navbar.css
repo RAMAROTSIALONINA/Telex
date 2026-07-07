@@ -58,12 +58,12 @@ body {
 .navbar-baume .navbar-nav .nav-link {
     color: white !important;
     font-weight: 700 !important;
-    font-size: 0.78rem !important;
+    font-size: 0.875rem !important;
     font-family: 'League Spartan', 'Segoe UI', sans-serif !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.3px;
-    padding: 6px 8px !important;
-    margin: 0 1px;
+    letter-spacing: 0.8px;
+    padding: 8px 12px !important;
+    margin: 0 2px;
     border-radius: 6px;
     transition: background 0.2s ease, transform 0.2s ease;
     white-space: nowrap;
@@ -76,7 +76,7 @@ body {
 .navbar-baume .navbar-nav .nav-link i {
     color: white !important;
     margin-right: 4px;
-    font-size: 0.78rem !important;
+    font-size: 0.875rem !important;
 }
 
 @media (min-width: 1200px) {
