@@ -79,7 +79,7 @@ body {
     font-size: 0.78rem !important;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
     .navbar .navbar-nav .nav-link i,
     .navbar-telex .navbar-nav .nav-link i,
     .navbar-baume .navbar-nav .nav-link i {
@@ -193,7 +193,7 @@ body {
 }
 
 /* ===== RESPONSIVE ===== */
-@media (max-width: 991px) {
+@media (max-width: 1199px) {
     .navbar .navbar-collapse,
     .navbar-telex .navbar-collapse,
     .navbar-baume .navbar-collapse {
