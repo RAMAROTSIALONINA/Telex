@@ -97,34 +97,6 @@
         }
         .news-home-link:hover { text-decoration: underline; }
 
-        .news-thumbnail {
-            margin-bottom: 12px;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-            max-height: 120px;
-        }
-        .news-thumbnail img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        .news-thumbnail video {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-        }
-        .news-thumbnail:hover img { transform: scale(1.05); }
-        .video-overlay {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.3);
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; transition: opacity 0.3s ease;
-        }
-        .news-thumbnail:hover .video-overlay { opacity: 1; }
-
         /* Banniere cookies */
         .cookie-consent-banner {
             position: fixed;
@@ -153,7 +125,6 @@
             to   { transform: translateX(100%); opacity: 0; }
         }
         .cookie-consent-content { display: flex; flex-direction: column; gap: 12px; }
-        .cookie-consent-header { text-align: center; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.2); }
         .cookie-consent-icon { font-size: 2rem; color: #fff; margin-bottom: 8px; }
         .cookie-consent-text { text-align: center; }
         .cookie-consent-text h4 { margin: 0 0 8px 0; font-size: 0.95rem; font-weight: 600; }
@@ -636,11 +607,7 @@
     
     
     <script>
-    // Script pour la page d'accueil
     document.addEventListener('DOMContentLoaded', function() {
-        console.log('TELEX - Page d\'accueil chargée');
-        
-        // Animation des cartes programmes
         const programCards = document.querySelectorAll('.program-card');
         programCards.forEach((card, index) => {
             card.style.animationDelay = `${index * 0.1}s`;
