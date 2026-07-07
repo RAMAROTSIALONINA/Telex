@@ -15,33 +15,6 @@
     
     <style>
         /* ===== STYLES POUR LES PROGRAMMES ===== */
-        :root {
-            --telex-red: #E63946;
-            --telex-blue: #1D3557;
-            --telex-light: #A8DADC;
-            
-            /* Couleurs des 10 programmes principaux */
-            --info-red: #dc2626;
-            --info-red-light: #ef4444;
-            --decryptage-yellow: #ca8a04;
-            --decryptage-yellow-light: #fbbf24;
-            --debat-pink: #db2777;
-            --debat-pink-light: #ec4899;
-            --societe-gray: #4b5563;
-            --societe-gray-light: #6b7280;
-            --education-blue: #0891b2;
-            --education-blue-light: #06b6d4;
-            --jeunesse-blue: #2563eb;
-            --jeunesse-blue-light: #3b82f6;
-            --environnement-green: #059669;
-            --environnement-green-light: #10b981;
-            --culture-violet: #7c3aed;
-            --culture-violet-light: #8b5cf6;
-            --economie-cyan: #06b6d4;
-            --economie-cyan-light: #22d3ee;
-            --sport-orange: #ea580c;
-            --sport-orange-light: #f97316;
-        }
 
         /* ===== HERO SECTION ===== */
         .page-hero {
@@ -98,18 +71,12 @@
         .search-container {
             max-width: 600px;
             margin: 0 auto 30px;
-            position: relative;
-            z-index: 1000;
-            pointer-events: auto !important;
         }
 
         .search-container .input-group {
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
             border-radius: 50px;
             overflow: hidden;
-            position: relative;
-            z-index: 100;
-            pointer-events: auto !important;
         }
 
         .search-container .form-control {
@@ -118,22 +85,13 @@
             font-size: 1rem;
             background: rgba(255,255,255,0.95);
             border-radius: 50px 0 0 50px;
-            transition: all 0.3s ease;
-            pointer-events: auto !important;
-            user-select: text !important;
-            -webkit-user-select: text !important;
-            -moz-user-select: text !important;
-            -ms-user-select: text !important;
-            position: relative;
-            z-index: 101;
+            transition: background 0.3s ease;
         }
 
         .search-container .form-control:focus {
-            background: rgba(255,255,255,1);
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
-            outline: 2px solid rgba(59,130,246,0.3);
-            transform: scale(1.02);
-            z-index: 102;
+            background: #fff;
+            box-shadow: none;
+            outline: none;
         }
 
         .search-container .btn-telex {
