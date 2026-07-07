@@ -526,17 +526,8 @@
         .badge-default { background: linear-gradient(135deg, #6b7280, #9ca3af); }
 
         /* Grille des programmes */
-        .row {
-            margin-left: -15px;
-            margin-right: -15px;
-        }
-
-        .col-lg-6.mb-4.program-card {
-            padding-left: 15px;
-            padding-right: 15px;
-            margin-bottom: 30px;
-            flex: 0 0 50%;
-            max-width: 50%;
+        #programsList {
+            row-gap: 1.5rem;
         }
 
         .table {
@@ -705,13 +696,6 @@
             <div class="row" id="programsList">
                 <% if (programs && programs.length > 0) { %>
                     <% programs.forEach(program => { 
-                        const hasImage = program.image_url && program.image_url.trim() !== '';
-                        const hasVideo = program.video_url && program.video_url.trim() !== '';
-                        
-                        if (!hasImage && !hasVideo) {
-                            return;
-                        }
-                        
                         let programImage = '/images/programmes.png';
                         let badgeClass = 'default';
                         
@@ -729,7 +713,7 @@
                                 badgeClass = 'debats';
                                 break;
                             case 'Programme Humain & Sociétal':
-                                programImage = '/images/femme telex.png';
+                                programImage = '/images/femme%20telex.png';
                                 badgeClass = 'societe';
                                 break;
                             case 'Programme Éducatif':
@@ -745,7 +729,7 @@
                                 badgeClass = 'environnement';
                                 break;
                             case 'Programme Culture & Identité':
-                                programImage = '/images/femme telex.png';
+                                programImage = '/images/femme%20telex.png';
                                 badgeClass = 'culture';
                                 break;
                             case 'Programme Économie & Travail':
@@ -1045,7 +1029,7 @@
                             </div>
                             <div class="program-media-section">
                                 <div class="program-image-wrapper">
-                                    <img src="/images/femme telex.png" alt="À Cœur Ouvert" class="program-image">
+                                    <img src="/images/femme%20telex.png" alt="À Cœur Ouvert" class="program-image">
                                 </div>
                             </div>
                             <div class="program-body">
@@ -1185,7 +1169,7 @@
                             </div>
                             <div class="program-media-section">
                                 <div class="program-image-wrapper">
-                                    <img src="/images/femme telex.png" alt="Culture & Identité" class="program-image">
+                                    <img src="/images/femme%20telex.png" alt="Culture & Identité" class="program-image">
                                 </div>
                             </div>
                             <div class="program-body">
