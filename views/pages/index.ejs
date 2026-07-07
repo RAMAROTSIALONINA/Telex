@@ -21,8 +21,78 @@
     <!-- Favicon -->
     <link rel="icon" href="/images/Telex.png" type="image/png">
 
-    <!-- Styles thumbnails actualites -->
+    <!-- Styles section actualites accueil -->
     <style>
+        /* === CARTES ACTUALITES ACCUEIL === */
+        .news-home-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .news-home-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+        }
+        .news-home-img {
+            position: relative;
+            width: 100%;
+            height: 160px;
+            overflow: hidden;
+            background: #f0f0f0;
+            flex-shrink: 0;
+        }
+        .news-home-img img,
+        .news-home-img video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+        .news-home-card:hover .news-home-img img { transform: scale(1.05); }
+        .news-home-placeholder {
+            width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center;
+            background: linear-gradient(135deg, #457B9D, #1D3557);
+            color: white; font-size: 2rem;
+        }
+        .news-home-badge {
+            position: absolute; top: 10px; left: 10px;
+            background: #dc3545; color: white;
+            padding: 3px 10px; border-radius: 20px;
+            font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+        }
+        .news-home-body {
+            padding: 14px;
+            display: flex; flex-direction: column; flex: 1;
+        }
+        .news-home-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1D3557;
+            line-height: 1.4;
+            margin-bottom: 8px;
+            flex: 1;
+        }
+        .news-home-date {
+            font-size: 0.78rem;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .news-home-link {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #dc3545;
+            text-decoration: none;
+        }
+        .news-home-link:hover { text-decoration: underline; }
+
         .news-thumbnail {
             margin-bottom: 12px;
             position: relative;
@@ -347,36 +417,37 @@
             <h2 class="section-title" data-translate="home.latest_news">Dernières Actualités</h2>
             <p class="section-subtitle" data-translate="home.news_subtitle">Découvrez nos derniers articles et productions vidéo</p>
             
-            <div class="row">
+            <div class="row g-3">
                 <% if (news && news.length > 0) { %>
-                    <% news.slice(0, 5).forEach((article, index) => { %>
-                    <div class="col-lg-2-4">
-                        <div class="program-card">
-                            <h3 ><%= article.title.length > 30 ? article.title.substring(0, 30) + '...' : article.title %></h3>
-                            <% if (article.image_url) { %>
-                                <div class="news-thumbnail">
-                                    <img src="<%= article.image_url %>" alt="<%= article.title %>" class="img-fluid rounded">
-                                </div>
-                            <% } else if (article.video_url) { %>
-                                <div class="news-thumbnail">
-                                    <video class="img-fluid rounded" controls preload="metadata">
+                    <% news.slice(0, 4).forEach((article, index) => { %>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="news-home-card">
+                            <!-- Image en haut -->
+                            <div class="news-home-img">
+                                <% if (article.image_url) { %>
+                                    <img src="<%= article.image_url %>" alt="<%= article.title %>">
+                                <% } else if (article.video_url) { %>
+                                    <video preload="metadata">
                                         <source src="<%= article.video_url %>" type="video/mp4">
-                                        Votre navigateur ne supporte pas les vidéos.
                                     </video>
-                                </div>
-                            <% } %>
-                            <div class="news-meta-small">
-                                <span class="news-date-small">
-                                    <i class="far fa-calendar me-1"></i>
-                                    <%= new Date(article.created_at).toLocaleDateString('fr-FR') || new Date().toLocaleDateString('fr-FR') %>
-                                </span>
+                                <% } else { %>
+                                    <div class="news-home-placeholder">
+                                        <i class="fas fa-newspaper"></i>
+                                    </div>
+                                <% } %>
                                 <% if (article.category) { %>
-                                    <span class="news-category-small">
-                                        <i class="fas fa-tag me-1"></i><%= article.category %>
-                                    </span>
+                                    <span class="news-home-badge"><%= article.category %></span>
                                 <% } %>
                             </div>
-                            <a href="/news/<%= article.id %>" class="program-link" data-translate="common.read_more">Lire la suite →</a>
+                            <!-- Titre et infos en dessous -->
+                            <div class="news-home-body">
+                                <h3 class="news-home-title"><%= article.title.length > 55 ? article.title.substring(0, 55) + '...' : article.title %></h3>
+                                <div class="news-home-date">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(article.created_at).toLocaleDateString('fr-FR') %>
+                                </div>
+                                <a href="/news/<%= article.id %>" class="news-home-link">Lire la suite →</a>
+                            </div>
                         </div>
                     </div>
                     <% }); %>
