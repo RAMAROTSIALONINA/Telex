@@ -26,39 +26,36 @@
         /* === CARTES ACTUALITES ACCUEIL === */
         .news-home-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-            border: 1px solid #eee;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+            border: 1px solid #e8e8e8;
             display: flex;
             flex-direction: column;
             height: 100%;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
         .news-home-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0,0,0,0.14);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 28px rgba(0,0,0,0.13);
         }
         .news-home-img {
             position: relative;
             width: 100%;
-            height: 180px;
+            height: 210px;
             overflow: hidden;
-            background: #f0f0f0;
+            background: #dde3ea;
             flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         .news-home-img img,
         .news-home-img video {
             width: 100%;
             height: 100%;
-            object-fit: contain;
+            object-fit: cover;
             display: block;
             transition: transform 0.4s ease;
         }
-        .news-home-card:hover .news-home-img img { transform: scale(1.03); }
+        .news-home-card:hover .news-home-img img { transform: scale(1.04); }
         .news-home-placeholder {
             width: 100%; height: 100%;
             display: flex; align-items: center; justify-content: center;
@@ -68,28 +65,29 @@
         .news-home-badge {
             position: absolute; top: 10px; left: 10px;
             background: #dc3545; color: white;
-            padding: 3px 10px; border-radius: 20px;
-            font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+            padding: 4px 12px; border-radius: 20px;
+            font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .news-home-body {
-            padding: 14px;
+            padding: 16px;
             display: flex; flex-direction: column; flex: 1;
         }
         .news-home-title {
-            font-size: 0.95rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: #1D3557;
-            line-height: 1.4;
-            margin-bottom: 8px;
+            line-height: 1.45;
+            margin-bottom: 12px;
             flex: 1;
         }
         .news-home-date {
             font-size: 0.78rem;
-            color: #888;
-            margin-bottom: 10px;
+            color: #999;
+            margin-bottom: 12px;
         }
         .news-home-link {
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             font-weight: 600;
             color: #dc3545;
             text-decoration: none;
@@ -311,7 +309,7 @@
                             </div>
                             <!-- Titre et infos en dessous -->
                             <div class="news-home-body">
-                                <h3 class="news-home-title"><%= article.title.length > 55 ? article.title.substring(0, 55) + '...' : article.title %></h3>
+                                <h3 class="news-home-title"><%= article.title.length > 80 ? article.title.substring(0, 80) + '...' : article.title %></h3>
                                 <div class="news-home-date">
                                     <i class="far fa-calendar me-1"></i>
                                     <%= new Date(article.created_at).toLocaleDateString('fr-FR') %>
@@ -578,7 +576,7 @@
                                 <span class="news-home-badge"><i class="<%= item.icon %> me-1"></i><%= item.type %></span>
                             </div>
                             <div class="news-home-body">
-                                <h3 class="news-home-title"><%= item.title.length > 55 ? item.title.substring(0, 55) + '...' : item.title %></h3>
+                                <h3 class="news-home-title"><%= item.title.length > 80 ? item.title.substring(0, 80) + '...' : item.title %></h3>
                                 <div class="news-home-date">
                                     <i class="far fa-calendar me-1"></i>
                                     <%= new Date(item.publication_date || item.created_at).toLocaleDateString('fr-FR') %>
