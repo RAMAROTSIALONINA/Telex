@@ -17,7 +17,7 @@ body {
     background: #051d40 !important;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     z-index: 1030 !important;
-    height: var(--navbar-height);
+    min-height: var(--navbar-height);
     padding: 0 !important;
 }
 
@@ -31,7 +31,7 @@ body {
     display: flex;
     align-items: center;
     padding: 0 !important;
-    height: var(--navbar-height);
+    min-height: var(--navbar-height);
     transition: color 0.2s ease;
 }
 
