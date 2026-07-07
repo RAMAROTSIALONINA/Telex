@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -51,8 +51,7 @@
                                 <% } %>
                                 <div class="album-overlay <%= category.color %>">
                                     <i class="<%= category.icon %> album-icon"></i>
-                                    <h3><%= category.name.split(' ')[1] || category.name %></h3>
-                                    <p><%= category.name.split(' ')[0] %></p>
+                                    <h3><%= category.name %></h3>
                                 </div>
                             </div>
                             <div class="album-info">
@@ -153,8 +152,6 @@
             });
         }
         
-        console.log('🔍 DEBUG: Album data:', albumData);
-        
         // Elements
         const lightbox = document.getElementById('albumLightbox');
         const lightboxTitle = document.getElementById('lightboxTitle');
@@ -167,32 +164,19 @@
         albumCards.forEach(card => {
             card.addEventListener('click', function() {
                 const category = this.getAttribute('data-category');
-                console.log('🔍 DEBUG: Album card clicked, category:', category);
                 openAlbum(category);
             });
         });
 
         // Open album function
         function openAlbum(category) {
-            console.log('🔍 DEBUG: Opening album for category:', category);
             const album = albumData[category];
-            console.log('🔍 DEBUG: Album data found:', album);
-            
-            if (!album) {
-                console.log('🔍 DEBUG: No album data found for category:', category);
-                return;
-            }
+            if (!album) return;
 
-            // Set title
             lightboxTitle.textContent = album.title;
-            console.log('🔍 DEBUG: Set title to:', album.title);
-
-            // Clear and populate gallery
             lightboxGallery.innerHTML = '';
-            console.log('🔍 DEBUG: Album images:', album.images);
-            
+
             album.images.forEach((image, index) => {
-                console.log('🔍 DEBUG: Adding image:', image);
                 const item = document.createElement('div');
                 item.className = 'lightbox-item';
                 item.setAttribute('data-title', image.title || 'Image ' + (index + 1));
@@ -203,15 +187,11 @@
                 lightboxGallery.appendChild(item);
             });
 
-            // Show lightbox
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
-            console.log('🔍 DEBUG: Lightbox opened');
         }
 
-        // Open image modal (simplified version)
         function openImageModal(image) {
-            console.log('🔍 DEBUG: Opening image modal for:', image);
             
             // Create a simple image modal
             const modal = document.createElement('div');
@@ -249,7 +229,7 @@
                         justify-content: center;
                         z-index: 10002;
                         transition: all 0.3s ease;
-                    " onmouseover="this.style.background='white'" onmouseout="this.style.background='rgba(255, 255, 255, 0.9)'">
+                    " >
                         ×
                     </button>
                     <img src="${image.src}" alt="${image.title}" style="
@@ -300,8 +280,6 @@
                 }
             };
             document.addEventListener('keydown', handleEscape);
-            
-            console.log('🔍 DEBUG: Image modal opened');
         }
 
         // Close lightbox on escape key
