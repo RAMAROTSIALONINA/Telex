@@ -551,89 +551,44 @@
             <h2 class="section-title" data-translate="home.baume_title">Baume de la Foi</h2>
             <p class="section-subtitle" data-translate="home.baume_subtitle">Découvrez les derniers contenus spirituels pour nourrir votre foi</p>
             
-            <div class="row g-5">
-                <% if (reflexions && reflexions.length > 0) { %>
-                    <% reflexions.forEach((reflexion, index) => { %>
-                    <div class="col-lg-2-4">
-                        <div class="program-card">
-                            <h3><%= reflexion.title.length > 25 ? reflexion.title.substring(0, 25) + '...' : reflexion.title %></h3>
-                            <% if (reflexion.image_url) { %>
-                                <div class="news-thumbnail">
-                                    <img src="<%= reflexion.image_url %>" alt="<%= reflexion.title %>" class="img-fluid rounded">
-                                </div>
-                            <% } else if (reflexion.video_url) { %>
-                                <div class="news-thumbnail">
-                                    <video class="img-fluid rounded" controls preload="metadata">
-                                        <source src="<%= reflexion.video_url %>" type="video/mp4">
-                                        Votre navigateur ne supporte pas les vidéos.
+            <div class="row g-3">
+                <%
+                const baumeItems = [
+                    ...(reflexions || []).map(r => ({ ...r, type: 'Réflexion', icon: 'fas fa-lightbulb', href: '/baume-de-la-foi#reflexions', defaultImg: '/images/Hero.png' })),
+                    ...(prieres || []).map(p => ({ ...p, type: 'Prière', icon: 'fas fa-pray', href: '/baume-de-la-foi#prieres', defaultImg: '/images/Prière.png' }))
+                ].slice(0, 4);
+                %>
+                <% if (baumeItems.length > 0) { %>
+                    <% baumeItems.forEach(item => { %>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="news-home-card">
+                            <div class="news-home-img">
+                                <% if (item.image_url && item.image_url.trim() !== '') { %>
+                                    <img src="<%= item.image_url %>" alt="<%= item.title %>">
+                                <% } else if (item.video_url && item.video_url.trim() !== '' && /\.(mp4|webm|ogg|mov|avi)$/i.test(item.video_url)) { %>
+                                    <video preload="metadata">
+                                        <source src="<%= item.video_url %>" type="video/mp4">
                                     </video>
-                                </div>
-                            <% } %>
-                            <div class="news-meta-small">
-                                <span class="news-date-small">
-                                    <i class="far fa-calendar me-1"></i>
-                                    <%= new Date(reflexion.publication_date || reflexion.created_at).toLocaleDateString('fr-FR') %>
-                                </span>
-                                <span class="news-category-small">
-                                    <i class="fas fa-lightbulb me-1"></i>Réflexion
-                                </span>
-                            </div>
-                            <a href="/baume-de-la-foi#reflexions" class="program-link" data-translate="common.read_more">Lire la suite →</a>
-                        </div>
-                    </div>
-                    <% }); %>
-                <% } else { %>
-                    <div class="col-12 text-center">
-                        <p>Aucune réflexion disponible pour le moment.</p>
-                    </div>
-                <% } %>
-                
-                <% if (prieres && prieres.length > 0) { %>
-                    <% prieres.forEach((priere, index) => { %>
-                    <div class="col-lg-2-4">
-                        <div class="program-card">
-                            <h3><%= priere.title.length > 25 ? priere.title.substring(0, 25) + '...' : priere.title %></h3>
-                            <% if (priere.image_url && priere.image_url.trim() !== '') { %>
-                                <div class="news-thumbnail">
-                                    <img src="<%= priere.image_url %>" alt="<%= priere.title %>" class="img-fluid rounded">
-                                </div>
-                            <% } else if (priere.video_url && priere.video_url.trim() !== '') { %>
-                                <% 
-                                const isVideoFile = /\.(mp4|webm|ogg|mov|avi)$/i.test(priere.video_url);
-                                %>
-                                <% if (isVideoFile) { %>
-                                    <div class="news-thumbnail">
-                                        <video class="img-fluid rounded" controls preload="metadata">
-                                            <source src="<%= priere.video_url %>" type="video/mp4">
-                                            Votre navigateur ne supporte pas les vidéos.
-                                        </video>
-                                    </div>
                                 <% } else { %>
-                                    <div class="news-thumbnail">
-                                        <img src="<%= priere.video_url %>" alt="<%= priere.title %>" class="img-fluid rounded">
-                                    </div>
+                                    <img src="<%= item.defaultImg %>" alt="<%= item.title %>">
                                 <% } %>
-                            <% } else { %>
-                                <div class="news-thumbnail">
-                                    <img src="/images/Prière.png" alt="Prière par défaut" class="img-fluid rounded">
-                                </div>
-                            <% } %>
-                            <div class="news-meta-small">
-                                <span class="news-date-small">
-                                    <i class="far fa-calendar me-1"></i>
-                                    <%= new Date(priere.created_at).toLocaleDateString('fr-FR') %>
-                                </span>
-                                <span class="news-category-small">
-                                    <i class="fas fa-pray me-1"></i>Prière
-                                </span>
+                                <span class="news-home-badge"><i class="<%= item.icon %> me-1"></i><%= item.type %></span>
                             </div>
-                            <a href="/baume-de-la-foi#prieres" class="program-link" data-translate="common.read_more">Lire la suite →</a>
+                            <div class="news-home-body">
+                                <h3 class="news-home-title"><%= item.title.length > 55 ? item.title.substring(0, 55) + '...' : item.title %></h3>
+                                <div class="news-home-date">
+                                    <i class="far fa-calendar me-1"></i>
+                                    <%= new Date(item.publication_date || item.created_at).toLocaleDateString('fr-FR') %>
+                                </div>
+                                <a href="<%= item.href %>" class="news-home-link">Lire la suite →</a>
+                            </div>
                         </div>
                     </div>
                     <% }); %>
                 <% } else { %>
-                    <div class="col-12 text-center">
-                        <p>Aucune prière disponible pour le moment.</p>
+                    <div class="col-12 text-center py-4">
+                        <i class="fas fa-cross fa-2x text-muted mb-3 d-block"></i>
+                        <p class="text-muted">Aucun contenu disponible pour le moment.</p>
                     </div>
                 <% } %>
             </div>
