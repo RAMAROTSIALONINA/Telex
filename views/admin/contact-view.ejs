@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -12,6 +12,7 @@
         :root {
             --telex-red: #E63946;
             --telex-blue: #1D3557;
+            --sidebar-width: 260px;
         }
         
         body {
@@ -23,43 +24,34 @@
         }
         
         /* Sidebar identique à contacts.ejs */
-        .sidebar { 
-            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
-            color: white; 
-            min-height: 100vh; 
-            width: 250px; 
-            position: fixed; 
+        .sidebar {
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%);
+            color: white;
+            height: 100vh;
+            width: var(--sidebar-width);
+            position: fixed;
             left: 0;
             top: 0;
             padding: 0;
+            display: flex;
+            flex-direction: column;
             z-index: 1000;
             box-shadow: 5px 0 15px rgba(0,0,0,0.1);
         }
         
-        .sidebar-brand {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.1);
-        }
-        
-        .sidebar-brand img {
-            max-width: 120px;
-            height: auto;
-            max-height: 60px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-        
-        .sidebar-brand h3 {
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            letter-spacing: 0.5px;
-        }
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
         
         .sidebar-nav {
+            flex: 1;
             padding: 20px 15px;
+            overflow-y: auto;
         }
         
         .nav-item {
@@ -97,12 +89,17 @@
             text-align: center;
         }
         
-        .main-content { 
-            margin-left: 250px; 
-            padding: 2rem;
-            min-height: 100vh;
-        }
-        
+        .main-content { margin-left:var(--sidebar-width); padding:1.25rem; min-height:100vh; }
+
+        .dash-header { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; padding:18px 28px; background:linear-gradient(135deg,var(--telex-blue) 0%,#0f1e3d 100%); border-radius:14px; box-shadow:0 4px 20px rgba(29,53,87,.25); margin-bottom:20px; }
+        .dash-header-left { display:flex; align-items:center; gap:14px; }
+        .dash-header-logo { height:44px; width:auto; flex-shrink:0; }
+        .dash-header-title { font-size:1.35rem; font-weight:700; color:#fff; margin:0; line-height:1.2; }
+        .dash-header-sub { font-size:.83rem; color:rgba(255,255,255,.60); margin:3px 0 0; }
+        .dash-header-right { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .btn-dash-back { background:rgba(255,255,255,.12); color:white; border:1px solid rgba(255,255,255,.2); padding:9px 16px; border-radius:10px; font-weight:500; font-size:.85rem; display:inline-flex; align-items:center; gap:7px; text-decoration:none; transition:all .2s; }
+        .btn-dash-back:hover { background:rgba(255,255,255,.22); color:white; }
+
         /* Carte message */
         .message-card {
             background: white;
@@ -206,25 +203,12 @@
                 overflow: hidden;
             }
             
-            .sidebar-brand h3,
-            .nav-link span {
-                display: none;
-            }
-            
-            .sidebar-brand img {
-                max-width: 50px;
-                margin-bottom: 10px;
-            }
-            
-            .nav-link {
-                justify-content: center;
-                padding: 15px;
-            }
-            
-            .nav-link i {
-                margin-right: 0;
-                font-size: 1.2rem;
-            }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
             
             .main-content {
                 margin-left: 70px;
@@ -300,82 +284,96 @@
             border-color: #28a745;
             box-shadow: 0 0 10px rgba(40, 167, 69, 0.1);
         }
-    </style>
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 <body>
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+    <button class="mobile-menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="/images/Telex.png" alt="TELEX">
-            <h3>TELEX Admin</h3>
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
         </div>
         <nav class="sidebar-nav">
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Tableau de bord</span>
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/news" class="nav-link">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Actualités</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/programs" class="nav-link">
-                    <i class="fas fa-tv"></i>
-                    <span>Programmes</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/baume-de-la-foi" class="nav-link">
-                    <i class="fas fa-cross"></i>
-                    <span>Baume de la Foi</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/contacts" class="nav-link active">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
-                    <i class="fas fa-images"></i>
-                    <span>Galerie</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/settings" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Paramètres</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/logout" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communauté</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link active"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">Médias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
         </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+        </div>
     </div>
-    
+
     <!-- Main content -->
     <div class="main-content">
-        <!-- Top bar -->
-        <div class="top-bar">
-            <div class="page-title">
-                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="/images/Telex.png" alt="TELEX" class="dash-header-logo">
                 <div>
-                    <h1>Détail du message</h1>
-                    <p>Consultez et gérez le message de contact</p>
+                    <div class="dash-header-title"><i class="fas fa-envelope-open me-2" style="color:#A8DADC;font-size:.95rem;"></i>D&eacute;tail du message</div>
+                    <div class="dash-header-sub">Consultez et g&eacute;rez le message de contact</div>
                 </div>
             </div>
-            <div class="top-actions">
-                <a href="/admin/contacts" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-2"></i>Retour aux messages
-                </a>
+            <div class="dash-header-right">
+                <% if (contact.is_read) { %>
+                    <span style="background:rgba(16,185,129,.2);color:#6ee7b7;padding:6px 12px;border-radius:20px;font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-envelope-open"></i>Lu</span>
+                <% } else { %>
+                    <span style="background:rgba(230,57,70,.2);color:#fca5a5;padding:6px 12px;border-radius:20px;font-size:.82rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;"><i class="fas fa-envelope"></i>Non lu</span>
+                <% } %>
+                <a href="/admin/contacts" class="btn-dash-back"><i class="fas fa-arrow-left"></i>Retour aux messages</a>
             </div>
         </div>
         
@@ -398,17 +396,6 @@
                                 minute: '2-digit'
                             }) %>
                         </p>
-                    </div>
-                    <div>
-                        <% if (contact.is_read) { %>
-                            <span class="badge bg-success p-2">
-                                <i class="fas fa-envelope-open me-1"></i>Lu
-                            </span>
-                        <% } else { %>
-                            <span class="badge bg-danger p-2">
-                                <i class="fas fa-envelope me-1"></i>Non lu
-                            </span>
-                        <% } %>
                     </div>
                 </div>
             </div>
@@ -1057,5 +1044,15 @@
             }
         });
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 </html>

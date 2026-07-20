@@ -10,36 +10,108 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/baume-navbar.css">
+    <style>
+        /* ===== HERO À PROPOS — CENTRÉ ===== */
+        body[data-page="about"] .page-hero {
+            padding: 52px 0 0 !important;
+            min-height: 0 !important;
+            position: relative !important;
+            overflow: hidden !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            text-align: center !important;
+        }
+        .about-hero-eyebrow {
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        body[data-page="about"] .page-hero h1 {
+            font-size: clamp(1.8rem, 5vw, 2.8rem) !important;
+            font-weight: 900 !important;
+            color: #fff !important;
+            letter-spacing: -0.03em !important;
+            line-height: 1.1 !important;
+            margin-bottom: 14px !important;
+            text-align: center !important;
+        }
+        body[data-page="about"] .page-hero h1 span {
+            color: rgba(255,255,255,0.45) !important;
+        }
+        body[data-page="about"] .page-hero .about-hero-sub {
+            font-size: 1rem !important;
+            color: rgba(255,255,255,0.7) !important;
+            max-width: 520px !important;
+            margin: 0 auto 10px !important;
+            line-height: 1.65 !important;
+            text-align: center !important;
+        }
+        body[data-page="about"] .page-hero .about-hero-intro {
+            font-size: 0.88rem !important;
+            color: rgba(255,255,255,0.5) !important;
+            max-width: 560px !important;
+            margin: 0 auto 56px !important;
+            line-height: 1.7 !important;
+            text-align: center !important;
+        }
+        .about-hero-wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 52px;
+            display: block;
+            pointer-events: none;
+        }
+        .hero-deco-left, .hero-deco-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.18;
+            pointer-events: none;
+            z-index: 1;
+            height: auto;
+            display: block;
+        }
+        .hero-deco-left  { left: 28px;  max-width: 130px; }
+        .hero-deco-right { right: 28px; max-width: 110px; }
+        @media (max-width: 768px) {
+            .hero-deco-left, .hero-deco-right { display: none; }
+        }
+        @media (max-width: 768px) {
+            body[data-page="about"] .page-hero { padding: 36px 0 0 !important; }
+            body[data-page="about"] .page-hero .about-hero-intro { margin-bottom: 44px !important; }
+        }
+        @media (max-width: 576px) {
+            body[data-page="about"] .page-hero { padding: 28px 0 0 !important; }
+        }
+    </style>
 </head>
-<body>
+<body data-page="about">
     <!-- Navigation -->
     <%- include('../partials/navbar') %>
 
-    <!-- Hero Section Professionnelle -->
+    <!-- Hero Section — Centré sans image -->
     <section class="page-hero">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Colonne pour l'image -->
-                <div class="col-lg-4 col-md-5">
-                    <div class="hero-image-wrapper">
-                        <img src="<%= about.hero_image || '/images/camera.png' %>" alt="Caméra Telex" class="hero-camera-img">
-                    </div>
-                </div>
-                <!-- Colonne pour le texte -->
-                <div class="col-lg-8 col-md-7">
-                    <div class="hero-content-wrapper">
-                        <h1 class="display-4 fw-bold">
-                            <span class="text-primary" data-translate="about.hero_title">À propos</span> de Telex
-                        </h1>
-                        <p class="lead mb-0" data-translate="about.hero_subtitle">Découvrez notre histoire, notre équipe et notre vision</p>
-                        <div class="hero-separator"></div>
-                        <p class="hero-intro" data-translate="about.hero_intro">
-                            Fondée par des étudiants passionnés, Telex est bien plus qu'une télévision étudiante. C'est un laboratoire d'innovation, une école de talents et un média numérique pour la jeunesse engagée.
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <img src="/images/logo.png" alt="" class="hero-deco-left" aria-hidden="true">
+        <img src="/images/drapeau.png" alt="" class="hero-deco-right" aria-hidden="true">
+        <div class="container" style="display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:2;">
+            <div class="about-hero-eyebrow">Télévision Étudiante &middot; Madagascar</div>
+            <h1 style="text-align:center;width:100%;">
+                À propos <span>de Telex</span>
+            </h1>
+            <p class="about-hero-sub" style="text-align:center;">Découvrez notre histoire, notre équipe et notre vision</p>
+            <p class="about-hero-intro" style="text-align:center;">
+                Fondée par des étudiants passionnés, Telex est bien plus qu'une télévision étudiante. C'est un laboratoire d'innovation, une école de talents et un média numérique pour la jeunesse engagée.
+            </p>
         </div>
+        <svg class="about-hero-wave" viewBox="0 0 1440 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,26 C240,52 480,0 720,26 C960,52 1200,0 1440,26 L1440,52 L0,52 Z" fill="#ffffff"/>
+        </svg>
     </section>
 
     <!-- Contenu principal -->

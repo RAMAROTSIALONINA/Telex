@@ -16,6 +16,24 @@ function requireAuth(req, res, next) {
 // Appliquer le middleware de détection de localisation à toutes les routes
 router.use(detectLocation);
 
+// ── Middleware tracking réel des visites de pages ──
+// Enregistre chaque GET de page publique dans page_views
+const BOT_UA = /bot|crawl|spider|slurp|facebookexternalhit|Twitterbot|LinkedInBot/i;
+router.use((req, res, next) => {
+    if (req.method !== 'GET') return next();
+    // Ignorer les assets statiques et les appels API
+    if (/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|map)$/i.test(req.path)) return next();
+    if (req.path.startsWith('/api') || req.path.startsWith('/admin')) return next();
+    const ua = req.headers['user-agent'] || '';
+    if (BOT_UA.test(ua)) return next();
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip || '';
+    dbRun(
+        'INSERT INTO page_views (page, ip_address, user_agent, referer) VALUES (?, ?, ?, ?)',
+        [req.path, ip, ua.slice(0, 255), (req.headers['referer'] || '').slice(0, 255)]
+    ).catch(() => {}); // silencieux
+    next();
+});
+
 // Fonction pour récupérer les données du footer
 async function getFooterSettings() {
     try {
@@ -35,9 +53,9 @@ async function getFooterSettings() {
 // ========== ACCUEIL ==========
 router.get('/', async (req, res) => {
     try {
-        // Récupérer les 5 dernières actualités publiées
+        // Récupérer les 8 dernières actualités publiées
         const news = await dbAll(
-            'SELECT id, title, content, image_url, video_url, category, created_at FROM news WHERE is_published = 1 ORDER BY created_at DESC LIMIT 5'
+            'SELECT id, title, content, image_url, video_url, category, created_at FROM news WHERE is_published = 1 ORDER BY created_at DESC LIMIT 8'
         );
         
         // Récupérer les programmes
@@ -45,12 +63,12 @@ router.get('/', async (req, res) => {
             'SELECT id, title, description, program_type FROM programs WHERE is_active = 1 ORDER BY created_at DESC LIMIT 5'
         );
         
-        // Récupérer les 2 premières prières publiées
+        // Récupérer les 2 dernières prières publiées
         const prieres = await dbAll(`
-            SELECT id, title, content, category, reference_biblique, author, video_url, created_at, views
-            FROM baume_prieres 
-            WHERE is_published = 1 
-            ORDER BY created_at DESC 
+            SELECT id, title, content, category, reference_biblique, author, image_url, video_url, media_type, created_at, views
+            FROM baume_prieres
+            WHERE is_published = 1
+            ORDER BY created_at DESC
             LIMIT 2
         `);
         
@@ -59,13 +77,13 @@ router.get('/', async (req, res) => {
             console.log('📝 Première prière:', JSON.stringify(prieres[0], null, 2));
         }
 
-        // Récupérer les 3 premières réflexions publiées
+        // Récupérer les 2 dernières réflexions publiées
         const reflexions = await dbAll(`
-            SELECT id, title, content, theme, image_url, video_url, media_type, author, publication_date, views, reference_biblique
-            FROM baume_reflexions 
-            WHERE is_published = 1 
-            ORDER BY created_at DESC 
-            LIMIT 3
+            SELECT id, title, content, theme, image_url, video_url, media_type, author, publication_date, created_at, views, reference_biblique
+            FROM baume_reflexions
+            WHERE is_published = 1
+            ORDER BY created_at DESC
+            LIMIT 2
         `);
         
         console.log('📊 Données envoyées au template index:');
@@ -117,13 +135,12 @@ router.get('/baume-de-la-foi', async (req, res) => {
     try {
         console.log('🔍 Chargement page publique Baume de la Foi');
         
-        // Utiliser les mêmes requêtes que l'API baume pour la cohérence
         // Récupérer les prières publiées
         const prieres = await dbAll(`
-            SELECT id, title, content, category, reference_biblique, author, video_url, created_at, views
-            FROM baume_prieres 
-            WHERE is_published = 1 
-            ORDER BY created_at DESC 
+            SELECT id, title, content, category, reference_biblique, author, image_url, video_url, media_type, created_at, views
+            FROM baume_prieres
+            WHERE is_published = 1
+            ORDER BY created_at DESC
             LIMIT 20
         `);
 
@@ -547,6 +564,18 @@ router.get('/api/baume/temoignages', async (req, res) => {
         console.error('❌ Erreur API témoignages:', error);
         console.error('❌ Stack trace:', error.stack);
         res.status(500).json({ success: false, error: 'Erreur lors du chargement: ' + error.message });
+    }
+});
+
+// API pour incrémenter les vues des programmes
+router.post('/api/program/view/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        await dbRun('UPDATE programs SET views = COALESCE(views, 0) + 1 WHERE id = ?', [id]);
+        res.json({ success: true });
+    } catch (error) {
+        console.error('❌ Erreur incrément vues programme:', error);
+        res.status(500).json({ success: false });
     }
 });
 

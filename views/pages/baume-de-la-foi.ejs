@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -7,19 +7,25 @@
     <link rel="icon" href="/images/Telex.png" type="image/png">
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <!-- CSS Principal de Telex -->
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="/css/baume-navbar.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --baume-primary: #2E5C4E;
+            --baume-accent: #3AAFA9;
+            --baume-gradient: linear-gradient(135deg, #2E5C4E, #3AAFA9);
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -47,44 +53,53 @@
         
         <!-- Image Baume de la foi -->
         <div class="presentation-image">
-            <img src="/images/Baume de la foi.png" alt="Baume de la Foi - Espace d'inspiration spirituelle" 
+            <img src="/images/Baume%20de%20la%20foi.png" alt="Baume de la Foi - Espace d'inspiration spirituelle" 
                  class="img-fluid" 
                  style="width: 100%; height: auto; object-fit: contain; object-position: center; display: block; border: none; border-radius: 0; background-color: white;">
         </div>
     </section>
 
-    <!-- ===== CATÉGORIES ===== -->
-    <section class="py-1" style="background-color: white;">
-        <div class="container">
-            <div class="category-pills">
-                <a href="#prieres" class="category-pill" style="background: white; color: red; border: 2px solid red;">
-                    <i class="fas fa-pray"></i>
-                    Prières
+    <!-- ===== NAVIGATION CATÉGORIES ===== -->
+    <section style="background: white; border-bottom: 1px solid #f0f0f0; position: sticky; top: 70px; z-index: 100; width: 100%; max-width: 100vw; overflow: hidden;">
+        <div class="container-fluid" style="padding: 0 12px;">
+            <nav class="baume-category-nav">
+                <a href="#prieres" class="baume-cat-btn active" onclick="setActiveNav(this)">
+                    <i class="fas fa-pray"></i> Prières
                 </a>
-                <a href="#reflexions" class="category-pill" style="background: white; color: red; border: 2px solid red;">
-                    <i class="fas fa-lightbulb"></i>
-                    Réflexions
+                <a href="#reflexions" class="baume-cat-btn" onclick="setActiveNav(this)">
+                    <i class="fas fa-lightbulb"></i> Réflexions
                 </a>
-            </div>
+                <a href="#temoignage-form" class="baume-cat-btn" onclick="setActiveNav(this)">
+                    <i class="fas fa-heart"></i> Témoignages
+                </a>
+            </nav>
         </div>
     </section>
 
     <!-- ===== PRIÈRES PUBLIÉES ===== -->
-    <section id="prieres" class="py-5" style="position: relative; background-color: white; color: black; width: 100%; margin: 0; padding: 3rem 0;">
+    <section id="prieres" style="background: #ffffff; padding: 3rem 0;">
         <div class="container-fluid" style="max-width: 100%; padding: 0 3rem;">
-            <!-- Image de la prière en plein écran -->
-            <div class="row mb-5 justify-content-center">
+
+            <!-- Image bannière prières -->
+            <div class="row mb-4 justify-content-center">
                 <div class="col-12">
                     <div class="prayer-image-container text-center">
-                        <img src="/images/Prière.png" alt="La prière est un moment privilégié de communion avec Dieu" 
-                             class="img-fluid prayer-full-image" 
-                             style="width: 100%; height: auto; object-fit: cover;">
+                        <img src="/images/Prière.png" alt="La prière est un moment privilégié de communion avec Dieu"
+                             class="img-fluid prayer-full-image"
+                             style="width: 100%; height: auto; object-fit: cover; border-radius: 12px;">
                     </div>
                 </div>
             </div>
 
-            <!-- Espacement avant les publications -->
-            <div class="mb-4"></div>
+            <!-- Section header style TopChrétien -->
+            <div class="baume-section-header">
+                <div class="baume-section-title-wrap">
+                    <div class="baume-section-accent"></div>
+                    <span class="baume-section-label"><i class="fas fa-dove me-1"></i> Au quotidien</span>
+                    <h2 class="baume-section-title">Prières</h2>
+                    <span class="baume-section-subtitle">Des prières pour chaque moment de votre journée</span>
+                </div>
+            </div>
 
             <!-- ===== CARROUSEL DE PRIÈRES ===== -->
             <div class="prieres-carousel-container position-relative mx-auto" style="max-width: 100%;">
@@ -110,7 +125,7 @@
                                                 <% const mediaUrl = priere.image_url || priere.video_url; %>
                                                 <% const isVideo = (priere.media_type === 'video' || (priere.video_url && priere.video_url.match(/\.(mp4|webm|ogg|mov)$/i))) && !priere.image_url; %>
                                                 <div class="col-4">
-                                                    <div class="content-card" onclick="openPriereModal(<%= j %>)" style="height: 500px; width: 100%;">
+                                                    <div class="content-card" onclick="openPriereModal(<%= j %>)" style="height: 280px; width: 100%;">
                                                         
                                                         <!-- Affichage du média en pleine largeur -->
                                                         <% if (priere.video_url || priere.image_url) { %>
@@ -194,125 +209,144 @@
             </div>
 
     <!-- ===== QUIZ BIBLIQUE QUOTIDIEN ===== -->
-    <section class="py-5" style="background: white;">
-        <div class="container-fluid" style="max-width: 100%; padding: 0 3rem;">
-            <!-- Image Quiz en plein écran -->
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="quiz-image-container text-center">
-                        <img src="/images/Quiz.png" alt="Quiz Biblique Quotidien - Apprenez la Parole de Dieu de manière ludique" 
-                             class="img-fluid quiz-full-image" 
-                             style="width: 100%; height: auto; object-fit: cover;">
-                    </div>
+    <section id="quiz-section" style="background: #f0f4f8; padding: 3rem 0;">
+        <div class="container">
+
+            <!-- Section header -->
+            <div class="baume-section-header">
+                <div class="baume-section-title-wrap">
+                    <div class="baume-section-accent"></div>
+                    <span class="baume-section-label"><i class="fas fa-bible me-1"></i> Connaissance</span>
+                    <h2 class="baume-section-title">Quiz Biblique du Jour</h2>
+                    <span class="baume-section-subtitle">Testez votre connaissance de la Parole de Dieu</span>
                 </div>
             </div>
-        </div>
-    </section>
-                        <!-- Quiz Header -->
-                        <div class="quiz-header text-center mb-4">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge bg-primary text-white px-3 py-2">
-                                    <i class="fas fa-question-circle me-2"></i>Question <span id="currentQuestion">1</span>/5
-                                </span>
-                                <span class="badge bg-warning text-white px-3 py-2">
-                                    <i class="fas fa-star me-2"></i>Score: <span id="quizScore" style="color: gold;">0</span>
-                                </span>
-                            </div>
-                            <div class="progress mb-3" style="height: 8px;">
-                                <div id="quizProgress" class="progress-bar bg-primary" role="progressbar" style="width: 20%; transition: width 0.3s ease;"></div>
-                            </div>
-                        </div>
 
-                        <!-- Quiz Content -->
-                        <div id="quizContent">
-                            <!-- Question -->
-                            <div class="question-container text-center mb-4">
-                                <h3 class="question-text mb-4" style="font-size: 1.3rem; font-weight: 600; color: var(--baume-primary);"></h3>
-                                
-                                <!-- Options de réponse -->
-                                <div class="options-container" style="max-width: 600px; margin: 0 auto;">
-                                    <div class="row g-3">
-                                        <div class="col-12">
-                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(0)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
-                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">A.</span>
-                                                <span class="option-text"></span>
-                                            </button>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(1)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
-                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">B.</span>
-                                                <span class="option-text"></span>
-                                            </button>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(2)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
-                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">C.</span>
-                                                <span class="option-text"></span>
-                                            </button>
-                                        </div>
-                                        <div class="col-12">
-                                            <button class="answer-option w-100 text-start" onclick="selectAnswer(3)" style="padding: 1rem; border: 2px solid #e0e0e0; border-radius: 12px; background: white; transition: all 0.3s ease; font-size: 1rem;">
-                                                <span class="option-letter me-3" style="font-weight: bold; color: var(--baume-primary);">D.</span>
-                                                <span class="option-text"></span>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+            <!-- Bannière image -->
+            <div style="width: 100%; overflow: hidden; border-radius: 14px; margin-bottom: 2rem; max-height: 200px;">
+                <img src="/images/Quiz.png" alt="Quiz Biblique"
+                     style="width: 100%; height: 200px; object-fit: cover; display: block;">
+            </div>
 
-                            <!-- Explication biblique (caché au début) -->
-                            <div id="verseExplanation" class="verse-explanation mt-4 p-3" style="display: none; background: rgba(58, 175, 169, 0.1); border-radius: 12px; border-left: 4px solid var(--baume-primary);">
-                                <h5 class="mb-2" style="color: var(--baume-primary);"><i class="fas fa-book-bible me-2"></i>Référence biblique</h5>
-                                <p class="mb-1" style="font-style: italic; color: var(--baume-primary);"></p>
-                                <p class="mb-0"></p>
-                            </div>
+            <!-- Carte quiz -->
+            <div class="quiz-card">
 
-                            <!-- Boutons de navigation -->
-                            <div class="quiz-navigation d-flex justify-content-between align-items-center mt-4">
-                                <button id="prevBtn" class="btn btn-outline-primary" onclick="previousQuestion()" disabled style="padding: 0.8rem 1.5rem; border-radius: 25px;">
-                                    <i class="fas fa-arrow-left me-2"></i>Précédent
-                                </button>
-                                <button id="nextBtn" class="btn btn-primary" onclick="nextQuestion()" style="padding: 0.8rem 1.5rem; border-radius: 25px; background: var(--baume-gradient); border: none;">
-                                    Suivant<i class="fas fa-arrow-right ms-2"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Quiz Results (caché au début) -->
-                        <div id="quizResults" style="display: none;">
-                            <div class="results-container text-center">
-                                <div class="results-icon mb-3">
-                                    <i class="fas fa-trophy" style="font-size: 4rem; color: gold;"></i>
-                                </div>
-                                <h3 class="results-title mb-3" style="color: var(--baume-primary); font-size: 2rem;">Quiz Terminé !</h3>
-                                <div class="results-score mb-3">
-                                    <h4 class="mb-2">Votre score : <span id="finalScore" style="color: var(--baume-accent); font-weight: bold;">0</span>/5</h4>
-                                    <p id="resultsMessage" class="text-muted"></p>
-                                </div>
-                                <button class="btn btn-primary" onclick="restartQuiz()" style="padding: 1rem 2rem; border-radius: 25px; background: var(--baume-gradient); border: none;">
-                                    <i class="fas fa-redo me-2"></i>Recommencer
-                                </button>
-                            </div>
-                        </div>
+                <!-- Quiz Header -->
+                <div class="quiz-top-bar">
+                    <div class="quiz-question-badge">
+                        <i class="fas fa-question-circle"></i>
+                        Question <span id="currentQuestion">1</span> / 5
+                    </div>
+                    <div class="quiz-score-badge">
+                        <i class="fas fa-star"></i>
+                        Score : <span id="quizScore">0</span>
                     </div>
                 </div>
-            </div>
+
+                <!-- Barre de progression + pastilles -->
+                <div class="quiz-progress-wrap">
+                    <div class="quiz-steps">
+                        <span class="quiz-step active" id="step-0"></span>
+                        <span class="quiz-step" id="step-1"></span>
+                        <span class="quiz-step" id="step-2"></span>
+                        <span class="quiz-step" id="step-3"></span>
+                        <span class="quiz-step" id="step-4"></span>
+                    </div>
+                    <div class="quiz-progress-bar">
+                        <div id="quizProgress" class="quiz-progress-fill" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <!-- Contenu quiz -->
+                <div id="quizContent">
+                    <div class="quiz-question-wrap">
+                        <h3 class="quiz-question-text" id="questionText"></h3>
+                    </div>
+
+                    <!-- Options -->
+                    <div class="quiz-options" id="quizOptions">
+                        <button class="quiz-option" onclick="selectAnswer(0)">
+                            <span class="quiz-option-letter">A</span>
+                            <span class="quiz-option-text"></span>
+                            <i class="quiz-option-icon fas fa-check"></i>
+                        </button>
+                        <button class="quiz-option" onclick="selectAnswer(1)">
+                            <span class="quiz-option-letter">B</span>
+                            <span class="quiz-option-text"></span>
+                            <i class="quiz-option-icon fas fa-check"></i>
+                        </button>
+                        <button class="quiz-option" onclick="selectAnswer(2)">
+                            <span class="quiz-option-letter">C</span>
+                            <span class="quiz-option-text"></span>
+                            <i class="quiz-option-icon fas fa-check"></i>
+                        </button>
+                        <button class="quiz-option" onclick="selectAnswer(3)">
+                            <span class="quiz-option-letter">D</span>
+                            <span class="quiz-option-text"></span>
+                            <i class="quiz-option-icon fas fa-check"></i>
+                        </button>
+                    </div>
+
+                    <!-- Feedback biblique -->
+                    <div id="verseExplanation" class="quiz-verse-box" style="display:none;">
+                        <div class="quiz-verse-result" id="quizVerseResult"></div>
+                        <div class="quiz-verse-content">
+                            <i class="fas fa-quote-left quiz-verse-icon"></i>
+                            <p class="quiz-verse-text" id="quizVerseText"></p>
+                            <span class="quiz-verse-ref" id="quizVerseRef"></span>
+                        </div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="quiz-navigation">
+                        <button id="prevBtn" class="quiz-btn-secondary" onclick="previousQuestion()" disabled>
+                            <i class="fas fa-arrow-left"></i> Précédent
+                        </button>
+                        <button id="nextBtn" class="quiz-btn-primary" onclick="nextQuestion()">
+                            Suivant <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Résultats -->
+                <div id="quizResults" style="display:none;">
+                    <div class="quiz-results-wrap">
+                        <div id="quizResultIcon" class="quiz-result-icon">🏆</div>
+                        <h3 class="quiz-result-title">Quiz Terminé !</h3>
+                        <div class="quiz-result-score-ring">
+                            <span id="finalScore">0</span>
+                            <small>/5</small>
+                        </div>
+                        <p id="resultsMessage" class="quiz-result-message"></p>
+                        <div class="quiz-result-stars" id="quizResultStars"></div>
+                        <button class="quiz-btn-primary mt-3" onclick="restartQuiz()">
+                            <i class="fas fa-redo me-2"></i> Recommencer
+                        </button>
+                    </div>
+                </div>
+
+            </div><!-- /.quiz-card -->
         </div>
     </section>
 
     <!-- ===== RÉFLEXIONS PUBLIÉES ===== -->
-<section id="reflexions" class="py-0" style="position: relative; background-color: white; color: black;">
-    <!-- Image de la réflexion en plein écran responsive -->
-    <div style="width: 100%; max-width: 100vw; height: auto; max-height: 60vh; overflow: hidden; margin: 0 auto;">
-        <img src="/images/Reflexion.png" alt="La réflexion invite à prendre du recul et à méditer la Parole de Dieu" 
-             style="width: 100%; height: auto; max-height: 60vh; object-fit: cover; display: block; border: none; border-radius: 0;">
+<section id="reflexions" style="background: #f8f9fa; padding: 3rem 0;">
+    <!-- Image bannière réflexions -->
+    <div style="width: 100%; max-width: 100%; overflow: hidden; margin-bottom: 2rem;">
+        <img src="/images/Reflexion.png" alt="Réflexions spirituelles"
+             style="width: 100%; height: auto; max-height: 45vh; object-fit: cover; display: block;">
     </div>
 
-    <!-- Espacement avant les publications -->
-    <div style="height: 30px; background-color: white;"></div>
-
-    <!-- Publications de réflexions centrées -->
     <div class="container">
+        <!-- Section header style TopChrétien -->
+        <div class="baume-section-header">
+            <div class="baume-section-title-wrap">
+                <div class="baume-section-accent"></div>
+                <span class="baume-section-label"><i class="fas fa-book-open me-1"></i> Méditation</span>
+                <h2 class="baume-section-title">Réflexions</h2>
+                <span class="baume-section-subtitle">Des textes pour nourrir votre foi et votre vie intérieure</span>
+            </div>
+        </div>
         <!-- ===== CARROUSEL DE RÉFLEXIONS ===== -->
         <div class="reflexions-carousel-container" style="display: flex; justify-content: center; align-items: center; width: 100%;">
             <!-- Indicateurs de position masqués -->
@@ -323,8 +357,8 @@
             </div> -->
 
             <!-- Conteneur du carrousel centré -->
-            <div class="carousel-wrapper" style="overflow: visible; border-radius: 16px; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; background: white; padding: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                <div id="reflexionsCarousel" class="carousel-track" style="display: flex; transition: transform 0.5s ease; overflow: hidden; white-space: nowrap; padding: 0 15px;">
+            <div class="carousel-wrapper" style="overflow: hidden; border-radius: 16px; width: 100%; max-width: 1400px; margin: 0 auto; position: relative; z-index: 1; background: transparent; padding: 10px 0; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div id="reflexionsCarousel" class="carousel-track" style="display: flex; flex-wrap: nowrap; padding: 0 15px;">
                     <!-- Le contenu sera chargé par JavaScript avec pagination -->
                 </div>
             </div>
@@ -336,16 +370,27 @@
 
         <!-- Image Témoignage de la foi après le bouton -->
         <div class="text-center mb-1">
-            <img src="/images/Témoignage de la foi.png" alt="Témoignage de la foi" 
-                 class="img-fluid" 
-                 style="width: 100vw; height: 80vh; object-fit: contain; display: block; margin: 0 auto; position: relative; left: 50%; transform: translateX(-50%); max-width: none;">
+            <img src="/images/T%C3%A9moignage%20de%20la%20foi.png" alt="Témoignage de la foi"
+                 class="img-fluid"
+                 style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; display: block;">
         </div>
     </div>
 </section>
 
     <!-- ===== FORMULAIRE DE TÉMOIGNAGE ===== -->
-    <section class="py-2" style="background: white;">
+    <section style="background: white; padding: 3rem 0;" id="temoignage-section">
         <div class="container">
+
+            <!-- Section header -->
+            <div class="baume-section-header">
+                <div class="baume-section-title-wrap">
+                    <div class="baume-section-accent"></div>
+                    <span class="baume-section-label"><i class="fas fa-heart me-1"></i> Communauté</span>
+                    <h2 class="baume-section-title">Votre Témoignage</h2>
+                    <span class="baume-section-subtitle">Partagez comment Dieu a agi dans votre vie</span>
+                </div>
+            </div>
+
             <div class="row">
                 <!-- Formulaire de témoignage -->
                 <div class="col-lg-12">
@@ -412,66 +457,11 @@
     <!-- ===== TÉMOIGNAGES APPROUVÉS ===== -->
     <section class="py-4" style="background-color: white; position: relative;">
         <div class="container-fluid px-0">
-            <!-- Image Témoignages de foi optimisée - sans espaces vides -->
+            <!-- Image Témoignages de foi -->
             <div class="temoignages-optimized">
-                <img src="/images/Témoignages de foi.png" alt="Témoignages de foi - Partages d'expériences spirituelles" 
+                <img src="/images/T%C3%A9moignages%20de%20foi.png" alt="Témoignages de foi - Partages d'expériences spirituelles"
                      class="temoignages-img">
             </div>
-            
-            <!-- Styles CSS optimisés - sans espaces vides -->
-            <style>
-                .temoignages-optimized {
-                    width: 100%;
-                    margin: -76px 0 20px 0; /* Marges minimales */
-                    padding: 0;
-                    overflow: hidden;
-                    position: relative;
-                    z-index: 10;
-                }
-                
-                .temoignages-img {
-                    width: 100%;
-                    height: auto; /* Hauteur automatique basée sur le contenu */
-                    object-fit: cover; /* Cover pour remplir sans bandes */
-                    object-position: center 25%; /* Légèrement vers le haut */
-                    display: block;
-                    filter: brightness(1.02);
-                    transition: all 0.4s ease;
-                }
-                
-                .temoignages-optimized:hover .temoignages-img {
-                    transform: scale(1.01);
-                    filter: brightness(1.05) contrast(1.02);
-                }
-                
-                /* Responsive ajusté */
-                @media (max-width: 768px) {
-                    .temoignages-optimized {
-                        margin: -40px 0 15px 0;
-                    }
-                    .temoignages-img {
-                        object-position: center 20%;
-                    }
-                }
-                
-                @media (max-width: 576px) {
-                    .temoignages-optimized {
-                        margin: -30px 0 10px 0;
-                    }
-                    .temoignages-img {
-                        object-position: center 15%;
-                    }
-                }
-                
-                @media (max-width: 480px) {
-                    .temoignages-optimized {
-                        margin: -20px 0 8px 0;
-                    }
-                    .temoignages-img {
-                        object-position: center 10%;
-                    }
-                }
-            </style>
         
         <div class="container" style="margin-top: 30px;">
             <div class="section-header">
@@ -502,60 +492,85 @@
 
     <!-- ===== MODALE POUR AFFICHER LE CONTENU ===== -->
     <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div>
-                        <h5 class="modal-title" id="contentModalLabel">
-                            <i class="fas fa-cross me-2"></i>
-                            <span id="modalType">Prière</span>
-                        </h5>
-                        <!-- Référence biblique (pour les prières) ou Thème principal (pour les réflexions) -->
-                        <div id="modalReference" class="modal-reference" style="display: none; margin-top: 0.5rem;">
-                            <i class="fas fa-bible"></i>
-                            <span id="modalReferenceText"></span>
-                        </div>
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable baume-modal-dialog">
+            <div class="modal-content baume-modal">
+
+                <!-- En-tête colorée + image -->
+                <div class="baume-modal-header">
+                    <div class="baume-modal-type">
+                        <i class="fas fa-dove me-2"></i>
+                        <span id="modalType">Prière</span>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+                    <button type="button" class="baume-modal-close" data-bs-dismiss="modal" aria-label="Fermer">
+                        <i class="fas fa-times"></i>
+                    </button>
                 </div>
-                <div class="modal-body">
-                    <!-- Média (si présent) -->
+
+                <div class="modal-body baume-modal-body">
+
+                    <!-- Image / Vidéo (dans le corps scrollable) -->
                     <div id="modalMediaContainer" class="modal-media-container" style="display: none;">
                         <img id="modalImage" class="modal-media" src="" alt="" style="display: none;">
                         <video id="modalVideo" class="modal-media" controls style="display: none;">
                             <source src="" type="video/mp4">
                         </video>
                     </div>
-                    
+
+                    <!-- Badges : catégorie + référence -->
+                    <div class="baume-modal-badges">
+                        <div id="modalCategory" class="modal-category" style="display: none;">
+                            <i class="fas fa-tag"></i>
+                            <span id="modalCategoryText"></span>
+                        </div>
+                        <div id="modalReference" class="modal-reference" style="display: none;">
+                            <i class="fas fa-bible"></i>
+                            <span id="modalReferenceText"></span>
+                        </div>
+                    </div>
+
                     <!-- Titre -->
-                    <h2 class="modal-title" id="modalTitle"></h2>
-                    
-                    <!-- Catégorie (pour les prières) -->
-                    <div id="modalCategory" class="modal-category" style="display: none;">
-                        <i class="fas fa-tag"></i>
-                        <span id="modalCategoryText"></span>
+                    <h2 class="baume-modal-title" id="modalTitle"></h2>
+
+                    <!-- Séparateur décoratif -->
+                    <div class="baume-modal-divider"></div>
+
+                    <!-- Contenu -->
+                    <div id="modalContent" class="modal-content-text"></div>
+
+                    <!-- Référence biblique encadrée -->
+                    <div id="verseBox" class="baume-verse-box" style="display: none;">
+                        <i class="fas fa-quote-left baume-verse-icon"></i>
+                        <p id="verseBoxText" class="baume-verse-text"></p>
+                        <span id="verseBoxRef" class="baume-verse-ref"></span>
                     </div>
-                    
-                    <!-- Référence biblique (pour les prières) ou Thème principal (pour les réflexions) -->
-                    <div id="modalReference" class="modal-reference" style="display: none; margin-top: 0.5rem;">
-                        <i class="fas fa-bible"></i>
-                        <span id="modalReferenceText"></span>
-                    </div>
-                    <div id="modalContent" class="modal-content-text" style="font-family: 'Brush Script MT', cursive; font-family: 'Lucida Handwriting', cursive; font-family: 'Segoe Script', cursive; color: black;"></div>
-                    
-                    <!-- Auteur -->
-                    <div class="mt-4 text-end">
-                        <small class="text-muted">
-                            <i class="fas fa-user-circle me-1"></i>
+
+                    <!-- Auteur + partage -->
+                    <div class="baume-modal-footer-info">
+                        <div class="baume-modal-author">
+                            <div class="baume-author-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
                             <span id="modalAuthor"></span>
-                        </small>
+                        </div>
+                        <div class="baume-share-buttons">
+                            <span class="baume-share-label">Partager :</span>
+                            <a id="shareWhatsApp" href="#" target="_blank" class="baume-share-btn whatsapp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a id="shareFacebook" href="#" target="_blank" class="baume-share-btn facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+
+                <!-- Pied de modal -->
+                <div class="modal-footer baume-modal-footer-bar">
                     <button type="button" class="btn-modal" data-bs-dismiss="modal">
                         <i class="fas fa-times me-2"></i>Fermer
                     </button>
                 </div>
+
             </div>
         </div>
     </div>
@@ -591,8 +606,7 @@
                 });
                 
                 if (response.ok) {
-                    // Les vues sont incrémentées en arrière-plan, mais pas affichées sur la page publique
-                    console.log(`Vue incrémentée pour la réflexion ${reflexionId}`);
+                    // vue incrémentée en arrière-plan
                 }
             } catch (error) {
                 console.error('Erreur lors de l\'incrémentation des vues:', error);
@@ -610,8 +624,7 @@
                 });
                 
                 if (response.ok) {
-                    // Les vues sont incrémentées en arrière-plan, mais pas affichées sur la page publique
-                    console.log(`Vue incrémentée pour la prière ${priereId}`);
+                    // vue incrémentée en arrière-plan
                 }
             } catch (error) {
                 console.error('Erreur lors de l\'incrémentation des vues:', error);
@@ -620,10 +633,32 @@
 
         // Fonction pour formater toutes les vues au chargement
         function formatAllViews() {
-            // Les vues sont masquées dans la page publique, donc pas de formatage nécessaire
-            // Les vues continuent d'être incrémentées en arrière-plan
-            console.log('Vues masquées dans la page publique - Incrémentation active en arrière-plan');
+            // Les vues sont masquées dans la page publique
         }
+
+        // Navigation onglets catégories
+        function setActiveNav(el) {
+            document.querySelectorAll('.baume-cat-btn').forEach(btn => btn.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Active l'onglet au scroll selon la section visible
+        window.addEventListener('scroll', function() {
+            const sections = [
+                { id: 'prieres', href: '#prieres' },
+                { id: 'reflexions', href: '#reflexions' },
+                { id: 'temoignage-form', href: '#temoignage-form' }
+            ];
+            const scrollY = window.scrollY + 120;
+            let current = sections[0].href;
+            sections.forEach(s => {
+                const el = document.getElementById(s.id);
+                if (el && el.offsetTop <= scrollY) current = s.href;
+            });
+            document.querySelectorAll('.baume-cat-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.getAttribute('href') === current);
+            });
+        }, { passive: true });
 
         // Stocker les données pour éviter les problèmes de guillemets
         window.prieresData = <%- JSON.stringify(prieres || []) %>;
@@ -690,7 +725,6 @@
             
             // Vérifier si les éléments existent avant de continuer
             if (!verseText || !verseContent || !verseRef) {
-                console.log('ERREUR: Éléments de verset non trouvés au chargement');
             } else {
                 // Fonction pour changer la citation
                 function changeVerse() {
@@ -698,7 +732,6 @@
                     
                     // Vérifications pour éviter les erreurs
                     if (!verseText || !verseContent || !verseRef) {
-                        console.log('ERREUR: Éléments de verset non trouvés');
                         return;
                     }
                     
@@ -1105,7 +1138,6 @@
 
         // Fonction pour ouvrir la modale avec le contenu
         function openContentModal(item, type) {
-            console.log('🔍 DEBUG: openContentModal appelé avec:', { item, type }); // Debug amélioré
             
             // Définir le type
             document.getElementById('modalType').textContent = type === 'priere' ? 'Prière' : 'Réflexion';
@@ -1131,7 +1163,6 @@
             
             // Référence biblique (pour les prières) ou Thème principal (pour les réflexions)
             const referenceDiv = document.getElementById('modalReference');
-            console.log('Référence biblique trouvée:', item.reference_biblique); // Debug
             
             if (type === 'priere') {
                 // Pour les prières : afficher la référence biblique
@@ -1141,10 +1172,8 @@
                     // Changer l'icône en bible
                     document.querySelector('#modalReference i').className = 'fas fa-bible';
                     referenceDiv.style.display = 'flex';
-                    console.log('Référence biblique affichée:', referenceBiblique); // Debug
                 } else {
                     referenceDiv.style.display = 'none';
-                    console.log('Pas de référence biblique trouvée'); // Debug
                 }
             } else if (type === 'reflexion') {
                 // Pour les réflexions : afficher la catégorie (toujours visible)
@@ -1173,7 +1202,6 @@
                 // Cacher la section référence pour éviter le double affichage
                 const referenceDiv = document.getElementById('modalReference');
                 referenceDiv.style.display = 'none';
-                console.log('Catégorie de réflexion affichée:', categoryText); // Debug
             }
             
             // Contenu
@@ -1209,6 +1237,12 @@
                 mediaContainer.style.display = 'none';
             }
             
+            // Boutons de partage
+            const shareText = encodeURIComponent((item.title || '') + ' - Baume de la Foi');
+            const shareUrl  = encodeURIComponent(window.location.href);
+            document.getElementById('shareWhatsApp').href  = `https://wa.me/?text=${shareText}%20${shareUrl}`;
+            document.getElementById('shareFacebook').href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+
             // Ouvrir la modale
             contentModal.show();
         }
@@ -1217,68 +1251,51 @@
         const temoignagesPerPage = 6;
         
         // Variables pour les réflexions
-        const reflexionsPerPage = 5; // 5 réflexions par page
+        const reflexionsPerPage = 4; // 4 réflexions par page
         let currentReflexionPage = 1;
         let allReflexionsData = [];
 
         // Charger les témoignages
         async function loadTemoignages() {
-            console.log('🔍 DEBUG: loadTemoignages() appelée');
             try {
                 // Toujours charger TOUS les témoignages (approuvés et en attente) pour la vue publique
-                console.log('🔍 DEBUG: Appel API /api/baume/temoignages');
                 const response = await fetch('/api/baume/temoignages');
                 
-                console.log('🔍 DEBUG: Response status:', response.status);
-                console.log('🔍 DEBUG: Response ok:', response.ok);
                 
                 if (!response.ok) {
-                    console.log('🔍 DEBUG: Response not ok - throwing error');
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 const result = await response.json();
-                console.log('🔍 DEBUG: Result success:', result.success);
-                console.log('🔍 DEBUG: Result data length:', result.data ? result.data.length : 0);
-                console.log('🔍 DEBUG: Result data:', result.data);
                 
                 if (result.success && result.data && result.data.length > 0) {
-                    console.log('🔍 DEBUG: Appel displayTemoignages avec', result.data.length, 'témoignages');
                     displayTemoignages(result.data);
                 } else {
-                    console.log('🔍 DEBUG: Appel displayNoTemoignages');
                     displayNoTemoignages();
                 }
             } catch (error) {
                 console.error('❌ Erreur lors du chargement des témoignages:', error);
-                console.log('🔍 DEBUG: Appel displayNoTemoignages depuis catch');
                 displayNoTemoignages();
             }
         }
 
         // Charger les réflexions avec pagination
         function loadReflexions() {
-            console.log('loadReflexions appelé'); // Debug
-            console.log('window.reflexionsData:', window.reflexionsData); // Debug
             
             try {
                 // Utiliser les données déjà chargées dans window.reflexionsData
                 const reflexions = window.reflexionsData || [];
-                console.log('Nombre de réflexions:', reflexions.length); // Debug
                 
                 if (reflexions.length > 0) {
                     allReflexionsData = reflexions;
                     
                     // Vérifier si on est sur mobile
                     const isMobile = window.innerWidth <= 768;
-                    console.log('Est mobile?', isMobile, 'Largeur:', window.innerWidth); // Debug
                     
                     // Utiliser la pagination pour mobile et PC
-                    console.log('Affichage avec pagination'); // Debug
                     displayReflexionsPaginated();
                     createReflexionsPagination(); // Créer la pagination sur mobile et PC
                 } else {
-                    console.log('Aucune réflexion trouvée'); // Debug
                     displayNoReflexions();
                 }
             } catch (error) {
@@ -1289,17 +1306,13 @@
 
         // Afficher les témoignages
         function displayTemoignages(temoignages) {
-            console.log('🔍 DEBUG: displayTemoignages() appelée avec', temoignages.length, 'témoignages');
-            console.log('🔍 DEBUG: Témoignages reçus:', temoignages);
             
             const container = document.getElementById('temoignages-container');
             if (!container) {
-                console.log('❌ DEBUG: Container temoignages-container non trouvé');
                 return;
             }
             
             // Vider le conteneur
-            console.log('🔍 DEBUG: Vidage du container');
             container.innerHTML = '';
             
             // Stocker TOUS les témoignages dans une variable globale pour le "Voir plus"
@@ -1308,25 +1321,18 @@
             // Filtrer uniquement les témoignages approuvés (is_approved = 1)
             const temoignagesApprouves = temoignages.filter(t => t.is_approved === 1);
             
-            console.log('🔍 DEBUG: Témoignages approuvés:', temoignagesApprouves.length);
-            console.log('🔍 DEBUG: Témoignages approuvés IDs:', temoignagesApprouves.map(t => t.id));
             
             // Afficher uniquement les 12 premiers témoignages approuvés
             const temoignagesToShow = temoignagesApprouves.slice(0, 12);
-            console.log('🔍 DEBUG: Témoignages à afficher:', temoignagesToShow.length);
             
             temoignagesToShow.forEach((temoignage, index) => {
-                console.log(`🔍 DEBUG: Création carte ${index + 1} pour témignage ID:`, temoignage.id);
                 if (temoignage && temoignage.id) {
                     const temoignageCard = createTemoignageCard(temoignage);
-                    console.log('🔍 DEBUG: Ajout de la carte au container');
                     container.appendChild(temoignageCard);
                 } else {
-                    console.log('❌ DEBUG: Témoignage sans ID ou null:', temoignage);
                 }
             });
             
-            console.log('🔍 DEBUG: Nombre d\'éléments dans le container:', container.children.length);
             
             // Gérer l'affichage du bouton "voir plus"
             const loadMoreBtn = document.querySelector('button[onclick="loadMoreTemoignages()"]');
@@ -1335,20 +1341,16 @@
                 if (currentlyDisplayed >= temoignagesApprouves.length) {
                     // Masquer le bouton s'il y a tous les témoignages approuvés sont affichés
                     loadMoreBtn.style.display = 'none';
-                    console.log('🔍 DEBUG: Bouton "voir plus" masqué');
                 } else {
                     // Afficher le bouton s'il y a encore des témoignages approuvés à afficher
                     loadMoreBtn.style.display = 'inline-flex';
-                    console.log('🔍 DEBUG: Bouton "voir plus" affiché');
                 }
             } else {
-                console.log('❌ DEBUG: Bouton "voir plus" non trouvé');
             }
         }
 
         // Créer une carte de témoignage - Style inspiré des cartes programmes
         function createTemoignageCard(temoignage) {
-            console.log('🔍 DEBUG: createTemoignageCard appelée pour:', temoignage.id);
             
             const col = document.createElement('div');
             col.className = 'col-md-6 col-lg-4 mb-4';
@@ -1391,7 +1393,6 @@
             `;
             
             col.appendChild(card);
-            console.log('🔍 DEBUG: Carte créée et ajoutée au col');
             return col;
         }
         
@@ -1480,14 +1481,11 @@
             }
             
             // Message de confirmation
-            console.log('✅ Tous les témoignages ont été affichés');
         }
 
         // Afficher toutes les réflexions pour mobile
         function displayAllReflexions() {
-            console.log('displayAllReflexions appelé'); // Debug
             const container = document.getElementById('reflexionsCarousel');
-            console.log('Container trouvé:', !!container); // Debug
             
             if (!container) return;
             
@@ -1495,26 +1493,21 @@
             container.innerHTML = '';
             
             if (allReflexionsData.length > 0) {
-                console.log('Affichage de', allReflexionsData.length, 'réflexions'); // Debug
                 
                 // Utiliser flexbox en colonne pour afficher les cartes verticalement sur mobile
                 container.className = 'carousel-track';
                 container.style.cssText = 'display: flex; flex-direction: column; gap: 1rem; padding: 0 15px;';
                 
-                // Ajouter chaque réflexion
+                // Ajouter chaque réflexion (1 colonne sur mobile)
                 allReflexionsData.forEach((reflexion, index) => {
                     if (reflexion) {
-                        console.log('Création de la carte', index, reflexion.title); // Debug
-                        const reflexionCard = createReflexionCard(reflexion, index);
-                        // Adapter la taille pour mobile - carte pleine largeur
-                        reflexionCard.style.cssText = 'flex: 0 0 auto; width: 100%; max-width: 100%; padding: 0;';
+                        const reflexionCard = createReflexionCard(reflexion, index, 1);
+                        reflexionCard.style.cssText = 'width: 100%; max-width: 100%; margin: 0; box-sizing: border-box;';
                         container.appendChild(reflexionCard);
                     }
                 });
                 
-                console.log('Nombre d\'éléments dans le container:', container.children.length); // Debug
             } else {
-                console.log('Aucune réflexion à afficher'); // Debug
             }
         }
 
@@ -1539,24 +1532,29 @@
                 container.className = 'carousel-track';
                 container.style.cssText = 'display: flex; flex-direction: column; gap: 1rem; padding: 0 15px;';
                 
-                // Ajouter chaque réflexion en colonne
+                // Ajouter chaque réflexion en colonne (1 par ligne sur mobile)
                 reflexionsToShow.forEach((reflexion, index) => {
                     if (reflexion) {
-                        const reflexionCard = createReflexionCard(reflexion, startIndex + index);
-                        // Adapter la taille pour mobile - carte pleine largeur
-                        reflexionCard.style.cssText = 'flex: 0 0 auto; width: 100%; max-width: 100%; padding: 0;';
+                        const reflexionCard = createReflexionCard(reflexion, startIndex + index, 1);
+                        reflexionCard.style.cssText = 'width: 100%; max-width: 100%; margin: 0; box-sizing: border-box;';
                         container.appendChild(reflexionCard);
                     }
                 });
             } else {
-                // Sur PC : afficher en ligne horizontale
+                // Sur PC/tablette : afficher en ligne horizontale avec pourcentages CSS
+                const screenWidth = window.innerWidth;
+                let cardsPerView;
+                if (screenWidth >= 768) cardsPerView = 4;
+                else cardsPerView = 2;
+
                 container.className = 'carousel-track';
-                container.style.cssText = 'display: flex; transition: transform 0.5s ease; overflow: hidden; white-space: nowrap; padding: 0 15px;';
-                
+                // width: 100% sur le track pour que les % des enfants soient corrects
+                container.style.cssText = 'display: flex; flex-wrap: nowrap; width: 100%; padding: 0; box-sizing: border-box;';
+
                 // Ajouter chaque réflexion à la ligne
                 reflexionsToShow.forEach((reflexion, index) => {
                     if (reflexion) {
-                        const reflexionCard = createReflexionCard(reflexion, startIndex + index);
+                        const reflexionCard = createReflexionCard(reflexion, startIndex + index, cardsPerView);
                         container.appendChild(reflexionCard);
                     }
                 });
@@ -1564,14 +1562,20 @@
         }
 
         // Créer une carte de réflexion
-        function createReflexionCard(reflexion, globalIndex) {
+        // cardsPerView : nombre de cartes à afficher sur la ligne (pour le calcul % CSS)
+        function createReflexionCard(reflexion, globalIndex, cardsPerView) {
             const mediaUrl = reflexion.image_url || reflexion.video_url;
             const isVideo = (reflexion.media_type === 'video' || (reflexion.video_url && reflexion.video_url.match(/\.(mp4|webm|ogg|mov)$/i))) && !reflexion.image_url;
-            
+
+            // Largeur en % : chaque carte prend 1/n de la ligne, minus son padding interne (12px × 2)
+            const n = (cardsPerView && cardsPerView > 0) ? cardsPerView : 4;
+            const pct = (100 / n).toFixed(4);
+            const widthStyle = `calc(${pct}% - 24px)`;
+
             const div = document.createElement('div');
-            div.className = 'reflexion-single-line'; // Utiliser flexbox pour ligne unique
-            div.style.cssText = 'flex: 0 0 auto; width: 280px; max-width: 280px; padding: 0 12px;';
-            
+            div.className = 'reflexion-single-line';
+            div.style.cssText = `flex: 0 0 ${widthStyle}; width: ${widthStyle}; box-sizing: border-box; margin: 0 12px;`;
+
             div.innerHTML = `
                 <div class="content-card-reflexion" onclick="incrementReflexionView('${reflexion.id || ''}'); openReflexionModal(${globalIndex})" style="height: 280px;">
                     <!-- Image en haut -->
@@ -1591,18 +1595,15 @@
                     
                     <!-- Contenu en bas avec étiquette -->
                     <div class="reflexion-content">
-                        <!-- Étiquette style TOPCHRÉTIEN -->
                         <div class="reflexion-badge">
                             <i class="fas fa-book-open"></i>
                             RÉFLEXION
                         </div>
-                        
-                        <!-- Titre -->
-                        <h3 class="reflexion-title">
-                            ${reflexion.title}
-                        </h3>
-                        
-                        <!-- Vues masquées dans la page publique, mais incrémentées en arrière-plan -->
+                        <h3 class="reflexion-title">${reflexion.title}</h3>
+                        <div class="reflexion-author-row">
+                            <div class="reflexion-author-avatar"><i class="fas fa-user"></i></div>
+                            <span>${reflexion.author || 'Baume de la Foi'}</span>
+                        </div>
                     </div>
                     
                     <!-- Contenu caché pour la modale -->
@@ -1626,53 +1627,34 @@
             // Créer le conteneur de pagination
             const paginationContainer = document.createElement('div');
             paginationContainer.className = 'reflexions-pagination';
-            paginationContainer.style.cssText = `
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: 10px;
-                margin-top: 30px;
-                padding: 20px;
-                flex-wrap: wrap;
-            `;
             
             // Bouton précédent
             const prevBtn = document.createElement('button');
-            prevBtn.innerHTML = 'Précédent';
-            prevBtn.className = 'btn btn-outline-primary';
-            prevBtn.style.cssText = 'padding: 8px 16px; border-radius: 25px;';
+            prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i> Précédent';
+            prevBtn.className = 'btn-nav';
             prevBtn.onclick = () => changeReflexionPage(currentReflexionPage - 1);
             prevBtn.disabled = currentReflexionPage === 1;
-            
-            // Numéros de page (limités à 2 pages maximum visibles)
-            const maxVisiblePages = 2;
-            let startPage = Math.max(1, currentReflexionPage - 1);
+
+            // Numéros de page
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentReflexionPage - 2);
             let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-            
             if (endPage - startPage + 1 < maxVisiblePages) {
                 startPage = Math.max(1, endPage - maxVisiblePages + 1);
             }
-            
+
             for (let i = startPage; i <= endPage; i++) {
                 const pageBtn = document.createElement('button');
                 pageBtn.textContent = i;
-                pageBtn.className = i === currentReflexionPage ? 'btn btn-primary' : 'btn btn-outline-secondary';
-                pageBtn.style.cssText = `
-                    padding: 8px 12px;
-                    border-radius: 50%;
-                    width: 40px;
-                    height: 40px;
-                    margin: 0 5px;
-                `;
+                pageBtn.className = 'btn-page' + (i === currentReflexionPage ? ' active' : '');
                 pageBtn.onclick = () => changeReflexionPage(i);
                 paginationContainer.appendChild(pageBtn);
             }
-            
+
             // Bouton suivant
             const nextBtn = document.createElement('button');
-            nextBtn.innerHTML = 'Suivant';
-            nextBtn.className = 'btn btn-outline-primary';
-            nextBtn.style.cssText = 'padding: 8px 16px; border-radius: 25px;';
+            nextBtn.innerHTML = 'Suivant <i class="fas fa-chevron-right"></i>';
+            nextBtn.className = 'btn-nav';
             nextBtn.onclick = () => changeReflexionPage(currentReflexionPage + 1);
             nextBtn.disabled = currentReflexionPage === totalPages;
             
@@ -1935,12 +1917,10 @@
         
         // Initialiser les carrousels
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM chargé - Initialisation des carrousels'); // Debug
             
             // Initialiser le carrousel de réflexions
             const reflexionCarousel = document.getElementById('reflexionsCarousel');
             if (reflexionCarousel) {
-                console.log('Carrousel réflexions trouvé'); // Debug
                 currentReflexionSlide = 0; // Forcer l'initialisation
                 reflexionCarousel.style.transform = 'translateX(0px)'; // Position initiale
                 
@@ -1962,7 +1942,6 @@
                     }
                 });
             } else {
-                console.log('Carrousel réflexions NON trouvé'); // Debug
             }
             
             // Initialiser le carrousel de prières
@@ -2097,14 +2076,122 @@
                 correctAnswer: 2,
                 verse: "Élie monta au ciel dans un tourbillon de vent, avec un char de feu.",
                 reference: "2 Rois 2:11"
+            },
+            // Semaine 4 - Questions 16-20
+            {
+                question: "Quelle femme a caché les espions envoyés par Josué à Jéricho ?",
+                options: ["Déborah", "Rahab", "Ruth", "Esther"],
+                correctAnswer: 1,
+                verse: "Rahab les fit monter sur le toit, et les cacha sous des tiges de lin.",
+                reference: "Josué 2:6"
+            },
+            {
+                question: "Combien de livres contient la Bible (canon protestant) ?",
+                options: ["60", "66", "73", "72"],
+                correctAnswer: 1,
+                verse: "Toute l'Écriture est inspirée de Dieu et utile pour enseigner, pour convaincre, pour corriger.",
+                reference: "2 Timothée 3:16"
+            },
+            {
+                question: "Dans quelle ville Jésus est-il né ?",
+                options: ["Nazareth", "Jérusalem", "Bethléem", "Capharnaüm"],
+                correctAnswer: 2,
+                verse: "Joseph monta aussi à Bethléem, la ville de David, pour se faire recenser avec Marie.",
+                reference: "Luc 2:4-5"
+            },
+            {
+                question: "Quel apôtre a trahi Jésus pour 30 pièces d'argent ?",
+                options: ["Pierre", "Thomas", "Judas", "Barthélemy"],
+                correctAnswer: 2,
+                verse: "Judas reçut trente pièces d'argent pour livrer Jésus aux chefs des prêtres.",
+                reference: "Matthieu 26:15"
+            },
+            {
+                question: "Qui était le père d'Abraham ?",
+                options: ["Sem", "Tharé", "Nahor", "Haran"],
+                correctAnswer: 1,
+                verse: "Tharé engendra Abram, Nahor et Haran.",
+                reference: "Genèse 11:26"
+            },
+            // Semaine 5 - Questions 21-25
+            {
+                question: "Combien de Psaumes contient la Bible ?",
+                options: ["100", "120", "150", "180"],
+                correctAnswer: 2,
+                verse: "Louez l'Éternel ! Car il est bon de chanter à notre Dieu.",
+                reference: "Psaumes 147:1"
+            },
+            {
+                question: "Qui a tué Goliath ?",
+                options: ["Saül", "Jonathan", "David", "Joab"],
+                correctAnswer: 2,
+                verse: "David mit la main dans sa gibecière, prit une pierre et la lança. Il frappa le Philistin au front.",
+                reference: "1 Samuel 17:49"
+            },
+            {
+                question: "De quelle tribu d'Israël Jésus est-il issu ?",
+                options: ["Lévi", "Benjamin", "Éphraïm", "Juda"],
+                correctAnswer: 3,
+                verse: "Il est manifeste que notre Seigneur est sorti de Juda, tribu dont Moïse n'a rien dit touchant le sacerdoce.",
+                reference: "Hébreux 7:14"
+            },
+            {
+                question: "Quel miracle Jésus a-t-il fait à Cana ?",
+                options: ["Guérir un aveugle", "Ressusciter un mort", "Changer l'eau en vin", "Multiplier les pains"],
+                correctAnswer: 2,
+                verse: "Ce fut là le premier des miracles que Jésus fit, à Cana en Galilée.",
+                reference: "Jean 2:11"
+            },
+            {
+                question: "Quel est le dernier livre de la Bible ?",
+                options: ["Hébreux", "Jude", "1 Jean", "Apocalypse"],
+                correctAnswer: 3,
+                verse: "Moi, Jésus, j'ai envoyé mon ange pour vous attester ces choses dans les Églises.",
+                reference: "Apocalypse 22:16"
+            },
+            // Semaine 6 - Questions 26-30
+            {
+                question: "Quelle mer Moïse a-t-il traversée à pied sec ?",
+                options: ["Mer Morte", "Mer Rouge", "Mer Méditerranée", "Lac de Tibériade"],
+                correctAnswer: 1,
+                verse: "Les eaux se fendirent, et les Israélites passèrent à sec au milieu de la mer.",
+                reference: "Exode 14:21-22"
+            },
+            {
+                question: "Qui a écrit la majorité des épîtres du Nouveau Testament ?",
+                options: ["Pierre", "Jean", "Paul", "Jacques"],
+                correctAnswer: 2,
+                verse: "Moi, Paul, j'écris ce salut de ma propre main — c'est ma marque dans toutes mes lettres.",
+                reference: "2 Thessaloniciens 3:17"
+            },
+            {
+                question: "Pendant combien de jours et de nuits a-t-il plu pour le déluge de Noé ?",
+                options: ["20 jours", "40 jours", "70 jours", "100 jours"],
+                correctAnswer: 1,
+                verse: "Il plut sur la terre pendant quarante jours et quarante nuits.",
+                reference: "Genèse 7:12"
+            },
+            {
+                question: "Quel était le métier de Joseph, père adoptif de Jésus ?",
+                options: ["Pêcheur", "Berger", "Charpentier", "Scribe"],
+                correctAnswer: 2,
+                verse: "N'est-ce pas le fils du charpentier ?",
+                reference: "Matthieu 13:55"
+            },
+            {
+                question: "Quel fleuve Jésus a-t-il été baptisé ?",
+                options: ["Le Nil", "Le Jourdain", "L'Euphrate", "Le Kichon"],
+                correctAnswer: 1,
+                verse: "Jésus fut baptisé par Jean dans le Jourdain. Il remontait de l'eau quand les cieux s'ouvrirent.",
+                reference: "Matthieu 3:16"
             }
         ];
         
-        // Obtenir 5 questions basées sur le jour actuel
+        // Obtenir 5 questions basées sur le jour actuel (rotation sur 6 semaines = 30 questions)
         function getDailyQuestions() {
             const today = new Date();
             const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-            const weekNumber = Math.floor(dayOfYear / 7) % 3; // Rotation sur 3 semaines
+            const weekNumber = Math.floor(dayOfYear / 7) % 6; // Rotation sur 6 semaines
             const startQuestionIndex = weekNumber * 5;
             return allQuizQuestions.slice(startQuestionIndex, startQuestionIndex + 5);
         }
@@ -2114,128 +2201,142 @@
         let score = 0;
         let selectedAnswerIndex = null;
         
+        let answerLocked = false;
+
         function loadQuestion() {
             const question = quizQuestions[currentQuestionIndex];
             document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
             document.getElementById('quizScore').textContent = score;
             document.getElementById('quizProgress').style.width = ((currentQuestionIndex + 1) / quizQuestions.length * 100) + '%';
-            
-            // Mettre à jour la question
-            document.querySelector('.question-text').textContent = question.question;
-            
-            // Mettre à jour les options
-            const options = document.querySelectorAll('.answer-option');
-            const optionTexts = document.querySelectorAll('.option-text');
-            options.forEach((option, index) => {
-                optionTexts[index].textContent = question.options[index];
-                option.classList.remove('bg-primary', 'text-white', 'border-primary');
-                option.classList.add('border-secondary');
-                option.style.borderColor = '#e0e0e0';
-                option.style.background = 'white';
+
+            // Pastilles de progression
+            document.querySelectorAll('.quiz-step').forEach((s, i) => {
+                s.className = 'quiz-step' + (i < currentQuestionIndex ? ' done' : i === currentQuestionIndex ? ' active' : '');
             });
-            
-            // Cacher l'explication et réinitialiser les boutons
+
+            // Question
+            document.getElementById('questionText').textContent = question.question;
+
+            // Options
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((opt, i) => {
+                opt.querySelector('.quiz-option-text').textContent = question.options[i];
+                opt.className = 'quiz-option';
+                opt.disabled = false;
+            });
+
+            // Cacher feedback
             document.getElementById('verseExplanation').style.display = 'none';
             document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
-            document.getElementById('nextBtn').innerHTML = currentQuestionIndex === quizQuestions.length - 1 ? 'Terminer<i class="fas fa-check ms-2"></i>' : 'Suivant<i class="fas fa-arrow-right ms-2"></i>';
-            
+            document.getElementById('nextBtn').innerHTML = currentQuestionIndex === quizQuestions.length - 1
+                ? '<i class="fas fa-check me-2"></i> Terminer'
+                : 'Suivant <i class="fas fa-arrow-right"></i>';
+            document.getElementById('nextBtn').disabled = false;
+
             selectedAnswerIndex = null;
+            answerLocked = false;
         }
-        
+
         function selectAnswer(index) {
-            // Réinitialiser toutes les options
-            document.querySelectorAll('.answer-option').forEach(opt => {
-                opt.classList.remove('bg-primary', 'text-white', 'border-primary');
-                opt.classList.add('border-secondary');
-                opt.style.borderColor = '#e0e0e0';
-                opt.style.background = 'white';
+            if (answerLocked) return;
+            answerLocked = true;
+
+            const question = quizQuestions[currentQuestionIndex];
+            const isCorrect = index === question.correctAnswer;
+            if (isCorrect) score++;
+
+            // Feedback couleur sur toutes les options
+            document.querySelectorAll('.quiz-option').forEach((opt, i) => {
+                opt.disabled = true;
+                if (i === question.correctAnswer) {
+                    opt.classList.add('correct');
+                } else if (i === index && !isCorrect) {
+                    opt.classList.add('wrong');
+                }
             });
-            
-            // Mettre en évidence l'option sélectionnée
-            const selectedOption = document.querySelectorAll('.answer-option')[index];
-            selectedOption.classList.remove('border-secondary');
-            selectedOption.classList.add('bg-primary', 'text-white', 'border-primary');
-            selectedOption.style.borderColor = 'var(--baume-primary)';
-            selectedOption.style.background = 'var(--baume-gradient)';
-            
+
             selectedAnswerIndex = index;
+            document.getElementById('quizScore').textContent = score;
+
+            // Afficher verset biblique
+            const box = document.getElementById('verseExplanation');
+            const resultEl = document.getElementById('quizVerseResult');
+            resultEl.className = 'quiz-verse-result ' + (isCorrect ? 'correct' : 'wrong');
+            resultEl.innerHTML = isCorrect
+                ? '<i class="fas fa-check-circle"></i> Bonne réponse !'
+                : `<i class="fas fa-times-circle"></i> La bonne réponse était : <strong>${question.options[question.correctAnswer]}</strong>`;
+            document.getElementById('quizVerseText').textContent = `"${question.verse}"`;
+            document.getElementById('quizVerseRef').textContent = question.reference;
+            box.style.display = 'block';
+
+            // Auto-avance après 2.5s
+            setTimeout(() => {
+                if (currentQuestionIndex < quizQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    loadQuestion();
+                } else {
+                    showResults();
+                }
+            }, 2500);
         }
-        
+
         function nextQuestion() {
             if (selectedAnswerIndex === null) {
-                alert('Veuillez sélectionner une réponse avant de continuer.');
+                // Secouer visuellement pour indiquer qu'il faut choisir
+                const opt = document.getElementById('quizOptions');
+                opt.classList.add('shake');
+                setTimeout(() => opt.classList.remove('shake'), 500);
                 return;
             }
-            
-            // Vérifier la réponse
-            const question = quizQuestions[currentQuestionIndex];
-            if (selectedAnswerIndex === question.correctAnswer) {
-                score++;
-            }
-            
-            // Afficher l'explication
-            const explanation = document.getElementById('verseExplanation');
-            explanation.style.display = 'block';
-            explanation.querySelector('p:first-of-type').textContent = `"${question.verse}"`;
-            explanation.querySelector('p:last-of-type').innerHTML = `<strong>Référence :</strong> ${question.reference}`;
-            
-            if (currentQuestionIndex < quizQuestions.length - 1) {
-                // Passer à la question suivante
-                currentQuestionIndex++;
-                setTimeout(() => {
-                    loadQuestion();
-                }, 3000);
-            } else {
-                // Afficher les résultats
-                setTimeout(() => {
-                    showResults();
-                }, 3000);
-            }
         }
-        
+
         function previousQuestion() {
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
                 loadQuestion();
             }
         }
-        
+
         function showResults() {
             document.getElementById('quizContent').style.display = 'none';
             document.getElementById('quizResults').style.display = 'block';
             document.getElementById('finalScore').textContent = score;
-            
-            const percentage = (score / quizQuestions.length) * 100;
-            let message = '';
-            
-            if (percentage === 100) {
-                message = ' Excellent ! Vous connaissez parfaitement la Parole de Dieu !';
-            } else if (percentage >= 80) {
-                message = ' Très bien ! Vous avez une excellente connaissance biblique !';
-            } else if (percentage >= 60) {
-                message = ' Bien ! Continuez à étudier la Parole de Dieu !';
-            } else if (percentage >= 40) {
-                message = ' Pas mal ! Continuez à lire votre Bible !';
-            } else {
-                message = ' Continuez à prier et étudier les Écritures !';
-            }
-            
-            document.getElementById('resultsMessage').textContent = message;
+
+            const pct = (score / quizQuestions.length) * 100;
+            let icon = '😔', msg = '';
+            if (pct === 100)      { icon = '🏆'; msg = 'Excellent ! Parfaite connaissance biblique !'; }
+            else if (pct >= 80)   { icon = '🎉'; msg = 'Très bien ! Grande connaissance de la Parole !'; }
+            else if (pct >= 60)   { icon = '👍'; msg = 'Bien ! Continuez à étudier la Parole de Dieu !'; }
+            else if (pct >= 40)   { icon = '📖'; msg = 'Pas mal ! Relisez votre Bible chaque jour.'; }
+            else                   { icon = '🙏'; msg = 'Continuez à prier et étudier les Écritures !'; }
+
+            document.getElementById('quizResultIcon').textContent = icon;
+            document.getElementById('resultsMessage').textContent = msg;
+
+            // Étoiles
+            const stars = document.getElementById('quizResultStars');
+            const starCount = Math.ceil(pct / 20);
+            stars.innerHTML = Array.from({length: 5}, (_, i) =>
+                `<i class="fas fa-star" style="color:${i < starCount ? '#f59e0b' : '#e5e7eb'}; font-size:1.6rem; margin:0 3px;"></i>`
+            ).join('');
         }
-        
+
+        function getRandomQuestions(n) {
+            const shuffled = [...allQuizQuestions].sort(() => Math.random() - 0.5);
+            return shuffled.slice(0, n);
+        }
+
         function restartQuiz() {
             currentQuestionIndex = 0;
             score = 0;
             selectedAnswerIndex = null;
-            
+            answerLocked = false;
             document.getElementById('quizContent').style.display = 'block';
             document.getElementById('quizResults').style.display = 'none';
-            
-            // Recharger les questions du jour
-            const newQuestions = getDailyQuestions();
+            // Nouvelles questions aléatoires différentes à chaque recommencement
+            const newQ = getRandomQuestions(5);
             quizQuestions.length = 0;
-            quizQuestions.push(...newQuestions);
-            
+            quizQuestions.push(...newQ);
             loadQuestion();
         }
         
@@ -2246,6 +2347,17 @@
         
         // Démarrer la rotation toutes les 4 secondes
         setInterval(rotatePresentationImage, 4000);
+
+        // Recalculer la largeur des cartes réflexions au resize
+        let reflexionResizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(reflexionResizeTimer);
+            reflexionResizeTimer = setTimeout(function() {
+                if (allReflexionsData && allReflexionsData.length > 0) {
+                    displayReflexionsPaginated();
+                }
+            }, 200);
+        });
     </script>
 </body>
 </html>

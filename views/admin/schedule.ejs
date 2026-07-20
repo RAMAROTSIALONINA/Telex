@@ -3,484 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Planification des Programmes - Admin TELEX</title>
+    <title>Grille des Programmes - Telex | Admin</title>
+    <link rel="icon" href="/images/Telex.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --telex-red: #E63946;
             --telex-blue: #1D3557;
-            --telex-light: #A8DADC;
+            --sidebar-width: 280px;
+            /* type colors */
             --info-red: #E63946;
-            --info-red-light: #F4A2A2;
             --decryptage-yellow: #FFB347;
-            --decryptage-yellow-light: #FFD700;
             --debat-pink: #FF8A65;
-            --debat-pink-light: #FFAB91;
             --societe-gray: #6C757D;
-            --societe-gray-light: #ADB5BD;
             --education-blue: #4A90E2;
-            --education-blue-light: #7B9ED6;
-            --jeunesse-blue: #4CAF50;
-            --jeunesse-blue-light: #66BB6A;
+            --jeunesse-green: #4CAF50;
             --environnement-green: #28A745;
-            --environnement-green-light: #6AB04C;
             --culture-violet: #9B59B6;
-            --culture-violet-light: #BB8FCE;
             --economie-cyan: #17A2B8;
-            --economie-cyan-light: #6ED4E0;
             --sport-orange: #F39C12;
-            --sport-orange-light: #F7B731;
         }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
 
         body {
-            background: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding-bottom: 2rem;
+            background:#f8fafc;
+            font-family:'Open Sans','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            min-height:100vh;
+            color:#334155;
         }
 
-        .admin-header {
-            background: linear-gradient(135deg, var(--telex-blue) 0%, var(--telex-light) 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
+        /* ── Sidebar ── */
+        .sidebar { background:linear-gradient(180deg,var(--telex-blue) 0%,#0f1e3d 100%); color:white; width:var(--sidebar-width); height:100vh; position:fixed; left:0; top:0; z-index:1000; box-shadow:5px 0 15px rgba(0,0,0,.1); display:flex; flex-direction:column; }
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); }
+        .sb-logo { height:52px; width:auto; display:block; }
+        .sidebar-nav { flex:1; padding:20px 15px; overflow-y:auto; }
+        .nav-item { margin-bottom:8px; }
+        .nav-link { display:flex; align-items:center; color:rgba(255,255,255,.8); padding:14px 18px; text-decoration:none; border-radius:10px; transition:all .3s; font-weight:500; }
+        .nav-link:hover { background:rgba(255,255,255,.1); color:white; transform:translateX(5px); }
+        .nav-link.active { background:rgba(230,57,70,.15); color:white; }
+        .nav-link i { width:24px; font-size:1.1rem; margin-right:12px; text-align:center; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
 
-        .table {
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        }
+        /* ── Main ── */
+        .main-content { margin-left:var(--sidebar-width); min-height:100vh; padding:0; }
 
-        .table thead th {
-            background: var(--telex-blue);
-            color: white;
-            border: none;
-            padding: 1rem;
-        }
+        /* ── Dash Header ── */
+        .dash-header { background:linear-gradient(135deg,#1D3557 0%,#2d4f7a 100%); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+        .dash-header-left { display:flex; align-items:center; gap:14px; }
+        .dash-header-logo { height:44px; width:auto; object-fit:contain; }
+        .dash-header-title { font-size:1.15rem; font-weight:700; color:#fff; line-height:1.3; }
+        .dash-header-sub { font-size:.8rem; color:rgba(255,255,255,.65); margin-top:2px; }
+        .dash-header-right { display:flex; align-items:center; gap:10px; }
+        .btn-dash-back { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:8px; padding:7px 14px; font-size:.85rem; font-weight:500; text-decoration:none; transition:background .2s; }
+        .btn-dash-back:hover { background:rgba(255,255,255,.22); color:#fff; }
+        .btn-dash-add { display:inline-flex; align-items:center; gap:7px; background:linear-gradient(135deg,#10B981,#059669); color:#fff; border:none; border-radius:8px; padding:8px 16px; font-size:.85rem; font-weight:600; cursor:pointer; transition:all .2s; }
+        .btn-dash-add:hover { transform:translateY(-1px); box-shadow:0 4px 12px rgba(16,185,129,.35); }
 
-        .table tbody td {
-            padding: 1rem;
-            vertical-align: middle;
-        }
+        /* ── Content ── */
+        .content-area { padding:22px 28px; }
+        @media (max-width:576px) { .content-area { padding:14px; } }
 
-        .badge {
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 500;
-        }
+        /* ── Flash alert ── */
+        .flash-alert { padding:12px 16px; border-radius:10px; margin-bottom:16px; display:flex; align-items:center; gap:10px; font-size:.88rem; border-left:4px solid; }
+        .flash-success { background:#f0fdf4; border-color:#10B981; color:#065f46; }
+        .flash-error   { background:#fef2f2; border-color:#EF4444; color:#7f1d1d; }
 
-        .badge-information { background: linear-gradient(135deg, var(--info-red), var(--info-red-light)); color: white; }
-        .badge-decryptage { background: linear-gradient(135deg, var(--decryptage-yellow), var(--decryptage-yellow-light)); color: white; }
-        .badge-debats { background: linear-gradient(135deg, var(--debat-pink), var(--debat-pink-light)); color: white; }
-        .badge-societe { background: linear-gradient(135deg, var(--societe-gray), var(--societe-gray-light)); color: white; }
-        .badge-education { background: linear-gradient(135deg, var(--education-blue), var(--education-blue-light)); color: white; }
-        .badge-jeunesse { background: linear-gradient(135deg, var(--jeunesse-blue), var(--jeunesse-blue-light)); color: white; }
-        .badge-environnement { background: linear-gradient(135deg, var(--environnement-green), var(--environnement-green-light)); color: white; }
-        .badge-culture { background: linear-gradient(135deg, var(--culture-violet), var(--culture-violet-light)); color: white; }
-        .badge-economie { background: linear-gradient(135deg, var(--economie-cyan), var(--economie-cyan-light)); color: white; }
-        .badge-sport { background: linear-gradient(135deg, var(--sport-orange), var(--sport-orange-light)); color: white; }
-        .badge-default { background: #6c757d; color: white; }
+        /* ── Form Cards ── */
+        .form-card { background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1px solid #e2e8f0; margin-bottom:18px; overflow:hidden; }
+        .form-card-header { display:flex; align-items:center; justify-content:space-between; gap:14px; padding:14px 20px; border-bottom:1px solid #f1f5f9; background:#fafbfc; flex-wrap:wrap; }
+        .form-card-header-left { display:flex; align-items:center; gap:14px; }
+        .form-card-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+        .form-card-title { font-size:.96rem; font-weight:700; color:#1e293b; }
+        .form-card-sub { font-size:.77rem; color:#64748b; margin-top:2px; }
+        .form-card-body { padding:0; }
 
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-            justify-content: center;
-        }
+        /* ── Table ── */
+        .table { margin-bottom:0; }
+        .table thead th { background:#1D3557; color:#fff; border:none; padding:13px 16px; font-size:.82rem; font-weight:600; letter-spacing:.03em; text-transform:uppercase; white-space:nowrap; }
+        .table tbody td { padding:11px 16px; vertical-align:middle; border-bottom:1px solid #f1f5f9; font-size:.88rem; }
+        .table tbody tr:last-child td { border-bottom:none; }
+        .table tbody tr:hover { background:#f8faff; }
+        .day-cell { font-weight:700; color:#1D3557; font-size:.88rem; white-space:nowrap; }
+        .time-cell { font-family:monospace; font-size:.9rem; color:#475569; font-weight:600; white-space:nowrap; }
+        .empty-day-row td { color:#94a3b8; font-style:italic; font-size:.84rem; }
 
-        .btn-action {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            border: none;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-        }
+        /* ── Type badges ── */
+        .type-badge { display:inline-flex; align-items:center; padding:4px 10px; border-radius:20px; font-size:.77rem; font-weight:600; white-space:nowrap; }
+        .badge-information   { background:rgba(230,57,70,.1);   color:#C62828; }
+        .badge-decryptage    { background:rgba(255,179,71,.15);  color:#B45309; }
+        .badge-debats        { background:rgba(255,138,101,.15); color:#D84315; }
+        .badge-societe       { background:rgba(108,117,125,.1);  color:#455A64; }
+        .badge-education     { background:rgba(74,144,226,.12);  color:#1565C0; }
+        .badge-jeunesse      { background:rgba(76,175,80,.12);   color:#2E7D32; }
+        .badge-environnement { background:rgba(40,167,69,.12);   color:#1B5E20; }
+        .badge-culture       { background:rgba(155,89,182,.12);  color:#6A1B9A; }
+        .badge-economie      { background:rgba(23,162,184,.12);  color:#006064; }
+        .badge-sport         { background:rgba(243,156,18,.12);  color:#E65100; }
+        .badge-default       { background:#f1f5f9; color:#64748b; }
 
-        .btn-edit {
-            background: #007bff;
-        }
+        /* ── Action buttons ── */
+        .action-buttons { display:flex; gap:6px; }
+        .btn-action { width:30px; height:30px; border-radius:7px; border:none; display:inline-flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; font-size:.8rem; }
+        .btn-edit   { background:#DBEAFE; color:#1D4ED8; }
+        .btn-edit:hover   { background:#1D4ED8; color:#fff; transform:translateY(-1px); }
+        .btn-delete { background:#FEE2E2; color:#DC2626; }
+        .btn-delete:hover { background:#DC2626; color:#fff; transform:translateY(-1px); }
 
-        .btn-edit:hover {
-            background: #0056b3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,123,255,0.3);
-        }
+        /* ── Legend ── */
+        .legend-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; padding:18px 20px; }
+        .legend-item { display:flex; align-items:center; gap:9px; font-size:.82rem; color:#334155; }
+        .legend-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
 
-        .btn-delete {
-            background: #dc3545;
-        }
+        /* ── Modals ── */
+        .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:2000; align-items:center; justify-content:center; padding:16px; }
+        .modal-overlay.show { display:flex; }
+        .modal-box { background:#fff; border-radius:16px; width:100%; max-width:520px; max-height:90vh; overflow:hidden; box-shadow:0 20px 60px rgba(0,0,0,.25); display:flex; flex-direction:column; }
+        .modal-header { padding:18px 22px; display:flex; align-items:center; justify-content:space-between; }
+        .modal-header.blue  { background:linear-gradient(135deg,#1D3557,#2d4f7a); }
+        .modal-header.red   { background:linear-gradient(135deg,#991B1B,#DC2626); }
+        .modal-header-icon { width:44px; height:44px; border-radius:10px; background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center; font-size:1.1rem; color:#fff; }
+        .modal-header-text { color:#fff; }
+        .modal-header-title { font-size:1rem; font-weight:700; }
+        .modal-header-sub { font-size:.78rem; opacity:.75; margin-top:2px; }
+        .modal-close { background:rgba(255,255,255,.15); border:none; color:#fff; width:30px; height:30px; border-radius:7px; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:.9rem; transition:background .2s; }
+        .modal-close:hover { background:rgba(255,255,255,.25); }
+        .modal-body { padding:22px; overflow-y:auto; }
+        .modal-footer { padding:14px 22px; border-top:1px solid #f1f5f9; display:flex; justify-content:flex-end; gap:10px; }
+        .form-label { font-weight:600; color:#374151; font-size:.84rem; margin-bottom:5px; display:block; }
+        .form-control, .form-select { border:1.5px solid #e2e8f0; border-radius:8px; padding:9px 12px; font-size:.9rem; width:100%; transition:border-color .2s; background:#fff; }
+        .form-control:focus, .form-select:focus { border-color:#457B9D; box-shadow:0 0 0 3px rgba(69,123,157,.12); outline:none; }
+        .btn-modal-save { background:linear-gradient(135deg,#1D3557,#457B9D); color:#fff; border:none; padding:9px 20px; border-radius:8px; font-weight:700; font-size:.88rem; cursor:pointer; display:inline-flex; align-items:center; gap:7px; }
+        .btn-modal-save:hover { opacity:.9; }
+        .btn-modal-del  { background:linear-gradient(135deg,#991B1B,#DC2626); color:#fff; border:none; padding:9px 20px; border-radius:8px; font-weight:700; font-size:.88rem; cursor:pointer; display:inline-flex; align-items:center; gap:7px; }
+        .btn-modal-del:hover { opacity:.9; }
+        .btn-modal-cancel { background:#f1f5f9; color:#374151; border:1.5px solid #e2e8f0; padding:9px 16px; border-radius:8px; font-weight:600; font-size:.88rem; cursor:pointer; }
+        .btn-modal-cancel:hover { background:#e2e8f0; }
+        .delete-info-box { background:#fef2f2; border:1px solid #FECACA; border-radius:10px; padding:14px 16px; margin-top:14px; display:flex; align-items:center; gap:10px; font-size:.88rem; color:#7f1d1d; }
 
-        .btn-delete:hover {
-            background: #c82333;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(220,53,69,0.3);
-        }
+        /* ── Toast ── */
+        #toastContainer { position:fixed; top:20px; right:20px; z-index:4000; display:flex; flex-direction:column; gap:8px; }
+        .toast { background:#fff; border-radius:10px; padding:12px 16px; box-shadow:0 4px 20px rgba(0,0,0,.15); display:flex; align-items:center; gap:10px; font-size:.87rem; border-left:4px solid; min-width:260px; animation:slideIn .3s ease; }
+        .toast.success { border-color:#10B981; color:#065f46; }
+        .toast.error   { border-color:#EF4444; color:#7f1d1d; }
+        .toast.info    { border-color:#3B82F6; color:#1e3a5f; }
+        @keyframes slideIn { from { transform:translateX(30px); opacity:0; } to { transform:translateX(0); opacity:1; } }
 
-        .add-program-btn {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: var(--telex-red);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 20px rgba(230, 57, 70, 0.3);
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* ── Responsive sidebar ── */
+        @media (max-width:992px) {
+            .sidebar { width:70px; overflow:hidden; }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
+            .main-content { margin-left:70px; }
         }
-
-        .add-program-btn:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 30px rgba(230, 57, 70, 0.4);
+        @media (max-width:576px) {
+            .sidebar { transform:translateX(-100%); transition:transform .3s ease; z-index:1050; }
+            .sidebar.open { transform:translateX(0); }
+            .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:1040; }
+            .sidebar-overlay.show { display:block; }
+            .main-content { margin-left:0 !important; }
+            .mobile-menu-btn { display:flex !important; }
+            .dash-header { padding:12px 16px; }
+            .dash-header-title { font-size:1rem; }
         }
-
-        .color-legend {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            margin-top: 2rem;
-        }
-
-        .legend-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--telex-blue);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .legend-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .legend-color {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-        }
-
-        .legend-label {
-            font-size: 0.9rem;
-            color: #2c3e50;
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal-content {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            max-width: 500px;
-            width: 90%;
-            max-height: 80vh;
-            overflow-y: auto;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #2c3e50;
-        }
-
-        .form-control, .form-select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            font-size: 1rem;
-        }
-
-        .form-control:focus, .form-select:focus {
-            outline: none;
-            border-color: var(--telex-red);
-            box-shadow: 0 0 0 2px rgba(230, 57, 70, 0.2);
-        }
-
-        .modal-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: flex-end;
-            margin-top: 1.5rem;
-        }
-
-        .btn-cancel {
-            background: #6c757d;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-cancel:hover {
-            background: #5a6268;
-        }
-
-        .btn-save {
-            background: var(--telex-red);
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-save:hover {
-            background: #c82333;
-        }
-
-        .btn-delete-confirm {
-            background: #dc3545;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-delete-confirm:hover {
-            background: #c82333;
-        }
-
-        .alert {
-            padding: 1rem;
-            border-radius: 6px;
-            margin-bottom: 1rem;
-        }
-
-        .alert-success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .alert-error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        .alert-warning {
-            background: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .mt-4 {
-            margin-top: 1.5rem;
-        }
+        .mobile-menu-btn { display:none; position:fixed; top:14px; left:14px; z-index:1060; background:#1D3557; color:white; border:none; border-radius:8px; width:40px; height:40px; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.25); }
     </style>
 </head>
 <body>
-    <div class="admin-header">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center">
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+    <button class="mobile-menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item"><a href="/admin/dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualit&eacute;s</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communaut&eacute;</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">M&eacute;dias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link"><i class="fas fa-cog"></i><span>Param&egrave;tres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>D&eacute;connexion</span></a></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Dash Header -->
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="/images/Telex.png" alt="Telex" class="dash-header-logo">
                 <div>
-                    <h1><i class="fas fa-calendar-alt me-3"></i>Grille des Programmes TELEX</h1>
-                    <p class="mb-0">Programmation hebdomadaire des émissions</p>
+                    <div class="dash-header-title">
+                        <i class="fas fa-calendar-alt me-2" style="color:#A8DADC;font-size:.95rem;"></i>
+                        Grille des Programmes
+                    </div>
+                    <div class="dash-header-sub">Programmation hebdomadaire des &eacute;missions TELEX</div>
                 </div>
-                <a href="/admin/programs" class="btn btn-outline-primary">
-                    <i class="fas fa-arrow-left me-2"></i>Retour aux Programmes
-                </a>
+            </div>
+            <div class="dash-header-right">
+                <a href="/admin/programs" class="btn-dash-back"><i class="fas fa-arrow-left"></i>Programmes</a>
+                <button class="btn-dash-add" onclick="showAddModal()"><i class="fas fa-plus"></i><span class="d-none d-sm-inline">Ajouter</span></button>
+            </div>
+        </div>
+
+        <div class="content-area">
+
+            <!-- Toast notifications -->
+            <div id="toastContainer"></div>
+
+            <!-- Grille des programmes -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-header-left">
+                        <div class="form-card-icon" style="background:linear-gradient(135deg,#1D3557,#2d4f7a);">
+                            <i class="fas fa-table" style="color:white;"></i>
+                        </div>
+                        <div>
+                            <div class="form-card-title">Planning hebdomadaire</div>
+                            <div class="form-card-sub" id="programCount">Chargement...</div>
+                        </div>
+                    </div>
+                    <div id="loadingSpinner" style="color:#94a3b8;font-size:.82rem;">
+                        <i class="fas fa-spinner fa-spin me-1"></i>Chargement
+                    </div>
+                </div>
+                <div class="form-card-body">
+                    <div class="table-responsive">
+                        <table class="table" id="programsTable">
+                            <thead>
+                                <tr>
+                                    <th>Jour</th>
+                                    <th>Heure</th>
+                                    <th>&Eacute;mission</th>
+                                    <th>Type</th>
+                                    <th style="text-align:center;">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="programsTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Légende -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-header-left">
+                        <div class="form-card-icon" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);">
+                            <i class="fas fa-palette" style="color:white;"></i>
+                        </div>
+                        <div>
+                            <div class="form-card-title">L&eacute;gende des types</div>
+                            <div class="form-card-sub">Code couleur par cat&eacute;gorie d'&eacute;mission</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="legend-grid">
+                    <div class="legend-item"><span class="legend-dot" style="background:#E63946;"></span>Information</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#FFB347;"></span>D&eacute;cryptage</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#FF8A65;"></span>D&eacute;bat</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#6C757D;"></span>Soci&eacute;tal</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#4A90E2;"></span>&Eacute;ducatif</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#4CAF50;"></span>Jeunesse</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#28A745;"></span>Environnement</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#9B59B6;"></span>Culture</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#17A2B8;"></span>&Eacute;conomie</div>
+                    <div class="legend-item"><span class="legend-dot" style="background:#F39C12;"></span>Sport</div>
+                </div>
+            </div>
+
+        </div><!-- /.content-area -->
+    </div><!-- /.main-content -->
+
+    <!-- ── Modal Ajouter / Éditer ── -->
+    <div id="programModal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-header blue">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div class="modal-header-icon"><i id="modalIcon" class="fas fa-plus"></i></div>
+                    <div class="modal-header-text">
+                        <div class="modal-header-title" id="modalTitle">Ajouter un programme</div>
+                        <div class="modal-header-sub" id="modalSub">Remplissez les informations ci-dessous</div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="programForm">
+                    <input type="hidden" id="programId">
+                    <input type="hidden" id="originalJour">
+                    <input type="hidden" id="originalHeure">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label class="form-label">Jour *</label>
+                            <select id="programJour" class="form-select" required>
+                                <option value="">S&eacute;lectionner un jour</option>
+                                <option value="Lundi">Lundi</option>
+                                <option value="Mardi">Mardi</option>
+                                <option value="Mercredi">Mercredi</option>
+                                <option value="Jeudi">Jeudi</option>
+                                <option value="Vendredi">Vendredi</option>
+                                <option value="Samedi">Samedi</option>
+                                <option value="Dimanche">Dimanche</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label class="form-label">Heure *</label>
+                            <input type="time" id="programHeure" class="form-control" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Titre de l'&eacute;mission *</label>
+                            <input type="text" id="programEmission" class="form-control" placeholder="Ex: TELEX Actus" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Type de programme *</label>
+                            <select id="programType" class="form-select" required>
+                                <option value="">S&eacute;lectionner un type</option>
+                                <option value="Information">Information</option>
+                                <option value="D&eacute;cryptage">D&eacute;cryptage</option>
+                                <option value="D&eacute;bat">D&eacute;bat</option>
+                                <option value="Soci&eacute;tal">Soci&eacute;tal</option>
+                                <option value="&Eacute;ducatif">&Eacute;ducatif</option>
+                                <option value="Jeunesse">Jeunesse</option>
+                                <option value="Environnement">Environnement</option>
+                                <option value="Culture">Culture</option>
+                                <option value="&Eacute;conomie">&Eacute;conomie</option>
+                                <option value="Sport">Sport</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="closeModal()">Annuler</button>
+                <button class="btn-modal-save" id="saveButton" onclick="document.getElementById('programForm').requestSubmit()">
+                    <i class="fas fa-save"></i><span id="saveButtonText">Ajouter</span>
+                </button>
             </div>
         </div>
     </div>
 
-    <div class="container">
-        <!-- Grille des programmes - Tableau récapitulatif -->
-        <div class="table-responsive">
-            <table class="table table-bordered" id="programsTable">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Jour</th>
-                        <th>Heure</th>
-                        <th>Émission</th>
-                        <th>Type</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="programsTableBody">
-                    <!-- Les programmes seront chargés dynamiquement ici -->
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- Légende des types de programmes -->
-        <div class="color-legend">
-            <div class="legend-title">
-                <i class="fas fa-palette me-2"></i>
-                Légende des programmes
+    <!-- ── Modal Suppression ── -->
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-box" style="max-width:440px;">
+            <div class="modal-header red">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div class="modal-header-icon"><i class="fas fa-trash-alt"></i></div>
+                    <div class="modal-header-text">
+                        <div class="modal-header-title">Supprimer le programme</div>
+                        <div class="modal-header-sub">Cette action est irr&eacute;versible</div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
             </div>
-            <div class="legend-grid">
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--info-red), var(--info-red-light));"></div>
-                    <span class="legend-label">Information</span>
+            <div class="modal-body">
+                <p style="color:#475569;font-size:.9rem;">Êtes-vous sûr de vouloir supprimer ce programme ? Il sera retiré définitivement de la grille.</p>
+                <div class="delete-info-box">
+                    <i class="fas fa-calendar-times"></i>
+                    <span id="deleteDetails">—</span>
                 </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--decryptage-yellow), var(--decryptage-yellow-light));"></div>
-                    <span class="legend-label">Décryptage</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--debat-pink), var(--debat-pink-light));"></div>
-                    <span class="legend-label">Débat</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--societe-gray), var(--societe-gray-light));"></div>
-                    <span class="legend-label">Sociétal</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--education-blue), var(--education-blue-light));"></div>
-                    <span class="legend-label">Éducatif</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--jeunesse-blue), var(--jeunesse-blue-light));"></div>
-                    <span class="legend-label">Jeunesse</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--environnement-green), var(--environnement-green-light));"></div>
-                    <span class="legend-label">Environnement</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--culture-violet), var(--culture-violet-light));"></div>
-                    <span class="legend-label">Culture</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--economie-cyan), var(--economie-cyan-light));"></div>
-                    <span class="legend-label">Économie</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background: linear-gradient(135deg, var(--sport-orange), var(--sport-orange-light));"></div>
-                    <span class="legend-label">Sport</span>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-modal-cancel" onclick="closeDeleteModal()">Annuler</button>
+                <button class="btn-modal-del" onclick="confirmDelete()"><i class="fas fa-trash-alt"></i>Supprimer</button>
             </div>
         </div>
     </div>
-
-    <button class="add-program-btn" onclick="showAddModal()">
-        <i class="fas fa-plus"></i>
-    </button>
-
-    <!-- Modal d'édition/ajout -->
-    <div id="programModal" class="modal">
-        <div class="modal-content">
-            <h3 id="modalTitle"><i class="fas fa-edit me-2"></i>Modifier le programme</h3>
-            <form id="programForm">
-                <input type="hidden" id="programId">
-                <input type="hidden" id="originalJour">
-                <input type="hidden" id="originalHeure">
-                
-                <div class="form-group">
-                    <label for="programJour">Jour</label>
-                    <select id="programJour" class="form-select" required>
-                        <option value="">Sélectionner un jour</option>
-                        <option value="Lundi">Lundi</option>
-                        <option value="Mardi">Mardi</option>
-                        <option value="Mercredi">Mercredi</option>
-                        <option value="Jeudi">Jeudi</option>
-                        <option value="Vendredi">Vendredi</option>
-                        <option value="Samedi">Samedi</option>
-                        <option value="Dimanche">Dimanche</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="programHeure">Heure</label>
-                    <input type="time" id="programHeure" class="form-control" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="programEmission">Titre de l'émission</label>
-                    <input type="text" id="programEmission" class="form-control" placeholder="Ex: TELEX Actus" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="programType">Type de programme</label>
-                    <select id="programType" class="form-select" required>
-                        <option value="">Sélectionner un type</option>
-                        <option value="Information">Information</option>
-                        <option value="Décryptage">Décryptage</option>
-                        <option value="Débat">Débat</option>
-                        <option value="Sociétal">Sociétal</option>
-                        <option value="Éducatif">Éducatif</option>
-                        <option value="Jeunesse">Jeunesse</option>
-                        <option value="Environnement">Environnement</option>
-                        <option value="Culture">Culture</option>
-                        <option value="Économie">Économie</option>
-                        <option value="Sport">Sport</option>
-                    </select>
-                </div>
-                
-                <div class="modal-actions">
-                    <button type="button" class="btn-cancel" onclick="closeModal()">Annuler</button>
-                    <button type="submit" class="btn-save" id="saveButton">Enregistrer</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Modal de confirmation de suppression -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <h3><i class="fas fa-trash me-2" style="color: #dc3545;"></i>Confirmer la suppression</h3>
-            <p id="deleteMessage">Êtes-vous sûr de vouloir supprimer ce programme ?</p>
-            <p id="deleteDetails" class="text-muted"></p>
-            
-            <div class="modal-actions">
-                <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Annuler</button>
-                <button type="button" class="btn-delete-confirm" onclick="confirmDelete()">Supprimer</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Alert container -->
-    <div id="alertContainer" style="position: fixed; top: 20px; right: 20px; z-index: 3000;"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -488,488 +396,241 @@
         let currentDeleteId = null;
         let currentEditId = null;
 
-        // Charger les programmes depuis la base de données
         async function loadPrograms() {
             try {
-                const response = await fetch('/admin/schedule/api/programs', {
-                    credentials: 'include'
-                });
+                const response = await fetch('/admin/schedule/api/programs', { credentials: 'include' });
                 const data = await response.json();
-                
+                document.getElementById('loadingSpinner').style.display = 'none';
                 if (data.success) {
                     programs = data.programs;
-                    console.log('📥 Programmes chargés:', programs);
-                    console.log('📝 Types des ID:', programs.map(p => ({ id: p.id, type: typeof p.id })));
                     displayPrograms();
                 } else {
-                    showAlert('Erreur lors du chargement des programmes', 'error');
+                    showToast('Erreur lors du chargement des programmes', 'error');
                 }
             } catch (error) {
-                console.error('Erreur:', error);
-                showAlert('Erreur serveur lors du chargement', 'error');
+                document.getElementById('loadingSpinner').style.display = 'none';
+                showToast('Erreur serveur lors du chargement', 'error');
             }
         }
 
-        // Fonction pour afficher les programmes dans le tableau
         function displayPrograms() {
             const tbody = document.getElementById('programsTableBody');
             tbody.innerHTML = '';
-            
-            // Trier les programmes par jour et heure
-            const joursOrder = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
-            
-            // Grouper par jour
-            const programsByJour = {};
+            const joursOrder = ['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche'];
+            const byJour = {};
+            joursOrder.forEach(j => byJour[j] = []);
+            programs.forEach(p => { if (byJour[p.jour]) byJour[p.jour].push(p); else byJour[p.jour] = [p]; });
+            Object.keys(byJour).forEach(j => byJour[j].sort((a,b) => (a.heure||'00:00').localeCompare(b.heure||'00:00')));
+
+            let total = 0;
             joursOrder.forEach(jour => {
-                programsByJour[jour] = [];
-            });
-            
-            programs.forEach(program => {
-                if (programsByJour[program.jour]) {
-                    programsByJour[program.jour].push(program);
+                const list = byJour[jour] || [];
+                if (list.length === 0) {
+                    tbody.innerHTML += `<tr class="empty-day-row">
+                        <td class="day-cell">${jour}</td>
+                        <td colspan="4" style="color:#cbd5e1;font-style:italic;font-size:.82rem;">
+                            <i class="fas fa-minus me-1"></i>Aucun programme
+                        </td>
+                    </tr>`;
                 } else {
-                    programsByJour[program.jour] = [program];
-                }
-            });
-            
-            // Trier les programmes de chaque jour par heure
-            Object.keys(programsByJour).forEach(jour => {
-                programsByJour[jour].sort((a, b) => {
-                    // Gérer les valeurs null/undefined
-                    const timeA = a.heure || '00:00';
-                    const timeB = b.heure || '00:00';
-                    return timeA.localeCompare(timeB);
-                });
-            });
-            
-            // Afficher les programmes
-            joursOrder.forEach(jour => {
-                const jourPrograms = programsByJour[jour] || [];
-                
-                if (jourPrograms.length === 0) {
-                    // Afficher une ligne pour les jours sans programme
-                    tbody.innerHTML += `
-                        <tr>
-                            <td>${jour}</td>
-                            <td colspan="4" class="text-center text-muted">
-                                <i class="fas fa-calendar-times me-2"></i>
-                                Aucun programme programmé
+                    list.forEach((p, i) => {
+                        total++;
+                        tbody.innerHTML += `<tr data-program-id="${p.id}">
+                            <td class="day-cell">${i === 0 ? jour : ''}</td>
+                            <td class="time-cell">${p.heure}</td>
+                            <td style="font-weight:500;color:#1e293b;">${p.emission}</td>
+                            <td><span class="type-badge badge-${p.typeClass}">${p.type}</span></td>
+                            <td>
+                                <div class="action-buttons" style="justify-content:center;">
+                                    <button class="btn-action btn-edit" data-program-id="${p.id}" title="Modifier">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button class="btn-action btn-delete" data-program-id="${p.id}" title="Supprimer">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
                             </td>
-                        </tr>
-                    `;
-                } else {
-                    jourPrograms.forEach((program, index) => {
-                        tbody.innerHTML += `
-                            <tr data-program-id="${program.id}">
-                                <td>${index === 0 ? jour : ''}</td>
-                                <td>${program.heure}</td>
-                                <td>${program.emission}</td>
-                                <td><span class="badge badge-${program.typeClass}">${program.type}</span></td>
-                                <td>
-                                    <div class="action-buttons">
-                                        <button class="btn-action btn-edit" data-program-id="${program.id}" title="Modifier">
-                                            <i class="fas fa-edit"></i>
-                                        </button>
-                                        <button class="btn-action btn-delete" data-program-id="${program.id}" title="Supprimer">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        `;
+                        </tr>`;
                     });
                 }
             });
-            
-            // Configurer les écouteurs d'événements
+
+            document.getElementById('programCount').textContent = total + ' émission' + (total > 1 ? 's' : '') + ' planifiée' + (total > 1 ? 's' : '');
             setupEventListeners();
         }
 
-        // Fonction pour réinitialiser les écouteurs d'événements
         function setupEventListeners() {
-            // Supprimer les anciens écouteurs
             document.querySelectorAll('.btn-edit').forEach(btn => {
                 btn.replaceWith(btn.cloneNode(true));
             });
             document.querySelectorAll('.btn-delete').forEach(btn => {
                 btn.replaceWith(btn.cloneNode(true));
             });
-            
-            // Ajouter les nouveaux écouteurs
             document.querySelectorAll('.btn-edit').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const programId = this.getAttribute('data-program-id');
-                    editProgram(programId);
-                });
+                btn.addEventListener('click', () => editProgram(btn.getAttribute('data-program-id')));
             });
-            
             document.querySelectorAll('.btn-delete').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const programId = this.getAttribute('data-program-id');
-                    deleteProgram(programId);
-                });
+                btn.addEventListener('click', () => deleteProgram(btn.getAttribute('data-program-id')));
             });
         }
 
-        // Fonction pour ouvrir le modal d'ajout
         function showAddModal() {
             currentEditId = null;
-            document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus me-2"></i>Ajouter un programme';
+            document.getElementById('modalTitle').textContent = 'Ajouter un programme';
+            document.getElementById('modalSub').textContent = 'Remplissez les informations ci-dessous';
+            document.getElementById('modalIcon').className = 'fas fa-plus';
             document.getElementById('programForm').reset();
             document.getElementById('programId').value = '';
-            document.getElementById('saveButton').textContent = 'Ajouter';
-            document.getElementById('programModal').style.display = 'flex';
+            document.getElementById('saveButtonText').textContent = 'Ajouter';
+            document.getElementById('programModal').classList.add('show');
         }
 
-        // Fonction pour éditer un programme
         function editProgram(id) {
-            console.log('🔧 editProgram appelé avec ID:', id, 'type:', typeof id);
-            const program = programs.find(p => p.id == id || p.id == parseInt(id) || p.id == id.toString());
-            console.log('🔍 Programme trouvé:', program);
-            if (program) {
-                currentEditId = id;
-                document.getElementById('modalTitle').innerHTML = '<i class="fas fa-edit me-2"></i>Modifier le programme';
-                document.getElementById('programId').value = program.id;
-                document.getElementById('originalJour').value = program.jour;
-                document.getElementById('originalHeure').value = program.heure;
-                document.getElementById('programJour').value = program.jour;
-                document.getElementById('programHeure').value = program.heure;
-                document.getElementById('programEmission').value = program.emission;
-                document.getElementById('programType').value = program.type;
-                document.getElementById('saveButton').textContent = 'Enregistrer';
-                document.getElementById('programModal').style.display = 'flex';
-            } else {
-                console.error('❌ Programme non trouvé pour ID:', id);
-                console.error('🔍 Programmes disponibles:', programs.map(p => ({ id: p.id, type: typeof p.id })));
-            }
+            const program = programs.find(p => p.id == id);
+            if (!program) { showToast('Programme non trouvé. Actualisez la page.', 'error'); return; }
+            currentEditId = id;
+            document.getElementById('modalTitle').textContent = 'Modifier le programme';
+            document.getElementById('modalSub').textContent = program.emission;
+            document.getElementById('modalIcon').className = 'fas fa-edit';
+            document.getElementById('programId').value = program.id;
+            document.getElementById('originalJour').value = program.jour;
+            document.getElementById('originalHeure').value = program.heure;
+            document.getElementById('programJour').value = program.jour;
+            document.getElementById('programHeure').value = program.heure;
+            document.getElementById('programEmission').value = program.emission;
+            document.getElementById('programType').value = program.type;
+            document.getElementById('saveButtonText').textContent = 'Enregistrer';
+            document.getElementById('programModal').classList.add('show');
         }
 
-        // Fonction pour supprimer un programme (ouvrir le modal de confirmation)
         function deleteProgram(id) {
-            console.log('🗑️ deleteProgram appelé avec ID:', id, 'type:', typeof id);
-            console.log('🔍 Tableau programmes actuel:', programs.map(p => ({ id: p.id, type: typeof p.id, emission: p.emission })));
-            
-            const program = programs.find(p => p.id == id || p.id == parseInt(id) || p.id == id.toString());
-            console.log('🔍 Programme trouvé:', program);
-            
-            // Vérifier si c'est un ID généré localement (non numérique ou undefined)
             if (!id || id === 'undefined' || isNaN(parseInt(id))) {
-                console.error('❌ ID invalide pour suppression:', id);
-                showAlert('Ce programme ne peut pas être supprimé car il n\'a pas d\'ID valide. Veuillez actualiser la page.', 'error');
-                return;
+                showToast('ID invalide. Actualisez la page.', 'error'); return;
             }
-            
-            if (program) {
-                currentDeleteId = id;
-                document.getElementById('deleteDetails').textContent = `${program.jour} à ${program.heure} - ${program.emission}`;
-                document.getElementById('deleteModal').style.display = 'flex';
-            } else {
-                console.error('❌ Programme non trouvé pour ID:', id);
-                console.error('🔍 Programmes disponibles:', programs.map(p => ({ id: p.id, type: typeof p.id, emission: p.emission })));
-                showAlert('Programme non trouvé. Veuillez actualiser la page.', 'error');
-            }
+            const program = programs.find(p => p.id == id);
+            if (!program) { showToast('Programme non trouvé. Actualisez la page.', 'error'); return; }
+            currentDeleteId = id;
+            document.getElementById('deleteDetails').textContent = `${program.jour} à ${program.heure} — ${program.emission}`;
+            document.getElementById('deleteModal').classList.add('show');
         }
 
-        // Fonction pour confirmer la suppression
         async function confirmDelete() {
-            if (currentDeleteId) {
-                console.log('🗑️ confirmDelete appelé avec ID:', currentDeleteId, 'type:', typeof currentDeleteId);
-                try {
-                    // Appeler l'API pour supprimer le programme
-                    const response = await fetch(`/admin/schedule/program/${currentDeleteId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        credentials: 'include'
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        // Supprimer le programme du tableau local avec comparaison flexible
-                        const initialLength = programs.length;
-                        programs = programs.filter(p => p.id != currentDeleteId); // Utiliser != au lieu de !==
-                        console.log('🗑️ Suppression du programme - Avant:', initialLength, 'Après:', programs.length);
-                        
-                        // Synchroniser avec la base de données pour s'assurer que tout est cohérent
-                        setTimeout(() => {
-                            syncPrograms();
-                        }, 500);
-                        
-                        // Afficher un message de succès
-                        showAlert('Programme supprimé avec succès', 'success');
-                        
-                        // Fermer le modal
-                        closeDeleteModal();
-                        currentDeleteId = null;
-                    } else {
-                        showAlert('Erreur lors de la suppression: ' + (data.error || 'Erreur inconnue'), 'error');
-                    }
-                } catch (error) {
-                    console.error('Erreur:', error);
-                    showAlert('Erreur serveur lors de la suppression', 'error');
-                }
-            }
-        }
-
-        // Fonction pour fermer le modal d'édition/ajout
-        function closeModal() {
-            document.getElementById('programModal').style.display = 'none';
-        }
-
-        // Fonction pour fermer le modal de suppression
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-            currentDeleteId = null;
-        }
-
-        // Fonction pour générer un ID unique
-        function generateId() {
-            return Date.now().toString(36) + Math.random().toString(36).substr(2);
-        }
-
-        // Fonction pour obtenir la classe CSS du type
-        function getTypeClass(type) {
-            const typeMap = {
-                'Information': 'information',
-                'Décryptage': 'decryptage',
-                'Débat': 'debats',
-                'Sociétal': 'societe',
-                'Éducatif': 'education',
-                'Jeunesse': 'jeunesse',
-                'Environnement': 'environnement',
-                'Culture': 'culture',
-                'Économie': 'economie',
-                'Sport': 'sport'
-            };
-            return typeMap[type] || 'default';
-        }
-
-        // Fonction pour vérifier si un programme existe déjà (même jour et même heure)
-        function programExists(jour, heure, excludeId = null) {
-            return programs.some(p => 
-                p.jour === jour && 
-                p.heure === heure && 
-                (excludeId ? p.id !== excludeId : true)
-            );
-        }
-
-        // Gestionnaire de soumission du formulaire
-        document.getElementById('programForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const jour = document.getElementById('programJour').value;
-            const heure = document.getElementById('programHeure').value;
-            const emission = document.getElementById('programEmission').value;
-            const type = document.getElementById('programType').value;
-            
-            // Validation
-            if (!jour || !heure || !emission || !type) {
-                showAlert('Veuillez remplir tous les champs', 'error');
-                return;
-            }
-            
-            const typeClass = getTypeClass(type);
-            const programId = document.getElementById('programId').value;
-            
+            if (!currentDeleteId) return;
             try {
-                if (programId) {
-                    // Mode édition - Appeler l'API PUT
-                    const originalJour = document.getElementById('originalJour').value;
-                    const originalHeure = document.getElementById('originalHeure').value;
-                    
-                    // Vérifier si on change le jour ou l'heure
-                    if (jour !== originalJour || heure !== originalHeure) {
-                        if (programExists(jour, heure, programId)) {
-                            showAlert('Un programme existe déjà à ce jour et cette heure', 'error');
-                            return;
-                        }
-                    }
-                    
-                    const response = await fetch(`/admin/schedule/program/${programId}`, {
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            title: emission,
-                            type: type,
-                            time: heure,
-                            presenter: 'TELEX',
-                            isActive: true,
-                            date: new Date().toISOString().split('T')[0],
-                            jour: jour
-                        }),
-                        credentials: 'include'
-                    });
-                    
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        // Mettre à jour le programme dans le tableau local avec comparaison flexible
-                        const index = programs.findIndex(p => p.id == programId); // Utiliser == au lieu de ===
-                        if (index !== -1) {
-                            programs[index] = {
-                                ...programs[index],
-                                jour,
-                                heure,
-                                emission,
-                                type,
-                                typeClass
-                            };
-                            console.log('✅ Programme modifié:', programs[index]);
-                        }
-                        showAlert('Programme modifié avec succès', 'success');
-                    } else {
-                        showAlert('Erreur lors de la modification: ' + (data.error || 'Erreur inconnue'), 'error');
-                        return;
-                    }
-                } else {
-                    // Mode ajout - Appeler l'API POST
-                    // Vérifier si un programme existe déjà à ce jour et cette heure
-                    if (programExists(jour, heure)) {
-                        showAlert('Un programme existe déjà à ce jour et cette heure', 'error');
-                        return;
-                    }
-                    
-                    const response = await fetch('/admin/schedule/program', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            title: emission,
-                            type: type,
-                            time: heure,
-                            presenter: 'TELEX',
-                            isActive: true,
-                            date: new Date().toISOString().split('T')[0],
-                            jour: jour
-                        }),
-                        credentials: 'include'
-                    });
-                    
-                    const data = await response.json();
-                    console.log('🔍 DEBUG - Réponse API ajout:', data);
-                    
-                    if (data.success) {
-                        // Ajouter le nouveau programme au tableau local
-                        const newProgram = {
-                            id: data.id, // Utiliser systématiquement l'ID retourné par l'API
-                            jour,
-                            heure,
-                            emission,
-                            type,
-                            typeClass
-                        };
-                        
-                        // Validation de l'ID
-                        if (!data.id || data.id === 'undefined' || isNaN(parseInt(data.id))) {
-                            console.error('❌ ID invalide retourné par l\'API:', data.id);
-                            showAlert('Erreur lors de l\'ajout: ID invalide retourné par le serveur', 'error');
-                            return;
-                        }
-                        
-                        programs.push(newProgram);
-                        console.log('✅ Programme ajouté avec ID:', data.id, 'type:', typeof data.id, newProgram);
-                        console.log('📊 Tableau programmes après ajout:', programs.map(p => ({ id: p.id, type: typeof p.id, emission: p.emission })));
-                        showAlert('Programme ajouté avec succès', 'success');
-                    } else {
-                        showAlert('Erreur lors de l\'ajout: ' + (data.error || 'Erreur inconnue'), 'error');
-                        return;
-                    }
-                }
-                
-                // Synchroniser avec la base de données pour s'assurer que tout est cohérent
-                setTimeout(() => {
-                    syncPrograms();
-                }, 500);
-                
-                // Fermer le modal
-                closeModal();
-            } catch (error) {
-                console.error('Erreur:', error);
-                showAlert('Erreur serveur lors de l\'enregistrement', 'error');
-            }
-        });
-
-        // Fonction pour afficher une alerte
-        function showAlert(message, type) {
-            const alertContainer = document.getElementById('alertContainer');
-            const alertDiv = document.createElement('div');
-            alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'error'}`;
-            alertDiv.innerHTML = `
-                <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'} me-2"></i>
-                ${message}
-            `;
-            
-            alertContainer.appendChild(alertDiv);
-            
-            setTimeout(() => {
-                alertDiv.remove();
-            }, 3000);
-        }
-
-        // Fonction pour synchroniser les programmes avec la base de données
-        async function syncPrograms() {
-            console.log('🔄 Synchronisation des programmes avec la base de données...');
-            try {
-                const response = await fetch('/admin/schedule/api/programs', {
+                const response = await fetch(`/admin/schedule/program/${currentDeleteId}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
                     credentials: 'include'
                 });
                 const data = await response.json();
-                
                 if (data.success) {
-                    programs = data.programs;
-                    console.log('✅ Programmes synchronisés:', programs.length);
-                    displayPrograms();
-                    setupEventListeners();
+                    programs = programs.filter(p => p.id != currentDeleteId);
+                    closeDeleteModal();
+                    showToast('Programme supprimé avec succès', 'success');
+                    setTimeout(syncPrograms, 500);
                 } else {
-                    console.error('❌ Erreur de synchronisation:', data);
+                    showToast('Erreur : ' + (data.error || 'Erreur inconnue'), 'error');
                 }
-            } catch (error) {
-                console.error('❌ Erreur lors de la synchronisation:', error);
+            } catch (e) {
+                showToast('Erreur serveur lors de la suppression', 'error');
             }
         }
 
-        // Fonction pour nettoyer les programmes invalides et recharger depuis la base
-        function cleanupAndReload() {
-            console.log('🧹 Nettoyage des programmes invalides...');
-            // Filtrer les programmes qui ont des ID valides (numériques)
-            const validPrograms = programs.filter(p => !isNaN(parseInt(p.id)));
-            console.log('📊 Programmes valides:', validPrograms.length, 'sur', programs.length);
-            
-            if (validPrograms.length !== programs.length) {
-                showAlert('Nettoyage des programmes locaux non sauvegardés', 'info');
-            }
-            
-            // Recharger depuis la base de données
-            loadPrograms();
+        function closeModal() { document.getElementById('programModal').classList.remove('show'); }
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.remove('show');
+            currentDeleteId = null;
         }
 
-        // Fermer les modals en cliquant en dehors
-        window.onclick = function(event) {
-            const editModal = document.getElementById('programModal');
-            const deleteModal = document.getElementById('deleteModal');
-            
-            if (event.target === editModal) {
+        function getTypeClass(type) {
+            const map = {
+                'Information':'information','Décryptage':'decryptage','Débat':'debats',
+                'Sociétal':'societe','Éducatif':'education','Jeunesse':'jeunesse',
+                'Environnement':'environnement','Culture':'culture','Économie':'economie','Sport':'sport'
+            };
+            return map[type] || 'default';
+        }
+
+        function programExists(jour, heure, excludeId = null) {
+            return programs.some(p => p.jour === jour && p.heure === heure && (excludeId ? p.id != excludeId : true));
+        }
+
+        document.getElementById('programForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const jour     = document.getElementById('programJour').value;
+            const heure    = document.getElementById('programHeure').value;
+            const emission = document.getElementById('programEmission').value;
+            const type     = document.getElementById('programType').value;
+            if (!jour || !heure || !emission || !type) { showToast('Veuillez remplir tous les champs', 'error'); return; }
+
+            const typeClass = getTypeClass(type);
+            const programId = document.getElementById('programId').value;
+
+            try {
+                if (programId) {
+                    const originalJour  = document.getElementById('originalJour').value;
+                    const originalHeure = document.getElementById('originalHeure').value;
+                    if ((jour !== originalJour || heure !== originalHeure) && programExists(jour, heure, programId)) {
+                        showToast('Un programme existe déjà à ce jour et cette heure', 'error'); return;
+                    }
+                    const res  = await fetch(`/admin/schedule/program/${programId}`, {
+                        method:'PUT', headers:{'Content-Type':'application/json'},
+                        body: JSON.stringify({ title:emission, type, time:heure, presenter:'TELEX', isActive:true, date:new Date().toISOString().split('T')[0], jour }),
+                        credentials:'include'
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        const idx = programs.findIndex(p => p.id == programId);
+                        if (idx !== -1) programs[idx] = { ...programs[idx], jour, heure, emission, type, typeClass };
+                        showToast('Programme modifié avec succès', 'success');
+                    } else { showToast('Erreur : ' + (data.error || 'Erreur inconnue'), 'error'); return; }
+                } else {
+                    if (programExists(jour, heure)) { showToast('Un programme existe déjà à ce jour et cette heure', 'error'); return; }
+                    const res  = await fetch('/admin/schedule/program', {
+                        method:'POST', headers:{'Content-Type':'application/json'},
+                        body: JSON.stringify({ title:emission, type, time:heure, presenter:'TELEX', isActive:true, date:new Date().toISOString().split('T')[0], jour }),
+                        credentials:'include'
+                    });
+                    const data = await res.json();
+                    if (data.success) {
+                        if (!data.id || isNaN(parseInt(data.id))) { showToast('Erreur : ID invalide retourné', 'error'); return; }
+                        programs.push({ id:data.id, jour, heure, emission, type, typeClass });
+                        showToast('Programme ajouté avec succès', 'success');
+                    } else { showToast('Erreur : ' + (data.error || 'Erreur inconnue'), 'error'); return; }
+                }
+                setTimeout(syncPrograms, 500);
                 closeModal();
+            } catch (e) {
+                showToast('Erreur serveur lors de l\'enregistrement', 'error');
             }
-            if (event.target === deleteModal) {
-                closeDeleteModal();
-            }
-        };
-
-        // Charger les programmes au chargement de la page
-        document.addEventListener('DOMContentLoaded', function() {
-            loadPrograms();
-            // Nettoyer les programmes invalides après le chargement
-            setTimeout(cleanupAndReload, 1000);
         });
 
-        // Initialiser l'affichage
-        displayPrograms();
+        async function syncPrograms() {
+            try {
+                const res  = await fetch('/admin/schedule/api/programs', { credentials:'include' });
+                const data = await res.json();
+                if (data.success) { programs = data.programs; displayPrograms(); }
+            } catch(e) {}
+        }
+
+        function showToast(message, type) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = { success:'check-circle', error:'exclamation-circle', info:'info-circle' };
+            toast.innerHTML = `<i class="fas fa-${icons[type]||'info-circle'}"></i><span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity='0'; toast.style.transform='translateX(30px)'; toast.style.transition='all .3s'; setTimeout(() => toast.remove(), 300); }, 3000);
+        }
+
+        // Fermer modal en cliquant sur l'overlay
+        document.getElementById('programModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+        document.getElementById('deleteModal').addEventListener('click',  function(e) { if (e.target === this) closeDeleteModal(); });
+
+        function openSidebar()  { document.querySelector('.sidebar').classList.add('open'); document.getElementById('sidebarOverlay').classList.add('show'); }
+        function closeSidebar() { document.querySelector('.sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').classList.remove('show'); }
+
+        document.addEventListener('DOMContentLoaded', loadPrograms);
     </script>
 </body>
 </html>

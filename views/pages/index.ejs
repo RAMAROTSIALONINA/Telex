@@ -25,7 +25,7 @@
     <style>
         /* === CARTES ACTUALITES ACCUEIL === */
         .news-home-card {
-            background: white;
+            background: #ffffff !important;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 2px 12px rgba(0,0,0,0.07);
@@ -73,89 +73,136 @@
             letter-spacing: 0.5px;
         }
         .news-home-body {
-            padding: 16px;
-            display: flex; flex-direction: column; flex: 1;
+            padding: 10px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
         }
-        .news-home-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: #1D3557;
-            line-height: 1.45;
-            margin-bottom: 12px;
-            flex: 1;
-        }
-        .news-home-date {
-            font-size: 0.78rem;
-            color: #999;
-            margin-bottom: 12px;
+        .news-home-date-bar {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.62));
+            color: #fff;
+            font-size: 0.75rem;
+            padding: 18px 10px 8px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         .news-home-link {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 600;
             color: #dc3545;
             text-decoration: none;
+            white-space: nowrap;
         }
         .news-home-link:hover { text-decoration: underline; }
 
-        /* Banniere cookies */
+        /* ===== BANNIÈRE COOKIES ===== */
         .cookie-consent-banner {
             position: fixed;
             bottom: 20px;
-            right: 20px;
-            width: 340px;
-            height: auto;
-            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: fit-content;
+            max-width: 640px;
+            min-width: 300px;
+            background: linear-gradient(135deg, #22385B 0%, #457B9D 100%);
             color: white;
-            padding: 20px;
+            padding: 12px 20px;
             z-index: 9999;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
-            border: 2px solid #ffffff;
-            border-radius: 15px;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.3);
+            border-radius: 12px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            animation: slideInRight 0.5s ease;
+            align-items: center;
+            gap: 14px;
+            pointer-events: auto;
+            opacity: 0;
+            transition: opacity 0.4s ease;
         }
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to   { transform: translateX(0);    opacity: 1; }
+        .cookie-consent-banner.visible {
+            opacity: 1;
         }
-        @keyframes slideOutRight {
-            from { transform: translateX(0);    opacity: 1; }
-            to   { transform: translateX(100%); opacity: 0; }
+        @media (max-width: 660px) {
+            .cookie-consent-banner { left: 12px; right: 12px; width: auto; max-width: calc(100% - 24px); }
         }
-        .cookie-consent-content { display: flex; flex-direction: column; gap: 12px; }
-        .cookie-consent-icon { font-size: 2rem; color: #fff; margin-bottom: 8px; }
-        .cookie-consent-text { text-align: center; }
-        .cookie-consent-text h4 { margin: 0 0 8px 0; font-size: 0.95rem; font-weight: 600; }
-        .cookie-consent-text p  { margin: 0; font-size: 0.82rem; line-height: 1.4; opacity: 0.9; }
-        .cookie-link { color: #fff; text-decoration: none; font-weight: 500; }
-        .cookie-link:hover { text-decoration: underline; }
-        .cookie-consent-buttons { display: flex; flex-direction: column; gap: 6px; }
+        .cookie-consent-text { flex: 1; margin: 0; font-size: 0.76rem; line-height: 1.4; opacity: 0.92; }
+        .cookie-link { color: #fff; text-decoration: underline; font-weight: 500; }
+        .cookie-link:hover { opacity: 0.8; }
+        .cookie-consent-buttons { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
         .btn-accept-all {
-            background: #28a745; color: white; border: none;
-            padding: 9px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 500; transition: all 0.3s ease;
+            background: #E63946; color: white; border: none;
+            padding: 4px 12px; border-radius: 5px; font-size: 0.72rem; font-weight: 700;
+            cursor: pointer; transition: background 0.2s ease; white-space: nowrap;
         }
-        .btn-accept-all:hover { background: #218838; transform: translateY(-1px); }
+        .btn-accept-all:hover { background: #c0303b; }
         .btn-accept-necessary {
-            background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3);
-            padding: 9px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 500; transition: all 0.3s ease;
+            background: rgba(255,255,255,0.15); color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 4px 12px; border-radius: 5px; font-size: 0.72rem; font-weight: 600;
+            cursor: pointer; transition: background 0.2s ease; white-space: nowrap;
         }
-        .btn-accept-necessary:hover { background: rgba(255,255,255,0.3); }
+        .btn-accept-necessary:hover { background: rgba(255,255,255,0.25); }
         .btn-customize {
-            background: transparent; color: white; border: 1px solid rgba(255,255,255,0.5);
-            padding: 9px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 500; transition: all 0.3s ease;
+            background: transparent; color: rgba(255,255,255,0.6);
+            border: none; font-size: 0.68rem; font-weight: 500;
+            cursor: pointer; text-decoration: underline; white-space: nowrap; padding: 0;
         }
-        .btn-customize:hover { background: rgba(255,255,255,0.1); border-color: white; }
+        .btn-customize:hover { color: #fff; }
         .cookie-category { border: 1px solid #e9ecef; border-radius: 8px; padding: 12px; margin-bottom: 12px; }
         .category-header { display: flex; justify-content: space-between; align-items: center; }
         .category-info h6 { margin: 0; font-weight: 600; }
         .category-info p  { margin: 4px 0 0; font-size: 0.82rem; }
         .cookie-test-btn.hidden { display: none !important; }
 
-        @media (max-width: 480px) {
-            .cookie-consent-banner { width: calc(100vw - 20px); right: 10px; bottom: 10px; padding: 15px; }
+        @media (max-width: 600px) {
+            .cookie-consent-banner { flex-direction: column; align-items: flex-start; padding: 14px 16px; gap: 10px; }
+            .cookie-consent-buttons { flex-wrap: wrap; width: 100%; }
+            .btn-accept-all, .btn-accept-necessary { flex: 1; text-align: center; }
         }
+
+        /* === BAUME DE LA FOI — groupes === */
+        .baume-group-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 0.85rem;
+        }
+        .baume-label-reflexion {
+            background: rgba(245, 158, 11, 0.13);
+            color: #b45309;
+        }
+        .baume-label-priere {
+            background: rgba(99, 102, 241, 0.12);
+            color: #4f46e5;
+        }
+        @media (min-width: 992px) {
+            .baume-col-left  { border-right: 1px solid rgba(0,0,0,0.08); padding-right: 1.25rem; }
+            .baume-col-right { padding-left: 1.25rem; }
+        }
+
+        /* === SCROLL REVEAL === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+        .reveal.reveal-left  { transform: translateX(-44px); }
+        .reveal.reveal-right { transform: translateX(44px); }
+        .reveal.visible { opacity: 1; transform: none; }
+        @media (prefers-reduced-motion: reduce) {
+            .reveal, .reveal.reveal-left, .reveal.reveal-right {
+                opacity: 1; transform: none; transition: none;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -256,15 +303,14 @@
     <!-- Section Dernières Actualités -->
     <section class="section section-programs" id="section-news">
         <div class="container">
-            <h2 class="section-title" data-translate="home.latest_news">Dernières Actualités</h2>
-            <p class="section-subtitle" data-translate="home.news_subtitle">Découvrez nos derniers articles et productions vidéo</p>
+            <h2 class="section-title reveal" data-translate="home.latest_news">Dernières Actualités</h2>
+            <p class="section-subtitle reveal" data-delay="100" data-translate="home.news_subtitle">Découvrez nos derniers articles et productions vidéo</p>
             
             <div class="row g-3">
                 <% if (news && news.length > 0) { %>
-                    <% news.slice(0, 4).forEach((article, index) => { %>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
+                    <% news.slice(0, 8).forEach((article, index) => { %>
+                    <div class="col-lg-3 col-md-6 col-sm-6 reveal" data-delay="<%= index * 60 %>">
                         <div class="news-home-card">
-                            <!-- Image en haut -->
                             <div class="news-home-img">
                                 <% if (article.image_url) { %>
                                     <img src="<%= article.image_url %>" alt="<%= article.title %>">
@@ -280,14 +326,12 @@
                                 <% if (article.category) { %>
                                     <span class="news-home-badge"><%= article.category %></span>
                                 <% } %>
-                            </div>
-                            <!-- Titre et infos en dessous -->
-                            <div class="news-home-body">
-                                <h3 class="news-home-title"><%= article.title.length > 80 ? article.title.substring(0, 80) + '...' : article.title %></h3>
-                                <div class="news-home-date">
-                                    <i class="far fa-calendar me-1"></i>
+                                <div class="news-home-date-bar">
+                                    <i class="far fa-calendar"></i>
                                     <%= new Date(article.created_at).toLocaleDateString('fr-FR') %>
                                 </div>
+                            </div>
+                            <div class="news-home-body">
                                 <a href="/news/<%= article.id %>" class="news-home-link">Lire la suite →</a>
                             </div>
                         </div>
@@ -387,17 +431,147 @@
         </div>
     </section>
 
-    <!-- Section Réflexions et Prières -->
+    <!-- Section À propos -->
+    <section class="section section-about bg-light">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 reveal reveal-left">
+                    <h2 class="section-title" data-translate="home.who_are_we">Qui sommes-nous ?</h2>
+                    <p data-translate="home.about_text">
+                        Telex est une télévision jeune, dynamique et engagée, 
+                        portée par des étudiants et destinée à la jeunesse. 
+                        Fondée en 2024, notre équipe compte plus de 50 étudiants 
+                        bénévoles passionnés par l'audiovisuel.
+                    </p>
+                    <ul class="about-list">
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.student_led">100% étudiant</span></li>
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.professional_training">Formation professionnelle</span></li>
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.engaged_content">Contenus engagés</span></li>
+                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.active_community">Communauté active</span></li>
+                    </ul>
+                    <a href="/about" class="btn btn-outline-primary" data-translate="home.learn_more">En savoir plus sur nous</a>
+                </div>
+                <div class="col-lg-6 reveal reveal-right">
+                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                         alt="Studio TELEX" class="img-fluid rounded shadow">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section section-programs" id="section-baume">
+        <div class="container">
+            <h2 class="section-title reveal" data-translate="home.baume_title">Baume de la Foi</h2>
+            <p class="section-subtitle reveal" data-delay="100" data-translate="home.baume_subtitle">Découvrez les derniers contenus spirituels pour nourrir votre foi</p>
+            
+            <div class="row g-4">
+
+                <!-- ── Groupe Réflexions ── -->
+                <div class="col-lg-6 baume-col-left reveal" data-delay="0">
+                    <div class="baume-group-label baume-label-reflexion">
+                        <i class="fas fa-lightbulb"></i> Réflexions
+                    </div>
+                    <div class="row g-3">
+                        <% if (reflexions && reflexions.length > 0) { %>
+                            <% reflexions.slice(0, 2).forEach((r, i) => { %>
+                            <div class="col-6">
+                                <div class="news-home-card">
+                                    <div class="news-home-img">
+                                        <% if (r.image_url && r.image_url.trim() !== '') { %>
+                                            <img src="<%= r.image_url %>" alt="<%= r.title %>">
+                                        <% } else if (r.video_url && r.video_url.trim() !== '' && /\.(mp4|webm|ogg|mov|avi)$/i.test(r.video_url)) { %>
+                                            <video preload="metadata" muted>
+                                                <source src="<%= r.video_url %>" type="video/mp4">
+                                            </video>
+                                        <% } else { %>
+                                            <img src="/images/Hero.png" alt="<%= r.title %>">
+                                        <% } %>
+                                        <span class="news-home-badge"><i class="fas fa-lightbulb me-1"></i>Réflexion</span>
+                                        <div class="news-home-date-bar">
+                                            <i class="far fa-calendar"></i>
+                                            <%= new Date(r.publication_date || r.created_at).toLocaleDateString('fr-FR') %>
+                                        </div>
+                                    </div>
+                                    <div class="news-home-body">
+                                        <a href="/baume-de-la-foi#reflexions" class="news-home-link">Lire →</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="col-12 text-center py-3">
+                                <i class="fas fa-lightbulb fa-lg text-muted mb-2 d-block"></i>
+                                <p class="text-muted small mb-0">Aucune réflexion disponible</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <!-- ── Groupe Prières ── -->
+                <div class="col-lg-6 baume-col-right reveal" data-delay="150">
+                    <div class="baume-group-label baume-label-priere">
+                        <i class="fas fa-pray"></i> Prières
+                    </div>
+                    <div class="row g-3">
+                        <% if (prieres && prieres.length > 0) { %>
+                            <% prieres.slice(0, 2).forEach((p, i) => { %>
+                            <div class="col-6">
+                                <div class="news-home-card">
+                                    <div class="news-home-img">
+                                        <% if (p.image_url && p.image_url.trim() !== '') { %>
+                                            <img src="<%= p.image_url %>" alt="<%= p.title %>">
+                                        <% } else if (p.video_url && p.video_url.trim() !== '' && /\.(mp4|webm|ogg|mov|avi)$/i.test(p.video_url)) { %>
+                                            <video preload="metadata">
+                                                <source src="<%= p.video_url %>" type="video/mp4">
+                                            </video>
+                                        <% } else if (p.video_url && p.video_url.trim() !== '') { %>
+                                            <img src="<%= p.video_url %>" alt="<%= p.title %>">
+                                        <% } else { %>
+                                            <img src="/images/Pri%C3%A8re.png" alt="<%= p.title %>">
+                                        <% } %>
+                                        <span class="news-home-badge"><i class="fas fa-pray me-1"></i>Prière</span>
+                                        <div class="news-home-date-bar">
+                                            <i class="far fa-calendar"></i>
+                                            <%= new Date(p.created_at).toLocaleDateString('fr-FR') %>
+                                        </div>
+                                    </div>
+                                    <div class="news-home-body">
+                                        <a href="/baume-de-la-foi#prieres" class="news-home-link">Lire →</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <% }); %>
+                        <% } else { %>
+                            <div class="col-12 text-center py-3">
+                                <i class="fas fa-pray fa-lg text-muted mb-2 d-block"></i>
+                                <p class="text-muted small mb-0">Aucune prière disponible</p>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <a href="/baume-de-la-foi" class="btn btn-primary btn-lg">
+                        <i class="fas fa-cross me-2"></i><span data-translate="home.see_all_reflections">Voir toutes les réflexions et prières</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Section Programmes -->
     <section class="section section-programs" id="section-programs-main">
         <div class="container">
-            <h2 class="section-title" data-translate="home.featured_programs">Nos Programmes Phares</h2>
-            <p class="section-subtitle" data-translate="home.programs_subtitle">Explorez nos émissions, conçues par les étudiants et destinées aux étudiants</p>
-            
+            <h2 class="section-title reveal" data-translate="home.featured_programs">Nos Programmes Phares</h2>
+            <p class="section-subtitle reveal" data-delay="100" data-translate="home.programs_subtitle">Explorez nos émissions, conçues par les étudiants et destinées aux étudiants</p>
+
             <div class="row g-3">
                 <% if (programs && programs.length > 0) { %>
                     <% programs.slice(0, 5).forEach((program, index) => { %>
-                    <div class="col-lg-2-4">
+                    <div class="col-lg-2-4 reveal" data-delay="<%= index * 80 %>">
                         <div class="program-card">
                             <div class="program-icon">
                                 <% if (program.program_type) { %>
@@ -444,7 +618,7 @@
                             <a href="/programs#journal" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-2-4">
                         <div class="program-card">
                             <div class="program-image">
@@ -455,7 +629,7 @@
                             <a href="/programs#debat" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-2-4">
                         <div class="program-card">
                             <div class="program-image">
@@ -466,7 +640,7 @@
                             <a href="/programs#culture" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-2-4">
                         <div class="program-card">
                             <div class="program-image">
@@ -477,7 +651,7 @@
                             <a href="/programs#sports" class="program-link" data-translate="common.learn_more">En savoir plus →</a>
                         </div>
                     </div>
-                    
+
                     <div class="col-lg-2-4">
                         <div class="program-card">
                             <div class="program-image">
@@ -493,95 +667,11 @@
         </div>
     </section>
 
-    <!-- Section À propos -->
-    <section class="section section-about bg-light">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <h2 class="section-title" data-translate="home.who_are_we">Qui sommes-nous ?</h2>
-                    <p data-translate="home.about_text">
-                        Telex est une télévision jeune, dynamique et engagée, 
-                        portée par des étudiants et destinée à la jeunesse. 
-                        Fondée en 2024, notre équipe compte plus de 50 étudiants 
-                        bénévoles passionnés par l'audiovisuel.
-                    </p>
-                    <ul class="about-list">
-                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.student_led">100% étudiant</span></li>
-                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.professional_training">Formation professionnelle</span></li>
-                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.engaged_content">Contenus engagés</span></li>
-                        <li><i class="fas fa-check text-success me-2"></i><span data-translate="home.active_community">Communauté active</span></li>
-                    </ul>
-                    <a href="/about" class="btn btn-outline-primary" data-translate="home.learn_more">En savoir plus sur nous</a>
-                </div>
-                <div class="col-lg-6">
-                    <img src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
-                         alt="Studio TELEX" class="img-fluid rounded shadow">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section section-programs" id="section-baume">
-        <div class="container">
-            <h2 class="section-title" data-translate="home.baume_title">Baume de la Foi</h2>
-            <p class="section-subtitle" data-translate="home.baume_subtitle">Découvrez les derniers contenus spirituels pour nourrir votre foi</p>
-            
-            <div class="row g-3">
-                <%
-                const baumeItems = [
-                    ...(reflexions || []).map(r => ({ ...r, type: 'Réflexion', icon: 'fas fa-lightbulb', href: '/baume-de-la-foi#reflexions', defaultImg: '/images/Hero.png' })),
-                    ...(prieres || []).map(p => ({ ...p, type: 'Prière', icon: 'fas fa-pray', href: '/baume-de-la-foi#prieres', defaultImg: '/images/Prière.png' }))
-                ].slice(0, 4);
-                %>
-                <% if (baumeItems.length > 0) { %>
-                    <% baumeItems.forEach(item => { %>
-                    <div class="col-lg-3 col-md-6 col-sm-6">
-                        <div class="news-home-card">
-                            <div class="news-home-img">
-                                <% if (item.image_url && item.image_url.trim() !== '') { %>
-                                    <img src="<%= item.image_url %>" alt="<%= item.title %>">
-                                <% } else if (item.video_url && item.video_url.trim() !== '' && /\.(mp4|webm|ogg|mov|avi)$/i.test(item.video_url)) { %>
-                                    <video preload="metadata">
-                                        <source src="<%= item.video_url %>" type="video/mp4">
-                                    </video>
-                                <% } else { %>
-                                    <img src="<%= item.defaultImg %>" alt="<%= item.title %>">
-                                <% } %>
-                                <span class="news-home-badge"><i class="<%= item.icon %> me-1"></i><%= item.type %></span>
-                            </div>
-                            <div class="news-home-body">
-                                <h3 class="news-home-title"><%= item.title.length > 80 ? item.title.substring(0, 80) + '...' : item.title %></h3>
-                                <div class="news-home-date">
-                                    <i class="far fa-calendar me-1"></i>
-                                    <%= new Date(item.publication_date || item.created_at).toLocaleDateString('fr-FR') %>
-                                </div>
-                                <a href="<%= item.href %>" class="news-home-link">Lire la suite →</a>
-                            </div>
-                        </div>
-                    </div>
-                    <% }); %>
-                <% } else { %>
-                    <div class="col-12 text-center py-4">
-                        <i class="fas fa-cross fa-2x text-muted mb-3 d-block"></i>
-                        <p class="text-muted">Aucun contenu disponible pour le moment.</p>
-                    </div>
-                <% } %>
-            </div>
-            
-            <div class="row mt-4">
-                <div class="col-12 text-center">
-                    <a href="/baume-de-la-foi" class="btn btn-primary btn-lg">
-                        <i class="fas fa-cross me-2"></i><span data-translate="home.see_all_reflections">Voir toutes les réflexions et prières</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
     <!-- Section Contact -->
     <section class="section section-contact">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-lg-8 text-center">
+                <div class="col-lg-8 text-center reveal">
                     <h2 class="section-title" data-translate="home.join_adventure">Rejoignez l'aventure Telex</h2>
                     <p class="section-subtitle">
                         Vous êtes étudiant et passionné par l'audiovisuel et journaliste ? 
@@ -612,36 +702,36 @@
         programCards.forEach((card, index) => {
             card.style.animationDelay = `${index * 0.1}s`;
         });
+
+        // ── Scroll reveal ──
+        var revealEls = document.querySelectorAll('.reveal');
+        if (revealEls.length > 0 && 'IntersectionObserver' in window) {
+            var revealObs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (!entry.isIntersecting) return;
+                    var el = entry.target;
+                    var delay = parseInt(el.dataset.delay || '0', 10);
+                    setTimeout(function() { el.classList.add('visible'); }, delay);
+                    revealObs.unobserve(el);
+                });
+            }, { threshold: 0.12 });
+            revealEls.forEach(function(el) { revealObs.observe(el); });
+        } else {
+            revealEls.forEach(function(el) { el.classList.add('visible'); });
+        }
     });
     </script>
 
     <!-- Bannière de consentement Telex -->
     <div id="cookieConsent" class="cookie-consent-banner" style="display: none;">
-        <div class="cookie-consent-content">
-            <div class="cookie-consent-icon">
-                <i class="fas fa-shield-alt"></i>
-            </div>
-            <div class="cookie-consent-text">
-                <h4>🛡️ Consentement - Telex</h4>
-                <p>
-                    Telex utilise des cookies pour améliorer votre expérience, 
-                    analyser le trafic et personnaliser les contenus. 
-                    En continuant, vous acceptez notre 
-                    <a href="/privacy" class="cookie-link">politique de confidentialité</a> 
-                    et nos <a href="/cookies" class="cookie-link">pratiques cookies</a>.
-                </p>
-            </div>
-            <div class="cookie-consent-buttons">
-                <button id="acceptAllBtn" class="btn btn-accept-all">
-                    <i class="fas fa-check me-1"></i>Tout accepter
-                </button>
-                <button id="acceptNecessaryBtn" class="btn btn-accept-necessary">
-                    <i class="fas fa-shield-alt me-1"></i>Uniquement essentiel
-                </button>
-                <button id="customizeBtn" class="btn btn-customize">
-                    <i class="fas fa-cog me-1"></i>Personnaliser
-                </button>
-            </div>
+        <div class="cookie-consent-text">
+            <strong>🍪 Cookies</strong> — Telex utilise des cookies pour améliorer votre expérience et analyser le trafic.
+            <a href="/privacy" class="cookie-link">En savoir plus</a>.
+        </div>
+        <div class="cookie-consent-buttons">
+            <button id="acceptAllBtn" class="btn-accept-all">Accepter</button>
+            <button id="acceptNecessaryBtn" class="btn-accept-necessary">Refuser</button>
+            <button id="customizeBtn" class="btn-customize">Personnaliser</button>
         </div>
     </div>
 
@@ -760,34 +850,20 @@
             showBanner() {
                 const banner = document.getElementById('cookieConsent');
                 if (banner) {
-                    console.log('Affichage de la bannière de cookies...');
-                    banner.style.display = 'block';
-                    banner.style.visibility = 'visible';
-                    banner.style.opacity = '1';
-                    banner.style.position = 'fixed';
-                    banner.style.bottom = '0';
-                    banner.style.left = '0';
-                    banner.style.right = '0';
-                    banner.style.zIndex = '9999';
-                    
-                    // Forcer le reflow pour l'animation
+                    banner.style.display = 'flex';
+                    // Force reflow so the transition fires
                     banner.offsetHeight;
-                    
-                    setTimeout(() => {
-                        banner.style.animation = 'slideUp 0.5s ease';
-                    }, 100);
-                } else {
-                    console.error('Bannière de cookies non trouvée');
+                    banner.classList.add('visible');
                 }
             }
-            
+
             hideBanner() {
                 const banner = document.getElementById('cookieConsent');
                 if (banner) {
-                    banner.style.animation = 'slideOutRight 0.5s ease';
+                    banner.classList.remove('visible');
                     setTimeout(() => {
                         banner.style.display = 'none';
-                    }, 500);
+                    }, 420);
                 }
             }
             
@@ -940,32 +1016,6 @@
         }
         
         // Animation CSS
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideUp {
-                from {
-                    transform: translateY(100%);
-                    opacity: 0;
-                }
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
-            
-            @keyframes slideDown {
-                from {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-                to {
-                    transform: translateY(100%);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
-        
         // Initialiser la gestion des cookies
         document.addEventListener('DOMContentLoaded', function() {
             new CookieConsent();

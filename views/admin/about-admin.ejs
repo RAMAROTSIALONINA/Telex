@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -8,8 +8,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/baume-navbar.css">
     <style>
         :root {
             --telex-red: #E63946;
@@ -34,76 +32,68 @@
             color: #334155;
         }
         
-        /* Debug Info Styles */
-        .debug-info {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        /* ── Dash Header ── */
+        .dash-header { background:linear-gradient(135deg,#1D3557 0%,#2d4f7a 100%); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+        .dash-header-left { display:flex; align-items:center; gap:14px; }
+        .dash-header-logo { height:44px; width:auto; object-fit:contain; }
+        .dash-header-title { font-size:1.15rem; font-weight:700; color:#fff; line-height:1.3; }
+        .dash-header-sub { font-size:.8rem; color:rgba(255,255,255,.65); margin-top:2px; }
+        .dash-header-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+        .btn-dash-back { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:8px; padding:7px 14px; font-size:.85rem; font-weight:500; text-decoration:none; transition:background .2s; }
+        .btn-dash-back:hover { background:rgba(255,255,255,.22); color:#fff; }
+        .btn-dash-view { display:inline-flex; align-items:center; gap:7px; background:#10B981; color:#fff; border:none; border-radius:8px; padding:7px 14px; font-size:.85rem; font-weight:600; text-decoration:none; transition:background .2s; }
+        .btn-dash-view:hover { background:#059669; color:#fff; }
+
+        /* ── Content Area ── */
+        .content-area { padding:24px 28px; }
+        @media (max-width:576px) { .content-area { padding:14px; } }
+
+        /* ── Alert ── */
+        .flash-alert { padding:13px 18px; border-radius:10px; margin-bottom:18px; display:flex; align-items:center; gap:10px; font-size:.9rem; border-left:4px solid; }
+        .flash-success { background:#f0fdf4; border-color:#10B981; color:#065f46; }
+        .flash-error   { background:#fef2f2; border-color:#EF4444; color:#7f1d1d; }
+
+        /* ── Save bar ── */
+        .save-bar { background:#fff; border:1.5px solid #e2e8f0; border-radius:12px; padding:14px 20px; margin-bottom:20px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+        .save-bar-info { font-size:.85rem; color:#64748b; }
+        .btn-save { background:linear-gradient(135deg,#1D3557,#457B9D); color:#fff; border:none; border-radius:8px; padding:9px 22px; font-weight:600; font-size:.9rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all .2s; }
+        .btn-save:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(29,53,87,.3); }
+
+        /* ── Form Cards ── */
+        .form-card { background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1px solid #e2e8f0; margin-bottom:20px; overflow:hidden; }
+        .form-card-header { display:flex; align-items:center; gap:14px; padding:16px 22px 14px; border-bottom:1px solid #f1f5f9; background:#fafbfc; }
+        .form-card-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+        .form-card-title { font-size:.96rem; font-weight:700; color:#1e293b; }
+        .form-card-sub { font-size:.77rem; color:#64748b; margin-top:2px; }
+        .form-card-body { padding:20px 22px; }
+        .form-card-body .mb-3 { margin-bottom:16px !important; }
+
+        /* ── Team Member Cards ── */
+        .team-card { background:#f8fafc; border-radius:10px; padding:18px; margin-bottom:14px; border:1.5px solid #e2e8f0; }
+        .team-card-header { display:flex; align-items:center; gap:10px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid #e2e8f0; }
+        .team-card-header i { width:32px; height:32px; border-radius:8px; background:linear-gradient(135deg,#1D3557,#457B9D); color:#fff; display:flex; align-items:center; justify-content:center; font-size:.85rem; flex-shrink:0; }
+        .team-card-title { font-weight:700; color:#1e293b; font-size:.9rem; }
+
+        /* ── Stat inputs ── */
+        .stat-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+        @media (max-width:576px) { .stat-row { grid-template-columns:1fr; } }
+        .stat-item { background:#f8fafc; border-radius:10px; padding:14px 16px; border:1.5px solid #e2e8f0; }
+        .stat-item label { font-size:.75rem; font-weight:600; color:#64748b; text-transform:uppercase; letter-spacing:.05em; margin-bottom:6px; display:block; }
+        .stat-item input { width:100%; border:none; background:transparent; font-size:1.3rem; font-weight:700; color:#1D3557; outline:none; }
+
+        /* ── Form controls ── */
+        .form-label { font-weight:600; color:#374151; font-size:.85rem; margin-bottom:5px; }
+        .form-control, .form-select { border:1.5px solid #e2e8f0; border-radius:8px; padding:9px 12px; font-size:.9rem; background:#fff; transition:border-color .2s, box-shadow .2s; }
+        .form-control:focus, .form-select:focus { border-color:#457B9D; box-shadow:0 0 0 3px rgba(69,123,157,.12); outline:none; }
+        textarea.form-control { resize:vertical; min-height:100px; }
+        
+        /* Sidebar */
+        .sidebar {
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%);
             color: white;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 13px;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-        }
-        
-        .debug-info h4 {
-            margin: 0 0 10px 0;
-            font-size: 16px;
-            font-weight: 600;
-        }
-        
-        .debug-grid {
-            display: grid;
-            grid-template-columns: 200px 1fr;
-            gap: 8px;
-            align-items: center;
-        }
-        
-        .debug-item strong {
-            color: #ffd700;
-            font-weight: 600;
-        }
-        
-        .debug-value {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-weight: 500;
-        }
-        
-        .debug-success {
-            background: rgba(40, 167, 69, 0.2);
-            color: #28a745;
-            border: 1px solid #28a745;
-        }
-        
-        .debug-warning {
-            background: rgba(255, 193, 7, 0.2);
-            color: #ffc107;
-            border: 1px solid #ffc107;
-        }
-        
-        .debug-error {
-            background: rgba(220, 53, 69, 0.2);
-            color: #dc3545;
-            border: 1px solid #dc3545;
-        }
-        
-        .debug-missing {
-            margin-top: 10px;
-            padding: 10px;
-            background: rgba(220, 53, 69, 0.1);
-            border: 1px solid #dc3545;
-            border-radius: 4px;
-            font-size: 12px;
-        }
-        
-        /* Sidebar améliorée */
-        html body .sidebar { 
-            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%) !important; 
-            color: white !important; 
-            width: var(--sidebar-width); 
-            height: 100vh; 
-            position: fixed; 
+            width: var(--sidebar-width);
+            height: 100vh;
+            position: fixed;
             left: 0;
             top: 0;
             padding: 0;
@@ -111,119 +101,26 @@
             box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
-            transition: all 0.3s ease;
         }
         
-        .sidebar:hover {
-            box-shadow: 8px 0 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .sidebar-brand {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .sidebar-logo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .sidebar-logo img {
-            max-width: 120px;
-            height: auto;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-            transition: transform 0.3s ease;
-        }
-        
-        .sidebar-logo img:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Responsive pour mobile */
-        @media (max-width: 768px) {
-            .sidebar-logo img {
-                max-width: 80px;
-                margin-bottom: 10px;
-            }
-            
-            .sidebar-logo .brand-text {
-                font-size: 1.2rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .sidebar-logo img {
-                max-width: 60px;
-                margin-bottom: 8px;
-            }
-            
-            .sidebar-logo .brand-text {
-                font-size: 1rem;
-            }
-        }
-        
-        .sidebar-logo .brand-text {
-            color: white;
-            font-weight: 700;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            letter-spacing: 0.5px;
-        }
-        
-        .sidebar-logo .version {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            font-weight: 300;
-            color: var(--telex-light);
-        }
-        
-        .user-info {
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            margin: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all var(--transition-speed);
-        }
-        
-        .user-info:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .user-avatar {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-            margin-right: 15px;
-            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
-        }
-        
-        .user-details h5 {
-            font-weight: 600;
-            margin-bottom: 3px;
-            font-size: 1rem;
-        }
-        
-        .user-details small {
-            opacity: 0.8;
-            font-size: 0.8rem;
-            display: block;
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
+
+        @media (max-width: 992px) {
+            .sidebar { width: 70px; overflow: hidden; }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
+            .main-content { margin-left: 70px; }
         }
         
         .sidebar-nav {
@@ -249,82 +146,30 @@
             display: flex;
             align-items: center;
             color: rgba(255, 255, 255, 0.8);
-            padding: 16px 20px;
+            padding: 14px 18px;
             text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 10px;
+            transition: all 0.3s;
             font-weight: 500;
             position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-            backdrop-filter: blur(10px);
         }
-        
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(180deg, var(--telex-red), #ff6b6b);
-            transform: translateX(-100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0 2px 2px 0;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
+
         .nav-link:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            transform: translateX(8px) scale(1.02);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .nav-link:hover::before {
-            transform: translateX(0);
-        }
-        
-        .nav-link:hover::after {
-            opacity: 1;
-        }
-        
-        .nav-link.active {
-            background: linear-gradient(135deg, rgba(230, 57, 70, 0.2), rgba(230, 57, 70, 0.1));
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             transform: translateX(5px);
-            border-color: rgba(230, 57, 70, 0.3);
-            box-shadow: 0 8px 30px rgba(230, 57, 70, 0.25);
-            font-weight: 600;
         }
-        
-        .nav-link.active::before {
-            transform: translateX(0);
-            background: linear-gradient(180deg, var(--telex-red), #ff6b6b);
-            box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
+
+        .nav-link.active {
+            background: rgba(230, 57, 70, 0.15);
+            color: white;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
         }
-        
-        .nav-link.active::after {
-            opacity: 1;
-            background: linear-gradient(135deg, rgba(230, 57, 70, 0.1), transparent);
-        }
-        
+
         .nav-link i {
-            width: 28px;
-            font-size: 1.2rem;
-            margin-right: 15px;
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 12px;
             text-align: center;
             transition: all 0.3s ease;
             position: relative;
@@ -352,422 +197,356 @@
         }
         
         /* Main Content */
-        html body .main-content { 
-            margin-left: var(--sidebar-width) !important; 
-            padding: 30px;
-            min-height: 100vh;
-            animation: fadeIn 0.5s ease-out;
-            position: relative;
+        .main-content { margin-left:var(--sidebar-width); min-height:100vh; padding:0; }
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .admin-header {
-            background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
-            color: white;
-            padding: 2rem 0;
-            margin-bottom: 2rem;
-        }
-        
-        .admin-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-            padding: 2rem;
-            margin-bottom: 2rem;
-            border-left: 4px solid #3498db;
-        }
-        
-        .admin-card h3 {
-            color: #3498db;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .admin-card h3 i {
-            font-size: 1.2rem;
-        }
-        
-        .form-label {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 0.5rem;
-        }
-        
-        .form-control, .form-select {
-            border-radius: 8px;
-            border: 2px solid #e1e8ed;
-            padding: 0.75rem;
-            transition: all 0.3s ease;
-        }
-        
-        .form-control:focus, .form-select:focus {
-            border-color: #3498db;
-            box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
-        }
-        
-        .btn.btn-admin {
-            background: #3498db !important;
-            color: white !important;
-            border: none !important;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        
-        .btn.btn-admin:hover {
-            background: #2980b9 !important;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
-        }
-        
-        .team-member-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            border: 2px dashed #dee2e6;
-        }
-        
-        .team-member-card h5 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-        
-        .stat-input-group {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .stat-input-group input {
-            flex: 1;
-        }
-        
-        .stat-input-group .input-group-text {
-            background: #3498db;
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
             color: white;
             border: none;
-            padding: 0.75rem;
             border-radius: 8px;
-        }
-        
-        .preview-section {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            border: 2px solid #e1e8ed;
-        }
-        
-        .preview-section h4 {
-            color: #3498db;
-            margin-bottom: 1rem;
-        }
-        
-        .image-preview {
-            max-width: 200px;
-            max-height: 150px;
-            object-fit: cover;
-            border-radius: 8px;
-            margin-top: 0.5rem;
-        }
-        
-        .navbar-admin {
-            background: #051d40 !important;
-        }
-        
-        .navbar-admin .navbar-brand {
-            color: #3AAFA9 !important;
-        }
-        
-        .alert-custom {
-            border-radius: 12px;
-        }
-    </style>
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 <body>
-    <!-- Debug Info -->
-    <% if (typeof debugInfo !== 'undefined') { %>
-        <%= debugInfo %>
-    <% } %>
-    <!-- Bouton de retour au dashboard -->
-    <div style="position: fixed; top: 20px; left: 20px; z-index: 1000;">
-        <a href="/admin/dashboard" class="btn btn-admin btn-sm">
-            <i class="fas fa-arrow-left me-2"></i>Retour Dashboard
-        </a>
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+    <button class="mobile-menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
+                </a>
+            </div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communauté</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">Médias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+        </div>
     </div>
-    
 
     <!-- Main Content -->
-    <div class="main-content" style="margin-left: 0 !important; padding: 20px;">
-        <!-- Header Admin -->
-        <div class="admin-header">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-md-8">
-                        <h1 class="display-4 fw-bold mb-3">
-                            <i class="fas fa-info-circle me-3"></i>Administration - À Propos
-                        </h1>
-                        <p class="lead mb-0">Gérez le contenu de la page "À Propos" de Telex</p>
-                    </div>
-                    <div class="col-md-4 text-md-end">
-                        <a href="/about" target="_blank" class="btn btn-admin btn-lg">
-                            <i class="fas fa-eye me-2"></i>Voir la page
-                        </a>
-                    </div>
+    <div class="main-content">
+
+        <!-- Dash Header -->
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="/images/Telex.png" alt="Telex" class="dash-header-logo">
+                <div>
+                    <div class="dash-header-title"><i class="fas fa-info-circle me-2" style="color:#A8DADC;font-size:.95rem;"></i>&Agrave; Propos</div>
+                    <div class="dash-header-sub">G&eacute;rez le contenu de la page "&Agrave; Propos" de Telex</div>
                 </div>
+            </div>
+            <div class="dash-header-right">
+                <a href="/admin/settings" class="btn-dash-back"><i class="fas fa-arrow-left"></i>Param&egrave;tres</a>
+                <a href="/about" target="_blank" class="btn-dash-view"><i class="fas fa-eye"></i>Voir la page</a>
             </div>
         </div>
 
-    <!-- Contenu Principal -->
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <!-- Alert de succès -->
-                <div class="alert alert-success alert-custom d-none" id="successAlert">
-                    <i class="fas fa-check-circle me-2"></i>
-                    <strong>Succès !</strong> Les modifications ont été enregistrées.
-                </div>
+        <div class="content-area">
 
-                <!-- Bouton de sauvegarde principal -->
-                <div class="text-center mb-4">
-                    <button type="button" class="btn btn-admin btn-lg" onclick="saveAllData()">
-                        <i class="fas fa-save me-2"></i>Sauvegarder toutes les modifications
-                    </button>
-                </div>
+            <!-- Alert succès/erreur -->
+            <div class="flash-alert flash-success d-none" id="successAlert">
+                <i class="fas fa-check-circle"></i><span>Les modifications ont &eacute;t&eacute; enregistr&eacute;es avec succ&egrave;s !</span>
+            </div>
+            <div class="flash-alert flash-error d-none" id="errorAlert">
+                <i class="fas fa-exclamation-circle"></i><span id="errorMsg">Erreur lors de la sauvegarde.</span>
+            </div>
 
-                <!-- Section Hero -->
-                <div class="admin-card">
-                    <h3><i class="fas fa-image"></i> Section Hero</h3>
-                    <form id="heroForm">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Titre Principal</label>
-                                    <input type="text" class="form-control" name="hero_title" id="heroTitle" value="<%= about.hero_title || 'À propos de Telex' %>">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Sous-titre</label>
-                                    <input type="text" class="form-control" name="hero_subtitle" id="heroSubtitle" value="<%= about.hero_subtitle || 'Découvrez notre histoire, notre équipe et notre vision' %>">
-                                </div>
-                            </div>
+            <!-- Save bar -->
+            <div class="save-bar">
+                <div class="save-bar-info"><i class="fas fa-info-circle me-1"></i>Les modifications sont enregistr&eacute;es sur le serveur.</div>
+                <button type="button" class="btn-save" onclick="saveAllData()">
+                    <i class="fas fa-save"></i>Sauvegarder toutes les modifications
+                </button>
+            </div>
+
+            <!-- CARTE 1 : Section Hero -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8);">
+                        <i class="fas fa-image" style="color:white;"></i>
+                    </div>
+                    <div>
+                        <div class="form-card-title">Section Hero</div>
+                        <div class="form-card-sub">Titre, sous-titre et texte d'introduction de la page</div>
+                    </div>
+                </div>
+                <div class="form-card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Titre principal</label>
+                            <input type="text" class="form-control" id="heroTitle" value="<%= about.hero_title || 'À propos de Telex' %>">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Sous-titre</label>
+                            <input type="text" class="form-control" id="heroSubtitle" value="<%= about.hero_subtitle || 'Découvrez notre histoire, notre équipe et notre vision' %>">
+                        </div>
+                        <div class="col-12">
                             <label class="form-label">Texte d'introduction</label>
-                            <textarea class="form-control" name="hero_intro" id="heroIntro" rows="4"><%= about.hero_intro || 'Fondée par des étudiants passionnés, Telex est bien plus qu\'une télévision étudiante. C\'est un laboratoire d\'innovation, une école de talents et un média numérique pour la jeunesse engagée.' %></textarea>
+                            <textarea class="form-control" id="heroIntro" rows="4"><%= about.hero_intro || 'Fondée par des étudiants passionnés, Telex est bien plus qu\'une télévision étudiante.' %></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Image Hero</label>
-                            <input type="text" class="form-control" name="hero_image" id="heroImage" value="<%= about.hero_image || '/images/camera.png' %>">
+                        <div class="col-12">
+                            <label class="form-label">Image Hero (chemin)</label>
+                            <input type="text" class="form-control" id="heroImage" value="<%= about.hero_image || '/images/camera.png' %>" placeholder="/images/camera.png">
                         </div>
-                    </form>
+                    </div>
                 </div>
+            </div>
 
-                <!-- Section Notre Histoire -->
-                <div class="admin-card">
-                    <h3><i class="fas fa-history"></i> Notre Histoire</h3>
-                    <form id="historyForm">
-                        <div class="mb-3">
+            <!-- CARTE 2 : Notre Histoire -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon" style="background:linear-gradient(135deg,#10B981,#047857);">
+                        <i class="fas fa-history" style="color:white;"></i>
+                    </div>
+                    <div>
+                        <div class="form-card-title">Notre Histoire</div>
+                        <div class="form-card-sub">Les deux paragraphes de la section histoire</div>
+                    </div>
+                </div>
+                <div class="form-card-body">
+                    <div class="row g-3">
+                        <div class="col-12">
                             <label class="form-label">Titre de la section</label>
                             <input type="text" class="form-control" id="historyTitle" value="<%= about.history_title || 'Notre Histoire' %>">
                         </div>
-                        <div class="mb-3">
+                        <div class="col-12">
                             <label class="form-label">Paragraphe 1</label>
-                            <textarea class="form-control" id="historyParagraph1" rows="4"><%= about.history_paragraph1 || 'Telex est né en 2024 de la passion commune d\'un groupe d\'étudiants déterminés à créer une télévision étudiante et un média numérique à leur image : innovants, indépendants et engagés. En partant d\'un simple projet d\'association, nous avons construit pas à pas une véritable chaîne de télévision étudiante reconnue aujourd\'hui comme la référence en matière d\'audiovisuel étudiant.' %></textarea>
+                            <textarea class="form-control" id="historyParagraph1" rows="4"><%= about.history_paragraph1 || 'Telex est né en 2024 de la passion commune d\'un groupe d\'étudiants déterminés à créer une télévision étudiante.' %></textarea>
                         </div>
-                        <div class="mb-3">
+                        <div class="col-12">
                             <label class="form-label">Paragraphe 2</label>
-                            <textarea class="form-control" id="historyParagraph2" rows="4"><%= about.history_paragraph2 || 'Notre aventure a commencé avec une petite équipe de 10 passionnés et un studio improvisé. Aujourd\'hui, nous comptons plus de 50 membres actifs, un studio professionnel et une audience grandissante. Chaque jour, nous repoussons les limites de la créativité étudiante pour offrir des contenus de qualité.' %></textarea>
+                            <textarea class="form-control" id="historyParagraph2" rows="4"><%= about.history_paragraph2 || 'Notre aventure a commencé avec une petite équipe de 10 passionnés et un studio improvisé.' %></textarea>
                         </div>
-                    </form>
-                </div>
-
-                <!-- Section Équipe -->
-                <div class="admin-card">
-                    <h3><i class="fas fa-users"></i> Notre Équipe</h3>
-                    <form id="teamForm">
-                        <div class="mb-3">
-                            <label class="form-label">Titre de la section</label>
-                            <input type="text" class="form-control" id="teamTitle" value="Notre Équipe">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Texte d'introduction</label>
-                            <textarea class="form-control" id="teamIntro" rows="3">Notre force réside dans la diversité de nos profils. Journalistes, techniciens, monteurs, graphistes, communicants - tous étudiants et tous animés par la même passion pour l'audiovisuel. Chaque membre contribue avec ses compétences uniques pour créer des contenus exceptionnels.</textarea>
-                        </div>
-                        
-                        <h5 class="mt-4 mb-3">Membres de l'équipe</h5>
-                        
-                        <!-- Rédaction -->
-                        <div class="team-member-card">
-                            <h5><i class="fas fa-newspaper me-2"></i>Rédaction</h5>
-                            <input type="hidden" id="redactionTitle" value="Rédaction">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nombre de membres</label>
-                                        <input type="text" class="form-control" id="redactionCount" value="2 journalistes et reporters">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Image</label>
-                                        <input type="text" class="form-control" id="redactionImage" value="/images/TELEX INTEGRATION.png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" id="redactionDescription" rows="3">Notre équipe éditoriale travaille sur l'écriture, les reportages et la vérification des informations.</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Compétences (séparées par des virgules)</label>
-                                <input type="text" class="form-control" id="redactionSkills" value="Journalisme, Reportage, Édition">
-                            </div>
-                        </div>
-
-                        <!-- Technique -->
-                        <div class="team-member-card">
-                            <h5><i class="fas fa-video me-2"></i>Technique</h5>
-                            <input type="hidden" id="techniqueTitle" value="Technique">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nombre de membres</label>
-                                        <input type="text" class="form-control" id="techniqueCount" value="2 techniciens audiovisuels">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Image</label>
-                                        <input type="text" class="form-control" id="techniqueImage" value="/images/femme telex.png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" id="techniqueDescription" rows="3">Spécialistes de la prise de vue, du son et de l'éclairage pour une production de qualité professionnelle.</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Compétences (séparées par des virgules)</label>
-                                <input type="text" class="form-control" id="techniqueSkills" value="Caméra, Son, Éclairage">
-                            </div>
-                        </div>
-
-                        <!-- Post-production -->
-                        <div class="team-member-card">
-                            <h5><i class="fas fa-edit me-2"></i>Post-production</h5>
-                            <input type="hidden" id="postproductionTitle" value="Post-production">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nombre de membres</label>
-                                        <input type="text" class="form-control" id="postproductionCount" value="3 monteurs vidéo">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Image</label>
-                                        <input type="text" class="form-control" id="postproductionImage" value="/images/ordi_telex.png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" id="postproductionDescription" rows="3">Experts en montage, étalonnage et effets spéciaux pour donner vie à nos contenus audiovisuels.</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Compétences (séparées par des virgules)</label>
-                                <input type="text" class="form-control" id="postproductionSkills" value="Montage, Étalonnage, Motion Design">
-                            </div>
-                        </div>
-
-                        <!-- Communication -->
-                        <div class="team-member-card">
-                            <h5><i class="fas fa-bullhorn me-2"></i>Communication</h5>
-                            <input type="hidden" id="communicationTitle" value="Communication">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nombre de membres</label>
-                                        <input type="text" class="form-control" id="communicationCount" value="1 chargés de communication">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Image</label>
-                                        <input type="text" class="form-control" id="communicationImage" value="/images/Présentation du Telex.png">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Description</label>
-                                <textarea class="form-control" id="communicationDescription" rows="3">Gestion des réseaux sociaux, relations presse et stratégie de diffusion pour maximiser notre audience.</textarea>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Compétences (séparées par des virgules)</label>
-                                <input type="text" class="form-control" id="communicationSkills" value="Réseaux sociaux, Stratégie, Community">
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-
-                <!-- Section Chiffres -->
-                <div class="admin-card">
-                    <h3><i class="fas fa-chart-line"></i> Nos Chiffres</h3>
-                    <form id="statsForm">
-                        <div class="mb-3">
-                            <label class="form-label">Titre de la section</label>
-                            <input type="text" class="form-control" id="statsTitle" value="Nos Chiffres">
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="stat-input-group">
-                                    <input type="text" class="form-control" id="stat1Number" value="50+">
-                                    <span class="input-group-text">Membres actifs</span>
-                                </div>
-                                <div class="stat-input-group">
-                                    <input type="text" class="form-control" id="stat2Number" value="200+">
-                                    <span class="input-group-text">Heures de production</span>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="stat-input-group">
-                                    <input type="text" class="form-control" id="stat3Number" value="15K+">
-                                    <span class="input-group-text">Vues mensuelles</span>
-                                </div>
-                                <div class="stat-input-group">
-                                    <input type="text" class="form-control" id="stat4Number" value="4">
-                                    <span class="input-group-text">Émissions régulières</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-
-
-                <!-- Section Preview -->
-                <div class="preview-section">
-                    <h4><i class="fas fa-eye me-2"></i>Aperçu des modifications</h4>
-                    <div id="previewContent">
-                        <p class="text-muted">Les modifications apparaîtront ici après avoir enregistré les sections.</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+            <!-- CARTE 3 : Notre Équipe -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);">
+                        <i class="fas fa-users" style="color:white;"></i>
+                    </div>
+                    <div>
+                        <div class="form-card-title">Notre &Eacute;quipe</div>
+                        <div class="form-card-sub">Introduction et d&eacute;tails des p&ocirc;les de l'&eacute;quipe</div>
+                    </div>
+                </div>
+                <div class="form-card-body">
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label">Titre de la section</label>
+                            <input type="text" class="form-control" id="teamTitle" value="Notre &Eacute;quipe">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Texte d'introduction</label>
+                            <textarea class="form-control" id="teamIntro" rows="3">Notre force r&eacute;side dans la diversit&eacute; de nos profils. Journalistes, techniciens, monteurs, graphistes, communicants.</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Rédaction -->
+                    <div class="team-card">
+                        <div class="team-card-header">
+                            <i class="fas fa-newspaper"></i>
+                            <div class="team-card-title">R&eacute;daction</div>
+                        </div>
+                        <input type="hidden" id="redactionTitle" value="R&eacute;daction">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre de membres</label>
+                                <input type="text" class="form-control" id="redactionCount" value="2 journalistes et reporters">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Chemin image</label>
+                                <input type="text" class="form-control" id="redactionImage" value="/images/TELEX INTEGRATION.png">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="redactionDescription" rows="2">Notre &eacute;quipe &eacute;ditoriale travaille sur l'&eacute;criture, les reportages et la v&eacute;rification des informations.</textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Comp&eacute;tences (s&eacute;par&eacute;es par des virgules)</label>
+                                <input type="text" class="form-control" id="redactionSkills" value="Journalisme, Reportage, &Eacute;dition">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technique -->
+                    <div class="team-card">
+                        <div class="team-card-header">
+                            <i class="fas fa-video"></i>
+                            <div class="team-card-title">Technique</div>
+                        </div>
+                        <input type="hidden" id="techniqueTitle" value="Technique">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre de membres</label>
+                                <input type="text" class="form-control" id="techniqueCount" value="2 techniciens audiovisuels">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Chemin image</label>
+                                <input type="text" class="form-control" id="techniqueImage" value="/images/femme telex.png">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="techniqueDescription" rows="2">Sp&eacute;cialistes de la prise de vue, du son et de l'&eacute;clairage pour une production de qualit&eacute; professionnelle.</textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Comp&eacute;tences</label>
+                                <input type="text" class="form-control" id="techniqueSkills" value="Cam&eacute;ra, Son, &Eacute;clairage">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Post-production -->
+                    <div class="team-card">
+                        <div class="team-card-header">
+                            <i class="fas fa-edit"></i>
+                            <div class="team-card-title">Post-production</div>
+                        </div>
+                        <input type="hidden" id="postproductionTitle" value="Post-production">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre de membres</label>
+                                <input type="text" class="form-control" id="postproductionCount" value="3 monteurs vid&eacute;o">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Chemin image</label>
+                                <input type="text" class="form-control" id="postproductionImage" value="/images/ordi_telex.png">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="postproductionDescription" rows="2">Experts en montage, &eacute;talonnage et effets sp&eacute;ciaux pour donner vie &agrave; nos contenus audiovisuels.</textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Comp&eacute;tences</label>
+                                <input type="text" class="form-control" id="postproductionSkills" value="Montage, &Eacute;talonnage, Motion Design">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Communication -->
+                    <div class="team-card">
+                        <div class="team-card-header">
+                            <i class="fas fa-bullhorn"></i>
+                            <div class="team-card-title">Communication</div>
+                        </div>
+                        <input type="hidden" id="communicationTitle" value="Communication">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre de membres</label>
+                                <input type="text" class="form-control" id="communicationCount" value="1 charg&eacute; de communication">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Chemin image</label>
+                                <input type="text" class="form-control" id="communicationImage" value="/images/Pr&eacute;sentation du Telex.png">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Description</label>
+                                <textarea class="form-control" id="communicationDescription" rows="2">Gestion des r&eacute;seaux sociaux, relations presse et strat&eacute;gie de diffusion pour maximiser notre audience.</textarea>
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Comp&eacute;tences</label>
+                                <input type="text" class="form-control" id="communicationSkills" value="R&eacute;seaux sociaux, Strat&eacute;gie, Community">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 4 : Nos Chiffres -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706);">
+                        <i class="fas fa-chart-line" style="color:white;"></i>
+                    </div>
+                    <div>
+                        <div class="form-card-title">Nos Chiffres</div>
+                        <div class="form-card-sub">Les statistiques affich&eacute;es sur la page &agrave; propos</div>
+                    </div>
+                </div>
+                <div class="form-card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Titre de la section</label>
+                        <input type="text" class="form-control" id="statsTitle" value="Nos Chiffres" style="max-width:320px;">
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-item">
+                            <label>Membres actifs</label>
+                            <input type="text" id="stat1Number" value="50+">
+                        </div>
+                        <div class="stat-item">
+                            <label>Heures de production</label>
+                            <input type="text" id="stat2Number" value="200+">
+                        </div>
+                        <div class="stat-item">
+                            <label>Vues mensuelles</label>
+                            <input type="text" id="stat3Number" value="15K+">
+                        </div>
+                        <div class="stat-item">
+                            <label>&Eacute;missions r&eacute;guli&egrave;res</label>
+                            <input type="text" id="stat4Number" value="4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bouton bas de page -->
+            <div class="d-flex justify-content-end mb-4">
+                <button type="button" class="btn-save" onclick="saveAllData()">
+                    <i class="fas fa-save"></i>Sauvegarder toutes les modifications
+                </button>
+            </div>
+
+        </div><!-- /.content-area -->
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -776,13 +555,11 @@
     <script>
         // Fonction pour afficher l'alerte de succès
         function showSuccessAlert(message) {
-            const alert = document.getElementById('successAlert');
-            alert.innerHTML = `<i class="fas fa-check-circle me-2"></i><strong>Succès !</strong> ${message}`;
-            alert.classList.remove('d-none');
-            
-            setTimeout(() => {
-                alert.classList.add('d-none');
-            }, 3000);
+            const el = document.getElementById('successAlert');
+            el.querySelector('span').textContent = message;
+            el.classList.remove('d-none');
+            document.getElementById('errorAlert').classList.add('d-none');
+            setTimeout(() => el.classList.add('d-none'), 5000);
         }
 
         // Fonction pour sauvegarder toutes les données sur le serveur
@@ -863,35 +640,24 @@
             }
         }
 
-        // Fonction pour afficher une alerte de succès
-        function showSuccessAlert(message) {
-            const alert = document.getElementById('successAlert');
-            if (alert) {
-                alert.querySelector('strong').textContent = 'Succès !';
-                alert.querySelector('i').nextSibling.textContent = ' ' + message;
-                alert.classList.remove('d-none');
-                
-                setTimeout(() => {
-                    alert.classList.add('d-none');
-                }, 5000);
-            }
-        }
-
         // Fonction pour afficher une alerte d'erreur
         function showErrorAlert(message) {
-            const alert = document.getElementById('successAlert');
-            if (alert) {
-                alert.className = 'alert alert-danger alert-custom';
-                alert.querySelector('strong').textContent = 'Erreur !';
-                alert.querySelector('i').nextSibling.textContent = ' ' + message;
-                alert.classList.remove('d-none');
-                
-                setTimeout(() => {
-                    alert.classList.add('d-none');
-                    alert.className = 'alert alert-success alert-custom d-none';
-                }, 5000);
-            }
+            const el = document.getElementById('errorAlert');
+            document.getElementById('errorMsg').textContent = message;
+            el.classList.remove('d-none');
+            document.getElementById('successAlert').classList.add('d-none');
+            setTimeout(() => el.classList.add('d-none'), 5000);
         }
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 </html>

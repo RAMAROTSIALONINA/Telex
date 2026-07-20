@@ -25,12 +25,28 @@
         
         /* ===== HERO SECTION - THÈME BLEU ===== */
         .page-hero {
-            padding: 80px 0 40px;
-            min-height: 280px;
-            background: linear-gradient(135deg, #3498db 0%, #5dade2 100%);
+            padding: 24px 0;
+            min-height: 160px;
+            background: linear-gradient(135deg, #457B9D 0%, #22385B 100%);
             color: white;
             position: relative;
             overflow: hidden;
+        }
+
+        .hero-image-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            max-height: 140px;
+        }
+
+        .hero-camera-img {
+            max-height: 130px;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+            display: block;
         }
         
         /* ===== NAVBAR UNIFIÉE - AMÉLIORÉ ===== */
@@ -249,18 +265,6 @@
             padding-top: 0.1cm;
         }
 
-        @media (max-width: 576px) {
-            .navbar .navbar-brand img,
-            .navbar-telex .navbar-brand img,
-            .navbar-baume .navbar-brand img {
-                height: 35px;
-                width: auto;
-                max-width: 120px;
-                transform: scale(2);
-                transform-origin: center;
-            }
-        }
-
         /* ===== BOUTON MENU MOBILE ===== */
         .navbar .navbar-toggler,
         .navbar-telex .navbar-toggler,
@@ -406,10 +410,6 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            border-radius: 15px;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.3);
-            background: rgba(255, 255, 255, 0.1);
-            padding: 5px;
             filter: brightness(1.1) contrast(1.2);
         }
 
@@ -436,12 +436,15 @@
             
             .hero-image-wrapper {
                 text-align: center;
-                margin-bottom: 20px;
+                max-height: 100px;
+                margin-bottom: 10px;
             }
-            
+
             .hero-camera-img {
                 max-width: 120px;
+                max-height: 90px;
                 height: auto;
+                object-fit: contain;
             }
             
             .hero-title {
@@ -477,12 +480,15 @@
             
             .hero-image-wrapper {
                 text-align: center;
-                margin-bottom: 15px;
+                max-height: 80px;
+                margin-bottom: 8px;
             }
-            
+
             .hero-camera-img {
                 max-width: 100px;
+                max-height: 70px;
                 height: auto;
+                object-fit: contain;
             }
             
             .hero-title {
@@ -503,14 +509,19 @@
         
         @media (max-width: 480px) {
             .hero-side-image {
-                display: none;
+                width: 60px;
+                height: 60px;
+                opacity: 0.5;
             }
-            
+
+            .hero-left-image { left: 5px; }
+            .hero-right-image { right: 5px; }
+
             .page-hero {
                 padding: 10px 0 8px;
                 min-height: 100px;
             }
-            
+
             .hero-camera-img {
                 max-width: 80px;
                 height: auto;
@@ -546,15 +557,15 @@
         
         /* ===== VARIABLES CSS POUR LES CARTES ===== */
         :root {
-            --card-image-height: 180px;
-            --card-video-height: 200px;
+            --card-image-height: 210px;
+            --card-video-height: 210px;
         }
 
         /* ===== AMÉLIORATION DES CARTES D'ARTICLES - TITRE EN BAS DE L'IMAGE ===== */
         .news-article-card {
             position: relative;
             background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%); /* Fond subtil */
-            border: 1px solid rgba(0,0,0,0.05); /* Bordure subtile */
+            border: none;
             border-radius: 16px; /* Coins plus arrondis */
             overflow: hidden;
             box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.08); /* Ombre portée moderne */
@@ -577,13 +588,14 @@
         /* Conteneur de l'image/vidéo - en haut de la carte */
         .article-image-frame {
             position: relative;
-            overflow: hidden;
+            overflow: hidden !important;
             width: 100%;
-            height: 300px;
+            height: 210px !important;
+            min-height: 210px;
+            max-height: 210px;
             flex-shrink: 0;
             border-radius: 16px 16px 0 0;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+            background: #e9ecef;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -605,17 +617,75 @@
 
         /* Image de l'article - remplit tout le conteneur en haut */
         .article-image {
-            max-width: 100%;
-            max-height: 100%;
-            width: auto;
-            height: auto;
-            object-fit: contain;
-            object-position: center;
-            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover !important;
+            object-position: center !important;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             border-radius: 16px 16px 0 0;
-            display: block;
-            filter: brightness(1.05) contrast(1.1);
+            display: block !important;
+            margin: 0 !important;
+            max-height: none !important;
         }
+
+        /* Dégradé sombre au bas de l'image pour lisibilité du titre */
+        .article-image-frame::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.65) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* Titre en superposition sur l'image */
+        .article-card-title-overlay {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 3;
+            padding: 10px 12px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        /* Footer de carte : date + lien Lire */
+        .article-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            padding: 10px 14px 12px;
+            flex-shrink: 0;
+        }
+        .article-card-date-small {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+        .article-card-date-small i { font-size: 0.72rem; }
+        .article-card-read-more {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #dc2626;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+        .article-card-read-more i { font-size: 0.72rem; transition: transform 0.2s; }
+        .news-article-card:hover .article-card-read-more i { transform: translateX(3px); }
 
         /* Effet au survol sur l'image */
         .news-article-card:hover .article-image {
@@ -666,113 +736,41 @@
             background: rgba(230, 57, 70, 1);
         }
 
-        /* Contenu de la carte - en bas de l'image */
+        /* Contenu de la carte - footer compact sous l'image */
         .article-card-content {
-            flex: 1;
-            padding: 20px 24px; /* Padding plus généreux */
+            padding: 0;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
-            background: linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(248,249,250,0.95) 100%); /* Fond subtil */
-            position: relative;
-            overflow: hidden;
+            background: #fff;
         }
 
-        /* Ligne décorative subtile */
-        .article-card-content::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.05) 50%, transparent 100%);
-        }
-
-        /* Titre de l'article - design moderne */
-        .article-card-title {
-            font-size: 1.15rem; /* Police légèrement plus grande */
-            font-weight: 700; /* Plus gras */
-            color: #1a1a2e; /* Couleur plus foncée pour meilleur contraste */
-            line-height: 1.3; /* Ligne plus serrée */
-            margin: 0 0 12px 0;
-            display: -webkit-box;
-            display: -moz-box;
-            display: box;
-            -webkit-line-clamp: 2;
-            -moz-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            -moz-box-orient: vertical;
-            box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            min-height: 2.8em;
-            position: relative;
-            transition: all 0.3s ease;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.1); /* Ombre de texte subtile */
-        }
-
-        /* Effet au survol sur le titre */
-        .news-article-card:hover .article-card-title {
-            color: #0953b6; /* Couleur bleue au survol */
-            transform: translateY(-2px); /* Légère élévation */
-        }
+        /* Titre en interne (non utilisé — remplacé par l'overlay sur image) */
+        .article-card-title { display: none; }
 
         /* Badge de catégorie - positionné sur le côté gauche de l'image */
         .article-category-badge {
             position: absolute;
             top: 8px;
-            left: 8px; /* Positionné en haut à gauche de l'image */
+            left: 8px;
+            z-index: 10;
             display: inline-flex;
             align-items: center;
-            gap: 2px; /* Espacement réduit */
-            padding: 2px 6px; /* Padding réduit */
-            border-radius: 12px; /* Plus arrondi mais plus petit */
-            font-size: 0.45rem; /* Taille de police réduite */
-            font-weight: 600; /* Un peu moins gras */
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.62rem;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 0.5px; /* Espacement réduit */
+            letter-spacing: 0.06em;
             color: white;
-            background: linear-gradient(135deg, rgba(230, 57, 70, 0.95) 0%, rgba(220, 53, 69, 0.98) 100%); /* Dégradé subtil */
-            box-shadow: 0 2px 6px rgba(230, 57, 70, 0.3), 0 1px 2px rgba(0,0,0,0.1); /* Ombre portée réduite */
-            border: 1px solid rgba(255,255,255,0.2); /* Bordure subtile */
-            z-index: 10; /* Assure qu'il est au-dessus de l'image */
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(220, 38, 38, 0.9);
+            border: none;
+            transition: all 0.3s ease;
             cursor: default;
         }
 
-        /* Effet de brillance subtil avec :after */
-        .article-category-badge::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        /* Effet au survol sur le badge - adapté à la taille réduite */
         .news-article-card:hover .article-category-badge {
-            transform: translateY(-1px) scale(1.05); /* Élévation et zoom réduits */
-            box-shadow: 0 3px 8px rgba(230, 57, 70, 0.4), 0 1px 3px rgba(0,0,0,0.15); /* Ombre accentuée mais proportionnelle */
-        }
-
-        .news-article-card:hover .article-category-badge::after {
-            left: 100%; /* Animation de brillance */
-        }
-
-        /* Indicateur carré */
-        .article-category-badge::before {
-            content: '';
-            width: 4px;
-            height: 4px;
-            border-radius: 1px;
-            flex-shrink: 0;
+            background: rgba(220, 38, 38, 1);
         }
 
         /* Résumé d'article - supprimé */
@@ -810,7 +808,7 @@
 
         .news-article-card.vertical .article-image-frame {
             width: 100%;
-            height: 180px;
+            height: 210px;
             border-radius: 12px 12px 0 0;
         }
 
@@ -893,29 +891,23 @@
 
         @media (max-width: 992px) {
             .articles-grid-12 {
-                grid-template-columns: repeat(2, 1fr); /* 2 colonnes pour tablette */
-                justify-content: center; /* Centrer les cartes */
-                max-width: 600px; /* Largeur maximale pour 2 colonnes */
-                margin: 0 auto; /* Centrer la grille */
+                grid-template-columns: repeat(2, 1fr);
             }
-            
+
             .articles-grid-6 {
-                grid-template-columns: repeat(2, 1fr); /* 2 colonnes pour tablette */
-                justify-content: center; /* Centrer les cartes */
-                max-width: 600px; /* Largeur maximale pour 2 colonnes */
-                margin: 0 auto; /* Centrer la grille */
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
             .news-article-card {
-                flex-direction: column; /* Vertical sur mobile */
+                flex-direction: column;
                 height: auto;
             }
 
             .article-image-frame {
                 width: 100%;
-                height: 150px; /* Hauteur adaptée pour mobile */
+                height: 190px;
                 border-radius: 12px 12px 0 0;
             }
 
@@ -924,92 +916,40 @@
             }
 
             .article-card-content {
-                padding: 15px;
+                padding: 0;
                 min-height: auto;
             }
 
-            .article-card-title {
-                font-size: 1rem;
-                -webkit-line-clamp: 3;
-                line-clamp: 3;
-            }
-
-            .article-category-badge {
-                font-size: 0.5rem;
-                padding: 2px 5px;
-                margin-bottom: 6px;
-            }
-
             .articles-grid-12 {
-                grid-template-columns: 1fr; /* 1 colonne sur mobile */
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
-                justify-content: center; /* Centrer les cartes */
-                max-width: 400px; /* Largeur maximale pour 1 colonne */
-                margin: 0 auto; /* Centrer la grille */
             }
 
             .articles-grid-6 {
-                grid-template-columns: 1fr; /* 1 colonne sur mobile */
+                grid-template-columns: 1fr;
                 gap: 15px;
-                justify-content: center; /* Centrer les cartes */
-                max-width: 400px; /* Largeur maximale pour 1 colonne */
-                margin: 0 auto; /* Centrer la grille */
             }
         }
 
         @media (max-width: 576px) {
             .article-image-frame {
-                height: 120px; /* Hauteur réduite pour petits mobiles */
+                height: 170px;
             }
 
-            .article-card-content {
-                padding: 12px;
-            }
-
-            .article-card-title {
-                font-size: 0.95rem;
-            }
-
-            .article-category-badge {
-                font-size: 0.45rem;
-                padding: 1px 4px;
-            }
-            
             .articles-grid-12 {
-                max-width: 350px; /* Largeur réduite pour petits mobiles */
-                margin: 0 auto; /* Centrer la grille */
+                grid-template-columns: 1fr;
+                gap: 12px;
             }
-            
+
             .articles-grid-6 {
-                max-width: 350px; /* Largeur réduite pour petits mobiles */
-                margin: 0 auto; /* Centrer la grille */
+                grid-template-columns: 1fr;
+                gap: 12px;
             }
         }
 
         @media (max-width: 480px) {
             .article-image-frame {
-                height: 100px; /* Hauteur minimale pour très petits écrans */
-            }
-
-            .article-card-title {
-                font-size: 0.9rem;
-            }
-
-            .article-category-badge {
-                font-size: 0.4rem;
-                padding: 1px 3px;
-            }
-            
-            .articles-grid-12 {
-                max-width: 320px; /* Largeur très réduite pour très petits mobiles */
-                margin: 0 auto; /* Centrer la grille */
-                gap: 12px; /* Gap réduit */
-            }
-            
-            .articles-grid-6 {
-                max-width: 320px; /* Largeur très réduite pour très petits mobiles */
-                margin: 0 auto; /* Centrer la grille */
-                gap: 12px; /* Gap réduit */
+                height: 140px;
             }
         }
         
@@ -1027,8 +967,8 @@
         
         /* Contenu articles optimisé */
         .main-content-with-ads .articles-carousel {
-            flex: 1; /* Prend l'espace restant */
-            min-width: 800px; /* Largeur minimale pour les articles */
+            flex: 1;
+            min-width: 0;
         }
         
         /* Annonce gauche */
@@ -1162,82 +1102,14 @@
             }
         }
 
-        /* ===== NETTOYAGE DES STYLES CONFLICTUELS ===== */
-        
-        /* 3. POSITIONS ABSOLUTE BIEN GÉRÉES */
-        .article-category-badge {
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            background: rgba(230, 57, 70, 0.95);
-            color: white;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            z-index: 100;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .article-category-badge::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            border-radius: 2px;
-            flex-shrink: 0;
-        }
-
-        /* Couleurs spécifiques pour les badges */
-        .article-category-badge[data-category="politique"],
-        .article-category-badge[data-category="politique"]::before {
-            background: var(--telex-red);
-        }
-
-        .article-category-badge[data-category="economie"],
-        .article-category-badge[data-category="economie"]::before {
-            background: var(--telex-blue);
-        }
-
-        .article-category-badge[data-category="social"],
-        .article-category-badge[data-category="social"]::before {
-            background: var(--telex-gray);
-        }
-
-        .article-category-badge[data-category="sport"],
-        .article-category-badge[data-category="sport"]::before {
-            background: var(--telex-orange);
-        }
-
-        .article-category-badge[data-category="culturel"],
-        .article-category-badge[data-category="culturel"]::before {
-            background: var(--telex-purple);
-        }
-
-        .article-category-badge[data-category="annonce"],
-        .article-category-badge[data-category="annonce"]::before {
-            background: var(--telex-green);
-        }
-
-        .article-category-badge[data-category="autre"],
-        .article-category-badge[data-category="autre"]::before {
-            background: var(--telex-cyan);
-        }
-        
-        /* ===== STYLES SUPPLÉMENTAIRES ===== */
-        .article-category-badge {
-            border-radius: 15px;
-            font-weight: 600;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 10px rgba(230, 57, 70, 0.3);
-            white-space: nowrap;
-        }
+        /* ===== COULEURS SPÉCIFIQUES PAR CATÉGORIE ===== */
+        .article-category-badge[data-category="politique"] { background: var(--telex-red); }
+        .article-category-badge[data-category="economie"]  { background: var(--telex-blue); }
+        .article-category-badge[data-category="social"]    { background: var(--telex-gray); }
+        .article-category-badge[data-category="sport"]     { background: var(--telex-orange); }
+        .article-category-badge[data-category="culturel"]  { background: var(--telex-purple); }
+        .article-category-badge[data-category="annonce"]   { background: var(--telex-green); }
+        .article-category-badge[data-category="autre"]     { background: var(--telex-cyan); }
         
         .video-overlay-small {
             position: absolute;
@@ -1417,14 +1289,14 @@
         .video-thumbnail-container {
             position: relative;
             width: 100%;
-            height: 300px;
+            height: 180px;
             overflow: hidden;
         }
-        
+
         .video-preview-5s {
             position: relative;
             width: 100%;
-            height: 300px;
+            height: 180px;
             overflow: hidden;
         }
         
@@ -1601,8 +1473,9 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            height: 60px;
-            gap: 20px;
+            min-height: 50px;
+            padding: 6px 0;
+            gap: 16px;
         }
 
         .category-nav {
@@ -1618,18 +1491,22 @@
 
         .search-nav {
             flex-shrink: 0;
-            width: 300px;
+            width: 200px;
         }
 
         .search-nav .search-input-wrapper {
-            background: #f8f9fa;
-            border: 1px solid #e5e7eb;
-            border-radius: 25px;
-            padding: 0;
-            height: 40px;
-            display: flex;
+            background: #f8f9fa !important;
+            border: 1px solid #e5e7eb !important;
+            border-radius: 25px !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            height: 38px;
+            width: 100%;
+            display: flex !important;
             align-items: center;
-            transition: all 0.3s ease;
+            overflow: hidden;
+            gap: 0;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .search-nav .search-input-wrapper:hover {
@@ -1644,33 +1521,49 @@
         }
 
         .search-nav .search-icon {
-            position: static;
+            position: static !important;
+            transform: none !important;
+            flex-shrink: 0;
             color: #6b7280;
-            margin-left: 15px;
-            margin-right: 10px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            width: 36px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .search-nav .search-input {
-            padding: 0 15px 0 0;
+            position: static !important;
+            flex: 1;
+            min-width: 0;
+            width: auto !important;
+            height: 38px;
+            padding: 0 8px 0 0 !important;
             border: none;
             outline: none;
             background: transparent;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 400 !important;
             color: #374151;
-            flex: 1;
+            box-sizing: border-box;
         }
 
         .search-nav .search-clear-btn {
-            position: static;
+            flex-shrink: 0;
             background: none;
             border: none;
             color: #6b7280;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             cursor: pointer;
-            padding: 5px;
-            margin-right: 10px;
+            padding: 0;
+            margin-right: 8px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all 0.3s ease;
         }
 
@@ -1680,9 +1573,15 @@
         }
 
         /* Responsive pour la barre de navigation */
-        @media (max-width: 1024px) {
+        @media (max-width: 1200px) {
             .search-nav {
-                width: 250px;
+                width: 180px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .search-nav {
+                width: 160px;
             }
         }
 
@@ -1691,7 +1590,7 @@
                 flex-direction: column;
                 height: auto;
                 padding: 10px 0;
-                gap: 15px;
+                gap: 10px;
             }
 
             .category-nav {
@@ -1703,18 +1602,19 @@
             }
 
             .search-nav .search-input-wrapper {
-                height: 45px;
+                height: 42px;
+            }
+
+            .search-nav .search-icon {
+                width: 42px;
+                font-size: 0.9rem;
             }
         }
 
         @media (max-width: 576px) {
             .nav-content {
                 padding: 8px 0;
-                gap: 10px;
-            }
-
-            .search-nav .search-input-wrapper {
-                height: 40px;
+                gap: 8px;
             }
 
             .search-nav .search-input {
@@ -2440,7 +2340,19 @@
             text-shadow: none;
             letter-spacing: 0.3px;
             display: inline-block;
-            white-space: nowrap;
+            white-space: normal;
+        }
+
+        @media (max-width: 576px) {
+            .archive-text {
+                font-size: 0.82rem;
+                line-height: 1.4;
+                text-align: center;
+            }
+            .archive-intro {
+                padding: 10px 14px !important;
+                text-align: center;
+            }
         }
         
         /* ===== STYLES AMÉLIORÉS POUR LA PAGINATION ===== */
@@ -2654,11 +2566,11 @@
             }
             
             .news-article-card {
-                height: 260px;
+                height: auto;
             }
-            
+
             .article-image-frame {
-                height: 100px;
+                height: 160px;
             }
             
             .carousel-pagination,
@@ -2723,24 +2635,24 @@
             }
             
             .news-article-card {
-                height: 240px;
+                height: auto;
             }
-            
+
             .article-image-frame {
-                height: 90px;
+                height: 140px;
             }
             
             .article-card-content {
-                padding: 15px;
+                padding: 0;
             }
         }
-        
+
         /* Styles pour les cartes d'articles */
         .news-article-card {
             cursor: pointer;
-            min-width: 300px;
-            max-width: 300px;
-            flex-shrink: 0;
+            min-width: 0;
+            max-width: 100%;
+            width: 100%;
         }
         
         /* ===== STYLES POUR LES BOUTONS DE CATÉGORIES RAPIDES - NAVIGATION INTÉGRÉE ===== */
@@ -2751,7 +2663,7 @@
             justify-content: flex-start;
             align-items: center;
             width: 100%;
-            height: 60px;
+            height: 50px;
             position: relative;
         }
 
@@ -2759,9 +2671,9 @@
             background: transparent;
             border: none;
             border-radius: 0;
-            padding: 20px 20px;
+            padding: 0 14px;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.82rem;
             color: #374151;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -2876,107 +2788,41 @@
         }
 
         @media (max-width: 576px) {
+            .category-nav {
+                overflow-x: visible;
+            }
             .category-nav .category-buttons-grid {
-                height: 45px;
+                display: grid !important;
+                grid-template-columns: repeat(4, 1fr);
+                height: auto !important;
+                gap: 0;
+                flex-wrap: wrap;
             }
-            
+
             .category-nav .category-btn {
-                padding: 12px 12px;
-                font-size: 0.8rem;
+                padding: 10px 4px;
+                font-size: 0.7rem;
+                text-align: center;
+                justify-content: center;
+                border-bottom: 2px solid transparent;
             }
-            
-            /* Réduire le padding pour "Tout afficher" sur mobile */
-            .category-nav .category-btn[data-category="all"] {
-                padding: 12px 8px;
-                font-size: 0.75rem;
+
+            .category-nav .category-btn i {
+                display: none;
             }
         }
 
-        /* ===== STYLES POUR LES BADGES DE CATÉGORIES ===== */
-        .article-category-badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            color: white !important;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-            transition: all 0.3s ease;
-            border: 2px solid rgba(255,255,255,0.2);
-        }
+        /* ===== COULEURS PAR CATÉGORIE (remplacent la couleur rouge par défaut) ===== */
+        .article-category-badge[data-category="politique"] { background: #dc2626; }
+        .article-category-badge[data-category="economie"]  { background: #2563eb; }
+        .article-category-badge[data-category="social"]    { background: #4b5563; }
+        .article-category-badge[data-category="sport"]     { background: #ea580c; }
+        .article-category-badge[data-category="culturel"]  { background: #7c3aed; }
+        .article-category-badge[data-category="annonce"]   { background: #059669; }
+        .article-category-badge[data-category="autre"]     { background: #0891b2; }
+        .article-category-badge:not([data-category])       { background: #6b7280; }
 
-        .article-category-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.25);
-        }
-
-        /* Catégorie Politique - Rouge */
-        .article-category-badge[data-category="politique"],
-        .article-category-badge:has-text("Politique") {
-            background: linear-gradient(135deg, #dc2626, #ef4444) !important;
-        }
-
-        /* Catégorie Économie - Bleu */
-        .article-category-badge[data-category="economie"],
-        .article-category-badge:has-text("Économie") {
-            background: linear-gradient(135deg, #2563eb, #3b82f6) !important;
-        }
-
-        /* Catégorie Social - Gris */
-        .article-category-badge[data-category="social"],
-        .article-category-badge:has-text("Social") {
-            background: linear-gradient(135deg, #4b5563, #6b7280) !important;
-        }
-
-        /* Catégorie Sport - Orange */
-        .article-category-badge[data-category="sport"],
-        .article-category-badge:has-text("Sport") {
-            background: linear-gradient(135deg, #ea580c, #f97316) !important;
-        }
-
-        /* Catégorie Culturel - Violet */
-        .article-category-badge[data-category="culturel"],
-        .article-category-badge:has-text("Culturel") {
-            background: linear-gradient(135deg, #7c3aed, #8b5cf6) !important;
-        }
-
-        /* Catégorie Annonce - Vert */
-        .article-category-badge[data-category="annonce"],
-        .article-category-badge:has-text("Annonce") {
-            background: linear-gradient(135deg, #059669, #10b981) !important;
-        }
-
-        /* Catégorie Autre - Cyan */
-        .article-category-badge[data-category="autre"],
-        .article-category-badge:has-text("Autre") {
-            background: linear-gradient(135deg, #06b6d4, #22d3ee) !important;
-        }
-
-        /* Badge par défaut */
-        .article-category-badge:not([data-category]) {
-            background: linear-gradient(135deg, #6b7280, #9ca3af) !important;
-        }
-
-        .article-card-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #2c3e50; /* Couleur visible pour le titre */
-            margin-bottom: 10px;
-            line-height: 1.3;
-            display: -webkit-box;
-            display: -moz-box;
-            display: box;
-            -webkit-line-clamp: 2;
-            -moz-line-clamp: 2;
-            line-clamp: 2;
-            -webkit-box-orient: vertical;
-            -moz-box-orient: vertical;
-            box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
+        .article-card-title { display: none; }
         
         .article-card-meta {
             display: flex;
@@ -3235,17 +3081,12 @@
         </div>
         
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 col-md-5 mb-4 mb-md-0">
-                    <div class="hero-image-wrapper">
-                        <img src="/images/Présentation telex.png" alt="Présentation Telex" class="hero-camera-img" loading="lazy">
-                    </div>
-                </div>
-                <div class="col-lg-8 col-md-7 text-center">
+            <div class="row justify-content-center">
+                <div class="col-12 text-center">
                     <h1 class="hero-title" style="color: #fff;">
                         Telex
                     </h1>
-                    <p class="hero-subtitle" style="color: rgba(255, 255, 255, 0.95);">Découvrer les derniere actualité de notre television étudiant et media numerique</p>
+                    <p class="hero-subtitle" style="color: rgba(255, 255, 255, 0.95);">Découvrez les dernières actualités de notre télévision étudiante et média numérique</p>
                 </div>
             </div>
         </div>
@@ -3280,7 +3121,7 @@
                             <i class="fas fa-ellipsis-h me-1"></i>Autre
                         </button>
                         <button class="category-btn category-btn-all" data-category="all" onclick="filterByCategory('all')">
-                            <i class="fas fa-th me-1"></i>Tout afficher
+                            <i class="fas fa-th me-1"></i>Tout
                         </button>
                     </div>
                 </div>
@@ -3377,23 +3218,20 @@
                                 <span class="article-category-badge" data-category="<%= article.category || 'politique' %>">
                                     <%= article.category || 'politique' %>
                                 </span>
-                            </div>
-                            
-                            <div class="article-card-content">
-                                <h3 class="article-card-title">
+                                <!-- Titre en superposition sur le dégradé -->
+                                <div class="article-card-title-overlay">
                                     <%= article.title %>
-                                </h3>
-                                
-                                <!-- Résumé d'article pour layout horizontal -->
-                                <p class="article-card-excerpt">
-                                    <%= article.excerpt || (article.content ? article.content.substring(0, 120) + '...' : '') %>
-                                </p>
-                                
-                                <!-- Date de publication masquée -->
-                                <div class="article-card-meta" style="display: none;">
-                                    <span class="article-date">
-                                        <i class="fas fa-calendar-alt me-1"></i>
-                                        <%= new Date(article.created_at).toLocaleDateString('fr-FR') %>
+                                </div>
+                            </div>
+
+                            <div class="article-card-content">
+                                <div class="article-card-footer">
+                                    <span class="article-card-date-small">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <%= new Date(article.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) %>
+                                    </span>
+                                    <span class="article-card-read-more">
+                                        Lire <i class="fas fa-arrow-right"></i>
                                     </span>
                                 </div>
                             </div>
@@ -3726,28 +3564,21 @@
                                 <span class="article-category-badge" data-category="<%= article.category || 'politique' %>">
                                     <%= article.category || 'politique' %>
                                 </span>
-                            </div>
-                            
-                            <div class="article-card-content">
-                                <h3 class="article-card-title">
+                                <!-- Titre en superposition sur le dégradé -->
+                                <div class="article-card-title-overlay">
                                     <%= article.title %>
-                                </h3>
-                                
-                                <!-- Résumé d'article pour layout horizontal -->
-                                <p class="article-card-excerpt">
-                                    <%= article.excerpt || (article.content ? article.content.substring(0, 120) + '...' : '') %>
-                                </p>
-                                
-                                <!-- Date de publication masquée -->
-                                <div class="article-card-meta" style="display: none;">
-                                    <div class="article-card-date">
-                                        <i class="far fa-calendar"></i>
-                                        <%= new Date(article.created_at).toLocaleDateString('fr-FR', {
-                                            day: 'numeric',
-                                            month: 'short',
-                                            year: 'numeric'
-                                        }) %>
-                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="article-card-content">
+                                <div class="article-card-footer">
+                                    <span class="article-card-date-small">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <%= new Date(article.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' }) %>
+                                    </span>
+                                    <span class="article-card-read-more">
+                                        Lire <i class="fas fa-arrow-right"></i>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -3755,7 +3586,7 @@
                     </div>
                 </div>
             </section>
-            
+
             <!-- Pagination Vidéos - déplacée ici après la section vidéos -->
             <% if (videoArticles && videoArticles.length > 0) { %>
             <div class="container mt-4">
@@ -4263,7 +4094,6 @@
 
     // Fonction "Tout afficher" - affiche tous les articles avec pagination séparée
     window.showAllArticles = function() {
-        showAllArticles = true;
         imageCurrentPage = 1; // Réinitialiser à la première page
         videoCurrentPage = 1; // Réinitialiser à la première page
         

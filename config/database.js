@@ -33,6 +33,7 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
             updateProgramsTableWithPublicFlag(); // Ajouter le champ show_on_public
             updateCookieConsentsTable(); // Ajouter la colonne consent_given
             initializeAboutData(); // Initialiser les données de la page about
+            createPageViewsTable(); // Tracking réel des visites
         }, 2000);
     }
 });
@@ -217,6 +218,16 @@ function initSimpleDatabase() {
             user_agent TEXT,
             ip_address TEXT,
             timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )`,
+
+        // TABLE PAGE_VIEWS - Tracking réel des visites de pages
+        `CREATE TABLE IF NOT EXISTS page_views (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            page TEXT NOT NULL,
+            ip_address TEXT,
+            user_agent TEXT,
+            referer TEXT,
+            visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`,
         
         // TABLE ABOUT - Pour le contenu de la page À Propos
@@ -850,6 +861,26 @@ async function initializeAboutData() {
     } catch (error) {
         console.error('❌ Erreur lors de l\'initialisation des données about:', error);
     }
+}
+
+// Créer la table page_views si elle n'existe pas (migration bases existantes)
+function createPageViewsTable() {
+    db.run(`CREATE TABLE IF NOT EXISTS page_views (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        page TEXT NOT NULL,
+        ip_address TEXT,
+        user_agent TEXT,
+        referer TEXT,
+        visited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`, (err) => {
+        if (err) {
+            console.error('❌ Erreur création page_views:', err.message);
+        } else {
+            db.run(`CREATE INDEX IF NOT EXISTS idx_page_views_date ON page_views(DATE(visited_at))`);
+            db.run(`CREATE INDEX IF NOT EXISTS idx_page_views_ip   ON page_views(ip_address)`);
+            console.log('✅ Table page_views prête');
+        }
+    });
 }
 
 module.exports = { db, dbAll, dbGet, dbRun, initializeAboutData };

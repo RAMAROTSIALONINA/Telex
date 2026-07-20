@@ -1,62 +1,74 @@
 <!-- Footer -->
 <footer class="footer-telex">
+    <!-- Vague SVG transition -->
+    <div class="footer-wave-top">
+        <svg viewBox="0 0 1440 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,26 C240,52 480,0 720,26 C960,52 1200,0 1440,26 L1440,0 L0,0 Z" fill="#ffffff"/>
+        </svg>
+    </div>
+
     <div class="container">
+        <!-- Ligne rouge accent -->
+        <div class="footer-accent-line"></div>
+
         <div class="row">
-            <div class="col-lg-4">
+            <!-- Brand -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
                 <div class="footer-brand">
-                    <img src="<%= footer.footer_logo || '/images/11.png' %>" alt="Telex" class="footer-logo">
+                    <img src="<%= footer.footer_logo || '/images/logo.png' %>" alt="Telex" class="footer-logo">
                     <h3>Telex</h3>
                     <p>Télévision étudiante jeune et engagée</p>
+                    <p class="footer-origin">Madagascar · 2024</p>
                 </div>
             </div>
-            
-            <div class="col-lg-2">
+
+            <!-- Navigation 2 colonnes -->
+            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
                 <h4>Navigation</h4>
-                <ul class="footer-links">
+                <ul class="footer-links footer-nav-2col">
                     <li><a href="/">Accueil</a></li>
-                    <li><a href="/about">À propos</a></li>
-                    <li><a href="/gallery">Galerie</a></li>
-                    <li><a href="/album">Album</a></li>
-                    <li><a href="/programs">Programmes</a></li>
-                    <li><a href="/baume-de-la-foi">Baume de la Foi</a></li>
                     <li><a href="/news">Actualités</a></li>
+                    <li><a href="/about">À propos</a></li>
                     <li><a href="/contact">Contact</a></li>
+                    <li><a href="/gallery">Galerie</a></li>
+                    <li><a href="/programs">Programmes</a></li>
+                    <li><a href="/album">Album</a></li>
+                    <li><a href="/baume-de-la-foi">Baume de la Foi</a></li>
                 </ul>
             </div>
-            
-            <div class="col-lg-4">
+
+            <!-- Contact avec icônes encadrées -->
+            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                 <h4>Contact</h4>
                 <ul class="footer-contact">
-                    <!-- Email Telex (toujours en premier) -->
-                    <li><i class="fas fa-envelope me-2"></i><%= footer.contact_email || 'contact@telex.fr' %></li>
-                    
-                    <% 
-                    var isMadagascarVisitor = (typeof userLocation !== 'undefined' && userLocation && userLocation.country === 'MG');
-                    
-                    // Afficher les téléphones disponibles
-                    if (footer.contact_phone) { 
-                    %>
-                        <li><i class="fas fa-phone me-2"></i><%= footer.contact_phone %></li>
+                    <li>
+                        <div class="footer-contact-icon"><i class="fas fa-envelope"></i></div>
+                        <span class="footer-contact-text"><%= footer.contact_email || 'contact@telex.fr' %></span>
+                    </li>
+                    <% if (footer.contact_phone) { %>
+                    <li>
+                        <div class="footer-contact-icon"><i class="fas fa-phone"></i></div>
+                        <span class="footer-contact-text"><%= footer.contact_phone %></span>
+                    </li>
                     <% } %>
-                    
                     <% if (footer.contact_phone_2) { %>
-                    <li><i class="fas fa-phone me-2"></i><%= footer.contact_phone_2 %></li>
+                    <li>
+                        <div class="footer-contact-icon"><i class="fas fa-phone"></i></div>
+                        <span class="footer-contact-text"><%= footer.contact_phone_2 %></span>
+                    </li>
                     <% } %>
-                    
-                    <!-- Localisation Telex (toujours à la fin) -->
-                    <% if (isMadagascarVisitor) { 
-                        // Visiteur Madagascar : localisation Madagascar en premier
+                    <%
+                    var isMadagascarVisitor = (typeof userLocation !== 'undefined' && userLocation && userLocation.country === 'MG');
                     %>
-                        <li><i class="fas fa-map-marker-alt me-2"></i><%= footer.contact_address || 'Campus Universitaire, Paris' %></li>
-                    <% } else { 
-                        // Visiteur international : localisation France en premier
-                    %>
-                        <li><i class="fas fa-map-marker-alt me-2"></i><%= footer.contact_address || 'Campus Universitaire, Paris' %></li>
-                    <% } %>
+                    <li>
+                        <div class="footer-contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <span class="footer-contact-text"><%= footer.contact_address || 'Campus Universitaire, Paris' %></span>
+                    </li>
                 </ul>
             </div>
-            
-            <div class="col-lg-2">
+
+            <!-- Réseaux sociaux -->
+            <div class="col-lg-2 col-md-6 mb-4 mb-lg-0">
                 <h4>Réseaux Sociaux</h4>
                 <div class="footer-social">
                     <% if (footer.youtube_url) { %>
@@ -87,9 +99,11 @@
                 </div>
             </div>
         </div>
-        
+
+        <!-- Footer bottom bicolonne -->
         <div class="footer-bottom">
-            <p>© 2026 Telex - Tous droits réservés</p>
+            <span>© 2026 Telex — Tous droits réservés</span>
+            <span>Télévision Étudiante · Madagascar</span>
         </div>
     </div>
 </footer>

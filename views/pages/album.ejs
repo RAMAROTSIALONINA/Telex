@@ -17,7 +17,7 @@
             background-size: 200% 200%;
             animation: heroShift 15s ease-in-out infinite;
             color: white;
-            padding: 100px 0 60px;
+            padding: 80px 0 36px;
             position: relative;
             overflow: hidden;
         }
@@ -38,18 +38,18 @@
             text-align: center;
         }
         .album-hero-content h1 {
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
         }
         .album-hero-content .lead {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: 0.9rem;
+            opacity: 0.85;
         }
 
         /* ===== CATEGORIES ===== */
-        .album-categories { padding: 60px 0; }
-        .category-header { text-align: center; margin-bottom: 3rem; }
+        .album-categories { padding: 16px 0 0; }
+        .category-header { display: none; }
         .category-header h2 {
             font-size: 2.2rem; font-weight: 700;
             color: #1d3557; position: relative; display: inline-block;
@@ -66,7 +66,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
-            margin-bottom: 60px;
+            margin-bottom: 0;
         }
         .album-card {
             background: white; border-radius: 15px; overflow: hidden;
@@ -99,7 +99,8 @@
         .empty-icon { font-size: 3.5rem; color: #adb5bd; display: block; margin-bottom: 1rem; }
 
         /* ===== STATS ===== */
-        .album-stats { padding: 40px 0; background: #f8fafc; }
+        .album-stats { padding: 16px 0 10px; background: #f8fafc; }
+        .footer-telex { margin-top: 0 !important; }
         .stats-container { display: flex; justify-content: center; gap: 60px; flex-wrap: wrap; }
         .stat-item { text-align: center; }
         .stat-number { font-size: 2.5rem; font-weight: 700; color: #1d3557; display: block; }
@@ -154,16 +155,28 @@
         }
         .lightbox-item:hover::after { opacity: 1; }
 
+        /* ===== WAVE SEPARATOR ===== */
+        .album-hero { position: relative; }
+        .hero-wave {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            line-height: 0;
+            overflow: hidden;
+        }
+        .hero-wave svg { display: block; width: 100%; height: 52px; }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 768px) {
-            .album-hero { padding: 90px 0 40px; }
-            .album-hero-content h1 { font-size: 2.2rem; }
+            .album-hero { padding: 70px 0 36px; }
+            .album-hero-content h1 { font-size: 1.5rem; }
             .album-grid { grid-template-columns: 1fr; gap: 20px; }
             .stats-container { gap: 30px; }
             .lightbox-gallery { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; padding: 12px; max-height: 60vh; }
         }
         @media (max-width: 480px) {
-            .album-hero-content h1 { font-size: 1.8rem; }
+            .album-hero-content h1 { font-size: 1.3rem; }
             .lightbox-gallery { grid-template-columns: repeat(2, 1fr); gap: 8px; padding: 10px; }
         }
     </style>
@@ -181,6 +194,13 @@
                     Explorez nos souvenirs immortalisés à travers nos différents événements et activités
                 </p>
             </div>
+        </div>
+        <!-- Wave separator -->
+        <div class="hero-wave">
+            <svg viewBox="0 0 1440 52" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0,32 C360,60 1080,0 1440,32 L1440,52 L0,52 Z" fill="#ffffff"/>
+                <path d="M0,32 C360,60 1080,0 1440,32" fill="none" stroke="#E63946" stroke-width="3"/>
+            </svg>
         </div>
     </section>
 

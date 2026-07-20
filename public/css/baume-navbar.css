@@ -14,12 +14,20 @@ body {
 .navbar,
 .navbar-telex,
 .navbar-baume {
-    background: #051d40 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background: transparent !important;
+    box-shadow: none;
     z-index: 1030 !important;
     min-height: var(--navbar-height);
     padding-top: 0.05rem !important;
     padding-bottom: 0.05rem !important;
+    transition: background 0.35s ease, box-shadow 0.35s ease;
+}
+
+.navbar.scrolled,
+.navbar-telex.scrolled,
+.navbar-baume.scrolled {
+    background: rgba(5, 29, 64, 0.97) !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
 }
 
 /* --- Logo --- */
@@ -203,68 +211,180 @@ body {
     background: rgba(220, 53, 69, 0.3) !important;
 }
 
-/* ===== RESPONSIVE ===== */
+/* ===== RESPONSIVE MOBILE ===== */
 @media (max-width: 1199px) {
-    .navbar .navbar-collapse,
-    .navbar-telex .navbar-collapse,
+
+    /* Panel de navigation ouvert */
     .navbar-baume .navbar-collapse {
+        position: fixed;
+        top: var(--navbar-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
         background: #051d40;
-        padding: 0.5rem 1rem;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding: 0;
+        border-top: 2px solid rgba(220, 53, 69, 0.6);
+        z-index: 1029;
+        /* Animation slide-down */
+        transform: translateY(-8px);
+        opacity: 0;
+        pointer-events: none;
+        transition: transform 0.28s ease, opacity 0.28s ease;
     }
 
-    .navbar .navbar-nav .nav-link,
-    .navbar-telex .navbar-nav .nav-link,
+    .navbar-baume .navbar-collapse.show {
+        transform: translateY(0);
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    /* Liste des liens */
+    .navbar-baume .navbar-nav {
+        padding: 1rem 0 2rem;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0;
+    }
+
+    /* Chaque lien */
     .navbar-baume .navbar-nav .nav-link {
-        font-size: 0.9rem !important;
-        padding: 10px 8px !important;
-        margin: 2px 0;
-        text-align: left;
+        font-size: 1rem !important;
+        font-weight: 700 !important;
+        padding: 14px 24px !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+        text-align: left !important;
+        white-space: nowrap;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px;
+        min-height: 52px;
+        transition: background 0.2s ease, padding-left 0.2s ease;
     }
 
-    .navbar .dropdown-menu,
-    .navbar-telex .dropdown-menu,
+    /* Icônes visibles sur mobile */
+    .navbar-baume .navbar-nav .nav-link i {
+        display: inline-block !important;
+        width: 22px;
+        text-align: center;
+        font-size: 1rem !important;
+        opacity: 0.75;
+        flex-shrink: 0;
+    }
+
+    /* Hover mobile */
+    .navbar-baume .navbar-nav .nav-link:hover {
+        background: rgba(255,255,255,0.06) !important;
+        padding-left: 30px !important;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Actif mobile : badge rouge autour du texte seulement */
+    .navbar-baume .navbar-nav .nav-link.active {
+        background: transparent !important;
+        border-left: none !important;
+        border-radius: 0 !important;
+        padding-left: 24px !important;
+    }
+
+    .navbar-baume .navbar-nav .nav-link.active .nav-text {
+        background: #dc3545;
+        color: white;
+        padding: 4px 14px;
+        border-radius: 20px;
+        display: inline-block;
+    }
+
+    .navbar-baume .navbar-nav .nav-link.active::after {
+        display: none !important;
+    }
+
+    /* Séparateur avant les liens langue */
+    .navbar-baume .navbar-nav .nav-item.nav-lang-separator {
+        margin-top: 0.5rem;
+        border-top: 1px solid rgba(255,255,255,0.12);
+    }
+
+    /* Liens langue mobile — style discret */
+    .navbar-baume .navbar-nav .nav-link.nav-lang-link {
+        font-size: 0.82rem !important;
+        color: rgba(255,255,255,0.55) !important;
+        min-height: 44px !important;
+        padding: 10px 24px !important;
+    }
+
+    .navbar-baume .navbar-nav .nav-link.nav-lang-link .nav-text {
+        background: none;
+        padding: 0;
+        border-radius: 0;
+        color: inherit;
+    }
+
+    .navbar-baume .navbar-nav .nav-link.nav-lang-link.active .nav-text {
+        background: rgba(220,53,69,0.3);
+        color: white;
+        padding: 3px 12px;
+        border-radius: 20px;
+    }
+
+    .navbar-baume .navbar-nav .nav-link.nav-lang-link:hover {
+        color: rgba(255,255,255,0.9) !important;
+        background: rgba(255,255,255,0.05) !important;
+        padding-left: 24px !important;
+    }
+
+    /* Dropdown desktop caché sur mobile */
     .navbar-baume .dropdown-menu {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: none;
-        box-shadow: none;
-        padding-left: 1rem;
+        display: none !important;
     }
-}
 
-@media (max-width: 768px) {
-    .navbar .navbar-brand img,
-    .navbar-telex .navbar-brand img,
+    /* Logo taille mobile */
     .navbar-baume .navbar-brand img {
-        height: 35px;
-        max-width: 120px;
+        height: 42px;
+        max-width: 140px;
     }
 
-    .navbar .navbar-nav .nav-link,
-    .navbar-telex .navbar-nav .nav-link,
-    .navbar-baume .navbar-nav .nav-link {
-        font-size: 0.9rem !important;
-        padding: 10px 8px !important;
+    /* Bouton hamburger */
+    .navbar-baume .navbar-toggler {
+        border: 1.5px solid rgba(255, 255, 255, 0.5) !important;
+        padding: 7px 11px;
+        border-radius: 8px !important;
+    }
+
+    .navbar-baume .navbar-toggler i {
+        font-size: 1.2rem;
+        transition: transform 0.25s ease;
+    }
+
+    .navbar-baume .navbar-toggler[aria-expanded="true"] i::before {
+        content: "\f00d"; /* ✕ */
     }
 }
 
 @media (max-width: 576px) {
-    :root {
-        --navbar-height: 60px;
-    }
+    :root { --navbar-height: 60px; }
 
-    .navbar .navbar-brand img,
-    .navbar-telex .navbar-brand img,
     .navbar-baume .navbar-brand img {
-        height: 28px;
-        max-width: 90px;
+        height: 34px;
+        max-width: 110px;
     }
 
-    .navbar .navbar-nav .nav-link,
-    .navbar-telex .navbar-nav .nav-link,
     .navbar-baume .navbar-nav .nav-link {
-        font-size: 0.8rem !important;
-        padding: 8px 6px !important;
+        font-size: 0.95rem !important;
+        padding: 12px 18px !important;
+        min-height: 48px;
+    }
+
+    .navbar-baume .navbar-nav .nav-link:hover {
+        padding-left: 26px !important;
+    }
+
+    .navbar-baume .navbar-nav .nav-link.active {
+        padding-left: 14px !important;
     }
 }
 
@@ -303,7 +423,8 @@ body {
 
 .priere-content,
 .reflexion-content {
-    padding: 1.5rem;
+    padding: 1rem;
+    white-space: normal; /* Override white-space: nowrap inherited from carousel track */
 }
 
 .priere-card,
@@ -317,3 +438,1421 @@ body {
     transform: translateY(-4px);
     box-shadow: 0 12px 40px rgba(46, 92, 78, 0.15);
 }
+
+/* ===== CATEGORY NAVIGATION (TopChrétien style) ===== */
+.baume-category-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 0;
+    border-bottom: 2px solid #f0f0f0;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.baume-category-nav::-webkit-scrollbar { display: none; }
+
+.baume-cat-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1.25rem;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: 2px solid #dc3545;
+    background: white;
+    color: #dc3545;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: 0.01em;
+}
+.baume-cat-btn:hover,
+.baume-cat-btn.active {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+    box-shadow: 0 4px 14px rgba(220,53,69,0.3);
+    transform: translateY(-1px);
+}
+
+/* Compatibilité anciens pills */
+.category-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    padding: 0.5rem 0;
+}
+.category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+.category-pill:hover,
+.category-pill.active {
+    background: var(--baume-gradient) !important;
+    color: white !important;
+    border-color: transparent !important;
+    transform: translateY(-2px);
+}
+
+/* ===== SECTION HEADERS (TopChrétien style) ===== */
+.baume-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+.baume-section-title-wrap {}
+.baume-section-accent {
+    width: 44px;
+    height: 4px;
+    background: var(--baume-gradient);
+    border-radius: 2px;
+    margin-bottom: 0.5rem;
+}
+.baume-section-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--baume-accent);
+    margin-bottom: 0.2rem;
+    display: block;
+}
+.baume-section-title {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin: 0;
+    line-height: 1.2;
+    font-family: 'Montserrat', sans-serif;
+}
+.baume-section-subtitle {
+    font-size: 0.88rem;
+    color: #888;
+    margin-top: 0.3rem;
+    display: block;
+}
+.baume-section-link {
+    color: var(--baume-accent);
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    white-space: nowrap;
+    transition: gap 0.2s, color 0.2s;
+    padding-bottom: 0.2rem;
+}
+.baume-section-link:hover {
+    gap: 0.7rem;
+    color: var(--baume-primary);
+}
+
+/* ===== CARTES REFLEXIONS (TopChrétien style) ===== */
+.content-card-reflexion {
+    background: white;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+    border: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.content-card-reflexion:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 36px rgba(46,92,78,0.16);
+    border-color: transparent;
+}
+
+.reflexion-image-container {
+    width: 100%;
+    height: 185px;
+    overflow: hidden;
+    flex-shrink: 0;
+    position: relative;
+}
+.reflexion-image-container img,
+.reflexion-image-container video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+.content-card-reflexion:hover .reflexion-image-container img,
+.content-card-reflexion:hover .reflexion-image-container video {
+    transform: scale(1.05);
+}
+
+.reflexion-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--baume-gradient);
+    color: white;
+    font-size: 2.5rem;
+}
+
+.reflexion-content {
+    padding: 1rem 1rem 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    white-space: normal;
+}
+
+.reflexion-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    background: #dc3545;
+    color: white;
+    font-size: 0.68rem;
+    font-weight: 700;
+    padding: 0.22rem 0.6rem;
+    border-radius: 4px;
+    margin-bottom: 0.6rem;
+    width: fit-content;
+    white-space: nowrap;
+    letter-spacing: 0.04em;
+}
+
+.reflexion-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    white-space: normal;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    line-height: 1.45;
+    margin: 0 0 auto;
+    flex: 1;
+}
+
+.reflexion-author-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.85rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #f3f3f3;
+    color: #999;
+    font-size: 0.78rem;
+    font-weight: 500;
+}
+.reflexion-author-avatar {
+    width: 24px;
+    height: 24px;
+    background: var(--baume-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.6rem;
+    flex-shrink: 0;
+}
+
+/* ===== FORMULAIRE TÉMOIGNAGE ===== */
+.form-temoignage {
+    background: white;
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+}
+
+.form-temoignage h2 {
+    color: var(--baume-accent);
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.form-temoignage .form-label {
+    font-weight: 700;
+    color: var(--baume-primary);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+}
+
+.form-temoignage .form-control {
+    border-radius: 10px;
+    border: 1.5px solid rgba(46, 92, 78, 0.25);
+    padding: 0.75rem 1rem;
+    color: #333;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-temoignage .form-control::placeholder {
+    color: #aaa;
+}
+
+.form-temoignage .form-control:focus {
+    border-color: var(--baume-accent);
+    box-shadow: 0 0 0 3px rgba(58, 175, 169, 0.2);
+    outline: none;
+}
+
+.form-temoignage .text-muted,
+.form-temoignage small.text-muted {
+    color: #888 !important;
+    font-size: 0.8rem;
+}
+
+.form-temoignage .form-check-label {
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    padding: 0.85rem 2.5rem;
+    background: var(--baume-gradient);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ===== CARTES TÉMOIGNAGES ===== */
+.temoignage-program-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(46, 92, 78, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.temoignage-program-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(46, 92, 78, 0.15);
+}
+
+.temoignage-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--baume-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+
+.temoignage-program-card h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--baume-primary);
+    margin-bottom: 0.25rem;
+}
+
+.temoignage-date {
+    font-size: 0.8rem;
+    color: #999;
+    margin-bottom: 0.75rem;
+}
+
+.temoignage-program-card p {
+    font-size: 0.9rem;
+    color: #555;
+    line-height: 1.6;
+    font-style: italic;
+    flex: 1;
+}
+
+.temoignage-link {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--baume-primary);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.temoignage-link:hover {
+    color: var(--baume-accent);
+}
+
+/* ===== PAGINATION RÉFLEXIONS (redesignée) ===== */
+.reflexions-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+.reflexions-pagination .btn-page {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+    background: white;
+    color: #555;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+}
+.reflexions-pagination .btn-page.active {
+    background: var(--baume-gradient);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 4px 12px rgba(46,92,78,0.3);
+}
+.reflexions-pagination .btn-page:hover:not(.active) {
+    border-color: var(--baume-accent);
+    color: var(--baume-accent);
+}
+.reflexions-pagination .btn-nav {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1.1rem;
+    border-radius: 50px;
+    border: 2px solid #e0e0e0;
+    background: white;
+    color: #555;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+.reflexions-pagination .btn-nav:hover:not(:disabled) {
+    border-color: var(--baume-accent);
+    color: var(--baume-accent);
+}
+.reflexions-pagination .btn-nav:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+}
+
+/* ===== AMÉLIORATIONS SECTION PRIÈRES ===== */
+.prieres-section-wrap {
+    background: #ffffff;
+    padding: 3rem 0;
+}
+.reflexions-section-wrap {
+    background: #f8f9fa;
+    padding: 3rem 0;
+}
+
+/* Hover amélioré sur cartes prières */
+.content-card {
+    transition: transform 0.25s ease, box-shadow 0.25s ease !important;
+}
+.content-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 16px 40px rgba(0,0,0,0.2) !important;
+}
+
+/* ===== BOUTON FERMER MODAL ===== */
+.btn-modal {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6rem 1.5rem;
+    background: #f8f9fa;
+    color: #555;
+    border: 1.5px solid #dee2e6;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-modal:hover {
+    background: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+/* ===== MODAL PRIÈRES / RÉFLEXIONS ===== */
+.baume-modal-dialog {
+    max-width: 500px;
+    width: 100%;
+}
+
+.baume-modal {
+    border: none;
+    border-radius: 18px;
+    overflow: hidden;
+}
+
+/* En-tête colorée */
+.baume-modal-header {
+    background: var(--baume-gradient);
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.baume-modal-type {
+    color: white;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.baume-modal-close {
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+.baume-modal-close:hover { background: rgba(255,255,255,0.35); }
+
+/* Corps */
+.baume-modal-body {
+    padding: 1.25rem 1.5rem;
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+/* Média */
+.modal-media-container {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0;
+    background: transparent;
+    text-align: center;
+}
+
+.modal-media {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    max-height: 250px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+/* Badges */
+.baume-modal-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+}
+
+.modal-category {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--baume-gradient);
+    color: white;
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.modal-reference {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(46,92,78,0.1);
+    color: var(--baume-primary);
+    padding: 0.3rem 0.9rem;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* Titre */
+.baume-modal-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+/* Séparateur */
+.baume-modal-divider {
+    height: 3px;
+    width: 50px;
+    background: var(--baume-gradient);
+    border-radius: 2px;
+    margin: 0.75rem 0 1.25rem;
+}
+
+/* Contenu */
+.modal-content-text {
+    font-family: 'Georgia', serif;
+    font-size: 1.1rem;
+    line-height: 1.85;
+    color: #222;
+    white-space: pre-wrap;
+    margin-bottom: 1rem;
+}
+
+/* Encadré verset biblique */
+.baume-verse-box {
+    background: linear-gradient(135deg, rgba(46,92,78,0.07), rgba(58,175,169,0.07));
+    border-left: 4px solid var(--baume-accent);
+    border-radius: 0 12px 12px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.baume-verse-icon {
+    color: var(--baume-accent);
+    font-size: 1.5rem;
+    opacity: 0.4;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.baume-verse-text {
+    font-style: italic;
+    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 0.4rem;
+}
+
+.baume-verse-ref {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--baume-primary);
+}
+
+/* Auteur + partage */
+.baume-modal-footer-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.baume-modal-author {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: #666;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.baume-author-avatar {
+    width: 34px;
+    height: 34px;
+    background: var(--baume-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* Boutons partage */
+.baume-share-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.baume-share-label {
+    font-size: 0.8rem;
+    color: #999;
+    font-weight: 600;
+}
+
+.baume-share-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+}
+.baume-share-btn:hover { transform: scale(1.1); opacity: 0.9; color: white; }
+.baume-share-btn.whatsapp { background: #25D366; }
+.baume-share-btn.facebook { background: #1877F2; }
+
+/* Footer du modal */
+.baume-modal-footer-bar {
+    border-top: 1px solid #eee;
+    padding: 0.75rem 1.5rem;
+    justify-content: flex-end;
+}
+
+/* ===== IMAGE TÉMOIGNAGES DE FOI ===== */
+.temoignages-optimized {
+    width: 100%;
+    margin: 0 0 20px 0;
+    padding: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.temoignages-img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    object-position: center 25%;
+    display: block;
+    filter: brightness(1.02);
+    transition: all 0.4s ease;
+}
+
+.temoignages-optimized:hover .temoignages-img {
+    transform: scale(1.01);
+    filter: brightness(1.05) contrast(1.02);
+}
+
+/* ===== CARTES PRIÈRES (classes manquantes) ===== */
+.content-card {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.media-card {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #2E5C4E;
+}
+
+.media-card img,
+.media-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-title-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%);
+    padding: 1.5rem 1rem 1rem;
+}
+
+.card-title-overlay h3 {
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin: 0;
+    white-space: normal;
+    line-height: 1.3;
+}
+
+.media-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.reference-badge {
+    position: absolute;
+    bottom: 55px;
+    left: 10px;
+    background: rgba(46, 92, 78, 0.85);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+}
+
+.card-body-hidden {
+    display: none;
+}
+
+.no-media {
+    background: linear-gradient(135deg, #2E5C4E, #3AAFA9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: #aaa;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.5;
+}
+
+/* ===== QUIZ REDESIGNÉ ===== */
+.quiz-card {
+    max-width: 680px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+    padding: 2rem 2.5rem 2.5rem;
+}
+
+/* Barre du haut : question + score */
+.quiz-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+}
+.quiz-question-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #eff6ff;
+    color: #2563eb;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.35rem 0.9rem;
+    border-radius: 50px;
+    letter-spacing: 0.03em;
+}
+.quiz-score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: #fefce8;
+    color: #d97706;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 0.35rem 0.9rem;
+    border-radius: 50px;
+}
+
+/* Pastilles + barre de progression */
+.quiz-progress-wrap { margin-bottom: 1.75rem; }
+.quiz-steps {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 0.6rem;
+}
+.quiz-step {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #e5e7eb;
+    transition: all 0.3s;
+    flex-shrink: 0;
+}
+.quiz-step.active {
+    background: var(--baume-accent);
+    transform: scale(1.3);
+}
+.quiz-step.done {
+    background: var(--baume-primary);
+}
+.quiz-progress-bar {
+    height: 6px;
+    background: #f0f0f0;
+    border-radius: 3px;
+    overflow: hidden;
+}
+.quiz-progress-fill {
+    height: 100%;
+    background: var(--baume-gradient);
+    border-radius: 3px;
+    transition: width 0.4s ease;
+}
+
+/* Question */
+.quiz-question-wrap {
+    margin-bottom: 1.75rem;
+    text-align: center;
+}
+.quiz-question-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    line-height: 1.5;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Options de réponse */
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+.quiz-option {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    width: 100%;
+    padding: 0.9rem 1.1rem;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    background: white;
+    color: #333;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.quiz-option:hover:not(:disabled) {
+    border-color: var(--baume-accent);
+    background: #f0fdfc;
+    transform: translateX(4px);
+}
+.quiz-option-letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f3f4f6;
+    color: #555;
+    font-weight: 800;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+}
+.quiz-option-text { flex: 1; }
+.quiz-option-icon { opacity: 0; font-size: 1rem; flex-shrink: 0; transition: opacity 0.2s; }
+
+/* États correct / faux */
+.quiz-option.correct {
+    border-color: #16a34a;
+    background: #f0fdf4;
+    color: #15803d;
+}
+.quiz-option.correct .quiz-option-letter {
+    background: #16a34a;
+    color: white;
+}
+.quiz-option.correct .quiz-option-icon {
+    opacity: 1;
+    color: #16a34a;
+}
+.quiz-option.wrong {
+    border-color: #dc2626;
+    background: #fef2f2;
+    color: #dc2626;
+}
+.quiz-option.wrong .quiz-option-letter {
+    background: #dc2626;
+    color: white;
+}
+.quiz-option.wrong .quiz-option-icon {
+    opacity: 1;
+    color: #dc2626;
+    font-family: 'Font Awesome 6 Free';
+}
+.quiz-option.wrong .quiz-option-icon::before { content: '\f00d'; }
+
+/* Verset biblique */
+.quiz-verse-box {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid #e5e7eb;
+}
+.quiz-verse-result {
+    font-weight: 700;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.quiz-verse-result.correct { color: #16a34a; }
+.quiz-verse-result.wrong   { color: #dc2626; }
+.quiz-verse-content { position: relative; }
+.quiz-verse-icon {
+    color: var(--baume-accent);
+    opacity: 0.35;
+    font-size: 1.4rem;
+    margin-bottom: 0.35rem;
+    display: block;
+}
+.quiz-verse-text {
+    font-style: italic;
+    font-size: 0.92rem;
+    color: #444;
+    line-height: 1.65;
+    margin-bottom: 0.3rem;
+}
+.quiz-verse-ref {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--baume-primary);
+}
+
+/* Boutons navigation */
+.quiz-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+.quiz-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background: var(--baume-gradient);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s;
+}
+.quiz-btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+.quiz-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+.quiz-btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: white;
+    color: #555;
+    border: 2px solid #e0e0e0;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.quiz-btn-secondary:hover:not(:disabled) { border-color: var(--baume-accent); color: var(--baume-accent); }
+.quiz-btn-secondary:disabled { opacity: 0.35; cursor: not-allowed; }
+
+/* Shake animation */
+@keyframes shake {
+    0%,100% { transform: translateX(0); }
+    20%,60%  { transform: translateX(-8px); }
+    40%,80%  { transform: translateX(8px); }
+}
+.quiz-options.shake { animation: shake 0.4s ease; }
+
+/* Résultats */
+.quiz-results-wrap {
+    text-align: center;
+    padding: 1rem 0;
+}
+.quiz-result-icon {
+    font-size: 4rem;
+    margin-bottom: 0.75rem;
+    display: block;
+    animation: bounceIn 0.5s ease;
+}
+@keyframes bounceIn {
+    0%   { transform: scale(0.3); opacity: 0; }
+    60%  { transform: scale(1.15); opacity: 1; }
+    100% { transform: scale(1); }
+}
+.quiz-result-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: 1.25rem;
+    font-family: 'Montserrat', sans-serif;
+}
+.quiz-result-score-ring {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.2rem;
+    background: var(--baume-gradient);
+    color: white;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.8rem;
+    font-weight: 900;
+    margin-bottom: 1rem;
+    box-shadow: 0 8px 24px rgba(46,92,78,0.3);
+}
+.quiz-result-score-ring small { font-size: 1.1rem; font-weight: 600; opacity: 0.85; }
+.quiz-result-message {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 1rem;
+    line-height: 1.55;
+}
+.quiz-result-stars { margin-bottom: 0.5rem; }
+
+/* Responsive quiz */
+@media (max-width: 575px) {
+    .quiz-card { padding: 1.25rem 1rem 1.5rem; border-radius: 14px; }
+    .quiz-question-text { font-size: 1.05rem; }
+    .quiz-option { padding: 0.75rem 0.85rem; font-size: 0.92rem; }
+    .quiz-option-letter { width: 28px; height: 28px; font-size: 0.78rem; }
+    .quiz-result-score-ring { width: 90px; height: 90px; font-size: 2.2rem; }
+    .quiz-result-title { font-size: 1.4rem; }
+}
+
+/* ===== RESPONSIVE FIXES ===== */
+
+/* Tablette (576px - 991px) — fusionné avec le bloc tablette ci-dessous */
+
+/* Mobile (< 576px) */
+@media (max-width: 575px) {
+    /* Carousel prières → scroll horizontal sur mobile */
+    .prieres-carousel-container .carousel-nav-btn {
+        display: none !important;
+    }
+    .carousel-wrapper {
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        border-radius: 12px !important;
+    }
+    .carousel-wrapper::-webkit-scrollbar { display: none; }
+    #prieresCarousel {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        width: max-content !important;
+        transform: none !important;
+        transition: none !important;
+    }
+    #prieresCarousel .carousel-slide {
+        min-width: auto !important;
+        width: auto !important;
+        padding: 0 !important;
+    }
+    #prieresCarousel .row {
+        flex-wrap: nowrap !important;
+        margin: 0 !important;
+    }
+    #prieresCarousel .col-4 {
+        flex: 0 0 230px !important;
+        max-width: 230px !important;
+        padding: 0 6px !important;
+    }
+    .content-card {
+        height: 240px !important;
+    }
+
+    /* Réduire le padding des container-fluid à 1rem */
+    #prieres .container-fluid,
+    .quiz-image-container {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+
+    /* Quiz navigation */
+    .quiz-navigation {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .quiz-navigation .btn {
+        width: 100%;
+    }
+
+    /* Form témoignage */
+    .form-temoignage {
+        padding: 1.5rem 1rem;
+    }
+
+    /* Reflexion carousel wrapper */
+    .reflexions-carousel-container .carousel-wrapper {
+        padding: 15px !important;
+        overflow: hidden !important;
+    }
+
+    /* Section prières padding */
+    #prieres {
+        padding: 1.5rem 0 !important;
+    }
+    #prieres > .container-fluid {
+        padding: 0 1rem !important;
+    }
+
+    /* Modal responsive — mobile */
+    .baume-modal-dialog {
+        margin: 0.5rem auto !important;
+        max-width: 95vw !important;
+        width: 95vw !important;
+    }
+
+    .baume-modal-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .baume-modal-body {
+        padding: 0.75rem 1rem;
+        max-height: 45vh;
+    }
+
+    .modal-content-text {
+        font-size: 1rem;
+        line-height: 1.75;
+    }
+
+    .modal-media {
+        max-height: 180px !important;
+    }
+
+    .baume-modal-title {
+        font-size: 1.1rem;
+    }
+
+    .baume-modal-footer-bar {
+        padding: 0.5rem 1rem;
+    }
+
+    /* Category pills scroll horizontal sur mobile */
+    .category-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 6px;
+        scrollbar-width: none;
+    }
+    .category-pills::-webkit-scrollbar { display: none; }
+
+    .category-pill {
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    /* Reflexion cards title */
+    .reflexion-title {
+        font-size: 0.85rem !important;
+    }
+
+    /* Quiz */
+    .quiz-header,
+    #quizContent,
+    #quizResults {
+        padding: 0 0.5rem;
+    }
+
+    /* Bouton submit form */
+    .btn-submit {
+        width: 100%;
+    }
+
+    /* Empêcher le débordement horizontal */
+    html {
+        overflow-x: hidden !important;
+    }
+    body {
+        overflow-x: hidden !important;
+        max-width: 100vw !important;
+        position: relative;
+    }
+    /* Tout élément ne doit pas dépasser la largeur de l'écran */
+    section, div, img, video {
+        max-width: 100vw;
+        box-sizing: border-box;
+    }
+
+    /* Section padding réduit sur mobile */
+    #prieres,
+    #reflexions,
+    #temoignage-form {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        overflow-x: hidden;
+    }
+    #prieres > .container-fluid,
+    #reflexions > .container-fluid,
+    #temoignage-form > .container-fluid {
+        padding-left: 0.75rem !important;
+        padding-right: 0.75rem !important;
+        max-width: 100% !important;
+    }
+
+    /* Présentation image responsive */
+    .presentation-image img,
+    .hero-image img,
+    .prayer-image-container img {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Section title responsive */
+    .baume-section-title { font-size: 1.25rem; }
+    .baume-section-subtitle { font-size: 0.78rem; }
+    .baume-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Nav sticky top ajusté mobile */
+    section[style*="sticky"] {
+        top: 60px !important;
+    }
+
+    /* Category nav — scroll horizontal sans déborder */
+    .baume-category-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto !important;
+        overflow-y: hidden;
+        -webkit-overflow-scrolling: touch;
+        padding: 0.5rem 0.75rem;
+        justify-content: flex-start;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Boutons nav plus compacts */
+    .baume-cat-btn {
+        font-size: 0.78rem;
+        padding: 0.4rem 0.85rem;
+        flex-shrink: 0;
+    }
+}
+
+/* Tablette (576px - 991px) */
+@media (min-width: 576px) and (max-width: 991px) {
+    /* Cartes prières: 2 par ligne */
+    #prieresCarousel .col-4 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    /* Modal tablette */
+    .baume-modal-dialog {
+        max-width: 90vw !important;
+        width: 90vw !important;
+    }
+
+    .baume-modal-body {
+        max-height: 48vh;
+    }
+
+    .modal-media {
+        max-height: 180px !important;
+    }
+
+    /* Category pills wrap sur tablette */
+    .category-pills {
+        flex-wrap: wrap;
+    }
+
+    /* Reflexion carousel 4 colonnes aussi sur tablette */
+
+    /* Réduire padding container-fluid sur tablette */
+    #prieres .container-fluid {
+        padding-left: 1.5rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    /* Carousel cards height tablette */
+    .content-card {
+        height: 380px !important;
+    }
+}
+
+/* Grand écran (≥ 1400px) */
+@media (min-width: 1400px) {
+    .baume-modal-body {
+        max-height: 70vh;
+    }
+
+    .modal-media {
+        max-height: 280px !important;
+    }
+
+    #prieresCarousel .col-4 {
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+/* Prévenir le scroll horizontal global */
+body {
+    overflow-x: hidden;
+}
+

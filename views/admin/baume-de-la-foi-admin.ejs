@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -67,27 +67,74 @@
         }
 
         /* ===== SIDEBAR ===== */
-        .admin-sidebar {
+        .sidebar {
             width: 280px;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            padding: 32px 20px;
+            background: linear-gradient(180deg, #1D3557 0%, #0f1e3d 100%);
+            color: white;
             display: flex;
             flex-direction: column;
             position: fixed;
             height: 100vh;
-            overflow-y: auto;
-            box-shadow: var(--shadow-md);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
             z-index: 100;
+            left: 0;
+            top: 0;
         }
 
-        .sidebar-brand {
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 20px 10px;
+            overflow-y: auto;
+        }
+
+        .nav-item {
+            margin-bottom: 4px;
+        }
+
+        .nav-link {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--border);
+            color: rgba(255, 255, 255, 0.8);
+            padding: 14px 18px;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .nav-link.active {
+            background: rgba(230, 57, 70, 0.15);
+            color: white;
+            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.2);
+        }
+
+        .nav-link i {
+            width: 24px;
+            font-size: 1.1rem;
+            margin-right: 12px;
+            text-align: center;
+        }
+
+        .admin-main {
+            flex: 1;
+            margin-left: 280px;
+            padding: 32px;
+            background: var(--background);
         }
 
         .brand-icon {
@@ -101,234 +148,6 @@
             color: white;
             font-size: 24px;
             box-shadow: var(--shadow-md);
-        }
-
-        .brand-text {
-            font-weight: 700;
-            font-size: 20px;
-            color: var(--primary-dark);
-            letter-spacing: -0.5px;
-        }
-
-        .brand-sub {
-            font-size: 12px;
-            color: var(--text-light);
-            font-weight: 400;
-            margin-top: 2px;
-        }
-
-        .sidebar-nav {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            flex: 1;
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            background: transparent;
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: var(--transition);
-            cursor: pointer;
-            border: none;
-            width: 100%;
-            text-align: left;
-        }
-
-        .nav-item:hover {
-            background: rgba(46, 92, 78, 0.08);
-            color: var(--primary);
-            transform: translateX(4px);
-        }
-
-        .nav-item.active {
-            background: var(--primary);
-            color: white;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-item i {
-            width: 24px;
-            font-size: 18px;
-            color: var(--text-lighter);
-            transition: var(--transition);
-            text-align: center;
-        }
-
-        .nav-item:hover i {
-            color: var(--primary);
-        }
-
-        .nav-item.active i {
-            color: white;
-        }
-
-        .nav-item.with-submenu {
-            position: relative;
-            margin-bottom: 0;
-            padding: 0;
-            background: transparent;
-        }
-
-        .nav-link-main {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            border-radius: var(--radius-md);
-            color: var(--text-light);
-            text-decoration: none;
-            transition: var(--transition);
-            gap: 12px;
-            width: 100%;
-            background: transparent;
-            position: relative;
-        }
-
-        .nav-link-main:hover {
-            background: rgba(46, 92, 78, 0.08);
-            color: var(--primary);
-            transform: translateX(4px);
-        }
-
-        .nav-item.with-submenu.active .nav-link-main {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: white;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .nav-link-main i {
-            width: 24px;
-            font-size: 18px;
-            color: var(--text-lighter);
-            transition: var(--transition);
-        }
-
-        .nav-link-main:hover i {
-            color: var(--primary);
-        }
-
-        .nav-item.with-submenu.active .nav-link-main i {
-            color: white;
-        }
-
-        .nav-link-main::after {
-            content: '\f107';
-            font-family: 'Font Awesome 6 Free';
-            font-weight: 900;
-            margin-left: auto;
-            font-size: 14px;
-            color: var(--text-lighter);
-            transition: var(--transition);
-        }
-
-        .nav-link-main:hover::after {
-            color: var(--primary);
-        }
-
-        .nav-item.with-submenu.active .nav-link-main::after {
-            color: white;
-            transform: rotate(180deg);
-        }
-
-        .submenu {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            width: 100%;
-            min-width: 220px;
-            z-index: 1000;
-            margin-top: 4px;
-            margin-left: 0;
-            display: none !important;
-            flex-direction: column;
-            gap: 0;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-lg);
-            opacity: 0;
-            transform: translateY(-10px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .sidebar-nav .nav-item.with-submenu:hover .submenu,
-        .sidebar-nav .nav-item.with-submenu.active .submenu {
-            display: flex !important;
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .submenu-item {
-            display: flex;
-            align-items: center;
-            padding: 12px 16px;
-            color: var(--text-light);
-            text-decoration: none;
-            transition: var(--transition);
-            gap: 12px;
-            font-size: 0.9rem;
-            background: transparent;
-            border: none;
-            width: 100%;
-            text-align: left;
-            cursor: pointer;
-            font-weight: 400;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-
-        .submenu-item:last-child {
-            border-bottom: none;
-        }
-
-        .submenu-item:hover {
-            background: rgba(46, 92, 78, 0.08);
-            color: var(--primary);
-            transform: translateX(4px);
-        }
-
-        .submenu-item.active {
-            background: rgba(46, 92, 78, 0.1);
-            color: var(--primary);
-            font-weight: 500;
-            border-left: 3px solid var(--primary);
-        }
-
-        .submenu-item i {
-            width: 18px;
-            font-size: 0.9rem;
-            text-align: center;
-            color: var(--text-lighter);
-            transition: var(--transition);
-        }
-
-        .submenu-item:hover i {
-            color: var(--primary);
-        }
-
-        .submenu-item.active i {
-            color: var(--primary);
-        }
-
-        .submenu-item[target="_blank"] {
-            color: var(--accent);
-        }
-
-        .submenu-item[target="_blank"]:hover {
-            background: rgba(200, 159, 92, 0.08);
-            color: var(--accent-dark);
-        }
-
-        .admin-main {
-            flex: 1;
-            margin-left: 280px;
-            padding: 32px;
-            background: var(--background);
         }
 
         .top-bar {
@@ -381,8 +200,17 @@
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
         }
 
         .stat-card {
@@ -646,6 +474,12 @@
         .table-title {
             font-weight: 600;
             color: var(--text);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            max-width: 220px;
+            line-height: 1.4;
         }
 
         .table-title small {
@@ -1152,17 +986,28 @@
             }
         }
 
+        @media (max-width: 992px) {
+            .sidebar { width: 70px; overflow: hidden; }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
+            .admin-main { margin-left: 70px; }
+        }
+
         @media (max-width: 768px) {
-            .admin-sidebar {
+            .sidebar {
                 transform: translateX(-100%);
                 position: fixed;
                 transition: var(--transition);
             }
-            
-            .admin-sidebar.active {
+
+            .sidebar.active {
                 transform: translateX(0);
             }
-            
+
             .admin-main {
                 margin-left: 0;
             }
@@ -1176,106 +1021,257 @@
                 align-items: flex-start;
             }
         }
-    </style>
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }
+
+        /* ===== DASH HEADER ===== */
+        .dash-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            padding: 18px 28px;
+            background: linear-gradient(135deg, #1D3557 0%, #0f1e3d 100%);
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(29,53,87,.25);
+            margin-bottom: 22px;
+        }
+        .dash-header-left { display:flex; align-items:center; gap:14px; }
+        .dash-header-logo { height:44px; width:auto; flex-shrink:0; }
+        .dash-header-title { font-size:1.4rem; font-weight:700; color:#fff; margin:0; line-height:1.2; }
+        .dash-header-sub { font-size:.83rem; color:rgba(255,255,255,.60); margin:3px 0 0; }
+        .dash-header-right { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+        .btn-baume-new {
+            background: linear-gradient(135deg, #10B981, #047857);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: .88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 3px 10px rgba(16,185,129,.3);
+            transition: all .25s ease;
+        }
+        .btn-baume-new:hover { transform:translateY(-2px); box-shadow:0 5px 16px rgba(16,185,129,.4); color:white; }
+        .btn-baume-refresh {
+            background: rgba(255,255,255,.12);
+            color: white;
+            border: 1px solid rgba(255,255,255,.2);
+            padding: 9px 16px;
+            border-radius: 10px;
+            font-weight: 500;
+            font-size: .85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            cursor: pointer;
+            transition: all .2s;
+        }
+        .btn-baume-refresh:hover { background:rgba(255,255,255,.2); }
+
+        /* ===== TAB NAVIGATION ===== */
+        .baume-tabs {
+            display: flex;
+            gap: 6px;
+            background: white;
+            padding: 6px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            border: 1px solid #e8ecf0;
+        }
+        .tab-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-size: .875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s ease;
+            white-space: nowrap;
+        }
+        .tab-btn:hover { background: #f1f5f9; color: #1D3557; }
+        .tab-btn.active {
+            background: linear-gradient(135deg, #2E5C41, #27AE60);
+            color: white;
+            box-shadow: 0 2px 8px rgba(46,92,65,.3);
+        }
+        .tab-btn i { font-size: .85rem; }
+
+        /* ===== KPI COLOR VARIANTS ===== */
+        .stat-icon.icon-green  { background:rgba(40,167,69,.1);  color:#28a745; }
+        .stat-icon.icon-amber  { background:rgba(245,158,11,.1); color:#f59e0b; }
+        .stat-icon.icon-blue   { background:rgba(29,53,87,.1);   color:#1D3557; }
+        .stat-icon.icon-purple { background:rgba(139,92,246,.1); color:#7c3aed; }
+        .stat-icon.icon-red    { background:rgba(220,53,69,.1);  color:#dc3545; }
+        /* ===== FORM CARDS (baume forms) ===== */
+        .form-card {
+            background: var(--surface);
+            border-radius: 14px;
+            box-shadow: 0 2px 12px rgba(0,0,0,.07);
+            border: 1px solid var(--border);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .form-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 22px 14px;
+            border-bottom: 1px solid var(--border);
+            background: #fafbfc;
+        }
+        .form-card-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .form-card-title {
+            font-size: .98rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+        .form-card-sub {
+            font-size: .78rem;
+            color: var(--text-light);
+            margin-top: 2px;
+        }
+        .form-card-body {
+            padding: 22px 22px 6px;
+        }
+        .form-card-body .form-group {
+            margin-bottom: 16px;
+        }
+        .media-preview-card {
+            margin-top: 14px;
+        }
+</style>
 </head>
 <body>
     <div class="admin-wrapper">
         <!-- ===== SIDEBAR ===== -->
-        <aside class="admin-sidebar">
-            <div class="sidebar-brand">
-                <div class="brand-icon">
-                    <i class="fas fa-cross"></i>
-                </div>
-                <div>
-                    <div class="brand-text">Baume de la Foi</div>
-                    <div class="brand-sub">Espace sacré</div>
-                </div>
+        <div class="sidebar">
+            <div class="sb-header">
+                <img src="/images/Telex.png" alt="Telex" class="sb-logo">
             </div>
-
             <nav class="sidebar-nav">
-                <a href="/admin/dashboard" class="nav-item">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-                <a href="/admin/news" class="nav-item">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Actualités</span>
-                </a>
-                <a href="/admin/programs" class="nav-item">
-                    <i class="fas fa-tv"></i>
-                    <span>Programmes</span>
-                </a>
-                <a href="/admin/contacts" class="nav-item">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-                <a href="/admin/gallery" class="nav-item">
-                    <i class="fas fa-images"></i>
-                    <span>Galerie</span>
-                </a>
-                <a href="/admin/footer" class="nav-item">
-                    <i class="fas fa-globe"></i>
-                    <span>Footer</span>
-                </a>
-                <a href="/admin/settings" class="nav-item">
-                    <i class="fas fa-cog"></i>
-                    <span>Paramètres</span>
-                </a>
-                
-                <div class="separator"></div>
-                
-                <div class="nav-item with-submenu active">
-                    <a href="/admin/baume-de-la-foi" class="nav-link-main">
-                        <i class="fas fa-cross"></i>
-                        <span>Baume de la Foi</span>
+                <div class="nav-item">
+                    <a href="/admin/dashboard" class="nav-link">
+                        <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                     </a>
-                    <div class="submenu">
-                        <button class="submenu-item active" data-tab="dashboard">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Tableau de bord</span>
-                        </button>
-                        <button class="submenu-item" data-tab="prieres">
-                            <i class="fas fa-pray"></i>
-                            <span>Prières</span>
-                        </button>
-                        <button class="submenu-item" data-tab="temoignages">
-                            <i class="fas fa-heart"></i>
-                            <span>Témoignages</span>
-                        </button>
-                        <button class="submenu-item" data-tab="reflexions">
-                            <i class="fas fa-book"></i>
-                            <span>Réflexions</span>
-                        </button>
-                    </div>
                 </div>
-                
-                <div class="separator"></div>
-                
-                <a href="/admin/logout" class="nav-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
+                <div class="nav-section-label">Contenu</div>
+                <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+                <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+                <div class="nav-section-label">Communauté</div>
+                <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link active"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+                <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+                <div class="nav-section-label">Médias</div>
+                <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+                <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
             </nav>
-        </aside>
+            <div class="sidebar-footer">
+                <div class="nav-item"><a href="/admin/settings" class="nav-link"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+                <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+            </div>
+        </div>
 
         <!-- ===== MAIN CONTENT ===== -->
         <main class="admin-main">
-            <!-- Top Bar -->
-            <div class="top-bar">
-                <div class="page-title">
-                    <div class="brand-icon">
-                        <i class="fas fa-spa"></i>
-                    </div>
+            <!-- Dash Header -->
+            <div class="dash-header">
+                <div class="dash-header-left">
+                    <img src="/images/Telex.png" alt="Telex" class="dash-header-logo">
                     <div>
-                        <h1>Baume de la Foi</h1>
-                        <p>Administration des contenus spirituels</p>
+                        <div class="dash-header-title"><i class="fas fa-spa me-2" style="color:#10B981;font-size:1rem;"></i>Baume de la Foi</div>
+                        <div class="dash-header-sub">Administration des contenus spirituels</div>
                     </div>
                 </div>
-                <div class="top-actions">
-                    <button class="btn btn-primary" onclick="refreshDashboardData()">
-                        <i class="fas fa-sync-alt me-2"></i>Rafraîchir
+                <div class="dash-header-right">
+                    <button class="btn-baume-refresh" onclick="refreshDashboardData()">
+                        <i class="fas fa-sync-alt"></i>Rafraîchir
+                    </button>
+                    <button class="btn-baume-new" onclick="switchTab('prieres')">
+                        <i class="fas fa-pray"></i>Nouvelle prière
+                    </button>
+                    <button class="btn-baume-new" style="background:linear-gradient(135deg,#6366f1,#4f46e5);box-shadow:0 3px 10px rgba(99,102,241,.3);" onclick="switchTab('reflexions')">
+                        <i class="fas fa-book"></i>Nouvelle réflexion
                     </button>
                 </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <div class="baume-tabs">
+                <button class="tab-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">
+                    <i class="fas fa-chart-line"></i>Dashboard
+                </button>
+                <button class="tab-btn" data-tab="prieres" onclick="switchTab('prieres')">
+                    <i class="fas fa-pray"></i>Prières
+                    <span style="background:rgba(46,92,65,.15);color:#2E5C41;font-size:.72rem;padding:1px 7px;border-radius:10px;font-weight:700;"><%= typeof prieres !== 'undefined' && prieres ? prieres.length : 0 %></span>
+                </button>
+                <button class="tab-btn" data-tab="reflexions" onclick="switchTab('reflexions')">
+                    <i class="fas fa-book"></i>Réflexions
+                    <span style="background:rgba(99,102,241,.12);color:#4f46e5;font-size:.72rem;padding:1px 7px;border-radius:10px;font-weight:700;"><%= typeof reflexions !== 'undefined' && reflexions ? reflexions.length : 0 %></span>
+                </button>
+                <button class="tab-btn" data-tab="temoignages" onclick="switchTab('temoignages')">
+                    <i class="fas fa-heart"></i>Témoignages
+                </button>
             </div>
 
             <!-- Statistics Dashboard -->
@@ -1294,52 +1290,52 @@
                                         reflexionsList.reduce((sum, r) => sum + (r && r.views ? r.views : 0), 0)) || 0;
                     %>
                     
-                    <div class="stat-card">
+                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('dashboard')">
                         <div class="stat-info">
                             <div class="stat-number"><%= publishedPrieres + publishedReflexions %></div>
                             <div class="stat-label">Contenus Publiés</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="stat-icon icon-green">
                             <i class="fas fa-check-circle"></i>
                         </div>
                     </div>
-                    
-                    <div class="stat-card">
+
+                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('dashboard')">
                         <div class="stat-info">
                             <div class="stat-number"><%= draftPrieres + draftReflexions %></div>
                             <div class="stat-label">Brouillons</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="stat-icon icon-amber">
                             <i class="fas fa-edit"></i>
                         </div>
                     </div>
-                    
-                    <div class="stat-card">
+
+                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('prieres')">
                         <div class="stat-info">
                             <div class="stat-number"><%= prieresList.length %></div>
                             <div class="stat-label">Prières</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="stat-icon icon-blue">
                             <i class="fas fa-pray"></i>
                         </div>
                     </div>
-                    
-                    <div class="stat-card">
+
+                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('reflexions')">
                         <div class="stat-info">
                             <div class="stat-number"><%= reflexionsList.length %></div>
                             <div class="stat-label">Réflexions</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="stat-icon icon-purple">
                             <i class="fas fa-book"></i>
                         </div>
                     </div>
-                    
-                    <div class="stat-card">
+
+                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('temoignages')">
                         <div class="stat-info">
                             <div class="stat-number"><%= totalViews.toLocaleString() %></div>
                             <div class="stat-label">Vues Totales</div>
                         </div>
-                        <div class="stat-icon">
+                        <div class="stat-icon icon-red">
                             <i class="fas fa-eye"></i>
                         </div>
                     </div>
@@ -1571,150 +1567,150 @@
                 </div>
             </div>
 
-            <!-- ===== GESTION DES PRIÈRES ===== -->
+            <!-- ===== GESTION DES PRIÃˆRES ===== -->
             <div id="prieres" class="tab-content fade-in" style="display: none;">
-                <div class="content-section">
-                    <div class="section-header">
-                        <div class="section-title">
-                            <i class="fas fa-pray"></i>
+                <form id="priereForm" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" id="priereId" name="id" value="">
+                    <input type="hidden" id="existingPriereVideoUrl" name="existing_video_url" value="">
+                    <input type="hidden" id="existingPriereImageUrl" name="existing_image_url" value="">
+                    <input type="hidden" id="existingPriereMediaType" name="existing_media_type" value="">
+                    <input type="hidden" id="removePriereImage" name="remove_image" value="">
+                    <input type="hidden" id="removePriereVideo" name="remove_video" value="">
+
+                    <!-- CARTE 1 : INFORMATIONS -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <div class="form-card-icon" style="background:linear-gradient(135deg,#10B981,#047857);">
+                                <i class="fas fa-pray" style="color:white;"></i>
+                            </div>
                             <div>
-                                <h2>Créer une prière</h2>
-                                <p>Ajoutez une nouvelle prière avec vidéo ou image</p>
+                                <div class="form-card-title">Informations g&eacute;n&eacute;rales</div>
+                                <div class="form-card-sub">Titre, cat&eacute;gorie et auteur de la pri&egrave;re</div>
+                            </div>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-heading"></i> Titre de la pri&egrave;re *</label>
+                                        <input type="text" id="priereTitle" name="title" class="form-control" required placeholder="Ex: Pri&egrave;re de protection">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-tag"></i> Cat&eacute;gorie</label>
+                                        <select id="priereCategory" name="category" class="form-control">
+                                            <option value="comfort">R&eacute;confort</option>
+                                            <option value="healing">Gu&eacute;rison</option>
+                                            <option value="protection">Protection</option>
+                                            <option value="peace">Paix</option>
+                                            <option value="hope">Esp&eacute;rance</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-user"></i> Auteur</label>
+                                        <input type="text" name="author" class="form-control" value="Baume de la Foi" placeholder="Auteur">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-bible"></i> R&eacute;f&eacute;rence biblique</label>
+                                        <input type="text" id="priereReference" name="reference" class="form-control" placeholder="Ex: Psaume 23:4">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <form id="priereForm" enctype="multipart/form-data" method="POST" class="modern-form">
-                        <input type="hidden" id="priereId" name="id" value="">
-                        <input type="hidden" id="existingPriereVideoUrl" name="existing_video_url" value="">
-                        <input type="hidden" id="existingPriereImageUrl" name="existing_image_url" value="">
-                        <input type="hidden" id="existingPriereMediaType" name="existing_media_type" value="">
-                        <input type="hidden" id="removePriereImage" name="remove_image" value="">
-                        <input type="hidden" id="removePriereVideo" name="remove_video" value="">
-                        
-                        <div class="form-grid">
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-heading"></i>
-                                    Titre de la prière *
-                                </label>
-                                <input type="text" id="priereTitle" name="title" class="form-control" required placeholder="Ex: Prière de protection">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-tag"></i>
-                                    Catégorie
-                                </label>
-                                <select id="priereCategory" name="category" class="form-control">
-                                    <option value="comfort">Réconfort</option>
-                                    <option value="healing">Guérison</option>
-                                    <option value="protection">Protection</option>
-                                    <option value="peace">Paix</option>
-                                    <option value="hope">Espérance</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-user"></i>
-                                    Auteur
-                                </label>
-                                <input type="text" name="author" class="form-control" value="Baume de la Foi" placeholder="Auteur">
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-align-left"></i>
-                                    Contenu de la prière *
-                                </label>
-                                <textarea id="priereContent" name="content" class="form-control" rows="6" required placeholder="Rédigez le contenu de la prière..."></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-bible"></i>
-                                    Référence biblique
-                                </label>
-                                <input type="text" id="priereReference" name="reference" class="form-control" placeholder="Ex: Psaume 23:4">
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-photo-video"></i>
-                                    Type de média
-                                </label>
-                                <div class="media-type-selector">
-                                    <label class="media-option">
-                                        <input type="radio" name="media_type" value="image" checked onchange="updateMediaInterface('priere', 'image')">
-                                        <i class="fas fa-image"></i> Image
-                                    </label>
-                                    <label class="media-option">
-                                        <input type="radio" name="media_type" value="video" onchange="updateMediaInterface('priere', 'video')">
-                                        <i class="fas fa-video"></i> Vidéo
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-upload"></i>
-                                    Fichier média
-                                </label>
-                                <div class="upload-area" id="priereUploadArea">
-                                    <div class="upload-content" id="priereUploadContent">
-                                        <i class="fas fa-cloud-upload-alt" id="priereUploadIcon"></i>
-                                        <h4 id="priereUploadText">Glissez-déposez votre fichier ou cliquez pour choisir</h4>
-                                        <p id="priereUploadFormats">Formats acceptés: JPG, PNG, WebP, GIF (image)</p>
-                                    </div>
-                                    <button type="button" class="btn-upload" onclick="document.getElementById('priereMediaInput').click()">
-                                        <i class="fas fa-folder-open"></i>
-                                        Choisir un fichier
-                                    </button>
-                                </div>
-                                <input type="file" id="priereMediaInput" name="media_file" accept="image/*" style="display: none;">
-                            </div>
 
+                    <!-- CARTE 2 : CONTENU -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <div class="form-card-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                                <i class="fas fa-align-left" style="color:white;"></i>
+                            </div>
+                            <div>
+                                <div class="form-card-title">Contenu de la pri&egrave;re</div>
+                                <div class="form-card-sub">R&eacute;digez le texte complet de votre pri&egrave;re</div>
+                            </div>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="form-group">
+                                <textarea id="priereContent" name="content" class="form-control" rows="8" required placeholder="R&eacute;digez le contenu de la pri&egrave;re..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARTE 3 : MÃ‰DIAS -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <div class="form-card-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
+                                <i class="fas fa-photo-video" style="color:white;"></i>
+                            </div>
+                            <div>
+                                <div class="form-card-title">M&eacute;dias</div>
+                                <div class="form-card-sub">Ajoutez une image ou vid&eacute;o d'illustration</div>
+                            </div>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="media-type-selector">
+                                <label class="media-option">
+                                    <input type="radio" name="media_type" value="image" checked onchange="updateMediaInterface('priere', 'image')">
+                                    <i class="fas fa-image"></i> Image
+                                </label>
+                                <label class="media-option">
+                                    <input type="radio" name="media_type" value="video" onchange="updateMediaInterface('priere', 'video')">
+                                    <i class="fas fa-video"></i> Vid&eacute;o
+                                </label>
+                            </div>
+                            <div class="upload-area mt-3" id="priereUploadArea">
+                                <div class="upload-content" id="priereUploadContent">
+                                    <i class="fas fa-cloud-upload-alt" id="priereUploadIcon"></i>
+                                    <h4 id="priereUploadText">Glissez-d&eacute;posez votre fichier ou cliquez pour choisir</h4>
+                                    <p id="priereUploadFormats">Formats accept&eacute;s: JPG, PNG, WebP, GIF (image)</p>
+                                </div>
+                                <button type="button" class="btn-upload" onclick="document.getElementById('priereMediaInput').click()">
+                                    <i class="fas fa-folder-open"></i> Choisir un fichier
+                                </button>
+                            </div>
+                            <input type="file" id="priereMediaInput" name="media_file" accept="image/*" style="display: none;">
                             <div class="media-preview-card" id="priereMediaPreview">
                                 <div class="preview-content">
                                     <video id="priereMediaPlayer" style="display: none;" controls></video>
                                     <img id="priereMediaImage" style="display: none; max-width: 100%; border-radius: 8px;">
                                     <div id="priereMediaInfo" class="media-info" style="display: none;"></div>
-                                    <button type="button" class="btn-remove" onclick="removePriereMedia()">
-                                        <i class="fas fa-times"></i>
-                                    </button>
+                                    <button type="button" class="btn-remove" onclick="removePriereMedia()"><i class="fas fa-times"></i></button>
                                 </div>
                             </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-toggle-on"></i>
-                                    Statut
-                                </label>
+                        </div>
+                    </div>
+
+                    <!-- CARTE 4 : PUBLICATION -->
+                    <div class="form-card">
+                        <div class="form-card-body" style="padding: 18px 22px;">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
                                 <div class="toggle-group">
                                     <label class="toggle-switch">
                                         <input type="checkbox" id="prierePublished" name="is_published" checked>
                                         <span class="toggle-slider"></span>
                                     </label>
-                                    <span>Publier immédiatement</span>
+                                    <span style="font-weight:600; font-size:.92rem;">Publier imm&eacute;diatement</span>
+                                    <small class="text-muted ms-2">Rendre cette pri&egrave;re visible sur le site public</small>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="resetPriereForm()">
+                                        <i class="fas fa-redo me-1"></i>R&eacute;initialiser
+                                    </button>
+                                    <button type="submit" class="btn btn-success" id="submitPriereBtn">
+                                        <i class="fas fa-save me-1"></i>Enregistrer la pri&egrave;re
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="form-actions">
-                            <button type="submit" class="btn btn-primary" id="submitPriereBtn">
-                                <i class="fas fa-save"></i>
-                                Enregistrer la prière
-                            </button>
-                            <button type="button" class="btn btn-secondary" onclick="resetPriereForm()">
-                                <i class="fas fa-redo"></i>
-                                Réinitialiser
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-
             <!-- ===== GESTION DES TÉMOIGNAGES ===== -->
             <div id="temoignages" class="tab-content fade-in" style="display: none;">
                 <div class="content-section">
@@ -1833,156 +1829,154 @@
                 </div>
             </div>
 
-            <!-- ===== GESTION DES RÉFLEXIONS ===== -->
+            <!-- ===== GESTION DES RÃ‰FLEXIONS ===== -->
             <div id="reflexions" class="tab-content fade-in" style="display: none;">
-                <div class="content-section">
-                    <div class="section-header">
-                        <div class="section-title">
-                            <i class="fas fa-book"></i>
+                <form id="reflexionForm" enctype="multipart/form-data" method="POST">
+                    <input type="hidden" id="reflexionId" name="id" value="">
+                    <input type="hidden" id="existingReflexionVideoUrl" name="existing_video_url" value="">
+                    <input type="hidden" id="existingReflexionImageUrl" name="existing_image_url" value="">
+                    <input type="hidden" id="existingReflexionMediaType" name="existing_media_type" value="">
+                    <input type="hidden" id="removeReflexionImage" name="remove_image" value="">
+                    <input type="hidden" id="removeReflexionVideo" name="remove_video" value="">
+
+                    <!-- CARTE 1 : INFORMATIONS -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <div class="form-card-icon" style="background:linear-gradient(135deg,#10B981,#047857);">
+                                <i class="fas fa-book" style="color:white;"></i>
+                            </div>
                             <div>
-                                <h2>Créer une réflexion</h2>
-                                <p>Partagez une méditation profonde avec vidéo ou image</p>
+                                <div class="form-card-title">Informations g&eacute;n&eacute;rales</div>
+                                <div class="form-card-sub">Titre, auteur, th&egrave;me et r&eacute;f&eacute;rence biblique</div>
+                            </div>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-heading"></i> Titre de la r&eacute;flexion *</label>
+                                        <input type="text" id="reflexionTitle" name="title" class="form-control" required placeholder="Ex: La foi dans les &eacute;preuves">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-user"></i> Auteur</label>
+                                        <input type="text" name="author" class="form-control" value="Baume de la Foi">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-tag"></i> Th&egrave;me principal</label>
+                                        <select id="reflexionTheme" name="theme" class="form-control">
+                                            <option value="faith">Foi et confiance</option>
+                                            <option value="hope">Esp&eacute;rance et avenir</option>
+                                            <option value="peace">Paix int&eacute;rieure</option>
+                                            <option value="perseverance">Pers&eacute;v&eacute;rance</option>
+                                            <option value="comfort">R&eacute;confort divin</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="form-label"><i class="fas fa-bible"></i> R&eacute;f&eacute;rence biblique</label>
+                                        <input type="text" id="reflexionReference" name="reference_biblique" class="form-control" placeholder="Ex: Jean 3:16">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    
-                    <form id="reflexionForm" enctype="multipart/form-data" method="POST" class="modern-form">
-                        <input type="hidden" id="reflexionId" name="id" value="">
-                        <input type="hidden" id="existingReflexionVideoUrl" name="existing_video_url" value="">
-                        <input type="hidden" id="existingReflexionImageUrl" name="existing_image_url" value="">
-                        <input type="hidden" id="existingReflexionMediaType" name="existing_media_type" value="">
-                        <input type="hidden" id="removeReflexionImage" name="remove_image" value="">
-                        <input type="hidden" id="removeReflexionVideo" name="remove_video" value="">
-                        
-                        <div class="form-grid">
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-heading"></i>
-                                    Titre de la réflexion *
-                                </label>
-                                <input type="text" id="reflexionTitle" name="title" class="form-control" placeholder="Ex: La foi dans les épreuves" required>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-align-left"></i>
-                                    Contenu de la réflexion *
-                                </label>
-                                <textarea id="reflexionContent" name="content" class="form-control" placeholder="Partagez vos pensées et réflexions spirituelles..." required rows="6"></textarea>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-user"></i>
-                                    Auteur
-                                </label>
-                                <input type="text" name="author" class="form-control" value="Baume de la Foi">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-globe"></i>
-                                    Publication
-                                </label>
-                                <div class="toggle-group">
-                                    <label class="toggle-switch">
-                                        <input type="checkbox" name="is_published" checked>
-                                        <span class="toggle-slider"></span>
-                                    </label>
-                                    <span>Publier immédiatement</span>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-tag"></i>
-                                    Thème principal
-                                </label>
-                                <select id="reflexionTheme" name="theme" class="form-control">
-                                    <option value="faith">Foi et confiance</option>
-                                    <option value="hope">Espérance et avenir</option>
-                                    <option value="peace">Paix intérieure</option>
-                                    <option value="perseverance">Persévérance</option>
-                                    <option value="comfort">Réconfort divin</option>
-                                </select>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-book"></i>
-                                    Référence biblique
-                                </label>
-                                <input type="text" id="reflexionReference" name="reference_biblique" class="form-control" placeholder="Ex: Jean 3:16">
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">
-                                    <i class="fas fa-calendar"></i>
-                                    Date de publication
-                                </label>
-                                <input type="date" id="reflexionPublicationDate" name="publication_date" class="form-control">
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-photo-video"></i>
-                                    Type de média
-                                </label>
-                                <div class="media-type-selector">
-                                    <label class="media-option">
-                                        <input type="radio" name="media_type" value="image" checked onchange="updateMediaInterface('reflexion', 'image')">
-                                        <i class="fas fa-image"></i> Image
-                                    </label>
-                                    <label class="media-option">
-                                        <input type="radio" name="media_type" value="video" onchange="updateMediaInterface('reflexion', 'video')">
-                                        <i class="fas fa-video"></i> Vidéo
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group full-width">
-                                <label class="form-label">
-                                    <i class="fas fa-upload"></i>
-                                    Fichier média
-                                </label>
-                                <div class="upload-area" id="reflexionUploadArea">
-                                    <div class="upload-content" id="reflexionUploadContent">
-                                        <i class="fas fa-cloud-upload-alt" id="reflexionUploadIcon"></i>
-                                        <h4 id="reflexionUploadText">Glissez-déposez votre fichier ou cliquez pour choisir</h4>
-                                        <p id="reflexionUploadFormats">Formats acceptés: JPG, PNG, WebP, GIF (image)</p>
-                                    </div>
-                                    <button type="button" class="btn-upload" onclick="document.getElementById('reflexionMediaInput').click()">
-                                        <i class="fas fa-folder-open"></i>
-                                        Choisir un fichier
-                                    </button>
-                                </div>
-                                <input type="file" id="reflexionMediaInput" name="media_file" accept="image/*" style="display: none;">
-                            </div>
 
+                    <!-- CARTE 2 : CONTENU -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <div class="form-card-icon" style="background:linear-gradient(135deg,#6366f1,#4f46e5);">
+                                <i class="fas fa-align-left" style="color:white;"></i>
+                            </div>
+                            <div>
+                                <div class="form-card-title">Contenu de la r&eacute;flexion</div>
+                                <div class="form-card-sub">Partagez vos pens&eacute;es et m&eacute;ditations spirituelles</div>
+                            </div>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="form-group">
+                                <textarea id="reflexionContent" name="content" class="form-control" rows="8" required placeholder="Partagez vos pens&eacute;es et r&eacute;flexions spirituelles..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARTE 3 : MÃ‰DIAS -->
+                    <div class="form-card">
+                        <div class="form-card-header">
+                            <div class="form-card-icon" style="background:linear-gradient(135deg,#f59e0b,#d97706);">
+                                <i class="fas fa-photo-video" style="color:white;"></i>
+                            </div>
+                            <div>
+                                <div class="form-card-title">M&eacute;dias</div>
+                                <div class="form-card-sub">Ajoutez une image ou vid&eacute;o d'illustration</div>
+                            </div>
+                        </div>
+                        <div class="form-card-body">
+                            <div class="media-type-selector">
+                                <label class="media-option">
+                                    <input type="radio" name="media_type" value="image" checked onchange="updateMediaInterface('reflexion', 'image')">
+                                    <i class="fas fa-image"></i> Image
+                                </label>
+                                <label class="media-option">
+                                    <input type="radio" name="media_type" value="video" onchange="updateMediaInterface('reflexion', 'video')">
+                                    <i class="fas fa-video"></i> Vid&eacute;o
+                                </label>
+                            </div>
+                            <div class="upload-area mt-3" id="reflexionUploadArea">
+                                <div class="upload-content" id="reflexionUploadContent">
+                                    <i class="fas fa-cloud-upload-alt" id="reflexionUploadIcon"></i>
+                                    <h4 id="reflexionUploadText">Glissez-d&eacute;posez votre fichier ou cliquez pour choisir</h4>
+                                    <p id="reflexionUploadFormats">Formats accept&eacute;s: JPG, PNG, WebP, GIF (image)</p>
+                                </div>
+                                <button type="button" class="btn-upload" onclick="document.getElementById('reflexionMediaInput').click()">
+                                    <i class="fas fa-folder-open"></i> Choisir un fichier
+                                </button>
+                            </div>
+                            <input type="file" id="reflexionMediaInput" name="media_file" accept="image/*" style="display: none;">
                             <div class="media-preview-card" id="reflexionMediaPreview">
                                 <div class="preview-content">
                                     <video id="reflexionMediaPlayer" style="display: none;" controls></video>
                                     <img id="reflexionMediaImage" style="display: none; max-width: 100%; border-radius: 8px;">
                                     <div id="reflexionMediaInfo" class="media-info" style="display: none;"></div>
-                                    <button type="button" class="btn-remove" onclick="removeReflexionMedia()">
-                                        <i class="fas fa-times"></i>
+                                    <button type="button" class="btn-remove" onclick="removeReflexionMedia()"><i class="fas fa-times"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARTE 4 : PUBLICATION -->
+                    <div class="form-card">
+                        <div class="form-card-body" style="padding: 18px 22px;">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                                <div class="d-flex align-items-center gap-3 flex-wrap">
+                                    <div class="toggle-group">
+                                        <label class="toggle-switch">
+                                            <input type="checkbox" name="is_published" checked>
+                                            <span class="toggle-slider"></span>
+                                        </label>
+                                        <span style="font-weight:600; font-size:.92rem;">Publier imm&eacute;diatement</span>
+                                    </div>
+                                    <div class="form-group mb-0" style="min-width:180px;">
+                                        <label class="form-label mb-1"><i class="fas fa-calendar me-1"></i>Date de publication</label>
+                                        <input type="date" id="reflexionPublicationDate" name="publication_date" class="form-control form-control-sm">
+                                    </div>
+                                </div>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="resetReflexionForm()">
+                                        <i class="fas fa-times me-1"></i>Annuler
+                                    </button>
+                                    <button type="submit" class="btn btn-success" id="submitReflexionBtn">
+                                        <i class="fas fa-cloud-upload-alt me-1"></i>Publier la r&eacute;flexion
                                     </button>
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-secondary" onclick="resetReflexionForm()">
-                                <i class="fas fa-times"></i>
-                                Annuler
-                            </button>
-                            <button type="submit" class="btn btn-primary" id="submitReflexionBtn">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                Publier la réflexion
-                            </button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
@@ -2213,26 +2207,27 @@
         // ===== GESTION DES ONGLETS =====
         function switchTab(tabId) {
             if (!tabId) return;
-            
-            document.querySelectorAll('.submenu-item').forEach(tab => {
+
+            // Désactiver tous les anciens boutons (submenu-item et tab-btn)
+            document.querySelectorAll('.submenu-item, .tab-btn').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             document.querySelectorAll('.tab-content').forEach(content => {
                 content.style.display = 'none';
             });
-            
-            const targetTab = document.querySelector(`[data-tab="${tabId}"]`);
-            if (targetTab) {
-                targetTab.classList.add('active');
-            }
-            
+
+            // Activer le bouton correspondant
+            document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(el => {
+                el.classList.add('active');
+            });
+
             const targetContent = document.getElementById(tabId);
             if (targetContent) {
                 targetContent.style.display = 'block';
                 targetContent.classList.add('fade-in');
                 setTimeout(() => targetContent.classList.remove('fade-in'), 500);
-                
+
                 if (tabId === 'temoignages') {
                     setTimeout(() => loadTemoignages(), 100);
                 }
@@ -2722,7 +2717,7 @@
                     '<td>' + new Date(t.created_at).toLocaleDateString('fr-FR') + '</td>' +
                     '<td><strong>' + (t.author_name || 'Anonyme') + '</strong></td>' +
                     '<td>' + (t.ville || '-') + '</td>' +
-                    '<td>' + (t.content ? t.content.substring(0, 100) + (t.content.length > 100 ? '...' : '') : '-') + '</td>' +
+                    '<td><div style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:260px;line-height:1.4;">' + (t.content || '-') + '</div></td>' +
                     '<td>' + (t.author_email || '-') + '</td>' +
                     '<td>' + getStatusBadge(t.status) + '</td>' +
                     '<td>' +
@@ -3214,5 +3209,15 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 </html>²

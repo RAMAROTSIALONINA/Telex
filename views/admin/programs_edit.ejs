@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -52,23 +52,14 @@
             transition: width 0.3s;
         }
 
-        .sidebar-brand {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .sidebar-brand img {
-            max-width: 80px;
-            max-height: 40px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-
-        .sidebar-brand h3 {
-            font-weight: 700;
-            font-size: 1.5rem;
-        }
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
 
         .sidebar-nav {
             flex: 1;
@@ -116,47 +107,43 @@
             transition: margin-left 0.3s;
         }
 
-        /* ===== TOP BAR ===== */
-        .top-bar {
+        /* ===== EDIT HEADER ===== */
+        .edit-header {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 12px;
+            padding: 16px 22px;
             background: white;
-            padding: 25px 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 24px;
+            border-left: 4px solid var(--telex-red);
+        }
+        .edit-breadcrumb {
+            font-size: .82rem; color: #94a3b8; margin-bottom: 4px;
+        }
+        .edit-breadcrumb a { color: var(--telex-blue); text-decoration:none; font-weight:600; }
+        .edit-breadcrumb a:hover { text-decoration:underline; }
+        .edit-breadcrumb span { margin: 0 6px; }
+        .edit-header-title {
+            font-size: 1.25rem; font-weight: 700; color: var(--telex-blue);
+            white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:520px;
         }
 
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .page-title h1 {
-            font-weight: 700;
-            color: var(--telex-blue);
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-
-        .page-title p {
-            color: #64748b;
-            margin: 0;
-        }
-
-        .page-logo {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        /* ===== SAVE BAR ===== */
+        .save-bar {
+            position: sticky; bottom: 0; z-index: 100;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 14px 24px;
+            display: flex; align-items:center; justify-content:flex-end; gap:12px;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.07);
+            border-radius: 0 0 12px 12px;
+            margin-top: 8px;
         }
 
         .top-actions {
             display: flex;
-            gap: 15px;
+            gap: 10px;
         }
 
         /* ===== BOUTONS ===== */
@@ -657,30 +644,12 @@
                 width: 70px;
             }
 
-            .sidebar-brand h3,
-            .sidebar-brand img {
-                display: none;
-            }
-
-            .sidebar-brand::after {
-                content: "P";
-                font-size: 1.5rem;
-                font-weight: bold;
-                display: block;
-            }
-
-            .nav-link span {
-                display: none;
-            }
-
-            .nav-link {
-                justify-content: center;
-                padding: 15px;
-            }
-
-            .nav-link i {
-                margin-right: 0;
-            }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
 
             .main-content {
                 margin-left: 70px;
@@ -706,84 +675,96 @@
                 flex-direction: column;
             }
         }
-    </style>
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="/images/Telex.png" alt="TELEX">
-            <h3>Telex Admin</h3>
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
         </div>
         <nav class="sidebar-nav">
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/news" class="nav-link">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Actualités</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/programs" class="nav-link active">
-                    <i class="fas fa-tv"></i>
-                    <span>Programmes</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/baume-de-la-foi" class="nav-link">
-                    <i class="fas fa-cross"></i>
-                    <span>Baume de la Foi</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/contacts" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
-                    <i class="fas fa-images"></i>
-                    <span>Galerie</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/settings" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Paramètres</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/logout" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link active"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communauté</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">Médias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
         </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+        </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Top bar -->
-        <div class="top-bar">
-            <div class="page-title">
-                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
-                <div>
-                    <h1>Éditer le Programme</h1>
-                    <p>Modifiez les informations de votre émission TELEX</p>
+        <!-- Edit Header -->
+        <div class="edit-header">
+            <div>
+                <div class="edit-breadcrumb">
+                    <a href="/admin/dashboard">Dashboard</a>
+                    <span>›</span>
+                    <a href="/admin/programs">Programmes</a>
+                    <span>›</span> Éditer
+                </div>
+                <div class="edit-header-title">
+                    <i class="fas fa-edit me-2" style="color:var(--telex-red);font-size:.9em;"></i>
+                    Éditer le Programme<% if (typeof program !== 'undefined' && program && program.title) { %> — <%= program.title %><% } %>
                 </div>
             </div>
-            <div class="top-actions">
-                <a href="/admin/programs" class="btn btn-telex">
-                    <i class="fas fa-arrow-left me-2"></i>Retour aux programmes
-                </a>
-            </div>
+            <a href="/admin/programs" class="btn btn-telex" style="padding:9px 18px;font-size:.88rem;">
+                <i class="fas fa-arrow-left"></i>Retour
+            </a>
         </div>
 
         <!-- SECTION SUPPRIMÉE : Messages flash supprimés -->
@@ -794,9 +775,14 @@
 
             <!-- Formulaire d'édition -->
             <div class="form-container">
-                <div class="form-header">
-                    <h2><i class="fas fa-edit"></i>Édition du programme</h2>
-                    <p>Modifiez les informations de votre programme TELEX</p>
+                <div class="form-header" style="display:flex;align-items:center;gap:14px;padding-bottom:20px;margin-bottom:28px;border-bottom:2px solid #f1f5f9;">
+                    <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg,var(--telex-red),#c62b38);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                        <i class="fas fa-edit" style="color:white;font-size:.95rem;"></i>
+                    </div>
+                    <div>
+                        <h2 style="font-size:1.2rem;margin:0;color:var(--telex-blue);">Édition du programme</h2>
+                        <p style="margin:2px 0 0;font-size:.85rem;color:#94a3b8;">Modifiez les informations de votre émission TELEX</p>
+                    </div>
                 </div>
 
                 <form action="/admin/programs/update/<%= program.id %>" method="POST"
@@ -1200,8 +1186,8 @@
                         </div>
                     </div>
 
-                    <!-- Boutons -->
-                    <div class="d-flex justify-content-between mt-4">
+                    <!-- Save Bar -->
+                    <div class="save-bar">
                         <a href="/admin/programs" class="btn btn-outline-secondary">
                             <i class="fas fa-times me-2"></i>Annuler
                         </a>
@@ -1557,6 +1543,16 @@
         window.removeExistingVideo = removeExistingVideo;
         window.removeNewVideo = removeNewVideo;
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 
 </html>

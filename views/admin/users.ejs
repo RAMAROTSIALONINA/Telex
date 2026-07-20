@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -43,26 +43,14 @@
             flex-direction: column;
         }
         
-        .sidebar-brand {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.1);
-        }
-        
-        .sidebar-brand img {
-            max-width: 120px;
-            height: auto;
-            max-height: 60px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-        
-        .sidebar-brand h3 {
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
         
         .sidebar-nav {
             flex: 1;
@@ -102,395 +90,252 @@
             margin-right: 12px;
         }
         
-        /* Main Content */
-        .main-content { 
-            margin-left: var(--sidebar-width); 
-            padding: 30px;
-            min-height: 100vh;
+        /* ── Main Content ── */
+        .main-content { margin-left:var(--sidebar-width); min-height:100vh; padding:0; }
+
+        /* ── Dash Header ── */
+        .dash-header { background:linear-gradient(135deg,#1D3557 0%,#2d4f7a 100%); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+        .dash-header-left { display:flex; align-items:center; gap:14px; }
+        .dash-header-logo { height:44px; width:auto; object-fit:contain; }
+        .dash-header-title { font-size:1.15rem; font-weight:700; color:#fff; }
+        .dash-header-sub { font-size:.8rem; color:rgba(255,255,255,.65); margin-top:2px; }
+        .dash-header-right { display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+        .btn-dash-back { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:8px; padding:7px 14px; font-size:.85rem; font-weight:500; text-decoration:none; transition:background .2s; }
+        .btn-dash-back:hover { background:rgba(255,255,255,.22); color:#fff; }
+        .btn-dash-add { display:inline-flex; align-items:center; gap:7px; background:#10B981; color:#fff; border:none; border-radius:8px; padding:8px 16px; font-size:.85rem; font-weight:600; text-decoration:none; cursor:pointer; transition:background .2s; }
+        .btn-dash-add:hover { background:#059669; color:#fff; }
+
+        /* ── KPI Row ── */
+        .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; padding:20px 28px 6px; }
+        @media (max-width:900px) { .kpi-row { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:480px) { .kpi-row { grid-template-columns:repeat(2,1fr); gap:10px; padding:12px 14px 4px; } }
+        .kpi-card { background:#fff; border-radius:12px; padding:16px 18px; box-shadow:0 2px 8px rgba(0,0,0,.06); border-top:4px solid #e2e8f0; display:flex; align-items:center; gap:12px; }
+        .kpi-card.blue { border-top-color:#3B82F6; }
+        .kpi-card.red   { border-top-color:#EF4444; }
+        .kpi-card.purple{ border-top-color:#8B5CF6; }
+        .kpi-card.green { border-top-color:#10B981; }
+        .kpi-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1.1rem; flex-shrink:0; }
+        .kpi-card.blue .kpi-icon   { background:rgba(59,130,246,.12); color:#3B82F6; }
+        .kpi-card.red .kpi-icon    { background:rgba(239,68,68,.12); color:#EF4444; }
+        .kpi-card.purple .kpi-icon { background:rgba(139,92,246,.12); color:#8B5CF6; }
+        .kpi-card.green .kpi-icon  { background:rgba(16,185,129,.12); color:#10B981; }
+        .kpi-num   { font-size:1.5rem; font-weight:700; color:#1e293b; line-height:1; }
+        .kpi-label { font-size:.72rem; color:#64748b; margin-top:3px; font-weight:500; }
+
+        /* ── Content area ── */
+        .content-area { padding:20px 28px; }
+        @media (max-width:576px) { .content-area { padding:14px; } }
+
+        /* ── Alerts ── */
+        .flash-alert { padding:12px 16px; border-radius:10px; margin-bottom:16px; display:flex; align-items:center; gap:10px; font-size:.88rem; border-left:4px solid; }
+        .flash-success { background:#f0fdf4; border-color:#10B981; color:#065f46; }
+        .flash-error   { background:#fef2f2; border-color:#EF4444; color:#7f1d1d; }
+
+        /* ── User Cards ── */
+        .user-card { background:#fff; border-radius:12px; padding:18px 20px; box-shadow:0 2px 10px rgba(0,0,0,.06); margin-bottom:12px; border:1.5px solid #e8ecf0; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; transition:box-shadow .2s, border-color .2s; }
+        .user-card:hover { box-shadow:0 4px 18px rgba(0,0,0,.1); border-color:#c8d2de; }
+        .user-left { display:flex; align-items:center; gap:14px; min-width:0; }
+        .user-avatar { width:48px; height:48px; border-radius:50%; background:linear-gradient(135deg,#1D3557,#457B9D); color:white; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.2rem; flex-shrink:0; }
+        .user-name { font-weight:700; color:#1e293b; font-size:.95rem; }
+        .user-meta { font-size:.8rem; color:#64748b; margin-top:2px; }
+        .user-badges { display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap; }
+        .user-role { display:inline-flex; align-items:center; padding:2px 9px; border-radius:20px; font-size:.72rem; font-weight:600; }
+        .role-superadmin { background:#FEE2E2; color:#DC2626; }
+        .role-admin  { background:#DBEAFE; color:#1D4ED8; }
+        .role-editor { background:#EDE9FE; color:#7C3AED; }
+        .role-viewer { background:#D1FAE5; color:#047857; }
+        .user-status-dot { display:inline-flex; align-items:center; gap:4px; font-size:.75rem; color:#64748b; }
+        .dot { width:7px; height:7px; border-radius:50%; display:inline-block; }
+        .dot-active { background:#10B981; }
+        .dot-inactive { background:#EF4444; }
+        .user-actions { display:flex; gap:8px; flex-shrink:0; }
+        .btn-action { padding:7px 13px; border-radius:7px; border:none; font-size:.82rem; font-weight:600; cursor:pointer; display:inline-flex; align-items:center; gap:5px; transition:all .2s; }
+        .btn-edit   { background:#1D3557; color:#fff; }
+        .btn-edit:hover { background:#152b45; }
+        .btn-delete { background:#FEE2E2; color:#DC2626; }
+        .btn-delete:hover { background:#FECACA; }
+
+        /* ── Empty state ── */
+        .empty-state { text-align:center; padding:60px 20px; color:#94a3b8; }
+        .empty-state i { font-size:3rem; margin-bottom:16px; display:block; }
+
+        /* ── Responsive sidebar ── */
+        @media (max-width: 992px) {
+            .sidebar { width:70px; overflow:hidden; }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
+            .main-content { margin-left:70px; }
         }
-        
-        /* Top Bar */
-        .top-bar {
-            background: white;
-            padding: 25px 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
         }
-        
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .page-logo {
-            height: 40px;
-            width: auto;
-            opacity: 0.9;
-        }
-        
-        .page-title h1 {
-            font-weight: 700;
-            color: var(--telex-blue);
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-        
-        .page-title p {
-            color: #64748b;
-            font-size: 1rem;
-            margin: 0;
-        }
-        
-        .top-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .btn-telex {
-            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-telex:hover {
-            transform: translateY(-3px);
-            color: white;
-        }
-        
-        /* User Cards */
-        .user-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            margin-bottom: 20px;
-            transition: all 0.3s;
-        }
-        
-        .user-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
-        }
-        
-        .user-avatar {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--telex-blue), var(--telex-red));
-            color: white;
-            display: flex;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.5rem;
-            margin-right: 20px;
-        }
-        
-        .user-info h5 {
-            color: var(--telex-blue);
-            margin-bottom: 5px;
-        }
-        
-        .user-info p {
-            color: #64748b;
-            margin-bottom: 3px;
-            font-size: 0.9rem;
-        }
-        
-        .user-role {
-            display: inline-block;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 5px;
-        }
-        
-        .role-superadmin { background: #DC2626; color: white; }
-        .role-admin { background: #1D4ED8; color: white; }
-        .role-editor { background: #7C3AED; color: white; }
-        .role-viewer { background: #10B981; color: white; }
-        
-        .user-status {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-right: 5px;
-        }
-        
-        .status-active { background: #10B981; }
-        .status-inactive { background: #EF4444; }
-        
-        .user-actions {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn-action {
-            padding: 8px 12px;
-            border-radius: 8px;
-            border: none;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-edit {
-            background: var(--telex-blue);
-            color: white;
-        }
-        
-        .btn-delete {
-            background: #EF4444;
-            color: white;
-        }
-        
-        .btn-action:hover {
-            transform: translateY(-2px);
-        }
-        
-        /* Add User Button */
-        .add-user-btn {
-            background: linear-gradient(135deg, #10B981, #047857);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 30px;
-            transition: all 0.3s;
-        }
-        
-        .add-user-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
-        }
-        
-        /* Alert Messages */
-        .alert-message {
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .alert-success {
-            background: #D1FAE5;
-            color: #047857;
-            border-left: 4px solid #10B981;
-        }
-        
-        .alert-error {
-            background: #FEE2E2;
-            color: #DC2626;
-            border-left: 4px solid #EF4444;
-        }
-        
-        @media (max-width: 992px) {
-            .sidebar {
-                width: 70px;
-            }
-            
-            .sidebar-brand h3,
-            .sidebar-brand img {
-                display: none;
-            }
-            
-            .nav-link span {
-                display: none;
-            }
-            
-            .main-content {
-                margin-left: 70px;
-                padding: 20px;
-            }
-        }
-    </style>
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 <body>
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+    <button class="mobile-menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="/images/11.png" alt="TELEX">
-            <h3>Telex Admin</h3>
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
         </div>
-        
         <nav class="sidebar-nav">
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/news" class="nav-link">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Actualités</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/programs" class="nav-link">
-                    <i class="fas fa-tv"></i>
-                    <span>Programmes</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/baume-de-la-foi" class="nav-link">
-                    <i class="fas fa-cross"></i>
-                    <span>Baume de la Foi</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/contacts" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
-                    <i class="fas fa-images"></i>
-                    <span>Galerie</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/settings" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Paramètres</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/users" class="nav-link active">
-                    <i class="fas fa-users"></i>
-                    <span>Utilisateurs</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/logout" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communauté</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">Médias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
         </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link active"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+        </div>
     </div>
     
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Top bar -->
-        <div class="top-bar">
-            <div class="page-title">
-                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
+
+        <!-- Dash Header -->
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="/images/Telex.png" alt="Telex" class="dash-header-logo">
                 <div>
-                    <h1>Gestion des Utilisateurs</h1>
-                    <p>Gérez les comptes administrateurs et leurs permissions</p>
+                    <div class="dash-header-title"><i class="fas fa-users me-2" style="color:#A8DADC;font-size:.95rem;"></i>Comptes &amp; Acc&egrave;s</div>
+                    <div class="dash-header-sub">G&eacute;rez les utilisateurs, les r&ocirc;les et les permissions</div>
                 </div>
             </div>
-            <div class="top-actions">
-                <a href="/admin/dashboard" class="btn btn-telex">
-                    <i class="fas fa-arrow-left me-2"></i>Retour au Dashboard
-                </a>
+            <div class="dash-header-right">
+                <a href="/admin/settings" class="btn-dash-back"><i class="fas fa-arrow-left"></i>Param&egrave;tres</a>
+                <button class="btn-dash-add" onclick="window.location.href='/admin/users/new'">
+                    <i class="fas fa-user-plus"></i>Nouvel utilisateur
+                </button>
             </div>
         </div>
-        
-        <!-- Flash Messages -->
-        <% if (success_msg && success_msg.length > 0) { %>
-        <div class="alert-message alert-success">
-            <i class="fas fa-check-circle"></i>
-            <span><%= success_msg %></span>
+
+        <!-- KPI Row -->
+        <div class="kpi-row">
+            <div class="kpi-card blue">
+                <div class="kpi-icon"><i class="fas fa-users"></i></div>
+                <div><div class="kpi-num"><%= users ? users.length : 0 %></div><div class="kpi-label">Total utilisateurs</div></div>
+            </div>
+            <div class="kpi-card red">
+                <div class="kpi-icon"><i class="fas fa-crown"></i></div>
+                <div><div class="kpi-num"><%= users ? users.filter(u => u.role === 'superadmin').length : 0 %></div><div class="kpi-label">Super admins</div></div>
+            </div>
+            <div class="kpi-card purple">
+                <div class="kpi-icon"><i class="fas fa-user-shield"></i></div>
+                <div><div class="kpi-num"><%= users ? users.filter(u => u.role === 'admin').length : 0 %></div><div class="kpi-label">Administrateurs</div></div>
+            </div>
+            <div class="kpi-card green">
+                <div class="kpi-icon"><i class="fas fa-check-circle"></i></div>
+                <div><div class="kpi-num"><%= users ? users.filter(u => u.is_active).length : 0 %></div><div class="kpi-label">Comptes actifs</div></div>
+            </div>
         </div>
-        <% } %>
-        
-        <% if (error_msg && error_msg.length > 0) { %>
-        <div class="alert-message alert-error">
-            <i class="fas fa-exclamation-triangle"></i>
-            <span><%= error_msg %></span>
-        </div>
-        <% } %>
-        
-        <!-- Add User Button -->
-        <button class="add-user-btn" onclick="window.location.href='/admin/users/new'">
-            <i class="fas fa-user-plus"></i>
-            Ajouter un nouvel utilisateur
-        </button>
-        
-        <!-- Users List -->
-        <% if (users && users.length > 0) { %>
-            <div class="users-list">
+
+        <div class="content-area">
+
+            <!-- Flash messages -->
+            <% if (success_msg && success_msg.length > 0) { %>
+            <div class="flash-alert flash-success"><i class="fas fa-check-circle"></i><span><%= success_msg %></span></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+            <div class="flash-alert flash-error"><i class="fas fa-exclamation-triangle"></i><span><%= error_msg %></span></div>
+            <% } %>
+
+            <!-- Liste des utilisateurs -->
+            <% if (users && users.length > 0) { %>
                 <% users.forEach(user => { %>
                 <div class="user-card">
-                    <div style="display: flex; align-items: center; justify-content: space-between;">
-                        <div style="display: flex; align-items: center;">
-                            <div class="user-avatar">
-                                <%= user.username.charAt(0).toUpperCase() %>
+                    <div class="user-left">
+                        <div class="user-avatar"><%= user.username.charAt(0).toUpperCase() %></div>
+                        <div>
+                            <div class="user-name"><%= user.username %></div>
+                            <div class="user-meta">
+                                <i class="fas fa-envelope me-1"></i><%= user.email || 'Non sp&eacute;cifi&eacute;' %>
+                                <% if (user.full_name) { %> &bull; <%= user.full_name %><% } %>
                             </div>
-                            <div class="user-info">
-                                <h5><%= user.username %></h5>
-                                <p><i class="fas fa-envelope me-1"></i><%= user.email || 'Non spécifié' %></p>
-                                <p><i class="fas fa-user me-1"></i><%= user.full_name || 'Nom complet non spécifié' %></p>
-                                <div>
-                                    <span class="user-role role-<%= user.role %>">
-                                        <%= user.role %>
-                                    </span>
-                                    <span class="ms-3">
-                                        <span class="user-status status-<%= user.is_active ? 'active' : 'inactive' %>"></span>
-                                        <%= user.is_active ? 'Actif' : 'Inactif' %>
-                                    </span>
-                                </div>
-                                <p class="mt-2 text-muted small">
-                                    <i class="fas fa-calendar me-1"></i>Créé le: <%= new Date(user.created_at).toLocaleDateString('fr-FR') %>
-                                    <% if (user.last_login) { %>
-                                    <br><i class="fas fa-sign-in-alt me-1"></i>Dernière connexion: <%= new Date(user.last_login).toLocaleDateString('fr-FR') %>
-                                    <% } %>
-                                </p>
+                            <div class="user-badges">
+                                <span class="user-role role-<%= user.role %>"><%= user.role %></span>
+                                <span class="user-status-dot">
+                                    <span class="dot <%= user.is_active ? 'dot-active' : 'dot-inactive' %>"></span>
+                                    <%= user.is_active ? 'Actif' : 'Inactif' %>
+                                </span>
+                                <span class="user-meta"><i class="fas fa-calendar me-1"></i><%= new Date(user.created_at).toLocaleDateString('fr-FR') %></span>
                             </div>
                         </div>
-                        <div class="user-actions">
-                            <button class="btn-action btn-edit" 
-                                    onclick="window.location.href='/admin/users/edit/<%= user.id %>'">
-                                <i class="fas fa-edit me-1"></i>Éditer
-                            </button>
-                            <% if (user.id !== userSession.id) { %>
-                            <button class="btn-action btn-delete" 
-                                    onclick="confirmDeleteUser('<%= user.id %>', '<%= user.username %>')">
-                                <i class="fas fa-trash me-1"></i>Supprimer
-                            </button>
-                            <% } %>
-                        </div>
+                    </div>
+                    <div class="user-actions">
+                        <button class="btn-action btn-edit" onclick="window.location.href='/admin/users/edit/<%= user.id %>'">
+                            <i class="fas fa-edit"></i>&Eacute;diter
+                        </button>
+                        <% if (user.id !== userSession.id) { %>
+                        <button class="btn-action btn-delete" onclick="confirmDeleteUser('<%= user.id %>', '<%= user.username %>')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                        <% } %>
                     </div>
                 </div>
                 <% }) %>
+            <% } else { %>
+            <div class="empty-state">
+                <i class="fas fa-users"></i>
+                <h5 style="color:#1D3557; margin-bottom:8px;">Aucun utilisateur trouv&eacute;</h5>
+                <p style="color:#64748b; font-size:.9rem;">Commencez par cr&eacute;er un nouvel utilisateur.</p>
             </div>
-        <% } else { %>
-        <div style="text-align: center; padding: 50px 20px;">
-            <i class="fas fa-users fa-3x text-muted mb-3"></i>
-            <h4 style="color: var(--telex-blue);">Aucun utilisateur trouvé</h4>
-            <p style="color: #64748b;">Commencez par créer un nouvel utilisateur</p>
-        </div>
-        <% } %>
-        
-        <!-- User Count -->
-        <div style="margin-top: 30px; text-align: center; color: #64748b;">
-            <p><%= users ? users.length : 0 %> utilisateur(s) au total</p>
-        </div>
+            <% } %>
+
+        </div><!-- /.content-area -->
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -514,5 +359,15 @@
             });
         });
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 </html>

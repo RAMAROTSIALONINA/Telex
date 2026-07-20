@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 
 <head>
@@ -59,25 +59,14 @@
             transition: width 0.3s;
         }
 
-        .sidebar-brand {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.1);
-        }
-
-        .sidebar-brand img {
-            max-width: 80px;
-            max-height: 40px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-        }
-
-        .sidebar-brand h3 {
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-        }
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
 
         .sidebar-nav {
             flex: 1;
@@ -126,56 +115,42 @@
             transition: margin-left 0.3s;
         }
 
-        /* ===== TOP BAR ===== */
-        .top-bar {
+        /* ===== EDIT HEADER ===== */
+        .edit-header {
+            display: flex; align-items: center; justify-content: space-between;
+            flex-wrap: wrap; gap: 12px;
+            padding: 16px 22px;
             background: white;
-            padding: 25px 30px;
-            border-radius: var(--border-radius-lg);
-            box-shadow: var(--box-shadow-md);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 15px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            margin-bottom: 24px;
+            border-left: 4px solid #10B981;
+        }
+        .edit-breadcrumb {
+            font-size: .82rem; color: #94a3b8; margin-bottom: 4px;
+        }
+        .edit-breadcrumb a { color: var(--telex-blue); text-decoration:none; font-weight:600; }
+        .edit-breadcrumb a:hover { text-decoration:underline; }
+        .edit-breadcrumb span { margin: 0 6px; }
+        .edit-header-title {
+            font-size: 1.25rem; font-weight: 700; color: var(--telex-blue);
         }
 
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .page-title div {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .page-title h1 {
-            font-weight: 700;
-            color: var(--telex-blue);
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            line-height: 1.2;
-        }
-
-        .page-title p {
-            color: #64748b;
-            font-size: 1rem;
-            margin: 0;
-        }
-
-        .page-logo {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        /* ===== SAVE BAR ===== */
+        .save-bar {
+            position: sticky; bottom: 0; z-index: 100;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+            padding: 14px 24px;
+            display: flex; align-items:center; justify-content:flex-end; gap:12px;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.07);
+            border-radius: 0 0 12px 12px;
+            margin-top: 8px;
         }
 
         .top-actions {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
             flex-wrap: wrap;
         }
@@ -315,6 +290,82 @@
             color: #64748b;
             margin: 0 0 0 35px;
             font-size: 0.95rem;
+        }
+
+        /* ===== FORM CARDS ===== */
+        .form-card {
+            background: white;
+            border-radius: 14px;
+            border: 1px solid #e8ecf0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .form-card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 15px 22px;
+            border-bottom: 1px solid #f1f5f9;
+            background: #fafbfc;
+        }
+        .form-card-icon {
+            width: 34px; height: 34px;
+            border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            font-size: .9rem;
+        }
+        .form-card-title {
+            font-size: .93rem;
+            font-weight: 700;
+            color: var(--telex-blue);
+            margin: 0;
+        }
+        .form-card-sub {
+            font-size: .77rem;
+            color: #94a3b8;
+            margin: 1px 0 0;
+        }
+        .form-card-body {
+            padding: 22px 22px 10px;
+        }
+
+        /* ===== BROADCAST INFO BOXES ===== */
+        .broadcast-info {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 13px 16px;
+            border-radius: 10px;
+            font-size: .875rem;
+            margin-bottom: 4px;
+        }
+        .broadcast-info i { margin-top: 1px; flex-shrink: 0; }
+        .broadcast-info strong { display: block; font-size: .88rem; margin-bottom: 2px; }
+        .broadcast-info span { color: #64748b; font-size: .83rem; }
+        .broadcast-announce {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+        .broadcast-announce i, .broadcast-announce strong { color: #2563eb; }
+        .broadcast-live {
+            background: #fff1f2;
+            border: 1px solid #fecdd3;
+        }
+        .broadcast-live strong { color: #b91c1c; }
+        .live-dot {
+            display: inline-block;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #ef4444;
+            margin-top: 4px;
+            flex-shrink: 0;
+            animation: blink-dot 1.2s infinite;
+        }
+        @keyframes blink-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: .25; }
         }
 
         .form-group {
@@ -799,10 +850,6 @@
             .main-content {
                 margin-left: var(--sidebar-width);
             }
-            .sidebar-brand h3,
-            .sidebar-brand img {
-                display: block;
-            }
             .nav-link span {
                 display: inline;
             }
@@ -823,31 +870,12 @@
             .sidebar {
                 width: var(--sidebar-collapsed);
             }
-            .sidebar-brand h3,
-            .sidebar-brand img {
-                display: none;
-            }
-            .sidebar-brand {
-                padding: 15px 10px;
-            }
-            .sidebar-brand::after {
-                content: "P";
-                color: white;
-                font-size: 1.5rem;
-                font-weight: bold;
-                display: block;
-            }
-            .nav-link span {
-                display: none;
-            }
-            .nav-link {
-                justify-content: center;
-                padding: 15px;
-            }
-            .nav-link i {
-                margin-right: 0;
-                font-size: 1.2rem;
-            }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
             .main-content {
                 margin-left: var(--sidebar-collapsed);
                 padding: 20px;
@@ -935,384 +963,385 @@
                 transform: translateY(0);
             }
         }
-    </style>
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="/images/Telex.png" alt="TELEX">
-            <h3>Telex Admin</h3>
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
         </div>
-
         <nav class="sidebar-nav">
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/news" class="nav-link">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Actualités</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/programs" class="nav-link active">
-                    <i class="fas fa-tv"></i>
-                    <span>Programmes</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/baume-de-la-foi" class="nav-link">
-                    <i class="fas fa-cross"></i>
-                    <span>Baume de la Foi</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/contacts" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
-                    <i class="fas fa-images"></i>
-                    <span>Galerie</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/settings" class="nav-link">
-                    <i class="fas fa-cog"></i>
-                    <span>Paramètres</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/logout" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link active"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communauté</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">Médias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
         </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+        </div>
     </div>
 
     <!-- Main Content -->
     <div class="main-content">
         <!-- Top bar -->
-        <div class="top-bar">
-            <div class="page-title">
-                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
-                <div>
-                    <h1>Nouveau Programme</h1>
-                    <p>Créez une nouvelle émission pour TELEX</p>
+        <!-- Edit Header -->
+        <div class="edit-header">
+            <div>
+                <div class="edit-breadcrumb">
+                    <a href="/admin/dashboard">Dashboard</a>
+                    <span>›</span>
+                    <a href="/admin/programs">Programmes</a>
+                    <span>›</span> Nouveau
+                </div>
+                <div class="edit-header-title">
+                    <i class="fas fa-plus-circle me-2" style="color:#10B981;font-size:.9em;"></i>
+                    Nouveau Programme
                 </div>
             </div>
-            <div class="top-actions">
-                <a href="/admin/programs" class="btn btn-outline-secondary">
-                    <i class="fas fa-arrow-left me-2"></i>Retour aux programmes
-                </a>
-            </div>
+            <a href="/admin/programs" class="btn btn-outline-secondary" style="padding:9px 18px;font-size:.88rem;">
+                <i class="fas fa-arrow-left me-1"></i>Retour
+            </a>
         </div>
 
         <!-- SECTION SUPPRIMÉE : Messages flash supprimés -->
         <!-- Les alertes de succès et erreur ont été retirées -->
 
         <!-- Formulaire -->
-        <div class="form-container">
-            <div class="form-header">
-                <h2><i class="fas fa-tv"></i>Informations du programme</h2>
-                <p>Remplissez les informations essentielles pour créer votre programme</p>
+        <form action="/admin/programs/save" method="POST" enctype="multipart/form-data">
+
+            <!-- CARTE 1 : INFORMATIONS GENERALES -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon" style="background:linear-gradient(135deg,#10B981,#047857);">
+                        <i class="fas fa-info-circle" style="color:white;"></i>
+                    </div>
+                    <div>
+                        <div class="form-card-title">Informations g&eacute;n&eacute;rales</div>
+                        <div class="form-card-sub">Titre, description et cat&eacute;gorie du programme</div>
+                    </div>
+                </div>
+                <div class="form-card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="title" class="form-label">
+                                    <i class="fas fa-heading me-2"></i>
+                                    <strong>Titre de l'&eacute;mission *</strong>
+                                </label>
+                                <select class="form-control" id="title" name="title" required>
+                                    <option value="">S&eacute;lectionnez un titre d'&eacute;mission</option>
+                                    <option value="TELEX Actus">TELEX Actus</option>
+                                    <option value="L'Essentiel de la semaine">L'Essentiel de la semaine</option>
+                                    <option value="D&eacute;cryptage">D&eacute;cryptage</option>
+                                    <option value="Reportages">Reportages</option>
+                                    <option value="Documentaires">Documentaires</option>
+                                    <option value="Face &agrave; Face">Face &agrave; Face</option>
+                                    <option value="Parole Publique">Parole Publique</option>
+                                    <option value="&Agrave; C&oelig;ur Ouvert">&Agrave; C&oelig;ur Ouvert</option>
+                                    <option value="Initiatives Locales">Initiatives Locales</option>
+                                    <option value="Entrepreneurs &amp; Associations">Entrepreneurs &amp; Associations</option>
+                                    <option value="1 notion en 3 minutes">1 notion en 3 minutes</option>
+                                    <option value="&Eacute;cole Citoyenne">&Eacute;cole Citoyenne</option>
+                                    <option value="Comment lire un contrat ?">Comment lire un contrat ?</option>
+                                    <option value="Comment &eacute;viter les arnaques ?">Comment &eacute;viter les arnaques ?</option>
+                                    <option value="La Question des Jeunes">La Question des Jeunes</option>
+                                    <option value="Zoom &Eacute;cologie">Zoom &Eacute;cologie</option>
+                                    <option value="Histoire politique de Madagascar">Histoire politique de Madagascar</option>
+                                    <option value="Culture malgache moderne et traditionnelle">Culture malgache moderne et traditionnelle</option>
+                                    <option value="Voix de Madagascar">Voix de Madagascar</option>
+                                    <option value="Vrai ou Faux">Vrai ou Faux</option>
+                                    <option value="Madagascar en Carte">Madagascar en Carte</option>
+                                    <option value="Travailler &agrave; Mada">Travailler &agrave; Mada</option>
+                                    <option value="Comprendre l'&Eacute;conomie">Comprendre l'&Eacute;conomie</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="description" class="form-label">
+                                    <i class="fas fa-align-left me-2"></i>Description
+                                </label>
+                                <textarea class="form-control" id="description" name="description"
+                                    placeholder="D&eacute;crivez votre programme en quelques lignes..."></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="program_type" class="form-label">
+                                    <i class="fas fa-tag me-2"></i>
+                                    <strong>Programme *</strong>
+                                </label>
+                                <select class="form-control" id="program_type" name="program_type" required>
+                                    <option value="">S&eacute;lectionnez un programme TELEX</option>
+                                    <option value="Programme d'Information">Programme d'Information</option>
+                                    <option value="Programme D&eacute;cryptage &amp; Reportages">Programme D&eacute;cryptage &amp; Reportages</option>
+                                    <option value="Programme D&eacute;bats">Programme D&eacute;bats</option>
+                                    <option value="Programme Humain &amp; Soci&eacute;tal">Programme Humain &amp; Soci&eacute;tal</option>
+                                    <option value="Programme &Eacute;ducatif">Programme &Eacute;ducatif</option>
+                                    <option value="Programme Jeunesse">Programme Jeunesse</option>
+                                    <option value="Programme Environnement">Programme Environnement</option>
+                                    <option value="Programme Culture &amp; Identit&eacute;">Programme Culture &amp; Identit&eacute;</option>
+                                    <option value="Programme Vrai ou Faux / Madagascar en Carte">Programme Vrai ou Faux / Madagascar en Carte</option>
+                                    <option value="Programme &Eacute;conomie &amp; Travail">Programme &Eacute;conomie &amp; Travail</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <form action="/admin/programs/save" method="POST" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col-md-8">
-                        <!-- Sélecteur de titre d'émission -->
-                        <div class="form-group">
-                            <label for="title" class="form-label">
-                                <i class="fas fa-heading me-2"></i>
-                                <strong>Titre de l'émission *</strong>
-                                <small class="text-muted ms-2">Choisissez parmi les titres des programmes TELEX</small>
-                            </label>
-                            <select class="form-control" id="title" name="title" required>
-                                <option value="">Sélectionnez un titre d'émission</option>
-                                <!-- I. Programme d'information -->
-                                <option value="TELEX Actus">TELEX Actus</option>
-                                <option value="L'Essentiel de la semaine">L'Essentiel de la semaine</option>
-                                <!-- II. Programme Décryptage & Reportages -->
-                                <option value="Décryptage">Décryptage</option>
-                                <option value="Reportages">Reportages</option>
-                                <option value="Documentaires">Documentaires</option>
-                                <!-- III. Programme Débats -->
-                                <option value="Face à Face">Face à Face</option>
-                                <option value="Parole Publique">Parole Publique</option>
-                                <!-- IV. Programme Humain & Sociétal -->
-                                <option value="À Cœur Ouvert">À Cœur Ouvert</option>
-                                <option value="Initiatives Locales">Initiatives Locales</option>
-                                <option value="Entrepreneurs & Associations">Entrepreneurs & Associations</option>
-                                <!-- V. Programme Éducatif -->
-                                <option value="1 notion en 3 minutes">1 notion en 3 minutes</option>
-                                <option value="École Citoyenne">École Citoyenne</option>
-                                <option value="Comment lire un contrat ?">Comment lire un contrat ?</option>
-                                <option value="Comment éviter les arnaques ?">Comment éviter les arnaques ?</option>
-                                <!-- VI. Programme Jeunesse -->
-                                <option value="La Question des Jeunes">La Question des Jeunes</option>
-                                <!-- VII. Programme Environnement -->
-                                <option value="Zoom Écologie">Zoom Écologie</option>
-                                <!-- VIII. Programme Culture & Identité -->
-                                <option value="Histoire politique de Madagascar">Histoire politique de Madagascar</option>
-                                <option value="Culture malgache moderne et traditionnelle">Culture malgache moderne et traditionnelle</option>
-                                <option value="Voix de Madagascar">Voix de Madagascar</option>
-                                <!-- IX. Programme Vrai ou Faux / Madagascar en Carte -->
-                                <option value="Vrai ou Faux">Vrai ou Faux</option>
-                                <option value="Madagascar en Carte">Madagascar en Carte</option>
-                                <!-- X. Programme Économie & Travail -->
-                                <option value="Travailler à Mada">Travailler à Mada</option>
-                                <option value="Comprendre l'Économie">Comprendre l'Économie</option>
-                            </select>
-                        </div>
-
-                        <!-- Description -->
-                        <div class="form-group">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" name="description"
-                                placeholder="Décrivez votre programme en quelques lignes..."></textarea>
-                        </div>
-
-                        <!-- Type de diffusion -->
-                        <div class="form-group">
-                            <label for="broadcast_type" class="form-label">
-                                <i class="fas fa-broadcast-tower me-2"></i>
-                                <strong>Type de diffusion *</strong>
-                                <small class="text-muted ms-2">Choisissez le type de publication</small>
-                            </label>
-                            <select class="form-control" id="broadcast_type" name="broadcast_type"
-                                required onchange="toggleBroadcastFields()">
-                                <option value="">Sélectionnez un type de diffusion</option>
-                                <option value="announcement">📢 Annonce</option>
-                                <option value="live">� Programme live</option>
-                            </select>
-                        </div>
-
-                        <!-- Champs conditionnels selon le type -->
-                        <div id="announcement_fields" class="conditional-fields">
-                            <div class="alert alert-info" role="alert">
-                                <i class="fas fa-bullhorn me-2"></i>
-                                <strong>Annonce</strong> : Information sur un programme à venir. S'affiche sur les cartes publiques.
-                            </div>
-                        </div>
-
-                        <div id="live_fields" class="conditional-fields">
-                            <div class="alert alert-danger" role="alert">
-                                <i class="fas fa-broadcast-tower me-2"></i>
-                                <strong>Programme live</strong> : Programme en direct ou replay disponible. S'affiche partout.
-                            </div>
-                        </div>
-
-                        <!-- Détails -->
-                        <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="presenter" class="form-label">Présentateur</label>
-                                    <input type="text" class="form-control" id="presenter"
-                                        name="presenter" placeholder="Nom du présentateur">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="schedule_time" class="form-label">Horaire</label>
-                                    <input type="text" class="form-control" id="schedule_time"
-                                        name="schedule_time" placeholder="Ex: 20h00">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="duration" class="form-label">Durée</label>
-                                    <input type="text" class="form-control" id="duration"
-                                        name="duration" placeholder="Ex: 30 min">
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label for="program_date" class="form-label">
-                                        <i class="fas fa-calendar me-2"></i>
-                                        <strong>Date du programme</strong>
-                                    </label>
-                                    <input type="date" class="form-control" id="program_date"
-                                        name="program_date">
-                                </div>
-                            </div>
-                        </div>
+            <!-- CARTE 2 : DIFFUSION & PLANIFICATION -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon" style="background:linear-gradient(135deg,var(--telex-blue),#2563eb);">
+                        <i class="fas fa-broadcast-tower" style="color:white;"></i>
                     </div>
-
-                    <div class="col-md-4">
-                        <!-- Type de programme -->
-                        <div class="form-group">
-                            <label for="program_type" class="form-label">
-                                <i class="fas fa-tv me-2"></i>
-                                <strong>Programme *</strong>
-                                <small class="text-muted ms-2">Sélectionnez le programme officiel TELEX</small>
-                            </label>
-                            <select class="form-control" id="program_type" name="program_type" required>
-                                <option value="">Sélectionnez un programme TELEX</option>
-                                <option value="Programme d'Information">Programme d'Information</option>
-                                <option value="Programme Décryptage & Reportages">Programme Décryptage & Reportages</option>
-                                <option value="Programme Débats">Programme Débats</option>
-                                <option value="Programme Humain & Sociétal">Programme Humain & Sociétal</option>
-                                <option value="Programme Éducatif">Programme Éducatif</option>
-                                <option value="Programme Jeunesse">Programme Jeunesse</option>
-                                <option value="Programme Environnement">Programme Environnement</option>
-                                <option value="Programme Culture & Identité">Programme Culture & Identité</option>
-                                <option value="Programme Vrai ou Faux / Madagascar en Carte">Programme Vrai ou Faux / Madagascar en Carte</option>
-                                <option value="Programme Économie & Travail">Programme Économie & Travail</option>
-                            </select>
-                        </div>
-
-                        <!-- Médias du Programme -->
-                        <div class="form-group mt-4">
-                            <label class="form-label">
-                                <i class="fas fa-photo-video me-2"></i>
-                                <strong>Médias du Programme</strong>
-                                <small class="text-muted ms-2">Ajoutez une image ou une vidéo</small>
-                            </label>
-                        </div>
-
-                        <!-- Sélecteur de type média -->
-                        <div class="media-type-selector">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="media_type"
-                                    id="media_type_image" value="image" checked>
-                                <label class="form-check-label" for="media_type_image">
-                                    <i class="fas fa-image"></i> Image
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="media_type"
-                                    id="media_type_video" value="video">
-                                <label class="form-check-label" for="media_type_video">
-                                    <i class="fas fa-video"></i> Vidéo
-                                </label>
-                            </div>
-                        </div>
+                    <div>
+                        <div class="form-card-title">Diffusion &amp; Planification</div>
+                        <div class="form-card-sub">Type de diffusion, horaire et d&eacute;tails de pr&eacute;sentation</div>
                     </div>
                 </div>
-
-                <!-- SECTION IMAGE -->
-                <div id="imageSection" class="row mt-4">
-                    <div class="col-12">
-                        <div class="media-section" style="background: linear-gradient(135deg, #fafbfc, #f8fafc); border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; position: relative;">
-                            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--telex-red), var(--telex-blue)); border-radius: 16px 0 0 16px;"></div>
-                            <h5 class="mb-3"><i class="fas fa-image me-2"></i>Image du Programme</h5>
-                            
-                            <!-- Upload image -->
-                            <div class="upload-area" id="imageUploadArea">
-                                <i class="fas fa-image"></i>
-                                <h5>Glissez-déposez votre image ici</h5>
-                                <p>ou cliquez pour sélectionner</p>
-                                <p class="small text-muted">JPEG, JPG, PNG, GIF, WebP (max 50MB)</p>
+                <div class="form-card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="broadcast_type" class="form-label">
+                                    <i class="fas fa-satellite-dish me-2"></i>
+                                    <strong>Type de diffusion *</strong>
+                                </label>
+                                <select class="form-control" id="broadcast_type" name="broadcast_type"
+                                    required onchange="toggleBroadcastFields()">
+                                    <option value="">S&eacute;lectionnez un type</option>
+                                    <option value="announcement">&#128226; Annonce</option>
+                                    <option value="live">&#128225; Programme live</option>
+                                </select>
                             </div>
-                            
-                            <input type="file" class="d-none" id="image_file" name="image_file" accept=".jpg,.jpeg,.png,.gif,.webp">
-                            
-                            <!-- Prévisualisation image -->
-                            <div id="imagePreview" class="mt-3" style="display: none;">
-                                <div class="preview-card">
-                                    <p class="small mb-2"><strong>Image sélectionnée :</strong></p>
-                                    <div id="imagePreviewContainer"></div>
-                                    <div class="mt-2">
-                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
-                                            <i class="fas fa-trash me-1"></i>Supprimer l'image
-                                        </button>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end pb-4">
+                            <div id="announcement_fields" class="conditional-fields w-100">
+                                <div class="broadcast-info broadcast-announce">
+                                    <i class="fas fa-bullhorn fa-fw"></i>
+                                    <div>
+                                        <strong>Annonce</strong>
+                                        <span>Information sur un programme &agrave; venir &mdash; visible sur les cartes publiques.</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="live_fields" class="conditional-fields w-100">
+                                <div class="broadcast-info broadcast-live">
+                                    <span class="live-dot"></span>
+                                    <div>
+                                        <strong>Programme Live</strong>
+                                        <span>En direct ou replay disponible &mdash; s'affiche partout sur le site.</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <!-- SECTION VIDÉO (masquée par défaut) -->
-                <div id="videoSection" class="row mt-4" style="display: none;">
-                    <div class="col-12">
-                        <div class="media-section" style="background: linear-gradient(135deg, #fafbfc, #f8fafc); border-radius: 16px; padding: 30px; border: 1px solid #e2e8f0; position: relative;">
-                            <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, var(--telex-red), var(--telex-blue)); border-radius: 16px 0 0 16px;"></div>
-                            <h5 class="mb-3"><i class="fas fa-video me-2"></i>Vidéo du Programme</h5>
-                            
-                            <!-- Upload fichier vidéo -->
-                            <div class="mb-4">
-                                <label class="form-label">Télécharger un fichier vidéo</label>
-                                <div class="upload-area" id="videoUploadArea">
-                                    <i class="fas fa-video"></i>
-                                    <h5>Glissez-déposez votre vidéo ici</h5>
-                                    <p>ou cliquez pour sélectionner</p>
-                                    <p class="small text-muted">MP4, WebM, OGG, MOV, AVI (max 1000MB)</p>
-                                </div>
-                                <input type="file" class="d-none" id="video_file" name="video_file" accept=".mp4,.webm,.ogg,.mov,.avi">
-                            </div>
-                            
-                            <!-- OU URL vidéo -->
-                            <div class="mb-3">
-                                <label class="form-label">Ou lien URL de la vidéo</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-link"></i></span>
-                                    <input type="url" class="form-control" id="video_url" name="video_url"
-                                        placeholder="https://example.com/video.mp4"
-                                        pattern="https?://.+\.(mp4|webm|ogg|mov|avi)$"
-                                        title="URL directe de vidéo (MP4, WebM, OGG, MOV, AVI)">
-                                </div>
-                                <small class="text-muted">
-                                    <i class="fas fa-info-circle me-1"></i>
-                                    Formats supportés : MP4, WebM, OGG, MOV, AVI<br>
-                                    YouTube, Vimeo ou URL directe
-                                </small>
-                            </div>
-                            
-                            <!-- Prévisualisation vidéo -->
-                            <div id="videoPreview" class="mt-3" style="display: none;">
-                                <div class="preview-card">
-                                    <p class="small mb-2"><strong>Vidéo sélectionnée :</strong></p>
-                                    <div id="videoPreviewContainer"></div>
-                                    <div class="mt-2">
-                                        <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
-                                            <i class="fas fa-trash me-1"></i>Supprimer la vidéo
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SWITCH PUBLIER -->
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <div class="form-switch">
-                                <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" checked>
-                                <label class="form-check-label" for="is_active">
-                                    <i class="fas fa-eye"></i>
-                                    <strong>Publier ce programme</strong>
-                                    <small class="text-muted ms-2">Activer pour rendre ce programme visible immédiatement sur le site public</small>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="presenter" class="form-label">
+                                    <i class="fas fa-user me-2"></i>Pr&eacute;sentateur
                                 </label>
+                                <input type="text" class="form-control" id="presenter"
+                                    name="presenter" placeholder="Nom du pr&eacute;sentateur">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="schedule_time" class="form-label">
+                                    <i class="fas fa-clock me-2"></i>Horaire
+                                </label>
+                                <input type="text" class="form-control" id="schedule_time"
+                                    name="schedule_time" placeholder="Ex: 20h00">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="duration" class="form-label">
+                                    <i class="fas fa-hourglass-half me-2"></i>Dur&eacute;e
+                                </label>
+                                <input type="text" class="form-control" id="duration"
+                                    name="duration" placeholder="Ex: 30 min">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="program_date" class="form-label">
+                                    <i class="fas fa-calendar me-2"></i>Date
+                                </label>
+                                <input type="date" class="form-control" id="program_date"
+                                    name="program_date">
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Boutons d'action -->
-                <div class="d-flex justify-content-between mt-4">
-                    <a href="/admin/programs" class="btn btn-outline-secondary">
-                        <i class="fas fa-times me-2"></i>Annuler
-                    </a>
-                    <button type="submit" class="btn btn-success">
-                        <i class="fas fa-save me-2"></i>Créer le programme
-                    </button>
+            <!-- CARTE 3 : MEDIAS -->
+            <div class="form-card">
+                <div class="form-card-header">
+                    <div class="form-card-icon" style="background:linear-gradient(135deg,var(--telex-red),#ff6b6b);">
+                        <i class="fas fa-photo-video" style="color:white;"></i>
+                    </div>
+                    <div>
+                        <div class="form-card-title">M&eacute;dias du Programme</div>
+                        <div class="form-card-sub">Ajoutez une image ou une vid&eacute;o de couverture</div>
+                    </div>
                 </div>
-            </form>
-        </div>
+                <div class="form-card-body">
+                    <div class="media-type-selector">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="media_type"
+                                id="media_type_image" value="image" checked>
+                            <label class="form-check-label" for="media_type_image">
+                                <i class="fas fa-image"></i> Image
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="media_type"
+                                id="media_type_video" value="video">
+                            <label class="form-check-label" for="media_type_video">
+                                <i class="fas fa-video"></i> Vid&eacute;o
+                            </label>
+                        </div>
+                    </div>
+
+                    <div id="imageSection">
+                        <div class="upload-area" id="imageUploadArea">
+                            <i class="fas fa-image"></i>
+                            <h5>Glissez-d&eacute;posez votre image ici</h5>
+                            <p>ou cliquez pour s&eacute;lectionner</p>
+                            <p class="small text-muted">JPEG, JPG, PNG, GIF, WebP (max 50MB)</p>
+                        </div>
+                        <input type="file" class="d-none" id="image_file" name="image_file" accept=".jpg,.jpeg,.png,.gif,.webp">
+                        <div id="imagePreview" class="mt-3" style="display:none;">
+                            <div class="preview-card">
+                                <p class="small mb-2"><strong>Image s&eacute;lectionn&eacute;e :</strong></p>
+                                <div id="imagePreviewContainer"></div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeImage()">
+                                        <i class="fas fa-trash me-1"></i>Supprimer l'image
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="videoSection" style="display:none;">
+                        <div class="mb-4">
+                            <label class="form-label">T&eacute;l&eacute;charger un fichier vid&eacute;o</label>
+                            <div class="upload-area" id="videoUploadArea">
+                                <i class="fas fa-video"></i>
+                                <h5>Glissez-d&eacute;posez votre vid&eacute;o ici</h5>
+                                <p>ou cliquez pour s&eacute;lectionner</p>
+                                <p class="small text-muted">MP4, WebM, OGG, MOV, AVI (max 1000MB)</p>
+                            </div>
+                            <input type="file" class="d-none" id="video_file" name="video_file" accept=".mp4,.webm,.ogg,.mov,.avi">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Ou lien URL de la vid&eacute;o</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-link"></i></span>
+                                <input type="url" class="form-control" id="video_url" name="video_url"
+                                    placeholder="https://example.com/video.mp4">
+                            </div>
+                            <small class="text-muted mt-1 d-block">
+                                <i class="fas fa-info-circle me-1"></i>Formats : MP4, WebM, OGG, MOV, AVI &mdash; YouTube, Vimeo ou URL directe
+                            </small>
+                        </div>
+                        <div id="videoPreview" class="mt-3" style="display:none;">
+                            <div class="preview-card">
+                                <p class="small mb-2"><strong>Vid&eacute;o s&eacute;lectionn&eacute;e :</strong></p>
+                                <div id="videoPreviewContainer"></div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="removeVideo()">
+                                        <i class="fas fa-trash me-1"></i>Supprimer la vid&eacute;o
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARTE 4 : PUBLICATION -->
+            <div class="form-card">
+                <div class="form-card-body" style="padding:18px 22px;">
+                    <div class="form-switch">
+                        <input class="form-check-input" type="checkbox" id="is_active" name="is_active" value="1" checked>
+                        <label class="form-check-label" for="is_active">
+                            <i class="fas fa-eye"></i>
+                            <strong>Publier ce programme</strong>
+                            <small class="text-muted ms-2">Activer pour rendre ce programme visible sur le site public</small>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Bar -->
+            <div class="save-bar">
+                <a href="/admin/programs" class="btn btn-outline-secondary">
+                    <i class="fas fa-times me-2"></i>Annuler
+                </a>
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-save me-2"></i>Cr&eacute;er le programme
+                </button>
+            </div>
+        </form>
     </div>
-
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -1652,6 +1681,16 @@
         window.removeImage = removeImage;
         window.removeVideo = removeVideo;
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 
 </html>

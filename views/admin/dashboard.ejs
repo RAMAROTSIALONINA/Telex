@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -53,678 +53,380 @@
             box-shadow: 8px 0 25px rgba(0, 0, 0, 0.15);
         }
         
-        .sidebar-brand {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        /* Logo TELEX dans la sidebar */
-        .sidebar-logo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .sidebar-logo img {
-            max-width: 180px;
-            height: auto;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-            transition: transform 0.3s ease;
-        }
-        
-        .sidebar-logo img:hover {
-            transform: scale(1.05);
-        }
-        
-        .sidebar-logo .brand-text {
-            color: white;
-            font-weight: 700;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            letter-spacing: 0.5px;
-        }
-        
-        .sidebar-logo .version {
-            font-size: 0.85rem;
-            opacity: 0.8;
-            font-weight: 300;
-            color: var(--telex-light);
-        }
-        
-        /* Logo watermark discret */
-        .logo-watermark {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            z-index: 999;
-            opacity: 0.15;
-            pointer-events: none;
-            max-width: 150px;
-            animation: float 6s ease-in-out infinite;
-        }
-        
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(0.5deg); }
-        }
-        
-        .user-info {
-            padding: 20px;
+        /* ── Sidebar header (Option B) ── */
+        .sb-header {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.05);
-            margin: 15px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all var(--transition-speed);
+            gap: 14px;
+            padding: 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .sb-logo {
+            height: 56px;
+            width: auto;
+            display: block;
+            flex-shrink: 0;
         }
         
-        .user-info:hover {
-            background: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
+        /* ── User card ── */
+        .user-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 12px 4px;
+            padding: 12px 14px;
+            background: rgba(255,255,255,.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,.08);
+            transition: background .2s;
         }
-        
+        .user-card:hover { background: rgba(255,255,255,.09); }
+
         .user-avatar {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
-            border-radius: 12px;
+            width: 38px;
+            height: 38px;
+            background: var(--telex-red);
+            border-radius: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-right: 15px;
-            box-shadow: 0 4px 10px rgba(230, 57, 70, 0.3);
+            font-size: 1rem;
+            color: #fff;
+            flex-shrink: 0;
         }
-        
+
+        .user-details { flex: 1; min-width: 0; }
+
         .user-details h5 {
             font-weight: 600;
-            margin-bottom: 3px;
-            font-size: 1rem;
+            margin: 0 0 2px;
+            font-size: .88rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
-        
+
         .user-details small {
-            opacity: 0.8;
-            font-size: 0.8rem;
-            display: block;
+            color: rgba(255,255,255,.45);
+            font-size: .75rem;
+        }
+
+        .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 2px rgba(34,197,94,.25);
         }
         
+        /* ── Navigation ── */
         .sidebar-nav {
             flex: 1;
-            padding: 20px 15px;
+            padding: 8px 10px 4px;
             overflow-y: auto;
         }
-        
-        .sidebar-nav::-webkit-scrollbar {
-            width: 5px;
-        }
-        
+
+        .sidebar-nav::-webkit-scrollbar { width: 4px; }
         .sidebar-nav::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 10px;
+            background: rgba(255,255,255,.15);
+            border-radius: 4px;
         }
-        
-        .nav-item {
-            margin-bottom: 8px;
+
+        .nav-section-label {
+            font-size: .68rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,.28);
+            padding: 14px 10px 5px;
         }
-        
+
+        .nav-item { margin-bottom: 2px; }
+
         .nav-link {
             display: flex;
             align-items: center;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 16px 20px;
+            gap: 12px;
+            color: rgba(255,255,255,.6);
+            padding: 10px 12px;
             text-decoration: none;
-            border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 9px;
+            transition: background .18s, color .18s;
+            font-size: .88rem;
             font-weight: 500;
             position: relative;
-            overflow: hidden;
-            border: 1px solid transparent;
-            backdrop-filter: blur(10px);
         }
-        
-        .nav-link::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 4px;
-            background: linear-gradient(180deg, var(--telex-red), #ff6b6b);
-            transform: translateX(-100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            border-radius: 0 2px 2px 0;
-        }
-        
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            background: rgba(255, 255, 255, 0.15);
-            color: white;
-            transform: translateX(8px) scale(1.02);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .nav-link:hover::before {
-            transform: translateX(0);
-        }
-        
-        .nav-link:hover::after {
-            opacity: 1;
-        }
-        
-        .nav-link.active {
-            background: linear-gradient(135deg, rgba(230, 57, 70, 0.2), rgba(230, 57, 70, 0.1));
-            color: white;
-            transform: translateX(5px);
-            border-color: rgba(230, 57, 70, 0.3);
-            box-shadow: 0 8px 30px rgba(230, 57, 70, 0.25);
-            font-weight: 600;
-        }
-        
-        .nav-link.active::before {
-            transform: translateX(0);
-            background: linear-gradient(180deg, var(--telex-red), #ff6b6b);
-            box-shadow: 0 0 10px rgba(230, 57, 70, 0.5);
-        }
-        
-        .nav-link.active::after {
-            opacity: 1;
-            background: linear-gradient(135deg, rgba(230, 57, 70, 0.1), transparent);
-        }
-        
+
         .nav-link i {
-            width: 28px;
-            font-size: 1.2rem;
-            margin-right: 15px;
+            width: 20px;
+            font-size: 1rem;
             text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
-            z-index: 2;
+            flex-shrink: 0;
         }
-        
-        .nav-link:hover i {
-            transform: scale(1.1);
-            color: white;
+
+        .nav-link:hover {
+            background: rgba(255,255,255,.08);
+            color: #fff;
         }
-        
-        .nav-link.active i {
-            color: white;
-            transform: scale(1.1);
+
+        .nav-link.active {
+            background: rgba(230,57,70,.15);
+            color: #fff;
+            font-weight: 600;
+            border-left: 3px solid var(--telex-red);
+            padding-left: 9px;
         }
-        
+
+        /* ── Sidebar footer (Paramètres + Déconnexion) ── */
+        .sidebar-footer {
+            padding: 8px 10px 12px;
+            border-top: 1px solid rgba(255,255,255,.08);
+        }
+
         .nav-link.logout {
-            color: #ff9e9e;
-            margin-top: 20px;
+            color: rgba(255,160,160,.7);
         }
-        
+
         .nav-link.logout:hover {
-            background: rgba(255, 107, 107, 0.1);
-            color: #ff6b6b;
+            background: rgba(255,107,107,.1);
+            color: #ff9e9e;
         }
         
-        /* Main Content */
-        .main-content { 
-            margin-left: var(--sidebar-width); 
-            padding: 30px;
+        /* ── Main Content ── */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 24px 28px;
             min-height: 100vh;
-            animation: fadeIn 0.5s ease-out;
-            position: relative;
+            background: #f1f5f9;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        /* Top Bar améliorée */
-        .top-bar {
-            background: white;
-            padding: 25px 30px;
+
+        /* ── Dashboard Header Banner ── */
+        .dash-header {
+            background: linear-gradient(135deg, var(--telex-blue) 0%, #274b80 100%);
             border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
+            padding: 22px 28px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            animation: slideDown 0.4s ease-out;
-            position: relative;
-            overflow: hidden;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 20px rgba(29,53,87,.22);
         }
-        
-        .top-bar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--telex-red), var(--telex-blue));
-        }
-        
-        @keyframes slideDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .page-title h1 {
-            font-weight: 700;
-            color: var(--telex-blue);
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .telex-mini-logo {
-            height: 32px;
-            width: auto;
-            vertical-align: middle;
-        }
-        
-        .top-bar p {
-            color: #64748b;
-            font-size: 1rem;
-            margin: 0;
-            padding-left: 42px;
-        }
-        
-        .btn-telex {
-            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
+        .dash-header-left { display: flex; align-items: center; gap: 16px; }
+        .dash-logo { height: 44px; width: auto; border-radius: 8px; }
+        .dash-title { font-size: 1.25rem; font-weight: 700; color: #fff; margin: 0 0 3px; }
+        .dash-subtitle { font-size: .83rem; color: rgba(255,255,255,.6); margin: 0; }
+        .dash-subtitle strong { color: rgba(255,255,255,.92); font-weight: 600; }
+        .btn-view-site {
+            background: rgba(255,255,255,.14);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,.25);
+            padding: 9px 18px;
+            border-radius: 9px;
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
+            font-size: .84rem;
             font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
+            display: inline-flex; align-items: center; gap: 7px;
+            transition: background .2s;
+            white-space: nowrap;
+        }
+        .btn-view-site:hover { background: rgba(255,255,255,.25); color: #fff; }
+
+        /* ── Section Labels ── */
+        .section-label {
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            margin-top: 4px;
         }
         
-        .btn-telex:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
-            color: white;
-        }
         
-        /* Logo dans le header */
-        .header-logo-container {
-            position: absolute;
-            right: 30px;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0.1;
-            pointer-events: none;
-        }
-        
-        .header-logo {
-            height: 80px;
-            width: auto;
-        }
-        
-        /* Stat Cards améliorées */
-        .stat-card { 
-            background: white; 
-            border-radius: 16px; 
-            padding: 25px; 
-            margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); 
-            text-align: center;
-            transition: all 0.3s;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+        /* Stat Cards — layout horizontal */
+        .stat-card {
+            background: white;
+            border-radius: 14px;
+            padding: 16px 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            transition: all 0.25s;
+            border: 1px solid rgba(0,0,0,.06);
+            border-left: 4px solid transparent;
             height: 100%;
             animation: fadeInUp 0.5s ease-out;
             animation-fill-mode: both;
-            position: relative;
-            overflow: hidden;
             display: flex;
-            flex-direction: column;
+            flex-direction: row;
             align-items: center;
-            justify-content: center;
-            min-height: 180px;
+            gap: 14px;
         }
-        
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--telex-red);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-            transform-origin: left;
-        }
-        
-        .stat-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .stat-card:nth-child(1) { animation-delay: 0.1s; }
-        .stat-card:nth-child(2) { animation-delay: 0.2s; }
-        .stat-card:nth-child(3) { animation-delay: 0.3s; }
-        .stat-card:nth-child(4) { animation-delay: 0.4s; }
-        
+
+        .stat-card:nth-child(1) { animation-delay: 0.05s; border-left-color: #3B82F6; }
+        .stat-card:nth-child(2) { animation-delay: 0.10s; border-left-color: #10B981; }
+        .stat-card:nth-child(3) { animation-delay: 0.15s; border-left-color: #8B5CF6; }
+        .stat-card:nth-child(4) { animation-delay: 0.20s; border-left-color: #e74c3c; }
+        .stat-card:nth-child(5) { animation-delay: 0.25s; border-left-color: #6366f1; }
+        .stat-card:nth-child(6) { animation-delay: 0.30s; border-left-color: #8e44ad; }
+
         @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
-        
+
         .stat-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,.10);
         }
-        
+
         .stat-icon {
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 20px;
-            font-size: 1.5rem;
+            font-size: 1.15rem;
             color: white;
+            flex-shrink: 0;
         }
-        
-        .stat-icon.news { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
+
+        .stat-icon.news     { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
         .stat-icon.programs { background: linear-gradient(135deg, #10B981, #047857); }
         .stat-icon.contacts { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
-        .stat-icon.gallery { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
-        .stat-icon.cookies {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        .stat-icon.gallery  { background: linear-gradient(135deg, #6366f1, #8b5cf6); }
+        .stat-icon.cookies  { background: linear-gradient(135deg, #e74c3c, #c0392b); }
+        .stat-icon.baume    { background: linear-gradient(135deg, #8e44ad, #9b59b6); }
+
+        .stat-body {
+            flex: 1;
+            min-width: 0;
         }
-        .stat-icon.baume {
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
-        }
-        .stat-icon.neutral {
-            background: none;
-            border: none;
-        }
-        
-        .stat-number { 
-            font-size: 2.8rem; 
-            font-weight: 800; 
-            color: var(--telex-blue); 
-            margin-bottom: 5px;
+
+        .stat-number {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: var(--telex-blue);
             line-height: 1;
+            margin-bottom: 2px;
         }
-        
+
         .stat-card h5 {
             font-weight: 600;
             color: #475569;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
+            margin-bottom: 3px;
+            font-size: .9rem;
         }
-        
+
         .stat-description {
             color: #94a3b8;
-            font-size: 0.9rem;
-            margin-top: 10px;
+            font-size: .78rem;
+            line-height: 1.35;
         }
         
-        /* Logo dans le fond des cartes de stats */
-        .stat-card-logo {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            opacity: 0.05;
-            width: 60px;
-            height: auto;
-            pointer-events: none;
-        }
-        
-        /* Cards améliorées */
-        .dashboard-card {
+        /* ── Panel Cards ── */
+        .panel {
             background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            border: none;
-            margin-bottom: 30px;
-            animation: fadeIn 0.6s ease-out;
-            position: relative;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 6px rgba(0,0,0,.05);
             overflow: hidden;
-        }
-        
-        .dashboard-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--telex-blue), var(--telex-red));
-        }
-        
-        .dashboard-card .card-header {
-            background: none;
-            border-bottom: 1px solid #f1f5f9;
-            padding: 20px 25px;
-            border-radius: 16px 16px 0 0;
-        }
-        
-        .dashboard-card .card-title {
-            font-weight: 700;
-            color: var(--telex-blue);
-            margin: 0;
-            font-size: 1.3rem;
-        }
-        
-        .dashboard-card .card-body {
-            padding: 25px;
-        }
-        
-        /* Quick Actions */
-        .quick-action-btn {
+            height: 100%;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 25px 15px;
-            border-radius: 12px;
-            background: white;
-            border: 2px solid #f1f5f9;
-            color: var(--telex-blue);
+        }
+        .panel-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid #f1f5f9;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .panel-title {
+            font-size: .92rem; font-weight: 700; color: var(--telex-blue);
+            display: flex; align-items: center; gap: 8px; margin: 0;
+        }
+        .panel-body { padding: 16px 18px; flex: 1; }
+
+        /* ── Quick Actions list ── */
+        .qa-list { display: flex; flex-direction: column; gap: 5px; }
+        .qa-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px 12px;
+            border-radius: 9px;
+            border: 1px solid #f1f5f9;
+            background: #fafbfc;
             text-decoration: none;
-            transition: all 0.3s;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .quick-action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: var(--telex-blue);
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-        
-        .quick-action-btn:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .quick-action-btn:hover {
-            transform: translateY(-5px);
-            border-color: var(--telex-light);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        }
-        
-        .quick-action-btn i {
-            font-size: 2rem;
-            margin-bottom: 15px;
             color: var(--telex-blue);
+            transition: background .15s, border-color .15s, transform .15s;
+            cursor: pointer;
         }
-        
-        .quick-action-btn h6 {
-            font-weight: 600;
-            margin-bottom: 8px;
+        .qa-item:hover {
+            background: #eef2ff;
+            border-color: #c7d2fe;
+            color: var(--telex-blue);
+            transform: translateX(3px);
         }
-        
-        .quick-action-btn p {
-            font-size: 0.85rem;
+        .qa-icon {
+            width: 36px; height: 36px; border-radius: 9px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .9rem; color: white; flex-shrink: 0;
+        }
+        .qa-icon.news     { background: linear-gradient(135deg,#3B82F6,#1D4ED8); }
+        .qa-icon.programs { background: linear-gradient(135deg,#10B981,#047857); }
+        .qa-icon.baume    { background: linear-gradient(135deg,#8e44ad,#9b59b6); }
+        .qa-icon.stats    { background: linear-gradient(135deg,#0ea5e9,#0284c7); }
+        .qa-icon.messages { background: linear-gradient(135deg,#8B5CF6,#7C3AED); }
+        .qa-icon.settings { background: linear-gradient(135deg,#64748b,#475569); }
+        .qa-info { flex: 1; min-width: 0; }
+        .qa-label { font-size: .85rem; font-weight: 600; line-height: 1; margin-bottom: 1px; }
+        .qa-sub   { font-size: .74rem; color: #94a3b8; }
+        .qa-arrow { color: #cbd5e1; font-size: .72rem; flex-shrink: 0; transition: color .15s; }
+        .qa-item:hover .qa-arrow { color: var(--telex-blue); }
+
+        /* ── Activity Timeline ── */
+        .act-list { display: flex; flex-direction: column; }
+        .act-item {
+            display: flex; gap: 12px; align-items: flex-start;
+            padding: 11px 0;
+            border-bottom: 1px solid #f8fafc;
+        }
+        .act-item:last-child { border-bottom: none; }
+        .act-dot {
+            width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .85rem; color: white;
+        }
+        .act-dot.green  { background: linear-gradient(135deg,#10B981,#047857); }
+        .act-dot.blue   { background: linear-gradient(135deg,#3B82F6,#1D4ED8); }
+        .act-dot.orange { background: linear-gradient(135deg,#F59E0B,#D97706); }
+        .act-body { flex: 1; min-width: 0; padding-top: 2px; }
+        .act-title { font-size: .85rem; font-weight: 600; color: var(--telex-blue); margin-bottom: 2px; }
+        .act-sub   { font-size: .77rem; color: #94a3b8; line-height: 1.35; }
+
+        /* ── Summary Banner ── */
+        .summary-banner {
+            background: linear-gradient(135deg,rgba(219,234,254,.6),rgba(224,242,254,.6));
+            border: 1px solid #bfdbfe;
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: flex; align-items: center; gap: 12px;
+            margin-top: 14px;
+        }
+        .summary-banner i { color: var(--telex-blue); font-size: 1.1rem; flex-shrink: 0; }
+        .summary-banner p { font-size: .83rem; color: #475569; margin: 0; line-height: 1.45; }
+
+        /* ── Dashboard Footer ── */
+        .dash-footer {
+            margin-top: 20px;
+            padding: 12px 0;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
             color: #94a3b8;
-            text-align: center;
-            margin: 0;
-        }
-        
-        /* Logo miniature dans les boutons d'action */
-        .action-logo {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            width: 20px;
-            height: auto;
-            opacity: 0.1;
-        }
-        
-        /* Recent Activity */
-        .activity-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            background: #f8fafc;
-            transition: all 0.3s;
-        }
-        
-        .activity-item:hover {
-            background: #f1f5f9;
-            transform: translateX(5px);
-        }
-        
-        .activity-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1rem;
-            color: white;
-            flex-shrink: 0;
-        }
-        
-        .activity-icon.success { background: linear-gradient(135deg, #10B981, #047857); }
-        .activity-icon.info { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
-        .activity-icon.warning { background: linear-gradient(135deg, #F59E0B, #D97706); }
-        
-        .activity-content h6 {
-            font-weight: 600;
-            margin-bottom: 3px;
-            font-size: 0.95rem;
-        }
-        
-        .activity-content p {
-            color: #64748b;
-            font-size: 0.85rem;
-            margin: 0;
-        }
-        
-        /* Welcome Alert avec logo */
-        .welcome-alert {
-            background: linear-gradient(135deg, rgba(219, 234, 254, 0.8), rgba(224, 242, 254, 0.8));
-            border: none;
-            border-radius: 16px;
-            padding: 25px 30px;
-            border-left: 5px solid var(--telex-blue);
-            animation: pulse 2s infinite;
-            display: flex;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .welcome-alert::before {
-            content: '';
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 80px;
-            height: 80px;
-            background: url('/images/Telex.png') no-repeat center;
-            background-size: contain;
-            opacity: 0.1;
-            pointer-events: none;
-        }
-        
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(29, 53, 87, 0.1); }
-            70% { box-shadow: 0 0 0 10px rgba(29, 53, 87, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(29, 53, 87, 0); }
-        }
-        
-        .welcome-alert i {
-            color: var(--telex-blue);
-            font-size: 1.8rem;
-            margin-right: 20px;
-            flex-shrink: 0;
-        }
-        
-        .welcome-content h5 {
-            font-weight: 700;
-            color: var(--telex-blue);
-            margin-bottom: 8px;
-        }
-        
-        .welcome-content p {
-            color: #475569;
-            margin: 0;
-        }
-        
-        /* Footer avec logo */
-        .dashboard-footer {
-            margin-top: 30px;
-            padding: 20px;
-            text-align: center;
-            color: #64748b;
-            font-size: 0.9rem;
+            font-size: .78rem;
             border-top: 1px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
         }
-        
-        .footer-logo {
-            height: 20px;
-            width: auto;
-            opacity: 0.6;
-            transition: opacity 0.3s;
-        }
-        
-        .footer-logo:hover {
-            opacity: 1;
-        }
+        .dash-footer img { height: 16px; opacity: .4; }
         
         /* Responsive */
         @media (max-width: 992px) {
@@ -732,81 +434,58 @@
                 width: 70px;
                 overflow: hidden;
             }
-            
-            .sidebar-brand {
-                padding: 15px 10px;
-            }
-            
-            .sidebar-logo img {
-                max-width: 50px;
-                margin-bottom: 10px;
-            }
-            
-            .sidebar-logo .brand-text,
-            .sidebar-logo .version,
-            .user-details,
-            .nav-link span {
-                display: none;
-            }
-            
-            .user-info {
-                justify-content: center;
-                padding: 15px 10px;
-                margin: 10px;
-            }
-            
-            .user-avatar {
-                margin-right: 0;
-                width: 40px;
-                height: 40px;
-            }
-            
+
+            .sb-header { padding: 12px 0; justify-content: center; gap: 0; }
+            .sb-logo { height: 34px; }
+
+            .user-card { margin: 8px 6px 4px; padding: 8px; justify-content: center; }
+            .user-details, .online-dot { display: none; }
+            .user-avatar { margin: 0; }
+
+            .nav-section-label { display: none; }
+            .nav-link span { display: none; }
+
             .nav-link {
                 justify-content: center;
-                padding: 15px;
+                padding: 11px 0;
+                gap: 0;
+                border-left: none !important;
+                padding-left: 0 !important;
             }
-            
-            .nav-link i {
-                margin-right: 0;
-                font-size: 1.2rem;
+
+            .nav-link.active {
+                border-left: none;
+                padding-left: 0;
+                border-bottom: 2px solid var(--telex-red);
             }
+
+            .nav-link i { font-size: 1.1rem; width: auto; }
+
+            .sidebar-footer { padding: 6px 4px 10px; }
             
             .main-content {
                 margin-left: 70px;
                 padding: 20px;
             }
             
-            .header-logo-container {
-                display: none;
-            }
-            
-            .logo-watermark {
-                display: none;
-            }
         }
         
         @media (max-width: 768px) {
-            .top-bar {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+            .stat-number { font-size: 2.2rem; }
+            .dash-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+        }
+
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: var(--sidebar-width);
+                z-index: 1050;
             }
-            
-            .stat-number {
-                font-size: 2.2rem;
-            }
-            
-            .quick-action-btn {
-                padding: 20px 10px;
-            }
-            
-            .page-title h1 {
-                font-size: 1.5rem;
-            }
-            
-            .telex-mini-logo {
-                height: 24px;
-            }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0 !important; padding: 15px; }
+            .dash-header { padding: 16px; border-radius: 12px; }
+            .stat-number { font-size: 1.8rem; }
+            .row > [class*="col-sm-6"] { flex: 0 0 50%; max-width: 50%; }
         }
         
         /* Loading animation */
@@ -873,7 +552,7 @@
             height: auto !important;
         }
 
-        /* Styles pour les statistiques détaillées du Baume de la Foi */
+        /* Styles Baume de la Foi detail (modal) */
         .baume-stats-detail {
             display: flex;
             flex-direction: column;
@@ -907,119 +586,77 @@
         .baume-stat-item.views-total i {
             color: var(--telex-blue);
         }
-    </style>
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 <body>
-    <!-- Logo Watermark -->
-    <img src="/images/Telex.png" alt="TELEX" class="logo-watermark">
-    
-        
-    <!-- Bouton flottant pour réafficher la sidebar -->
-    <button id="showSidebarBtn" style="position: fixed; top: 20px; left: 20px; z-index: 1001; background: linear-gradient(135deg, var(--telex-blue), var(--telex-red)); color: white; border: none; border-radius: 50%; width: 50px; height: 50px; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); display: none; align-items: center; justify-content: center; transition: all 0.3s ease;" title="Afficher la sidebar">
-        <i class="fas fa-bars" style="font-size: 18px;"></i>
+    <!-- Overlay mobile -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+    <button class="mobile-menu-btn" onclick="openSidebar()" aria-label="Ouvrir le menu">
+        <i class="fas fa-bars"></i>
     </button>
-    
+
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <div class="sidebar-logo" onclick="toggleSidebar()" style="cursor: pointer;" title="Cliquer pour agrandir/réduire la sidebar">
-                <img src="/images/11.png" alt="Telex Logo">
-                <div class="brand-text">Telex Admin</div>
-            </div>
+
+        <!-- En-tête : monogramme T + nom + sous-titre -->
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
         </div>
-        
-        <script>
-            // Fonction toggle sidebar directement ici
-            function toggleSidebar() {
-                var sidebar = document.querySelector('.sidebar');
-                var mainContent = document.querySelector('.main-content');
-                var logo = document.querySelector('.sidebar-logo img');
-                var showBtn = document.getElementById('showSidebarBtn');
-                
-                if (sidebar.style.marginLeft === '-280px' || sidebar.style.transform === 'translateX(-100%)') {
-                    // Afficher la sidebar
-                    sidebar.style.marginLeft = '0';
-                    sidebar.style.transform = 'translateX(0)';
-                    mainContent.style.marginLeft = 'var(--sidebar-width)';
-                    logo.style.transform = 'scale(1.05) rotate(2deg)';
-                    // Cacher le bouton flottant
-                    showBtn.style.display = 'none';
-                } else {
-                    // Cacher la sidebar
-                    sidebar.style.marginLeft = '-280px';
-                    sidebar.style.transform = 'translateX(-100%)';
-                    mainContent.style.marginLeft = '0';
-                    logo.style.transform = 'scale(1) rotate(0deg)';
-                    // Afficher le bouton flottant
-                    showBtn.style.display = 'flex';
-                }
-            }
-            
-            // Gestion indépendante du bouton flottant
-            document.addEventListener('DOMContentLoaded', function() {
-                var sidebar = document.querySelector('.sidebar');
-                var mainContent = document.querySelector('.main-content');
-                var logo = document.querySelector('.sidebar-logo img');
-                var showBtn = document.getElementById('showSidebarBtn');
-                
-                // Fonction indépendante pour le bouton flottant
-                function toggleSidebarWithButton() {
-                    if (sidebar.style.marginLeft === '-280px' || sidebar.style.transform === 'translateX(-100%)') {
-                        // Afficher la sidebar via le bouton
-                        sidebar.style.marginLeft = '0';
-                        sidebar.style.transform = 'translateX(0)';
-                        mainContent.style.marginLeft = 'var(--sidebar-width)';
-                        logo.style.transform = 'scale(1.05) rotate(2deg)';
-                        showBtn.style.display = 'none';
-                    } else {
-                        // Cacher la sidebar via le bouton
-                        sidebar.style.marginLeft = '-280px';
-                        sidebar.style.transform = 'translateX(-100%)';
-                        mainContent.style.marginLeft = '0';
-                        logo.style.transform = 'scale(1) rotate(0deg)';
-                        showBtn.style.display = 'flex';
-                    }
-                }
-                
-                // Clic sur le bouton flottant - utilise sa propre fonction
-                showBtn.addEventListener('click', toggleSidebarWithButton);
-                
-                // Animation du bouton flottant au survol
-                showBtn.addEventListener('mouseenter', function() {
-                    this.style.transform = 'scale(1.1)';
-                    this.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.3)';
-                });
-                
-                showBtn.addEventListener('mouseleave', function() {
-                    this.style.transform = 'scale(1)';
-                    this.style.boxShadow = '0 4px 15px rgba(0, 0, 0, 0.2)';
-                });
-            });
-        </script>
-        
-        <div class="user-info">
-            <div class="user-avatar">
-                <%= user ? user.username.charAt(0).toUpperCase() : 'A' %>
-            </div>
-            <div class="user-details">
-                <h5><%= user ? user.username : 'Admin' %></h5>
-                <small>Administrateur</small>
-            </div>
-        </div>
-        
+
+        <!-- Fiche utilisateur avec indicateur en ligne -->
+        <!-- Navigation groupée -->
         <nav class="sidebar-nav">
+
+            <!-- Lien direct Dashboard -->
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link active">
                     <i class="fas fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/about" class="nav-link">
-                    <i class="fas fa-info-circle"></i>
-                    <span>À Propos</span>
-                </a>
-            </div>
+
+            <!-- Groupe : Contenu -->
+            <div class="nav-section-label">Contenu</div>
             <div class="nav-item">
                 <a href="/admin/news" class="nav-link">
                     <i class="fas fa-newspaper"></i>
@@ -1032,6 +669,9 @@
                     <span>Programmes</span>
                 </a>
             </div>
+
+            <!-- Groupe : Communauté -->
+            <div class="nav-section-label">Communauté</div>
             <div class="nav-item">
                 <a href="/admin/baume-de-la-foi" class="nav-link">
                     <i class="fas fa-cross"></i>
@@ -1044,6 +684,9 @@
                     <span>Messages</span>
                 </a>
             </div>
+
+            <!-- Groupe : Médias -->
+            <div class="nav-section-label">Médias</div>
             <div class="nav-item">
                 <a href="/admin/gallery" class="nav-link">
                     <i class="fas fa-images"></i>
@@ -1051,17 +694,16 @@
                 </a>
             </div>
             <div class="nav-item">
-                <a href="/admin/album" class="nav-link" onclick="console.log('🔍 DEBUG: Clic sur Album link', event)">
+                <a href="/admin/album" class="nav-link">
                     <i class="fas fa-book"></i>
                     <span>Album</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/footer" class="nav-link">
-                    <i class="fas fa-globe"></i>
-                    <span>Footer</span>
-                </a>
-            </div>
+
+        </nav>
+
+        <!-- Footer sidebar : Paramètres + Déconnexion -->
+        <div class="sidebar-footer">
             <div class="nav-item">
                 <a href="/admin/settings" class="nav-link">
                     <i class="fas fa-cog"></i>
@@ -1074,136 +716,102 @@
                     <span>Déconnexion</span>
                 </a>
             </div>
-        </nav>
+        </div>
+
     </div>
     
     <!-- Main Content -->
     <div class="main-content">
-        <!-- Top bar -->
-        <div class="top-bar">
-            <div class="header-logo-container">
-                <img src="/images/Telex.png" alt="TELEX" class="header-logo">
+        <!-- Dashboard Header -->
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="/images/Telex.png" alt="Telex" class="dash-logo">
+                <div>
+                    <p class="dash-title">Tableau de bord</p>
+                    <p class="dash-subtitle">Bonjour <strong><%= user ? user.username : 'Admin' %></strong> &nbsp;·&nbsp; <span id="header-date"></span></p>
+                </div>
             </div>
-            
-            <div class="page-title">
-                <h1>
-                    <img src="/images/Telex.png" alt="TELEX" class="telex-mini-logo">
-                    Tableau de bord Telex
-                </h1>
-                <p>Bonjour <%= user ? user.username : 'Admin' %>, voici un résumé de votre activité</p>
-            </div>
-            <div>
-                <a href="/" class="btn btn-telex" target="_blank">
-                    <i class="fas fa-external-link-alt me-2"></i>Voir le site
-                </a>
-            </div>
+            <a href="/" class="btn-view-site" target="_blank">
+                <i class="fas fa-external-link-alt"></i>Voir le site
+            </a>
         </div>
         
+        <!-- Section label -->
+        <p class="section-label">Vue d'ensemble</p>
+
         <!-- Stats -->
-        <div class="row">
-            <div class="col-lg-2 col-md-4 col-sm-6">
+        <div class="row g-3 mb-4">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                 <div class="stat-card">
-                    <img src="/images/Telex.png" alt="TELEX" class="stat-card-logo">
-                    <div class="stat-icon news">
-                        <i class="fas fa-newspaper"></i>
-                    </div>
-                    <div class="stat-number"><%= stats.totalNews || 0 %></div>
-                    <h5>Actualités</h5>
-                    <div class="stat-description">
-                        <%= stats.totalNews > 0 ? stats.totalNews + ' publications' : 'Aucune actualité' %>
-                        <br>
-                        <small class="text-muted">
-                            <i class="fas fa-eye me-1"></i>
-                            <span id="total-news-views-inline"><%= stats.totalNewsViews || 0 %></span> vues totales
-                        </small>
+                    <div class="stat-icon news"><i class="fas fa-newspaper"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-number"><%= stats.totalNews || 0 %></div>
+                        <h5>Actualités</h5>
+                        <div class="stat-description">
+                            <%= stats.totalNews > 0 ? stats.totalNews + ' articles' : 'Aucune' %> ·
+                            <i class="fas fa-eye"></i> <span id="total-news-views-inline"><%= stats.totalNewsViews || 0 %></span> vues
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                 <div class="stat-card">
-                    <img src="/images/Telex.png" alt="TELEX" class="stat-card-logo">
-                    <div class="stat-icon programs">
-                        <i class="fas fa-tv"></i>
-                    </div>
-                    <div class="stat-number"><%= stats.totalPrograms || 0 %></div>
-                    <h5>Programmes</h5>
-                    <div class="stat-description">
-                        <%= stats.totalPrograms > 0 ? stats.totalPrograms + ' programmes' : 'Aucun programme' %>
-                        <br>
-                        <small class="text-muted">
-                            <i class="fas fa-eye me-1"></i>
-                            <span id="total-programs-views-inline"><%= stats.totalProgramsViews || 0 %></span> vues totales
-                        </small>
+                    <div class="stat-icon programs"><i class="fas fa-tv"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-number"><%= stats.totalPrograms || 0 %></div>
+                        <h5>Programmes</h5>
+                        <div class="stat-description">
+                            <%= stats.totalPrograms > 0 ? stats.totalPrograms + ' programmes' : 'Aucun' %> ·
+                            <i class="fas fa-eye"></i> <span id="total-programs-views-inline"><%= stats.totalProgramsViews || 0 %></span> vues
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                 <div class="stat-card">
-                    <img src="/images/Telex.png" alt="TELEX" class="stat-card-logo">
-                    <div class="stat-icon contacts">
-                        <i class="fas fa-envelope"></i>
-                    </div>
-                    <div class="stat-number"><%= stats.totalContacts || 0 %></div>
-                    <h5>Messages</h5>
-                    <div class="stat-description">
-                        <%= stats.totalContacts > 0 ? stats.totalContacts + ' messages' : 'Aucun message' %>
+                    <div class="stat-icon contacts"><i class="fas fa-envelope"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-number"><%= stats.totalContacts || 0 %></div>
+                        <h5>Messages</h5>
+                        <div class="stat-description">
+                            <%= stats.totalContacts > 0 ? stats.totalContacts + ' messages reçus' : 'Aucun message' %>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                 <div class="stat-card">
-                    <img src="/images/Telex.png" alt="TELEX" class="stat-card-logo">
-                    <div class="stat-icon cookies">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="stat-number" id="visitors-count"><%= stats.cookieConsents || 0 %></div>
-                    <h5>Visiteurs (cookies)</h5>
-                    <div class="stat-description">
-                        <span id="visitors-description">
-                            <%= stats.cookieConsents > 0 ? stats.cookieConsents + ' visiteurs' : 'Aucun visiteur' %>
-                        </span>
+                    <div class="stat-icon cookies"><i class="fas fa-users"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-number" id="visitors-count"><%= stats.cookieConsents || 0 %></div>
+                        <h5>Visiteurs</h5>
+                        <div class="stat-description">
+                            <span id="visitors-description"><%= stats.cookieConsents > 0 ? stats.cookieConsents + ' visiteurs' : 'Aucun visiteur' %></span>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                 <div class="stat-card">
-                    <img src="/images/Telex.png" alt="TELEX" class="stat-card-logo">
-                    <div class="stat-icon gallery">
-                        <i class="fas fa-images"></i>
-                    </div>
-                    <div class="stat-number"><%= stats.totalGallery || 0 %></div>
-                    <h5>Médias</h5>
-                    <div class="stat-description">
-                        <%= stats.totalGallery > 0 ? stats.totalGallery + ' images' : 'Galerie vide' %>
+                    <div class="stat-icon gallery"><i class="fas fa-images"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-number"><%= stats.totalGallery || 0 %></div>
+                        <h5>Médias</h5>
+                        <div class="stat-description">
+                            <%= stats.totalGallery > 0 ? stats.totalGallery + ' images' : 'Galerie vide' %>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-6">
                 <div class="stat-card">
-                    <img src="/images/Telex.png" alt="TELEX" class="stat-card-logo">
-                    <div class="stat-icon baume">
-                        <i class="fas fa-cross"></i>
-                    </div>
-                    <div class="stat-number" id="baume-total-count"><%= stats.baumeTotalCount || 0 %></div>
-                    <h5>Baume de la Foi</h5>
-                    <div class="stat-description">
-                        <div class="baume-stats-detail">
-                            <div class="baume-stat-item">
-                                <i class="fas fa-pray me-1"></i>
-                                <span><%= stats.baumePrieres || 0 %> prières</span>
-                            </div>
-                            <div class="baume-stat-item">
-                                <i class="fas fa-book-open me-1"></i>
-                                <span><%= stats.baumeReflexions || 0 %> réflexions</span>
-                            </div>
-                            <div class="baume-stat-item">
-                                <i class="fas fa-comments me-1"></i>
-                                <span><%= stats.baumeTemoignages || 0 %> témoignages</span>
-                            </div>
-                            <div class="baume-stat-item views-total">
-                                <i class="fas fa-eye me-1"></i>
-                                <span id="baume-total-views"><%= stats.baumeTotalViews || 0 %></span> vues
-                            </div>
+                    <div class="stat-icon baume"><i class="fas fa-cross"></i></div>
+                    <div class="stat-body">
+                        <div class="stat-number" id="baume-total-count"><%= stats.baumeTotalCount || 0 %></div>
+                        <h5>Baume de la Foi</h5>
+                        <div class="stat-description">
+                            <%= stats.baumePrieres || 0 %> prières · <%= stats.baumeReflexions || 0 %> réflexions · <%= stats.baumeTemoignages || 0 %> tém.
+                            <br><i class="fas fa-eye"></i> <span id="baume-total-views"><%= stats.baumeTotalViews || 0 %></span> vues
                         </div>
                     </div>
                 </div>
@@ -1211,136 +819,121 @@
         </div>
         
         <!-- Quick Actions & Activity -->
-        <div class="row">
+        <div class="row g-3">
             <!-- Quick Actions -->
             <div class="col-lg-8">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h5 class="card-title">
-                            <i class="fas fa-bolt me-2 text-warning"></i>Actions rapides
+                <div class="panel">
+                    <div class="panel-header">
+                        <h5 class="panel-title">
+                            <i class="fas fa-bolt" style="color:#F59E0B"></i> Actions rapides
                         </h5>
                     </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-3 col-6 mb-4">
-                                <a href="/admin/news/new" class="quick-action-btn">
-                                    <img src="/images/Telex.png" alt="TELEX" class="action-logo">
-                                    <i class="fas fa-plus-circle text-primary"></i>
-                                    <h6>Nouvelle actualité</h6>
-                                    <p>Créer un nouvel article</p>
-                                </a>
-                            </div>
-                            <div class="col-md-3 col-6 mb-4">
-                                <a href="/admin/programs/new" class="quick-action-btn">
-                                    <img src="/images/Telex.png" alt="TELEX" class="action-logo">
-                                    <i class="fas fa-plus-circle text-success"></i>
-                                    <h6>Ajouter programme</h6>
-                                    <p>Créer un nouveau programme</p>
-                                </a>
-                            </div>
-                            <div class="col-md-3 col-6 mb-4">
-                                <a href="/admin/baume-de-la-foi" class="quick-action-btn">
-                                    <img src="/images/Telex.png" alt="TELEX" class="action-logo">
-                                    <i class="fas fa-cross text-primary"></i>
-                                    <h6>Baume de la Foi</h6>
-                                    <p>Gérer les contenus</p>
-                                </a>
-                            </div>
-                            <div class="col-md-3 col-6 mb-4">
-                                <div class="quick-action-btn" onclick="showBaumeStats(event)">
-                                    <img src="/images/Telex.png" alt="TELEX" class="action-logo">
-                                    <i class="fas fa-chart-bar text-info"></i>
-                                    <h6>Statistiques</h6>
-                                    <p>Voir les statistiques</p>
+                    <div class="panel-body">
+                        <div class="qa-list">
+                            <a href="/admin/news/new" class="qa-item">
+                                <div class="qa-icon news"><i class="fas fa-plus-circle"></i></div>
+                                <div class="qa-info">
+                                    <div class="qa-label">Nouvelle actualité</div>
+                                    <div class="qa-sub">Créer un article</div>
                                 </div>
+                                <i class="fas fa-chevron-right qa-arrow"></i>
+                            </a>
+                            <a href="/admin/programs/new" class="qa-item">
+                                <div class="qa-icon programs"><i class="fas fa-plus-circle"></i></div>
+                                <div class="qa-info">
+                                    <div class="qa-label">Ajouter programme</div>
+                                    <div class="qa-sub">Nouveau programme TV/Radio</div>
+                                </div>
+                                <i class="fas fa-chevron-right qa-arrow"></i>
+                            </a>
+                            <a href="/admin/baume-de-la-foi" class="qa-item">
+                                <div class="qa-icon baume"><i class="fas fa-cross"></i></div>
+                                <div class="qa-info">
+                                    <div class="qa-label">Baume de la Foi</div>
+                                    <div class="qa-sub">Gérer les contenus spirituels</div>
+                                </div>
+                                <i class="fas fa-chevron-right qa-arrow"></i>
+                            </a>
+                            <div class="qa-item" onclick="showBaumeStats(event)" style="cursor:pointer">
+                                <div class="qa-icon stats"><i class="fas fa-chart-bar"></i></div>
+                                <div class="qa-info">
+                                    <div class="qa-label">Statistiques</div>
+                                    <div class="qa-sub">Voir les données détaillées</div>
+                                </div>
+                                <i class="fas fa-chevron-right qa-arrow"></i>
                             </div>
-                            <div class="col-md-3 col-6 mb-4">
-                                <a href="/admin/contacts" class="quick-action-btn">
-                                    <img src="/images/Telex.png" alt="TELEX" class="action-logo">
-                                    <i class="fas fa-inbox text-info"></i>
-                                    <h6>Voir messages</h6>
-                                    <p>Consulter les contacts</p>
-                                </a>
-                            </div>
-                            <div class="col-md-3 col-6 mb-4">
-                                <a href="/admin/settings" class="quick-action-btn">
-                                    <img src="/images/Telex.png" alt="TELEX" class="action-logo">
-                                    <i class="fas fa-cog text-secondary"></i>
-                                    <h6>Paramètres</h6>
-                                    <p>Configurer l'application</p>
-                                </a>
-                            </div>
+                            <a href="/admin/contacts" class="qa-item">
+                                <div class="qa-icon messages"><i class="fas fa-inbox"></i></div>
+                                <div class="qa-info">
+                                    <div class="qa-label">Messages</div>
+                                    <div class="qa-sub">Voir les contacts reçus</div>
+                                </div>
+                                <i class="fas fa-chevron-right qa-arrow"></i>
+                            </a>
+                            <a href="/admin/settings" class="qa-item">
+                                <div class="qa-icon settings"><i class="fas fa-cog"></i></div>
+                                <div class="qa-info">
+                                    <div class="qa-label">Paramètres</div>
+                                    <div class="qa-sub">Configuration du site</div>
+                                </div>
+                                <i class="fas fa-chevron-right qa-arrow"></i>
+                            </a>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Welcome Alert -->
-                <div class="welcome-alert mb-4">
-                    <i class="fas fa-info-circle"></i>
-                    <div class="welcome-content">
-                        <h5>Bienvenue sur Telex Admin </h5>
-                        <p>
-                            Vous gérez actuellement <strong><%= stats.totalNews %> actualités</strong> et 
-                            <strong><%= stats.totalPrograms %> programmes</strong>. Continuez votre excellent travail !
-                        </p>
+
+                        <div class="summary-banner">
+                            <i class="fas fa-info-circle"></i>
+                            <p>Vous gérez actuellement <strong><%= stats.totalNews %> actualités</strong> et <strong><%= stats.totalPrograms %> programmes</strong>. Continuez votre excellent travail !</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Recent Activity -->
             <div class="col-lg-4">
-                <div class="dashboard-card">
-                    <div class="card-header">
-                        <h5 class="card-title">
-                            <i class="fas fa-history me-2 text-primary"></i>Activité récente
+                <div class="panel">
+                    <div class="panel-header">
+                        <h5 class="panel-title">
+                            <i class="fas fa-history" style="color:#3B82F6"></i> Activité récente
                         </h5>
                     </div>
-                    <div class="card-body">
-                        <div class="activity-item">
-                            <div class="activity-icon success">
-                                <i class="fas fa-sign-in-alt"></i>
+                    <div class="panel-body">
+                        <div class="act-list">
+                            <div class="act-item">
+                                <div class="act-dot green"><i class="fas fa-sign-in-alt"></i></div>
+                                <div class="act-body">
+                                    <div class="act-title">Connexion réussie</div>
+                                    <div class="act-sub">Connecté en tant que <strong><%= user.username %></strong></div>
+                                </div>
                             </div>
-                            <div class="activity-content">
-                                <h6>Connexion réussie</h6>
-                                <p>Vous êtes connecté en tant que <strong><%= user.username %></strong></p>
+                            <div class="act-item">
+                                <div class="act-dot blue"><i class="fas fa-calendar-alt"></i></div>
+                                <div class="act-body">
+                                    <div class="act-title">Date du jour</div>
+                                    <div class="act-sub"><%= new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></div>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon info">
-                                <i class="fas fa-calendar-alt"></i>
-                            </div>
-                            <div class="activity-content">
-                                <h6>Date du jour</h6>
-                                <p><%= new Date().toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) %></p>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon warning">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="activity-content">
-                                <h6>Statistiques</h6>
-                                <p>Dashboard mis à jour avec les dernières données</p>
+                            <div class="act-item">
+                                <div class="act-dot orange"><i class="fas fa-chart-line"></i></div>
+                                <div class="act-body">
+                                    <div class="act-title">Statistiques</div>
+                                    <div class="act-sub">Dashboard mis à jour avec les dernières données</div>
+                                </div>
                             </div>
                         </div>
-                        
                         <div class="text-center mt-3">
                             <a href="/admin/news" class="btn btn-outline-primary btn-sm">
                                 <i class="fas fa-plus me-1"></i>Commencer à travailler
-        </div>
-        
-        <!-- Footer -->
-        <div class="dashboard-footer">
-            <img src="/images/Telex.png" alt="TELEX" class="footer-logo">
-            <div>
-                <p class="mb-0">
-                    Telex Admin Dashboard • 
-                    <span id="current-time"></span> • 
-                    
-                </p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="dash-footer">
+            <img src="/images/Telex.png" alt="TELEX">
+            <span>Telex Admin &nbsp;·&nbsp; <span id="current-time"></span></span>
         </div>
     </div>
     
@@ -1388,143 +981,240 @@
             }
         });
         
-        // Déclarer la fonction showBaumeStats pour s'assurer qu'elle est accessible globalement
-        var showBaumeStats;
-        
         // Fonction pour afficher les statistiques du Baume de la Foi
         window.showBaumeStats = function(event) {
-            event.preventDefault();
-            
-            // Éviter les initialisations multiples
-            if (isInitializingCharts) {
-                console.log('⚠️ Initialisation déjà en cours...');
+            if (event) event.preventDefault();
+
+            // Bug fix 1 : réutiliser le modal existant plutôt qu'en créer un nouveau
+            const existingModal = document.getElementById('statsModal');
+            if (existingModal) {
+                bootstrap.Modal.getOrCreateInstance(existingModal).show();
+                setTimeout(() => loadBaumeStatsModal(), 300);
                 return;
             }
-            
+
             // Créer une modale pour afficher les statistiques
             const modal = document.createElement('div');
+            modal.id = 'statsModal';
             modal.className = 'modal fade';
             modal.innerHTML = `
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content" style="min-height: 85vh;">
-                        <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title mb-0">
-                                <i class="fas fa-chart-bar me-2"></i>
-                                Statistiques Complètes
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal">
+                <style>
+                /* ── Stats Modal ── */
+                #statsModal .sm-dialog { max-width: 960px; }
+                #statsModal .sm-content {
+                    border: none; border-radius: 18px; overflow: hidden;
+                    box-shadow: 0 24px 60px rgba(0,0,0,.18);
+                }
+                #statsModal .sm-header {
+                    background: linear-gradient(135deg, #1D3557 0%, #274b80 100%);
+                    padding: 20px 24px 16px;
+                    display: flex; align-items: center; justify-content: space-between;
+                }
+                #statsModal .sm-header-left { display: flex; align-items: center; gap: 12px; }
+                #statsModal .sm-logo { height: 36px; border-radius: 6px; }
+                #statsModal .sm-title { color:#fff; font-size:1.05rem; font-weight:700; margin:0; line-height:1.2; }
+                #statsModal .sm-sub   { color:rgba(255,255,255,.55); font-size:.75rem; margin:0; }
+                #statsModal .sm-close {
+                    background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.2);
+                    color:#fff; border-radius:8px; width:32px; height:32px;
+                    display:flex; align-items:center; justify-content:center;
+                    cursor:pointer; font-size:.8rem; transition: background .15s;
+                }
+                #statsModal .sm-close:hover { background: rgba(255,255,255,.28); }
+
+                /* Type tabs */
+                #statsModal .sm-tabs {
+                    background: #f8fafc; border-bottom: 1px solid #e2e8f0;
+                    padding: 12px 20px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center;
+                }
+                #statsModal .sm-tab {
+                    padding: 6px 14px; border-radius: 20px; font-size: .8rem; font-weight: 600;
+                    border: 1.5px solid #e2e8f0; background: white; color: #64748b;
+                    cursor: pointer; transition: all .15s; user-select: none;
+                    display: inline-flex; align-items: center; gap: 5px;
+                }
+                #statsModal .sm-tab:hover { border-color: #cbd5e1; color: #1D3557; }
+                #statsModal .sm-tab.active-news     { background:#eff6ff; border-color:#3B82F6; color:#1D4ED8; }
+                #statsModal .sm-tab.active-programs { background:#fffbeb; border-color:#F59E0B; color:#D97706; }
+                #statsModal .sm-tab.active-baume    { background:#fdf4ff; border-color:#a855f7; color:#7C3AED; }
+                #statsModal .sm-tab.active-visitors { background:#eef2ff; border-color:#6366f1; color:#4338CA; }
+                #statsModal .sm-tab-sep { flex: 1; }
+                #statsModal .sm-date-row {
+                    display: flex; align-items: center; gap: 6px; font-size: .8rem;
+                }
+                #statsModal .sm-date-row label { color:#64748b; font-weight:600; white-space:nowrap; }
+                #statsModal .sm-date-row input[type=date] {
+                    border: 1px solid #e2e8f0; border-radius: 7px; padding: 4px 8px;
+                    font-size: .79rem; color: #1e293b; outline: none;
+                }
+                #statsModal .sm-date-row input[type=date]:focus { border-color: #3B82F6; }
+                #statsModal .sm-btn-apply {
+                    background: #1D3557; color:#fff; border:none; border-radius:7px;
+                    padding: 5px 12px; font-size:.78rem; font-weight:600; cursor:pointer;
+                    transition: background .15s;
+                }
+                #statsModal .sm-btn-apply:hover { background: #274b80; }
+                #statsModal .sm-btn-reset {
+                    background: white; color:#64748b; border: 1px solid #e2e8f0;
+                    border-radius:7px; padding:5px 10px; font-size:.78rem; cursor:pointer;
+                    transition: border-color .15s;
+                }
+                #statsModal .sm-btn-reset:hover { border-color:#94a3b8; }
+
+                /* KPI row */
+                #statsModal .sm-kpi-row {
+                    display: flex; gap: 10px; padding: 14px 20px;
+                    background: white; border-bottom: 1px solid #f1f5f9;
+                    flex-wrap: wrap;
+                }
+                #statsModal .sm-kpi {
+                    flex: 1; min-width: 120px; background: #f8fafc;
+                    border: 1px solid #e2e8f0; border-radius: 10px;
+                    padding: 10px 14px;
+                }
+                #statsModal .sm-kpi-val { font-size: 1.3rem; font-weight: 700; color: #1D3557; line-height: 1; }
+                #statsModal .sm-kpi-lbl { font-size: .72rem; color: #94a3b8; margin-top: 2px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; }
+
+                /* Chart area */
+                #statsModal .sm-body { padding: 16px 20px; background: #f8fafc; }
+                #statsModal .sm-card {
+                    background: white; border-radius: 12px; border: 1px solid #e2e8f0;
+                    overflow: hidden; margin-bottom: 12px;
+                }
+                #statsModal .sm-card-head {
+                    padding: 12px 18px; border-bottom: 1px solid #f1f5f9;
+                    display: flex; align-items: center; gap: 8px;
+                }
+                #statsModal .sm-card-head-dot {
+                    width: 8px; height: 8px; border-radius: 50%; background: #3B82F6; flex-shrink: 0;
+                }
+                #statsModal .sm-card-title { font-size: .86rem; font-weight: 700; color: #1D3557; margin: 0; }
+                #statsModal .sm-card-sub   { font-size: .74rem; color: #94a3b8; margin: 0 0 0 auto; }
+                #statsModal .sm-chart-wrap { padding: 16px 16px 8px; height: 340px; position: relative; }
+
+                /* Detail table */
+                #statsModal .sm-table { width: 100%; border-collapse: collapse; font-size: .83rem; }
+                #statsModal .sm-table th {
+                    padding: 9px 14px; background: #f8fafc; color: #64748b;
+                    font-size: .7rem; font-weight: 700; text-transform: uppercase;
+                    letter-spacing: .06em; border-bottom: 1px solid #e2e8f0;
+                }
+                #statsModal .sm-table td { padding: 11px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; }
+                #statsModal .sm-table tr:last-child td { border-bottom: none; font-weight: 700; background: #f8fafc; }
+                #statsModal .sm-type-dot {
+                    display: inline-flex; align-items: center; gap: 8px;
+                }
+                #statsModal .sm-type-dot span {
+                    width: 10px; height: 10px; border-radius: 3px; flex-shrink: 0;
+                }
+
+                /* Footer */
+                #statsModal .sm-footer {
+                    padding: 12px 20px; background: white; border-top: 1px solid #e2e8f0;
+                    display: flex; align-items: center; justify-content: space-between;
+                }
+                #statsModal .sm-footer-note { font-size:.75rem; color:#94a3b8; }
+                #statsModal .sm-footer-btns { display:flex; gap:8px; }
+                #statsModal .sm-btn-close {
+                    background: #f1f5f9; color:#475569; border:none; border-radius:8px;
+                    padding:8px 16px; font-size:.83rem; font-weight:600; cursor:pointer;
+                    transition: background .15s;
+                }
+                #statsModal .sm-btn-close:hover { background: #e2e8f0; }
+                #statsModal .sm-btn-refresh {
+                    background: #1D3557; color:#fff; border:none; border-radius:8px;
+                    padding:8px 16px; font-size:.83rem; font-weight:600; cursor:pointer;
+                    display:flex; align-items:center; gap:6px; transition: background .15s;
+                }
+                #statsModal .sm-btn-refresh:hover { background: #274b80; }
+                </style>
+
+                <div class="modal-dialog sm-dialog">
+                    <div class="modal-content sm-content">
+
+                        <!-- Header -->
+                        <div class="sm-header">
+                            <div class="sm-header-left">
+                                <img src="/images/Telex.png" alt="Telex" class="sm-logo">
+                                <div>
+                                    <p class="sm-title"><i class="fas fa-chart-bar me-2" style="opacity:.8"></i>Statistiques</p>
+                                    <p class="sm-sub">Vue d'ensemble de l'activité</p>
+                                </div>
+                            </div>
+                            <button class="sm-close" data-bs-dismiss="modal" title="Fermer">
+                                <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <div class="modal-body p-4">
-                            <!-- Section Filtres et Contrôles -->
-                            <div class="row mb-4">
-                                <div class="col-12">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-body">
-                                            <div class="row align-items-center">
-                                                <div class="col-md-4">
-                                                    <h6 class="mb-3 mb-md-0">
-                                                        <i class="fas fa-chart-line me-2 text-primary"></i>
-                                                        <span id="chart-title">Actualités</span>
-                                                    </h6>
-                                                </div>
-                                                <div class="col-md-8">
-                                                    <div class="row g-2 align-items-center">
-                                                        <div class="col-auto">
-                                                            <label class="form-label mb-0 me-2 fw-semibold">
-                                                                <i class="fas fa-calendar-alt me-1"></i>
-                                                                Période :
-                                                            </label>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <input type="date" class="form-control form-control-sm" id="startDate" style="width: 130px;">
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <span class="text-muted">au</span>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <input type="date" class="form-control form-control-sm" id="endDate" style="width: 130px;">
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button class="btn btn-primary btn-sm" onclick="applyDateFilter()">
-                                                                <i class="fas fa-filter me-1"></i>
-                                                                Appliquer
-                                                            </button>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <button class="btn btn-outline-secondary btn-sm" onclick="resetDateFilter()">
-                                                                <i class="fas fa-undo me-1"></i>
-                                                                Réinitialiser
-                                                            </button>
-                                                        </div>
-                                                        <div class="col-auto">
-                                                            <select class="form-select form-select-sm" id="chartTypeSelector" style="width: 180px;">
-                                                                <option value="news" selected>📰 Actualités</option>
-                                                                <option value="programs">📺 Programmes</option>
-                                                                <option value="baume">✝️ Baume de la Foi</option>
-                                                                <option value="visitors">👥 Visiteurs</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+
+                        <!-- Type tabs + date filter -->
+                        <div class="sm-tabs">
+                            <button class="sm-tab active-news" data-type="news"     onclick="smSwitchTab(this,'news')">    <i class="fas fa-newspaper"></i> Actualités</button>
+                            <button class="sm-tab"             data-type="programs" onclick="smSwitchTab(this,'programs')"><i class="fas fa-tv"></i> Programmes</button>
+                            <button class="sm-tab"             data-type="baume"    onclick="smSwitchTab(this,'baume')">   <i class="fas fa-cross"></i> Baume de la Foi</button>
+                            <button class="sm-tab"             data-type="visitors" onclick="smSwitchTab(this,'visitors')"><i class="fas fa-users"></i> Visiteurs</button>
+                            <span class="sm-tab-sep"></span>
+                            <div class="sm-date-row">
+                                <label><i class="fas fa-calendar-alt me-1"></i>Du</label>
+                                <input type="date" id="startDate">
+                                <label>au</label>
+                                <input type="date" id="endDate">
+                                <button class="sm-btn-apply" onclick="applyDateFilter()"><i class="fas fa-filter me-1"></i>Appliquer</button>
+                                <button class="sm-btn-reset" onclick="resetDateFilter()" title="Réinitialiser"><i class="fas fa-undo"></i></button>
+                            </div>
+                        </div>
+
+                        <!-- KPI row -->
+                        <div class="sm-kpi-row" id="sm-kpi-row">
+                            <div class="sm-kpi"><div class="sm-kpi-val" id="kpi-total">—</div><div class="sm-kpi-lbl">Publications</div></div>
+                            <div class="sm-kpi"><div class="sm-kpi-val" id="kpi-views">—</div><div class="sm-kpi-lbl">Vues totales</div></div>
+                            <div class="sm-kpi"><div class="sm-kpi-val" id="kpi-avg">—</div><div class="sm-kpi-lbl">Moy. vues / pub.</div></div>
+                            <div class="sm-kpi"><div class="sm-kpi-val" id="kpi-period">30j</div><div class="sm-kpi-lbl">Période</div></div>
+                        </div>
+
+                        <!-- Body -->
+                        <div class="sm-body">
+
+                            <!-- Graphique -->
+                            <div class="sm-card">
+                                <div class="sm-card-head">
+                                    <span class="sm-card-head-dot" id="sm-dot"></span>
+                                    <p class="sm-card-title">Évolution des vues — <span id="chart-title">Actualités</span></p>
+                                    <p class="sm-card-sub" id="sm-chart-sub">30 derniers jours</p>
+                                </div>
+                                <div class="sm-chart-wrap">
+                                    <canvas id="modalUnifiedChart"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Tableau détail -->
+                            <div class="sm-card">
+                                <div class="sm-card-head">
+                                    <span class="sm-card-head-dot" style="background:#10B981"></span>
+                                    <p class="sm-card-title">Détail des contenus</p>
+                                </div>
+                                <div style="padding:0 4px 4px">
+                                    <div id="baume-details-table">
+                                        <div style="text-align:center;padding:28px 0">
+                                            <div class="spinner-border text-primary" role="status" style="width:1.4rem;height:1.4rem;border-width:.2em"></div>
+                                            <p style="margin-top:10px;color:#94a3b8;font-size:.82rem">Chargement…</p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <!-- Section Graphique Principal -->
-                            <div class="row mb-4">
-                                <div class="col-12">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-header bg-light border-0">
-                                            <h6 class="mb-0 text-dark">
-                                                <i class="fas fa-chart-area me-2 text-primary"></i>
-                                                Évolution des vues
-                                            </h6>
-                                        </div>
-                                        <div class="card-body p-4">
-                                            <div class="chart-container" style="height: 450px; position: relative;">
-                                                <canvas id="modalUnifiedChart"></canvas>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Section Tableau Détaillé -->
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="card border-0 shadow-sm">
-                                        <div class="card-header bg-light border-0">
-                                            <h6 class="mb-0 text-dark">
-                                                <i class="fas fa-table me-2 text-info"></i>
-                                                Détail des contenus
-                                            </h6>
-                                        </div>
-                                        <div class="card-body p-4">
-                                            <div id="baume-details-table">
-                                                <div class="text-center py-4">
-                                                    <div class="spinner-border text-primary" role="status">
-                                                        <span class="visually-hidden">Chargement...</span>
-                                                    </div>
-                                                    <p class="mt-3 text-muted">Chargement des détails...</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+
+                        </div><!-- /.sm-body -->
+
+                        <!-- Footer -->
+                        <div class="sm-footer">
+                            <span class="sm-footer-note"><i class="fas fa-info-circle me-1"></i>Données en temps réel depuis la base</span>
+                            <div class="sm-footer-btns">
+                                <button class="sm-btn-close" data-bs-dismiss="modal">Fermer</button>
+                                <button class="sm-btn-refresh" onclick="refreshBaumeStatsModal()">
+                                    <i class="fas fa-sync-alt"></i>Actualiser
+                                </button>
                             </div>
                         </div>
-                        <div class="modal-footer bg-light">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                <i class="fas fa-times me-2"></i>Fermer
-                            </button>
-                            <button type="button" class="btn btn-primary" onclick="refreshBaumeStatsModal()">
-                                <i class="fas fa-sync-alt me-2"></i>
-                                Actualiser
-                            </button>
-                        </div>
+
                     </div>
                 </div>
             `;
@@ -1546,36 +1236,14 @@
         
         // Fonction pour charger les statistiques dans la modale
         function loadBaumeStatsModal() {
-            console.log('🔍 Chargement des statistiques du Baume de la Foi...');
-            
-            // Utiliser les données déjà disponibles depuis le dashboard
-            const stats = {
-                baumePrieres: <%- JSON.stringify(stats.baumePrieres || 0) %>,
-                baumeReflexions: <%- JSON.stringify(stats.baumeReflexions || 0) %>,
-                baumeTemoignages: <%- JSON.stringify(stats.baumeTemoignages || 0) %>,
-                baumeTotalViews: <%- JSON.stringify(stats.baumeTotalViews || 0) %>
-            };
-            
-            console.log('📊 Données du Baume:', stats);
-            
-            // Mettre à jour les compteurs
-            updateModalCounters(stats);
-            
-            // Créer les graphiques
-            createBaumeCharts(stats);
-            
-            // Charger le tableau détaillé
-            loadBaumeDetailsTable();
-            
-            // Attacher l'écouteur d'événement au sélecteur de type de graphique
-            const chartTypeSelector = document.getElementById('chartTypeSelector');
-            if (chartTypeSelector) {
-                // Retirer l'écouteur existant pour éviter les doublons
-                chartTypeSelector.removeEventListener('change', handleChartTypeChange);
-                // Ajouter le nouvel écouteur
-                chartTypeSelector.addEventListener('change', handleChartTypeChange);
-                console.log('✅ Écouteur d\'événement attaché au sélecteur de type de graphique');
-            }
+            // Bug fix 4 : initialiser currentStatsData depuis les données EJS avant loadBaumeDetailsTable
+            currentStatsData.baumePrieres     = <%- JSON.stringify(stats.baumePrieres || 0) %>;
+            currentStatsData.baumeReflexions  = <%- JSON.stringify(stats.baumeReflexions || 0) %>;
+            currentStatsData.baumeTemoignages = <%- JSON.stringify(stats.baumeTemoignages || 0) %>;
+            currentStatsData.baumeTotalViews  = <%- JSON.stringify(stats.baumeTotalViews || 0) %>;
+
+            // Déclencher le graphique + tableau avec le type actif
+            handleChartTypeChange({ target: { value: window.currentStatsType || 'news' } });
         }
         
         // Fonction pour mettre à jour les compteurs dans la modale
@@ -1629,62 +1297,7 @@
                 
             } catch (error) {
                 console.error('❌ Erreur getTopPublications:', error);
-                
-                // En cas d'erreur réseau, générer des données de test
-                console.log('⚠️ Erreur API, génération de données de test locales');
-                
-                let testPublications = [];
-                const start = new Date(startDate);
-                const end = new Date(endDate);
-                const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-                
-                if (type === 'news') {
-                    const newsCount = Math.min(Math.max(2, Math.floor(daysDiff / 2)), 5);
-                    const newsCategories = ['Politique', 'Économie', 'Société', 'International', 'Culture'];
-                    for (let i = 0; i < newsCount; i++) {
-                        const date = new Date(start);
-                        date.setDate(start.getDate() + Math.floor(i * daysDiff / newsCount));
-                        testPublications.push({
-                            title: `Actualité: Développement ${i + 1}`,
-                            views: Math.floor(Math.random() * 400) + 100,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00',
-                            category: newsCategories[i % newsCategories.length]
-                        });
-                    }
-                } else if (type === 'programs') {
-                    const programCount = Math.min(Math.max(1, Math.floor(daysDiff / 3)), 3);
-                    const programCategories = ['Émissions', 'Séries', 'Films', 'Documentaires'];
-                    for (let i = 0; i < programCount; i++) {
-                        const date = new Date(start);
-                        date.setDate(start.getDate() + Math.floor(i * daysDiff / programCount));
-                        testPublications.push({
-                            title: `Programme: Session ${i + 1}`,
-                            views: Math.floor(Math.random() * 300) + 150,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00',
-                            category: programCategories[i % programCategories.length]
-                        });
-                    }
-                } else if (type === 'baume') {
-                    const baumeCount = Math.min(Math.max(2, Math.floor(daysDiff / 2)), 4);
-                    const categories = ['Prières', 'Réflexions', 'Témoignages'];
-                    for (let i = 0; i < baumeCount; i++) {
-                        const date = new Date(start);
-                        date.setDate(start.getDate() + Math.floor(i * daysDiff / baumeCount));
-                        const category = categories[i % categories.length];
-                        testPublications.push({
-                            title: `${category}: Contenu spirituel ${i + 1}`,
-                            views: Math.floor(Math.random() * 250) + 80,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00',
-                            category: category
-                        });
-                    }
-                }
-                
-                console.log(`✅ ${testPublications.length} publications de test générées en secours pour ${type}`);
-                return {
-                    publications: testPublications,
-                    source: 'generated'
-                };
+                return { publications: [], source: 'error' };
             }
         }
 
@@ -1699,96 +1312,24 @@
                 
                 console.log(`👥 Réponse API visiteurs reçue:`, data);
                 
-                if (data.success && data.visitors && data.visitors.length > 0) {
-                    console.log(`✅ ${data.visitors.length} jours avec données visiteurs réelles trouvées`);
+                if (data.success) {
+                    console.log(`✅ Données visiteurs réelles reçues`);
                     return {
-                        labels: data.labels,
-                        views: data.visitors,
-                        totalVisitors: data.totalVisitors,
-                        avgVisitors: data.avgVisitors,
-                        totalUniqueVisitors: data.totalUniqueVisitors,
-                        totalPageViews: data.totalPageViews,
-                        dailyStats: data.dailyStats || data.rawData || [],
+                        labels: data.labels || [],
+                        views: data.visitors || [],
+                        totalVisitors: data.totalVisitors || 0,
+                        avgVisitors: data.avgVisitors || 0,
+                        totalUniqueVisitors: data.totalUniqueVisitors || 0,
                         source: 'database'
                     };
                 } else {
-                    console.log(`⚠️ Aucune donnée visiteur réelle trouvée, utilisation des données de test`);
-                    
-                    // Générer des données de test en secours
-                    const allDates = generateDateRange(startDate, endDate);
-                    const labels = [];
-                    const views = [];
-                    const dailyStats = [];
-                    
-                    allDates.forEach(date => {
-                        const dateStr = date.toLocaleDateString('fr-FR', { 
-                            day: '2-digit', 
-                            month: 'short', 
-                            year: 'numeric' 
-                        });
-                        labels.push(dateStr);
-                        
-                        // Générer un nombre aléatoire de visiteurs pour chaque jour
-                        const randomVisitors = Math.floor(Math.random() * 500) + 50; // Entre 50 et 550 visiteurs
-                        views.push(randomVisitors);
-                        
-                        // Ajouter aux données détaillées
-                        dailyStats.push({
-                            date: date.toISOString().split('T')[0],
-                            visitors: randomVisitors,
-                            uniqueVisitors: Math.floor(randomVisitors * 0.8), // 80% sont uniques
-                            pageViews: Math.floor(randomVisitors * 2.5), // 2.5 pages vues par visiteur
-                            bounceRate: Math.random() * 30 + 20, // 20-50%
-                            avgSessionDuration: Math.random() * 180 + 60 // 60-240 secondes
-                        });
-                    });
-                    
-                    console.log(`👥 ${labels.length} jours avec données visiteurs de test générées`);
-                    
-                    return {
-                        labels: labels,
-                        views: views,
-                        totalVisitors: views.reduce((sum, v) => sum + v, 0),
-                        avgVisitors: Math.round(views.reduce((sum, v) => sum + v, 0) / views.length),
-                        totalUniqueVisitors: Math.floor(views.reduce((sum, v) => sum + v, 0) * 0.8),
-                        totalPageViews: Math.floor(views.reduce((sum, v) => sum + v, 0) * 2.5),
-                        dailyStats: dailyStats,
-                        source: 'generated'
-                    };
+                    console.warn(`⚠️ API visiteurs: ${data.message || 'pas de données'}`);
+                    return { labels: [], views: [], totalVisitors: 0, avgVisitors: 0, totalUniqueVisitors: 0, source: 'empty' };
                 }
                 
             } catch (error) {
                 console.error('❌ Erreur getVisitorData:', error);
-                
-                // En cas d'erreur réseau, générer des données de test
-                console.log('⚠️ Erreur API visiteurs, génération de données de test locales');
-                
-                const allDates = generateDateRange(startDate, endDate);
-                const labels = allDates.map(date => date.toLocaleDateString('fr-FR', { 
-                    day: '2-digit', 
-                    month: 'short', 
-                    year: 'numeric' 
-                }));
-                const views = allDates.map(() => Math.floor(Math.random() * 200) + 20);
-                const dailyStats = allDates.map(date => ({
-                    date: date.toISOString().split('T')[0],
-                    visitors: Math.floor(Math.random() * 200) + 20,
-                    uniqueVisitors: Math.floor(Math.random() * 160) + 16,
-                    pageViews: Math.floor(Math.random() * 500) + 50,
-                    bounceRate: Math.random() * 30 + 20,
-                    avgSessionDuration: Math.random() * 180 + 60
-                }));
-                
-                return {
-                    labels: labels,
-                    views: views,
-                    totalVisitors: views.reduce((sum, v) => sum + v, 0),
-                    avgVisitors: Math.round(views.reduce((sum, v) => sum + v, 0) / views.length),
-                    totalUniqueVisitors: Math.floor(views.reduce((sum, v) => sum + v, 0) * 0.8),
-                    totalPageViews: Math.floor(views.reduce((sum, v) => sum + v, 0) * 2.5),
-                    dailyStats: dailyStats,
-                    source: 'generated'
-                };
+                return { labels: [], views: [], totalVisitors: 0, avgVisitors: 0, totalUniqueVisitors: 0, source: 'error' };
             }
         }
 
@@ -1882,84 +1423,59 @@
         
         // Fonction séparée pour gérer le changement de type de graphique
         async function handleChartTypeChange(event) {
-            const selectedType = event.target.value;
+            const selectedType = event.target ? event.target.value : event;
             const chartTitle = document.getElementById('chart-title');
-            
-            // Réinitialiser les dates lors du changement de type
-            resetDateFilter();
-            
-            // Mettre à jour le titre
-            if (selectedType === 'news') {
-                chartTitle.textContent = 'Actualités';
-            } else if (selectedType === 'programs') {
-                chartTitle.textContent = 'Programmes';
-            } else if (selectedType === 'baume') {
-                chartTitle.textContent = 'Baume de la Foi';
-            } else if (selectedType === 'visitors') {
-                chartTitle.textContent = 'Visiteurs';
+
+            const titles = { news: 'Actualités', programs: 'Programmes', baume: 'Baume de la Foi', visitors: 'Visiteurs' };
+            if (chartTitle) chartTitle.textContent = titles[selectedType] || selectedType;
+
+            // Bug fix 5 : utiliser une plage de 30 jours par défaut au lieu de "aujourd'hui → aujourd'hui"
+            const today = new Date().toISOString().split('T')[0];
+            const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0];
+            const startDate = document.getElementById('startDate')?.value || thirtyDaysAgo;
+            const endDate   = document.getElementById('endDate')?.value   || today;
+
+            // Bug fix 2 : appeler getVisitorData pour les visiteurs
+            if (selectedType === 'visitors') {
+                const visitorData = await getVisitorData(startDate, endDate);
+                const unifiedCtx = document.getElementById('modalUnifiedChart');
+                if (!unifiedCtx) return;
+                if (window.unifiedChart) { window.unifiedChart.destroy(); }
+                window.unifiedChart = new Chart(unifiedCtx, {
+                    type: 'line',
+                    data: {
+                        labels: visitorData.labels,
+                        datasets: [{
+                            label: 'Visiteurs / jour',
+                            data: visitorData.views,
+                            backgroundColor: 'rgba(99, 102, 241, 0.15)',
+                            borderColor: 'rgba(99, 102, 241, 1)',
+                            borderWidth: 2, fill: true, tension: 0.4,
+                            pointRadius: 4, pointHoverRadius: 6,
+                            pointBackgroundColor: 'rgba(99, 102, 241, 1)',
+                            pointBorderColor: '#fff', pointBorderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true, maintainAspectRatio: false,
+                        scales: {
+                            y: { beginAtZero: true, title: { display: true, text: 'Visiteurs' } },
+                            x: { title: { display: true, text: 'Date' } }
+                        },
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+                updateDetailTable(null, 'visitors', visitorData);
+                return;
             }
-            
-            // Récupérer les nouvelles publications les plus vues
-            const startDate = document.getElementById('startDate')?.value || new Date().toISOString().split('T')[0];
-            const endDate = document.getElementById('endDate')?.value || new Date().toISOString().split('T')[0];
-            
+
+            // Pour les autres types (news, programs, baume) — récupérer les publications
             const topPublications = await getTopPublications(selectedType, startDate, endDate);
             console.log('📊 Nouvelles publications trouvées:', topPublications);
             console.log('📊 Nombre de publications:', topPublications.publications ? topPublications.publications.length : 0);
             
             // Si aucune publication trouvée, créer des données de test
-            let publications = topPublications.publications || [];
-            if (publications.length === 0) {
-                console.log(`⚠️ Aucune publication ${selectedType} trouvée après filtrage, génération de données de test`);
-                
-                // Générer des données de test dynamiques
-                const testPublications = [];
-                const start = new Date(startDate);
-                const end = new Date(endDate);
-                const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-                
-                let testCount = 3;
-                if (selectedType === 'news') {
-                    testCount = Math.min(Math.max(2, Math.floor(daysDiff / 2)), 5);
-                    for (let i = 0; i < testCount; i++) {
-                        const date = new Date(start);
-                        date.setDate(start.getDate() + Math.floor(i * daysDiff / testCount));
-                        testPublications.push({
-                            title: `Actualité: Développement ${i + 1}`,
-                            views: Math.floor(Math.random() * 400) + 100,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00'
-                        });
-                    }
-                } else if (selectedType === 'programs') {
-                    testCount = Math.min(Math.max(1, Math.floor(daysDiff / 3)), 3);
-                    for (let i = 0; i < testCount; i++) {
-                        const date = new Date(start);
-                        date.setDate(start.getDate() + Math.floor(i * daysDiff / testCount));
-                        testPublications.push({
-                            title: `Programme: Session ${i + 1}`,
-                            views: Math.floor(Math.random() * 300) + 150,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00'
-                        });
-                    }
-                } else if (selectedType === 'baume') {
-                    testCount = Math.min(Math.max(2, Math.floor(daysDiff / 2)), 4);
-                    const categories = ['Prières', 'Réflexions', 'Témoignages'];
-                    for (let i = 0; i < testCount; i++) {
-                        const date = new Date(start);
-                        date.setDate(start.getDate() + Math.floor(i * daysDiff / testCount));
-                        const category = categories[i % categories.length];
-                        testPublications.push({
-                            title: `${category}: Contenu spirituel ${i + 1}`,
-                            views: Math.floor(Math.random() * 250) + 80,
-                            created_at: date.toISOString().split('T')[0] + ' 12:00:00',
-                            category: category
-                        });
-                    }
-                }
-                
-                publications = testPublications;
-                console.log(`✅ ${testPublications.length} publications de test générées pour ${selectedType} après filtrage`);
-            }
+            const publications = topPublications.publications || [];
             
             // Préparer les données pour chaque publication individuelle - dates en X, vues en Y
             const labels = publications.map(pub => {
@@ -1978,181 +1494,261 @@
             console.log(`📊 ${publications.length} publications avec dates: ${labels.join(', ')}`);
             console.log(`📊 Vues correspondantes: ${views.join(', ')}`);
             
-            // Mettre à jour le graphique existant
+            // Créer / mettre à jour le graphique
             const unifiedCtx = document.getElementById('modalUnifiedChart');
+            if (!unifiedCtx) return;
+
+            // Détruire l'ancien graphique s'il existe (peu importe la source)
             if (window.unifiedChart) {
-                window.unifiedChart.destroy(); // Détruire l'ancien graphique
-                
-                // Créer le nouveau graphique avec dates en X et vues en Y
-                window.unifiedChart = new Chart(unifiedCtx, {
-                    type: 'line',
-                    data: {
-                        labels: labels.length > 0 ? labels : ['Aucune publication'],
-                        datasets: [{
-                            label: 'Nombre de vues',
-                            data: views.length > 0 ? views : [0],
-                            backgroundColor: selectedType === 'news' ? 'rgba(59, 130, 246, 0.2)' : 
-                                          selectedType === 'programs' ? 'rgba(245, 158, 11, 0.2)' : 
-                                          selectedType === 'baume' ? 'rgba(239, 68, 68, 0.2)' :
-                                          selectedType === 'visitors' ? 'rgba(108, 117, 125, 0.2)' :
-                                          'rgba(108, 117, 125, 0.2)',
-                            borderColor: selectedType === 'news' ? 'rgba(59, 130, 246, 1)' : 
-                                         selectedType === 'programs' ? 'rgba(245, 158, 11, 1)' : 
-                                         selectedType === 'baume' ? 'rgba(239, 68, 68, 1)' :
-                                         selectedType === 'visitors' ? 'rgba(108, 117, 125, 1)' :
-                                         'rgba(108, 117, 125, 1)',
-                            borderWidth: 3,
-                            borderRadius: 5,
-                            fill: true,
-                            tension: 0.4,
-                            pointRadius: 6,
-                            pointHoverRadius: 8,
-                            pointBackgroundColor: selectedType === 'news' ? 'rgba(59, 130, 246, 1)' : 
-                                               selectedType === 'programs' ? 'rgba(245, 158, 11, 1)' : 
-                                               selectedType === 'baume' ? 'rgba(239, 68, 68, 1)' :
-                                               selectedType === 'visitors' ? 'rgba(108, 117, 125, 1)' :
-                                               'rgba(108, 117, 125, 1)',
-                            pointBorderColor: '#fff',
-                            pointBorderWidth: 2
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                title: {
-                                    display: true,
-                                    text: 'Nombre de vues',
-                                    font: { size: 12, weight: 'bold' }
-                                },
-                                ticks: {
-                                    font: { size: 11 }
-                                }
-                            },
-                            x: {
-                                title: {
-                                    display: true,
-                                    text: 'Date de publication',
-                                    font: { size: 12, weight: 'bold' }
-                                },
-                                ticks: {
-                                    font: { size: 11 }
-                                }
-                            }
+                window.unifiedChart.destroy();
+            }
+            // Aussi vérifier via Chart.js au cas où la référence globale est perdue
+            const orphan = Chart.getChart(unifiedCtx);
+            if (orphan) orphan.destroy();
+
+            const colorMap = {
+                news:     { bg: 'rgba(59,130,246,0.15)',  border: 'rgba(59,130,246,1)'  },
+                programs: { bg: 'rgba(245,158,11,0.15)', border: 'rgba(245,158,11,1)' },
+                baume:    { bg: 'rgba(239,68,68,0.15)',   border: 'rgba(239,68,68,1)'   },
+            };
+            const color = colorMap[selectedType] || { bg: 'rgba(100,116,139,0.15)', border: 'rgba(100,116,139,1)' };
+
+            window.unifiedChart = new Chart(unifiedCtx, {
+                type: 'line',
+                data: {
+                    labels: labels.length > 0 ? labels : ['Aucune publication'],
+                    datasets: [{
+                        label: 'Nombre de vues',
+                        data: views.length > 0 ? views : [0],
+                        backgroundColor: color.bg,
+                        borderColor: color.border,
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        pointBackgroundColor: color.border,
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Nombre de vues', font: { size: 12, weight: 'bold' } },
+                            ticks: { font: { size: 11 } }
                         },
-                        plugins: {
-                            legend: {
-                                position: 'bottom',
-                                labels: {
-                                    padding: 15,
-                                    font: { size: 12 }
-                                }
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: function(context) {
-                                        const value = formatNumber(context.parsed.y);
-                                        const dataIndex = context.dataIndex;
-                                        const publication = publications[dataIndex];
-                                        
-                                        if (publication) {
-                                            const title = publication.title || 'Sans titre';
-                                            return `${title}: ${value} vues`;
-                                        }
-                                        return `${value} vues`;
-                                    },
-                                    afterLabel: function(context) {
-                                        const dataIndex = context.dataIndex;
-                                        const publication = publications[dataIndex];
-                                        if (publication && publication.created_at) {
-                                            const date = new Date(publication.created_at).toLocaleDateString('fr-FR');
-                                            return `Publié le: ${date}`;
-                                        }
-                                        return '';
+                        x: {
+                            title: { display: true, text: 'Date de publication', font: { size: 12, weight: 'bold' } },
+                            ticks: { font: { size: 11 } }
+                        }
+                    },
+                    plugins: {
+                        legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    const pub = publications[context.dataIndex];
+                                    const val = formatNumber(context.parsed.y);
+                                    return pub ? `${pub.title || 'Sans titre'}: ${val} vues` : `${val} vues`;
+                                },
+                                afterLabel: function(context) {
+                                    const pub = publications[context.dataIndex];
+                                    if (pub && pub.created_at) {
+                                        return `Publié le: ${new Date(pub.created_at).toLocaleDateString('fr-FR')}`;
                                     }
+                                    return '';
                                 }
                             }
                         }
                     }
-                });
-                
-                console.log(`✅ Graphique mis à jour pour ${selectedType}: ${publications.length} publications individuelles`);
+                }
+            });
+            console.log(`✅ Graphique créé pour ${selectedType}: ${publications.length} publications`);
+
+            // Mettre à jour les KPI du modal amélioré
+            updateSmKpi(publications, selectedType);
+
+            // Mettre à jour le tableau détaillé avec les MÊMES données que le graphique
+            updateDetailTable(publications, selectedType);
+
+            // Période affichée
+            const periodEl = document.getElementById('kpi-period');
+            const subEl    = document.getElementById('sm-chart-sub');
+            if (periodEl || subEl) {
+                const s = document.getElementById('startDate')?.value;
+                const e = document.getElementById('endDate')?.value;
+                if (s && e) {
+                    const days = Math.round((new Date(e) - new Date(s)) / 86400000) + 1;
+                    if (periodEl) periodEl.textContent = days + 'j';
+                    if (subEl)    subEl.textContent    = days + ' derniers jours';
+                } else {
+                    if (periodEl) periodEl.textContent = '30j';
+                    if (subEl)    subEl.textContent    = '30 derniers jours';
+                }
             }
         }
         
-        // Fonction pour charger le tableau détaillé
-        function loadBaumeDetailsTable() {
+        // Tableau détaillé — affiche exactement les mêmes données que le graphique
+        function updateDetailTable(publications, type, visitorData) {
             const tableContainer = document.getElementById('baume-details-table');
-            if (tableContainer) {
-                // Utiliser les données globales currentStatsData au lieu des variables EJS
-                const totalNews = currentStatsData.totalNews;
-                const totalNewsViews = currentStatsData.totalNewsViews;
-                const totalPrograms = currentStatsData.totalPrograms;
-                const totalProgramsViews = currentStatsData.totalProgramsViews;
-                const baumePrieres = currentStatsData.baumePrieres;
-                const baumeReflexions = currentStatsData.baumeReflexions;
-                const baumeTemoignages = currentStatsData.baumeTemoignages;
-                const baumeTotalViews = currentStatsData.baumeTotalViews;
-                
-                const totalBaumeContent = baumePrieres + baumeReflexions + baumeTemoignages;
-                const totalContent = totalNews + totalPrograms + totalBaumeContent;
-                const totalViews = totalNewsViews + totalProgramsViews + baumeTotalViews;
-                
-                let tableHTML = `
-                    <div class="table-responsive">
-                        <table class="table table-striped">
+            if (!tableContainer) return;
+
+            // Onglet Visiteurs : tableau jour par jour
+            if (type === 'visitors' && visitorData) {
+                const totalV  = visitorData.views.reduce((s, v) => s + v, 0);
+                const avgV    = visitorData.labels.length > 0 ? Math.round(totalV / visitorData.labels.length) : 0;
+                const maxV    = visitorData.views.length > 0 ? Math.max(...visitorData.views) : 0;
+                const rows = visitorData.labels.map((lbl, i) => {
+                    const v = visitorData.views[i] || 0;
+                    const barW = maxV > 0 ? Math.round((v / maxV) * 100) : 0;
+                    return `<tr>
+                        <td>${lbl}</td>
+                        <td style="text-align:right;font-weight:600">${formatNumber(v)}</td>
+                        <td style="min-width:80px">
+                            <div style="height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden">
+                                <div style="height:100%;width:${barW}%;background:#6366f1;border-radius:3px"></div>
+                            </div>
+                        </td>
+                    </tr>`;
+                }).join('');
+                tableContainer.innerHTML = `
+                    <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">
+                        <div style="background:#f1f5f9;border-radius:8px;padding:8px 16px;font-size:.82rem">
+                            <span style="color:#94a3b8">Total</span>
+                            <strong style="display:block;font-size:1.1rem;color:#1D3557">${formatNumber(totalV)}</strong>
+                        </div>
+                        <div style="background:#f1f5f9;border-radius:8px;padding:8px 16px;font-size:.82rem">
+                            <span style="color:#94a3b8">Moy./jour</span>
+                            <strong style="display:block;font-size:1.1rem;color:#1D3557">${formatNumber(avgV)}</strong>
+                        </div>
+                        <div style="background:#f1f5f9;border-radius:8px;padding:8px 16px;font-size:.82rem">
+                            <span style="color:#94a3b8">Pic</span>
+                            <strong style="display:block;font-size:1.1rem;color:#1D3557">${formatNumber(maxV)}</strong>
+                        </div>
+                    </div>
+                    <div style="overflow-x:auto;max-height:220px;overflow-y:auto">
+                        <table class="sm-table">
                             <thead>
                                 <tr>
-                                    <th>Type de contenu</th>
-                                    <th>Nombre</th>
-                                    <th>Pourcentage</th>
-                                    <th>Vues totales</th>
-                                    <th>Moyenne vues</th>
+                                    <th>Date</th>
+                                    <th style="text-align:right">Visiteurs</th>
+                                    <th style="min-width:80px"></th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td><i class="fas fa-newspaper me-2 text-primary"></i> Actualités</td>
-                                    <td>${totalNews}</td>
-                                    <td>${totalContent > 0 ? Math.round((totalNews / totalContent) * 100) : 0}%</td>
-                                    <td>${formatNumber(totalNewsViews)}</td>
-                                    <td>${totalNews > 0 ? formatNumber(Math.round(totalNewsViews / totalNews)) : 'N/A'}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-tv me-2 text-success"></i> Programmes</td>
-                                    <td>${totalPrograms}</td>
-                                    <td>${totalContent > 0 ? Math.round((totalPrograms / totalContent) * 100) : 0}%</td>
-                                    <td>${formatNumber(totalProgramsViews)}</td>
-                                    <td>${totalPrograms > 0 ? formatNumber(Math.round(totalProgramsViews / totalPrograms)) : 'N/A'}</td>
-                                </tr>
-                                <tr>
-                                    <td><i class="fas fa-cross me-2 text-danger"></i> Baume de la Foi</td>
-                                    <td>${totalBaumeContent}</td>
-                                    <td>${totalContent > 0 ? Math.round((totalBaumeContent / totalContent) * 100) : 0}%</td>
-                                    <td>${formatNumber(baumeTotalViews)}</td>
-                                    <td>${totalBaumeContent > 0 ? formatNumber(Math.round(baumeTotalViews / totalBaumeContent)) : 'N/A'}</td>
-                                </tr>
-                                <tr class="table-primary fw-bold">
-                                    <td><i class="fas fa-chart-bar me-2 text-dark"></i> Total général</td>
-                                    <td>${totalContent}</td>
-                                    <td>100%</td>
-                                    <td>${formatNumber(totalViews)}</td>
-                                    <td>${totalContent > 0 ? formatNumber(Math.round(totalViews / totalContent)) : 'N/A'}</td>
-                                </tr>
-                            </tbody>
+                            <tbody>${rows || '<tr><td colspan="3" style="text-align:center;color:#94a3b8;padding:20px">Aucune donnée pour cette période</td></tr>'}</tbody>
                         </table>
-                    </div>
-                `;
-                
-                tableContainer.innerHTML = tableHTML;
+                    </div>`;
+                return;
             }
+
+            // Onglets news / programs / baume : liste des publications (mêmes points que le graphique)
+            const pubs = publications || [];
+            const typeColors = { news: '#3B82F6', programs: '#10B981', baume: '#a855f7' };
+            const typeIcons  = { news: 'fa-newspaper', programs: 'fa-tv', baume: 'fa-cross' };
+            const color = typeColors[type] || '#64748b';
+            const icon  = typeIcons[type]  || 'fa-circle';
+            const totalViews = pubs.reduce((s, p) => s + (p.views || 0), 0);
+            const maxViews   = pubs.length > 0 ? Math.max(...pubs.map(p => p.views || 0)) : 1;
+
+            const rows = pubs.map((pub, i) => {
+                const views = pub.views || 0;
+                const barW  = maxViews > 0 ? Math.round((views / maxViews) * 100) : 0;
+                const date  = pub.created_at
+                    ? new Date(pub.created_at).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' })
+                    : '—';
+                const title = (pub.title || 'Sans titre').length > 55
+                    ? (pub.title || 'Sans titre').slice(0, 55) + '…'
+                    : (pub.title || 'Sans titre');
+                const cat = pub.category ? `<span style="font-size:.7rem;color:#94a3b8;margin-left:4px">${pub.category}</span>` : '';
+                return `<tr>
+                    <td style="font-size:.78rem;color:#94a3b8;text-align:center;width:28px">${i + 1}</td>
+                    <td>
+                        <span style="font-size:.84rem;font-weight:500;color:#334155">${title}</span>${cat}
+                        <div style="height:4px;background:#e2e8f0;border-radius:2px;overflow:hidden;margin-top:4px">
+                            <div style="height:100%;width:${barW}%;background:${color};border-radius:2px"></div>
+                        </div>
+                    </td>
+                    <td style="text-align:right;white-space:nowrap;color:#64748b;font-size:.8rem">${date}</td>
+                    <td style="text-align:right;font-weight:700;color:${color};white-space:nowrap">${formatNumber(views)}</td>
+                </tr>`;
+            }).join('');
+
+            tableContainer.innerHTML = `
+                <div style="display:flex;gap:16px;margin-bottom:12px;flex-wrap:wrap">
+                    <div style="background:#f1f5f9;border-radius:8px;padding:8px 16px;font-size:.82rem">
+                        <span style="color:#94a3b8">Publications</span>
+                        <strong style="display:block;font-size:1.1rem;color:#1D3557">${pubs.length}</strong>
+                    </div>
+                    <div style="background:#f1f5f9;border-radius:8px;padding:8px 16px;font-size:.82rem">
+                        <span style="color:#94a3b8">Vues totales</span>
+                        <strong style="display:block;font-size:1.1rem;color:${color}">${formatNumber(totalViews)}</strong>
+                    </div>
+                    <div style="background:#f1f5f9;border-radius:8px;padding:8px 16px;font-size:.82rem">
+                        <span style="color:#94a3b8">Moy. vues</span>
+                        <strong style="display:block;font-size:1.1rem;color:#1D3557">${pubs.length > 0 ? formatNumber(Math.round(totalViews / pubs.length)) : '—'}</strong>
+                    </div>
+                </div>
+                ${pubs.length === 0
+                    ? `<div style="text-align:center;padding:28px 0;color:#94a3b8;font-size:.85rem"><i class="fas ${icon} mb-2" style="font-size:1.4rem;color:#e2e8f0"></i><br>Aucune publication pour cette période</div>`
+                    : `<div style="overflow-x:auto;max-height:240px;overflow-y:auto">
+                        <table class="sm-table">
+                            <thead><tr>
+                                <th style="width:28px">#</th>
+                                <th>Titre</th>
+                                <th style="text-align:right">Date</th>
+                                <th style="text-align:right">Vues</th>
+                            </tr></thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                       </div>`
+                }`;
+        }
+
+        // Alias conservé pour compatibilité (appels existants dans le code)
+        function loadBaumeDetailsTable() {
+            handleChartTypeChange({ target: { value: window.currentStatsType || 'news' } });
         }
         
         // Fonction pour rafraîchir les statistiques de la modale
         function refreshBaumeStatsModal() {
             loadBaumeStatsModal();
+        }
+
+        // Type actif global (remplace #chartTypeSelector supprimé)
+        window.currentStatsType = 'news';
+
+        // Gestion des onglets du modal amélioré
+        function smSwitchTab(btn, type) {
+            document.querySelectorAll('#statsModal .sm-tab').forEach(t => {
+                t.className = 'sm-tab';
+            });
+            btn.classList.add('active-' + type);
+            window.currentStatsType = type;
+            handleChartTypeChange({ target: { value: type } });
+        }
+
+        // Mise à jour des KPI dans le modal
+        function updateSmKpi(publications, type) {
+            const total = publications.length;
+            const views = publications.reduce((s, p) => s + (p.views || 0), 0);
+            const avg   = total > 0 ? Math.round(views / total) : 0;
+
+            const kpiTotal  = document.getElementById('kpi-total');
+            const kpiViews  = document.getElementById('kpi-views');
+            const kpiAvg    = document.getElementById('kpi-avg');
+
+            if (kpiTotal) kpiTotal.textContent = formatNumber(total);
+            if (kpiViews) kpiViews.textContent = formatNumber(views);
+            if (kpiAvg)   kpiAvg.textContent   = formatNumber(avg);
+
+            // Couleur du dot selon le type
+            const dotColors = { news:'#3B82F6', programs:'#F59E0B', baume:'#a855f7', visitors:'#6366f1' };
+            const dot = document.getElementById('sm-dot');
+            if (dot) dot.style.background = dotColors[type] || '#3B82F6';
         }
         
         // Fonction pour formater les nombres avec K, M, B
@@ -2291,17 +1887,6 @@
         // Nettoyer quand on quitte la page
         window.addEventListener('beforeunload', cleanup);
         
-        // Fonction pour formater les grands nombres
-        function formatNumber(num) {
-            if (num >= 1000000) {
-                return (num / 1000000).toFixed(1).replace(/\.0$/, '') + 'M';
-            }
-            if (num >= 1000) {
-                return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-            }
-            return num.toString();
-        }
-        
         // Fonction pour charger le résumé du Baume de la Foi
         function loadBaumeSummary() {
             // Éviter les appels multiples
@@ -2336,9 +1921,6 @@
                             currentStatsData.baumeTotalViews = stats.total_views || 0;
                             
                             console.log('📊 currentStatsData mis à jour:', currentStatsData);
-                            
-                            // 🔑 APPELER LE TABLEAU DÉTAILLÉ après mise à jour des données
-                            loadBaumeDetailsTable();
                             
                             let summaryText = '';
                             
@@ -3299,34 +2881,24 @@
         // Fonctions pour gérer les filtres par dates
         function applyDateFilter() {
             const startDate = document.getElementById('startDate').value;
-            const endDate = document.getElementById('endDate').value;
-            
+            const endDate   = document.getElementById('endDate').value;
+
             if (!startDate || !endDate) {
-                alert('Veuillez sélectionner une date de début et une date de fin');
+                alert('Veuillez sélectionner une date de début et une date de fin.');
                 return;
             }
-            
             if (new Date(startDate) > new Date(endDate)) {
-                alert('La date de début doit être antérieure à la date de fin');
+                alert('La date de début doit être antérieure à la date de fin.');
                 return;
             }
-            
-            console.log(' Application du filtre de dates:', startDate, 'au', endDate);
-            
-            // Mettre à jour le titre du graphique avec la période
-            const chartTitle = document.getElementById('chart-title');
-            const originalTitle = chartTitle.textContent.split('(')[0].trim();
-            chartTitle.textContent = `${originalTitle} (${formatDate(startDate)} - ${formatDate(endDate)})`;
-            
-            // Appeler la fonction de mise à jour du graphique
-            if (typeof updateChartWithDates === 'function') {
-                updateChartWithDates(startDate, endDate);
-            }
+
+            // Relancer le graphique + tableau avec le type actif et les nouvelles dates
+            handleChartTypeChange({ target: { value: window.currentStatsType || 'news' } });
         }
         
         // Mettre à jour le graphique existant avec les nouvelles dates
         async function updateChartWithDates(startDate, endDate) {
-            const currentType = document.getElementById('chartTypeSelector')?.value || 'news';
+            const currentType = window.currentStatsType || 'news';
             
             console.log(`🔄 Mise à jour du graphique avec dates: ${startDate} - ${endDate}, type: ${currentType}`);
             
@@ -3894,17 +3466,8 @@
         function resetDateFilter() {
             document.getElementById('startDate').value = '';
             document.getElementById('endDate').value = '';
-            
-            // Réinitialiser le titre du graphique
-            const chartTitle = document.getElementById('chart-title');
-            const chartTypeSelector = document.getElementById('chartTypeSelector');
-            const selectedOption = chartTypeSelector.options[chartTypeSelector.selectedIndex];
-            chartTitle.textContent = selectedOption.text.replace(/[📰📺✝️]\s*/, '');
-            
-            console.log('🔄 Réinitialisation du filtre de dates');
-            
-            // Recharger les données complètes
-            loadBaumeStatsModal();
+            // Recharge le graphique + tableau sur les 30 derniers jours avec le type actif
+            handleChartTypeChange({ target: { value: window.currentStatsType || 'news' } });
         }
         
         function loadFilteredStats(startDate, endDate) {
@@ -3986,8 +3549,7 @@
         }
         
         function updateChartWithFilteredData(filteredData) {
-            const chartTypeSelector = document.getElementById('chartTypeSelector');
-            const selectedType = chartTypeSelector.value;
+            const selectedType = window.currentStatsType || 'news';
             const chartTitle = document.getElementById('chart-title');
             
             let data, label, color, bgColor;
@@ -4173,7 +3735,29 @@
         document.addEventListener('DOMContentLoaded', function() {
             initializeDateFilters();
         });
-        
+
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+
+        // Live clock + header date
+        (function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            const dateStr = now.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+            const ct = document.getElementById('current-time');
+            const hd = document.getElementById('header-date');
+            if (ct) ct.textContent = timeStr;
+            if (hd) hd.textContent = dateStr;
+            setTimeout(updateClock, 30000);
+        })();
+    </script></body>
 </html>

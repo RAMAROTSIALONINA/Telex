@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -14,6 +14,7 @@
         :root {
             --telex-red: #E63946;
             --telex-blue: #1D3557;
+            --sidebar-width: 280px;
         }
         
         body {
@@ -21,40 +22,33 @@
             font-family: 'Open Sans', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        .sidebar { 
-            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%); 
-            color: white; 
-            min-height: 100vh; 
-            width: 250px; 
-            position: fixed; 
-            left: 0; 
+        .sidebar {
+            background: linear-gradient(180deg, var(--telex-blue) 0%, #0f1e3d 100%);
+            color: white;
+            height: 100vh;
+            width: var(--sidebar-width);
+            position: fixed;
+            left: 0;
             top: 0;
             z-index: 1000;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            box-shadow: 5px 0 15px rgba(0,0,0,.1);
+            display: flex;
+            flex-direction: column;
         }
         
-        .sidebar-brand {
-            padding: 1.5rem 1rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .sidebar-brand img {
-            max-width: 120px;
-            height: auto;
-            max-height: 60px;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-        
-        .sidebar-brand h3 {
-            font-size: 1.2rem;
-            margin: 0;
-            color: white;
-        }
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
         
         .sidebar-nav {
-            padding: 1rem 0;
+            flex: 1;
+            padding: 20px 15px;
+            overflow-y: auto;
         }
         
         .nav-item {
@@ -87,120 +81,111 @@
             font-size: 1.1rem;
         }
         
-        .main-content { 
-            margin-left: 250px; 
-            padding: 1rem;
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 24px 28px;
             min-height: 100vh;
         }
-        
-        .top-bar { 
-            background: white; 
-            padding: 1.5rem; 
-            border-radius: 10px; 
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08); 
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+        /* ── Page header ── */
+        .edit-header {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: 22px; gap: 12px; flex-wrap: wrap;
         }
-        
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
+        .edit-breadcrumb { display: flex; align-items: center; gap: 10px; }
+        .edit-breadcrumb a { color: #64748b; text-decoration: none; font-size: .82rem; }
+        .edit-breadcrumb a:hover { color: var(--telex-blue); }
+        .edit-breadcrumb .sep { color: #cbd5e1; font-size: .75rem; }
+        .edit-breadcrumb .current { font-size: .82rem; color: var(--telex-blue); font-weight: 600; }
+        .edit-header-title { font-size: 1.15rem; font-weight: 700; color: var(--telex-blue); margin: 3px 0 0; display: flex; align-items: center; gap: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 600px; }
+        .edit-header-title i { color: var(--telex-red); }
+        .edit-header-actions { display: flex; gap: 8px; align-items: center; }
+
+        .btn-telex {
+            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
+            color: white !important; border: none;
+            padding: 10px 22px; border-radius: 9px; font-weight: 600; font-size: .88rem;
+            display: inline-flex; align-items: center; text-decoration: none;
+            transition: all .2s; box-shadow: 0 3px 10px rgba(230,57,70,.3);
         }
-        
-        .page-logo {
-            height: 40px;
-            width: auto;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        .btn-telex:hover { transform: translateY(-2px); box-shadow: 0 5px 16px rgba(230,57,70,.4); }
+
+        /* ── Cards ── */
+        .card {
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            box-shadow: 0 1px 6px rgba(0,0,0,.05);
+            margin-bottom: 18px;
+            overflow: hidden;
         }
-        
-        .page-title h1 {
-            color: var(--telex-blue);
-            margin-bottom: 0.5rem;
-            font-size: 1.8rem;
+        .card-header {
+            background: #f8fafc;
+            border-bottom: 1px solid #f1f5f9;
+            padding: 14px 20px;
+            display: flex; align-items: center; gap: 10px;
         }
-        
-        .page-title p {
-            color: #6c757d;
-            margin: 0;
-            font-size: 1rem;
+        .card-header-dot {
+            width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
         }
+        .card-title { font-size: .92rem; font-weight: 700; color: var(--telex-blue); margin: 0; }
+        .card-body { padding: 20px; }
         
-        .btn-telex { 
-            background: var(--telex-red); 
-            color: white; 
-            border: none; 
-            padding: 0.5rem 1.5rem;
-            font-weight: 500;
-            transition: all 0.3s;
-        }
-        
-        .btn-telex:hover { 
-            background: #c1121f; 
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(230, 57, 70, 0.3);
-        }
-        
-        .card { 
-            border: none; 
-            border-radius: 10px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08); 
-            margin-bottom: 1.5rem;
-        }
-        
-        /* CSS pour le drag & drop */
+        /* ── Upload zones ── */
         .upload-area {
-            border: 2px dashed #dee2e6;
-            border-radius: 8px;
-            padding: 30px;
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 28px 20px;
             text-align: center;
-            background: #f8f9fa;
+            background: #f8fafc;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all .2s;
             margin-bottom: 1rem;
         }
-        
-        .upload-area:hover {
-            border-color: #E63946;
+        .upload-area:hover, .upload-area.dragover {
+            border-color: var(--telex-red);
             background: #fff8f8;
         }
-        
-        .upload-area.dragover {
-            border-color: #28a745;
-            background: #f8fff8;
+        .upload-area i { font-size: 2.2rem; color: #94a3b8; margin-bottom: 10px; display: block; }
+        .upload-area h5 { color: var(--telex-blue); font-size: .9rem; font-weight: 600; margin-bottom: 4px; }
+        .upload-area p { color: #94a3b8; font-size: .78rem; margin-bottom: 0; }
+
+        .image-preview { max-height: 180px; max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,.1); }
+        .preview-card { border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px; background: white; }
+
+        /* ── Form fields ── */
+        .form-control, .form-select {
+            border: 1.5px solid #e2e8f0;
+            border-radius: 9px;
+            padding: 10px 14px;
+            font-size: .88rem;
+            transition: border-color .15s, box-shadow .15s;
         }
-        
-        .upload-area i {
-            font-size: 3rem;
-            color: #6c757d;
-            margin-bottom: 15px;
+        .form-control:focus, .form-select:focus {
+            border-color: var(--telex-blue);
+            box-shadow: 0 0 0 3px rgba(29,53,87,.08);
         }
-        
-        .upload-area h5 {
-            color: var(--telex-blue);
-            margin-bottom: 10px;
+        .form-label { font-size: .83rem; font-weight: 600; color: #475569; margin-bottom: 6px; }
+
+        /* ── Status toggle ── */
+        .status-toggle { display: flex; gap: 8px; }
+        .status-opt { flex: 1; }
+        .status-opt input[type="radio"] { display: none; }
+        .status-opt label {
+            display: flex; align-items: center; justify-content: center; gap: 7px;
+            padding: 9px 14px; border: 1.5px solid #e2e8f0; border-radius: 9px;
+            cursor: pointer; font-size: .83rem; font-weight: 600; color: #64748b;
+            transition: all .15s; width: 100%;
         }
-        
-        .upload-area p {
-            color: #6c757d;
-            margin-bottom: 5px;
-        }
-        
-        .image-preview {
-            max-height: 200px;
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        .preview-card {
-            border: 1px solid #dee2e6;
-            border-radius: 8px;
-            padding: 15px;
-            background: white;
+        .status-opt input:checked + label.pub-label  { border-color: #10B981; background: #f0fdf4; color: #047857; }
+        .status-opt input:checked + label.draft-label { border-color: #64748b; background: #f8fafc; color: #475569; }
+
+        /* ── Sticky save bar ── */
+        .save-bar {
+            position: sticky; bottom: 0; z-index: 100;
+            background: white; border-top: 1px solid #e2e8f0;
+            padding: 12px 20px; display: flex; gap: 10px; align-items: center;
+            box-shadow: 0 -4px 16px rgba(0,0,0,.06);
+            border-radius: 0 0 14px 14px;
         }
         
         /* Styles pour les miniatures de vidéo */
@@ -241,22 +226,12 @@
                 overflow: hidden;
             }
             
-            .sidebar-brand h3 {
-                display: none;
-            }
-            
-            .sidebar-brand img {
-                max-height: 40px;
-            }
-            
-            .nav-link span {
-                display: none;
-            }
-            
-            .nav-link i {
-                margin-right: 0;
-                font-size: 1.2rem;
-            }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
             
             .main-content {
                 margin-left: 70px;
@@ -272,87 +247,101 @@
                 width: 100%;
             }
         }
-    </style>
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
+            }
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
+            }
+        }
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 <body>
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="/images/11.png" alt="TELEX">
-            <h3>Telex Admin</h3>
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
         </div>
         <nav class="sidebar-nav">
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Tableau de bord</span>
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/news" class="nav-link active">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Actualités</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/programs" class="nav-link">
-                    <i class="fas fa-tv"></i>
-                    <span>Programmes</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/baume-de-la-foi" class="nav-link">
-                    <i class="fas fa-cross"></i>
-                    <span>Baume de la Foi</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/contacts" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
-                    <i class="fas fa-images"></i>
-                    <span>Galerie</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/logout" class="nav-link text-warning">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link active"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communauté</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">Médias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
         </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+        </div>
     </div>
     
     <!-- Main content -->
     <div class="main-content">
-        <!-- Top bar -->
-        <div class="top-bar">
-            <div class="page-title">
-                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
-                <div>
-                    <h1>
-                        <% if (news) { %>
-                        Éditer l'actualité
-                        <% } else { %>
-                        Nouvelle actualité
-                        <% } %>
-                    </h1>
-                    <p>
-                        <% if (news) { %>
-                        Modifiez l'actualité "<%= news.title %>"
-                        <% } else { %>
-                        Créez une nouvelle actualité pour TELEX
-                        <% } %>
-                    </p>
+        <!-- Header -->
+        <div class="edit-header">
+            <div>
+                <div class="edit-breadcrumb">
+                    <a href="/admin/dashboard"><i class="fas fa-home"></i> Dashboard</a>
+                    <span class="sep"><i class="fas fa-chevron-right"></i></span>
+                    <a href="/admin/news">Actualités</a>
+                    <span class="sep"><i class="fas fa-chevron-right"></i></span>
+                    <span class="current"><% if (news) { %>Éditer<% } else { %>Nouvelle<% } %></span>
+                </div>
+                <div class="edit-header-title">
+                    <i class="fas fa-<% if (news) { %>edit<% } else { %>plus-circle<% } %>"></i>
+                    <% if (news) { %><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Éditer : <%= news.title %></span><% } else { %>Nouvelle actualité<% } %>
                 </div>
             </div>
-            <div class="top-actions">
-                <a href="/admin/news" class="btn btn-outline-secondary me-2">
-                    <i class="fas fa-arrow-left me-2"></i>Retour
+            <div class="edit-header-actions">
+                <% if (news) { %>
+                <a href="/news/<%= news.slug %>" target="_blank" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-external-link-alt me-1"></i>Voir
+                </a>
+                <% } %>
+                <a href="/admin/news" class="btn btn-sm btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Retour
                 </a>
             </div>
         </div>
@@ -383,9 +372,8 @@
                 <div class="col-lg-8">
                     <div class="card mb-3">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="fas fa-edit me-2"></i>Contenu
-                            </h5>
+                            <span class="card-header-dot" style="background:#3B82F6"></span>
+                            <h5 class="card-title"><i class="fas fa-align-left me-2" style="color:#3B82F6"></i>Contenu de l'actualité</h5>
                         </div>
                         <div class="card-body">
                             <!-- Titre -->
@@ -445,37 +433,28 @@
                     <!-- Publication -->
                     <div class="card mb-3">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="fas fa-paper-plane me-2"></i>Publication
-                            </h5>
+                            <span class="card-header-dot" style="background:#10B981"></span>
+                            <h5 class="card-title"><i class="fas fa-paper-plane me-2" style="color:#10B981"></i>Publication</h5>
                         </div>
                         <div class="card-body">
                             <!-- Statut -->
                             <div class="mb-3">
                                 <label class="form-label">Statut</label>
-                                <div class="form-check">
-                                    <input class="form-check-input" 
-                                           type="radio" 
-                                           name="is_published" 
-                                           id="published" 
-                                           value="1"
-                                           <%= news && news.is_published ? 'checked' : 'checked' %>>
-                                    <label class="form-check-label" for="published">
-                                        <i class="fas fa-check-circle text-success me-1"></i>
-                                        Publié
-                                    </label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" 
-                                           type="radio" 
-                                           name="is_published" 
-                                           id="draft" 
-                                           value="0"
-                                           <%= news && !news.is_published ? 'checked' : '' %>>
-                                    <label class="form-check-label" for="draft">
-                                        <i class="fas fa-edit text-secondary me-1"></i>
-                                        Brouillon
-                                    </label>
+                                <div class="status-toggle">
+                                    <div class="status-opt">
+                                        <input type="radio" name="is_published" id="published" value="1"
+                                               <%= news && news.is_published ? 'checked' : 'checked' %>>
+                                        <label class="pub-label" for="published">
+                                            <i class="fas fa-check-circle"></i>Publié
+                                        </label>
+                                    </div>
+                                    <div class="status-opt">
+                                        <input type="radio" name="is_published" id="draft" value="0"
+                                               <%= news && !news.is_published ? 'checked' : '' %>>
+                                        <label class="draft-label" for="draft">
+                                            <i class="fas fa-pen"></i>Brouillon
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                             
@@ -552,7 +531,7 @@
                                     <i class="fas fa-cloud-upload-alt"></i>
                                     <h5>Glissez-déposez votre image ici</h5>
                                     <p>ou cliquez pour sélectionner</p>
-                                    <p class="small text-muted">JPG, PNG, GIF, WebP (max 5MB)</p>
+                                    <p class="small text-muted">JPG, PNG, GIF, WebP (max 20MB)</p>
                                 </div>
                                 
                                 <input type="file" 
@@ -661,14 +640,14 @@
                                 </div>
                             </div>
                             
-                            <!-- Boutons d'action -->
-                            <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn btn-telex">
+                            <!-- Save bar sticky -->
+                            <div class="save-bar mt-3">
+                                <button type="submit" class="btn-telex">
                                     <i class="fas fa-save me-2"></i>
                                     <% if (news) { %>Mettre à jour<% } else { %>Publier l'actualité<% } %>
                                 </button>
-                                <a href="/admin/news" class="btn btn-outline-secondary">
-                                    <i class="fas fa-times me-2"></i>Annuler
+                                <a href="/admin/news" class="btn btn-outline-secondary btn-sm">
+                                    <i class="fas fa-times me-1"></i>Annuler
                                 </a>
                             </div>
                         </div>
@@ -677,23 +656,29 @@
                     <!-- Informations -->
                     <div class="card">
                         <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="fas fa-info-circle me-2"></i>Informations
-                            </h5>
+                            <span class="card-header-dot" style="background:#94a3b8"></span>
+                            <h5 class="card-title"><i class="fas fa-info-circle me-2" style="color:#94a3b8"></i>Informations</h5>
                         </div>
-                        <div class="card-body">
+                        <div class="card-body" style="padding:16px 20px">
                             <% if (news) { %>
-                            <div class="mb-2">
-                                <strong>Créée le :</strong>
-                                <%= new Date(news.created_at).toLocaleDateString('fr-FR') %>
-                            </div>
-                            <div class="mb-2">
-                                <strong>Vues :</strong> <%= news.views || 0 %>
+                            <div style="display:flex;flex-direction:column;gap:10px">
+                                <div style="display:flex;justify-content:space-between;font-size:.82rem">
+                                    <span style="color:#94a3b8">Créée le</span>
+                                    <strong style="color:#334155"><%= new Date(news.created_at).toLocaleDateString('fr-FR') %></strong>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;font-size:.82rem">
+                                    <span style="color:#94a3b8">Vues</span>
+                                    <strong style="color:var(--telex-red)"><i class="fas fa-eye me-1"></i><%= news.views || 0 %></strong>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;font-size:.82rem">
+                                    <span style="color:#94a3b8">ID</span>
+                                    <code style="font-size:.78rem;color:#64748b">#<%= news.id %></code>
+                                </div>
                             </div>
                             <% } else { %>
-                            <p class="text-muted small mb-0">
-                                <i class="fas fa-lightbulb me-1"></i>
-                                Remplissez tous les champs pour créer une nouvelle actualité.
+                            <p style="color:#94a3b8;font-size:.8rem;margin:0;line-height:1.5">
+                                <i class="fas fa-lightbulb me-1" style="color:#F59E0B"></i>
+                                Remplissez tous les champs marqués * pour créer une nouvelle actualité.
                             </p>
                             <% } %>
                         </div>
@@ -833,9 +818,9 @@
             console.log('🔍 DEBUG: Début upload image - fichier:', file.name, 'taille:', file.size);
             isUploading = true; // Marquer l'état d'upload
             
-            // Vérifier la taille (max 5MB)
-            if (file.size > 5 * 1024 * 1024) {
-                showNotification('❌ Fichier trop volumineux. Maximum 5MB autorisé.', 'danger');
+            // Vérifier la taille (max 20MB)
+            if (file.size > 20 * 1024 * 1024) {
+                showNotification('❌ Fichier trop volumineux. Maximum 20MB autorisé.', 'danger');
                 isUploading = false;
                 return;
             }
@@ -1180,5 +1165,15 @@
         console.log('🔍 DEBUG: Autosave Summernote désactivé pour test');
     });
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 </html>

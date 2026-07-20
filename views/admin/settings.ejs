@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -47,31 +47,14 @@
             flex-direction: column;
         }
         
-        .sidebar-brand {
-            padding: 25px 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.1);
-        }
-        
-        .sidebar-brand img {
-            max-width: 120px;
-            height: auto;
-            max-height: 60px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
-        }
-        
-        .sidebar-brand img:hover {
-            transform: scale(1.05);
-        }
-        
-        .sidebar-brand h3 {
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 5px;
-            letter-spacing: 0.5px;
-        }
+        /* ── Sidebar header Option B ── */
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background: rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
         
         .sidebar-nav {
             flex: 1;
@@ -126,1179 +109,288 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* Top Bar */
-        .top-bar {
-            background: white;
-            padding: 25px 30px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
+        /* ── Dash Header ── */
+        .dash-header { background:linear-gradient(135deg,#1D3557 0%,#2d4f7a 100%); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+        .dash-header-left { display:flex; align-items:center; gap:14px; }
+        .dash-header-logo { height:44px; width:auto; object-fit:contain; }
+        .dash-header-title { font-size:1.15rem; font-weight:700; color:#fff; line-height:1.3; }
+        .dash-header-sub { font-size:.8rem; color:rgba(255,255,255,.65); margin-top:2px; }
+        .dash-header-right { display:flex; align-items:center; gap:10px; }
+        .btn-dash-back { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:8px; padding:7px 14px; font-size:.85rem; font-weight:500; text-decoration:none; transition:background .2s; }
+        .btn-dash-back:hover { background:rgba(255,255,255,.22); color:#fff; }
+
+        /* ── Content area ── */
+        .settings-area { padding:28px 32px; }
+        @media (max-width:576px) { .settings-area { padding:16px; } }
+
+        /* ── Alerts ── */
+        .alert { padding:14px 18px; border-radius:10px; margin-bottom:18px; border-left:4px solid; display:flex; align-items:flex-start; gap:12px; font-size:.9rem; }
+        .alert-success { background:#f0fdf4; border-color:#10B981; color:#065f46; }
+        .alert-warning { background:#fffbeb; border-color:#F59E0B; color:#78350f; }
+        .alert i { margin-top:2px; }
+
+        /* ── Section label ── */
+        .section-label { font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#94a3b8; margin-bottom:14px; padding-left:2px; }
+
+        /* ── Settings Tile Grid ── */
+        .settings-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:32px; }
+        @media (max-width:900px) { .settings-grid { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:480px) { .settings-grid { grid-template-columns:repeat(1,1fr); } }
+
+        .settings-tile {
+            background:#fff;
+            border-radius:14px;
+            padding:22px 20px 20px;
+            border:1.5px solid #e8ecf0;
+            text-decoration:none;
+            display:block;
+            cursor:pointer;
+            transition:box-shadow .2s, border-color .2s, transform .18s;
+            position:relative;
+            overflow:hidden;
         }
-        
-        .top-bar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--telex-red), var(--telex-blue));
+        .settings-tile:hover { box-shadow:0 6px 22px rgba(0,0,0,.1); border-color:#c8d2de; transform:translateY(-2px); }
+        .settings-tile.disabled { opacity:.55; cursor:not-allowed; pointer-events:none; }
+
+        .tile-icon-wrap {
+            width:52px; height:52px;
+            border-radius:12px;
+            display:flex; align-items:center; justify-content:center;
+            font-size:1.5rem;
+            margin-bottom:16px;
         }
-        
-        .page-title {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        
-        .page-logo {
-            height: 40px;
-            width: auto;
-            opacity: 0.9;
-        }
-        
-        .page-title h1 {
-            font-weight: 700;
-            color: var(--telex-blue);
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-        
-        .page-title p {
-            color: #64748b;
-            font-size: 1rem;
-            margin: 0;
-        }
-        
-        .top-actions {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-        
-        .btn-telex {
-            background: linear-gradient(135deg, var(--telex-red), #ff6b6b);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 10px;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            font-weight: 600;
-            transition: all 0.3s;
-            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
-        }
-        
-        .btn-telex:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 18px rgba(230, 57, 70, 0.4);
-            color: white;
-        }
-        
-        /* Settings Grid */
-        .settings-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-        
-        .settings-card {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s;
-            border: 1px solid #f1f5f9;
-            position: relative;
-            overflow: hidden;
-            animation: fadeInUp 0.5s ease-out;
-            animation-fill-mode: both;
-        }
-        
-        .settings-card:nth-child(1) { animation-delay: 0.1s; }
-        .settings-card:nth-child(2) { animation-delay: 0.2s; }
-        .settings-card:nth-child(3) { animation-delay: 0.3s; }
-        .settings-card:nth-child(4) { animation-delay: 0.4s; }
-        .settings-card:nth-child(5) { animation-delay: 0.5s; }
-        .settings-card:nth-child(6) { animation-delay: 0.6s; }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .settings-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--telex-blue), var(--telex-red));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-            transform-origin: left;
-        }
-        
-        .settings-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .settings-card.danger-zone {
-            border: 2px solid #dc3545;
-            background: linear-gradient(135deg, #fff5f5, #ffffff);
-        }
-        
-        .settings-card.danger-zone:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(220, 53, 69, 0.3);
-            border-color: #c82333;
-        }
-        
-        .settings-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-        }
-        
-        .settings-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-            color: white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-        
-        .settings-icon.general { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
-        .settings-icon.users { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
-        .settings-icon.security { background: linear-gradient(135deg, #10B981, #047857); }
-        .settings-icon.customize { background: linear-gradient(135deg, #F59E0B, #D97706); }
-        .settings-icon.database { background: linear-gradient(135deg, #EF4444, #DC2626); }
-        .settings-icon.maintenance { background: linear-gradient(135deg, #6B7280, #4B5563); }
-        
-        .settings-card h3 {
-            color: var(--telex-blue);
-            margin-bottom: 12px;
-            font-weight: 700;
-            font-size: 1.3rem;
-        }
-        
-        .settings-card p {
-            color: #64748b;
-            line-height: 1.6;
-            margin-bottom: 20px;
-            font-size: 0.95rem;
-        }
-        
-        .settings-card .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            background: var(--telex-blue);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-        
-        .settings-card .btn:hover {
-            background: #152642;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(29, 53, 87, 0.2);
-        }
-        
-        .settings-card .btn-warning {
-            background: linear-gradient(135deg, #EF4444, #DC2626);
-        }
-        
-        .settings-card .btn-warning:hover {
-            background: #B91C1C;
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
-        }
-        
-        /* Password Form */
-        .password-section {
-            background: white;
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-            margin-top: 40px;
-            border-top: 4px solid var(--telex-red);
-        }
-        
-        .password-section h3 {
-            color: var(--telex-blue);
-            margin-bottom: 25px;
-            font-weight: 700;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--telex-blue);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            font-size: 1rem;
-            transition: all 0.3s;
-            background: #f8fafc;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--telex-red);
-            box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
-            background: white;
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, #10B981, #047857);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .btn-success:hover {
-            background: #047857;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.3);
-        }
-        
-        /* Alerts */
-        .alert {
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            border-left: 4px solid;
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-        }
-        
-        .alert-info {
-            background: linear-gradient(135deg, rgba(219, 234, 254, 0.8), rgba(224, 242, 254, 0.8));
-            border-color: var(--telex-blue);
-            color: var(--telex-blue);
-        }
-        
-        .alert-warning {
-            background: linear-gradient(135deg, rgba(254, 243, 199, 0.8), rgba(253, 230, 138, 0.8));
-            border-color: #F59E0B;
-            color: #7d6608;
-        }
-        
-        .alert i {
-            font-size: 1.5rem;
-            margin-top: 2px;
-        }
-        
-        .alert-content h4 {
-            margin-bottom: 5px;
-            font-weight: 700;
-        }
-        
-        /* System Info */
-        .system-info {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-            margin-top: 40px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-        
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 15px;
-            border-radius: 10px;
-            background: #f8fafc;
-            transition: all 0.3s;
-        }
-        
-        .info-item:hover {
-            background: #f1f5f9;
-            transform: translateY(-3px);
-        }
-        
-        .info-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            color: white;
-            flex-shrink: 0;
-        }
-        
-        .info-icon.version { background: linear-gradient(135deg, #3B82F6, #1D4ED8); }
-        .info-icon.user { background: linear-gradient(135deg, #8B5CF6, #7C3AED); }
-        .info-icon.date { background: linear-gradient(135deg, #10B981, #047857); }
-        .info-icon.status { background: linear-gradient(135deg, #10B981, #047857); }
-        
-        .info-content h4 {
-            color: var(--telex-blue);
-            margin-bottom: 5px;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        
-        .info-content p {
-            color: #64748b;
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin: 0;
-        }
-        
-        /* Footer */
-        .page-footer {
-            text-align: center;
-            padding: 30px 20px 20px;
-            color: #94a3b8;
-            font-size: 0.9rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-            margin-top: 40px;
-            border-top: 1px solid #e2e8f0;
-        }
-        
-        .footer-logo {
-            height: 25px;
-            width: auto;
-            opacity: 0.7;
-        }
-        
-        /* Responsive */
+        .tile-icon-wrap.amber  { background:rgba(245,158,11,.13); }
+        .tile-icon-wrap.purple { background:rgba(139,92,246,.13); }
+        .tile-icon-wrap.slate  { background:rgba(100,116,139,.13); }
+        .tile-icon-wrap.blue   { background:rgba(59,130,246,.13); }
+        .tile-icon-wrap.green  { background:rgba(16,185,129,.13); }
+        .tile-icon-wrap.red    { background:rgba(230,57,70,.13); }
+
+        .tile-title { font-size:1rem; font-weight:700; color:#1e293b; margin-bottom:6px; }
+        .tile-desc  { font-size:.82rem; color:#64748b; line-height:1.5; }
+
+        /* ── System Info bar ── */
+        .sysinfo-bar { background:#fff; border-radius:14px; border:1.5px solid #e8ecf0; padding:18px 22px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+        @media (max-width:768px) { .sysinfo-bar { grid-template-columns:repeat(2,1fr); } }
+        @media (max-width:400px) { .sysinfo-bar { grid-template-columns:repeat(2,1fr); gap:8px; } }
+        .sysinfo-item { display:flex; align-items:center; gap:10px; }
+        .sysinfo-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:.95rem; color:#fff; flex-shrink:0; }
+        .sysinfo-icon.blue   { background:linear-gradient(135deg,#3B82F6,#1D4ED8); }
+        .sysinfo-icon.purple { background:linear-gradient(135deg,#8B5CF6,#7C3AED); }
+        .sysinfo-icon.green  { background:linear-gradient(135deg,#10B981,#047857); }
+        .sysinfo-icon.teal   { background:linear-gradient(135deg,#06b6d4,#0891b2); }
+        .sysinfo-label { font-size:.72rem; color:#94a3b8; font-weight:500; }
+        .sysinfo-val   { font-size:.88rem; font-weight:700; color:#1e293b; }
+
+        /* ── Page footer ── */
+        .page-footer { text-align:center; padding:20px 0 10px; color:#94a3b8; font-size:.82rem; border-top:1px solid #e8ecf0; display:flex; flex-direction:column; align-items:center; gap:8px; }
+        .footer-logo { height:22px; opacity:.6; }
+
+        /* ── Responsive sidebar ── */
         @media (max-width: 992px) {
+            .sidebar { width:70px; overflow:hidden; }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
+            .main-content { margin-left:70px; }
+        }
+    
+        /* ── Responsive mobile (<576px) ── */
+        @media (max-width: 576px) {
             .sidebar {
-                width: 70px;
-                overflow: hidden;
+                transform: translateX(-100%);
+                transition: transform .3s ease;
+                z-index: 1050;
             }
-            
-            .sidebar-brand h3,
-            .sidebar-brand img {
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .sidebar-overlay {
                 display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,.45);
+                z-index: 1040;
             }
-            
-            .sidebar-brand {
-                padding: 15px 10px;
-            }
-            
-            .sidebar-brand::after {
-                content: "T";
-                color: white;
-                font-size: 1.5rem;
-                font-weight: bold;
-                display: block;
-            }
-            
-            .nav-link span {
-                display: none;
-            }
-            
-            .nav-link {
-                justify-content: center;
-                padding: 15px;
-            }
-            
-            .nav-link i {
-                margin-right: 0;
-                font-size: 1.2rem;
-            }
-            
-            .main-content {
-                margin-left: 70px;
-                padding: 20px;
-            }
-            
-            .top-bar {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
-            }
-            
-            .top-actions {
-                width: 100%;
-                justify-content: space-between;
+            .sidebar-overlay.show { display: block; }
+            .main-content { margin-left: 0 !important; }
+            .mobile-menu-btn {
+                display: flex !important;
             }
         }
-        
-        @media (max-width: 768px) {
-            .settings-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .system-info {
-                grid-template-columns: 1fr;
-            }
-            
-            .page-title h1 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
+        .mobile-menu-btn {
+            display: none;
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            z-index: 1060;
+            background: var(--telex-blue, #1D3557);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,.25);
+        }</style>
 </head>
 <body>
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+    <button class="mobile-menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+
     <!-- Sidebar -->
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <img src="/images/11.png" alt="TELEX">
-            <h3>Telex Admin</h3>
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
         </div>
-        
         <nav class="sidebar-nav">
             <div class="nav-item">
                 <a href="/admin/dashboard" class="nav-link">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
+                    <i class="fas fa-tachometer-alt"></i><span>Dashboard</span>
                 </a>
             </div>
-            <div class="nav-item">
-                <a href="/admin/news" class="nav-link">
-                    <i class="fas fa-newspaper"></i>
-                    <span>Actualités</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/programs" class="nav-link">
-                    <i class="fas fa-tv"></i>
-                    <span>Programmes</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/baume-de-la-foi" class="nav-link">
-                    <i class="fas fa-cross"></i>
-                    <span>Baume de la Foi</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/contacts" class="nav-link">
-                    <i class="fas fa-envelope"></i>
-                    <span>Messages</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/gallery" class="nav-link">
-                    <i class="fas fa-images"></i>
-                    <span>Galerie</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/footer" class="nav-link">
-                    <i class="fas fa-globe"></i>
-                    <span>Footer</span>
-                </a>
-            </div>
-            <div class="nav-item">
-                <a href="/admin/settings" class="nav-link active">
-                    <i class="fas fa-cog"></i>
-                    <span>Paramètres</span>
-                </a>
-            </div>
-            <!-- Ajoutez ce lien pour la gestion des utilisateurs -->
-            <% if (user.role === 'superadmin') { %>
-            <div class="nav-item">
-                <a href="/admin/users" class="nav-link">
-                    <i class="fas fa-users"></i>
-                    <span>Utilisateurs</span>
-                </a>
-            </div>
-            <% } %>
-            <div class="nav-item">
-                <a href="/admin/logout" class="nav-link">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Déconnexion</span>
-                </a>
-            </div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/about" class="nav-link"><i class="fas fa-info-circle"></i><span>À Propos</span></a></div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communauté</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">Médias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
+            <div class="nav-item"><a href="/admin/footer" class="nav-link"><i class="fas fa-globe"></i><span>Footer</span></a></div>
         </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link active"><i class="fas fa-cog"></i><span>Paramètres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>Déconnexion</span></a></div>
+        </div>
     </div>
     
     <!-- Main Content -->
-    <div class="main-content">
-        <!-- Top bar -->
-        <div class="top-bar">
-            <div class="page-title">
-                <img src="/images/Telex.png" alt="TELEX" class="page-logo">
+    <div class="main-content" style="padding:0;">
+
+        <!-- Dash Header -->
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="/images/Telex.png" alt="Telex" class="dash-header-logo">
                 <div>
-                    <h1>Paramètres Telex</h1>
-                    <p>Configurez votre application Telex selon vos besoins</p>
+                    <div class="dash-header-title"><i class="fas fa-cog me-2" style="color:#A8DADC;font-size:.95rem;"></i>Param&egrave;tres</div>
+                    <div class="dash-header-sub">Configurez votre application Telex</div>
                 </div>
             </div>
-            <div class="top-actions">
-                <a href="/admin/dashboard" class="btn btn-telex">
-                    <i class="fas fa-arrow-left me-2"></i>Retour au Dashboard
+            <div class="dash-header-right">
+                <a href="/admin/dashboard" class="btn-dash-back"><i class="fas fa-arrow-left"></i>Dashboard</a>
+            </div>
+        </div>
+
+        <div class="settings-area">
+
+            <!-- Flash messages -->
+            <% if (success_msg && success_msg.length > 0) { %>
+            <div class="alert alert-success"><i class="fas fa-check-circle"></i><span><%= success_msg %></span></div>
+            <% } %>
+            <% if (error_msg && error_msg.length > 0) { %>
+            <div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i><span><%= error_msg %></span></div>
+            <% } %>
+
+            <!-- Infos système -->
+            <div class="sysinfo-bar">
+                <div class="sysinfo-item">
+                    <div class="sysinfo-icon blue"><i class="fas fa-code-branch"></i></div>
+                    <div><div class="sysinfo-label">Version</div><div class="sysinfo-val">2.0.1</div></div>
+                </div>
+                <div class="sysinfo-item">
+                    <div class="sysinfo-icon purple"><i class="fas fa-user-shield"></i></div>
+                    <div><div class="sysinfo-label">Administrateur</div><div class="sysinfo-val"><%= user.username %></div></div>
+                </div>
+                <div class="sysinfo-item">
+                    <div class="sysinfo-icon green"><i class="fas fa-calendar-alt"></i></div>
+                    <div><div class="sysinfo-label">Date</div><div class="sysinfo-val"><%= new Date().toLocaleDateString('fr-FR') %></div></div>
+                </div>
+                <div class="sysinfo-item">
+                    <div class="sysinfo-icon teal"><i class="fas fa-check-circle"></i></div>
+                    <div><div class="sysinfo-label">Statut</div><div class="sysinfo-val">Op&eacute;rationnel</div></div>
+                </div>
+            </div>
+
+            <!-- Section APPLICATION -->
+            <div class="section-label">Application</div>
+            <div class="settings-grid">
+
+                <!-- Profil & Logo -->
+                <a href="/admin/about" class="settings-tile">
+                    <div class="tile-icon-wrap amber">
+                        <i class="fas fa-tag" style="color:#F59E0B;"></i>
+                    </div>
+                    <div class="tile-title">Profil &amp; Logo</div>
+                    <div class="tile-desc">Changer le nom et le logo affich&eacute;s dans la barre lat&eacute;rale</div>
                 </a>
-            </div>
-        </div>
-        
-        <!-- Messages Flash -->
-        <% if (success_msg && success_msg.length > 0) { %>
-        <div class="alert alert-info">
-            <i class="fas fa-check-circle"></i>
-            <div class="alert-content">
-                <h4>Succès</h4>
-                <p><%= success_msg %></p>
-            </div>
-        </div>
-        <% } %>
-        
-        <% if (error_msg && error_msg.length > 0) { %>
-        <div class="alert alert-warning">
-            <i class="fas fa-exclamation-triangle"></i>
-            <div class="alert-content">
-                <h4>Erreur</h4>
-                <p><%= error_msg %></p>
-            </div>
-        </div>
-        <% } %>
-        
-        <!-- Welcome Alert -->
-        <div class="alert alert-info">
-            <i class="fas fa-info-circle"></i>
-            <div class="alert-content">
-                <h4>Centre de configuration Telex</h4>
-                <p>Cette section vous permet de configurer tous les paramètres de votre application Telex. Toutes les modifications sont appliquées en temps réel.</p>
-            </div>
-        </div>
-        
-        <!-- Settings Grid - MODIFIEZ CECI -->
-        <div class="settings-grid">
-            <div class="settings-card">
-                <div class="settings-icon general">
-                    <i class="fas fa-cog"></i>
-                </div>
-                <h3>Configuration Générale</h3>
-                <p>Gérez les paramètres de base de votre application Telex : nom, description, contact, etc.</p>
-                <button class="btn">
-                    <i class="fas fa-edit me-1"></i>Modifier
-                </button>
-            </div>
-            
-            <!-- SEULEMENT UNE CARTE POUR LA GESTION DES UTILISATEURS -->
-            <div class="settings-card">
-                <div class="settings-icon users">
-                    <i class="fas fa-users"></i>
-                </div>
-                <h3>Gestion des Utilisateurs</h3>
-                <p>Ajoutez, modifiez ou supprimez des comptes administrateurs et définissez les permissions.</p>
+
+                <!-- Comptes & Accès -->
                 <% if (user.role === 'superadmin') { %>
-                <a href="/admin/users" class="btn">
-                    <i class="fas fa-user-cog me-1"></i>Gérer
+                <a href="/admin/users" class="settings-tile">
+                <% } else { %>
+                <div class="settings-tile disabled">
+                <% } %>
+                    <div class="tile-icon-wrap purple">
+                        <i class="fas fa-users" style="color:#8B5CF6;"></i>
+                    </div>
+                    <div class="tile-title">Comptes &amp; Acc&egrave;s</div>
+                    <div class="tile-desc">G&eacute;rer les utilisateurs, les r&ocirc;les et votre mot de passe</div>
+                <% if (user.role === 'superadmin') { %>
                 </a>
                 <% } else { %>
-                <button class="btn" disabled title="Accès réservé aux super-administrateurs">
-                    <i class="fas fa-user-cog me-1"></i>Gérer
-                </button>
+                </div>
                 <% } %>
-            </div>
-            
-            <div class="settings-card">
-                <div class="settings-icon security">
-                    <i class="fas fa-shield-alt"></i>
-                </div>
-                <h3>Sécurité</h3>
-                <p>Paramètres de sécurité, connexion SSL, protection contre les attaques et journal d'activité.</p>
-                <button class="btn">
-                    <i class="fas fa-lock me-1"></i>Configurer
-                </button>
-            </div>
-            
-            <div class="settings-card">
-                <div class="settings-icon customize">
-                    <i class="fas fa-palette"></i>
-                </div>
-                <h3>Personnalisation</h3>
-                <p>Personnalisez l'apparence : logos, couleurs, thème, mise en page et éléments graphiques.</p>
-                <button class="btn">
-                    <i class="fas fa-brush me-1"></i>Personnaliser
-                </button>
-            </div>
-            
-            <div class="settings-card">
-                <div class="settings-icon database">
-                    <i class="fas fa-database"></i>
-                </div>
-                <h3>Base de Données</h3>
-                <p>Gérez et sauvegardez votre base de données, optimisez les performances et restaurez.</p>
-                <button class="btn btn-warning">
-                    <i class="fas fa-save me-1"></i>Sauvegarder
-                </button>
-            </div>
-            
-            <div class="settings-card">
-                <div class="settings-icon maintenance">
-                    <i class="fas fa-tools"></i>
-                </div>
-                <h3>Maintenance</h3>
-                <p>Outils de maintenance, débogage, logs système et diagnostics de performance.</p>
-                <button class="btn">
-                    <i class="fas fa-wrench me-1"></i>Accéder
-                </button>
-            </div>
-            
-            <!-- Section de gestion des données -->
-            <div class="settings-card danger-zone">
-                <div class="settings-icon danger">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </div>
-                <h3>Gestion des Données</h3>
-                <p>Supprimez les données temporaires, les logs ou effectuez une réinitialisation complète.</p>
-                <div class="btn-group">
-                    <button class="btn btn-outline-warning" onclick="clearCache()">
-                        <i class="fas fa-broom me-1"></i>Vider le cache
-                    </button>
-                    <button class="btn btn-outline-danger" onclick="clearLogs()">
-                        <i class="fas fa-trash-alt me-1"></i>Supprimer les logs
-                    </button>
-                    <button class="btn btn-danger" onclick="confirmReset()">
-                        <i class="fas fa-exclamation-triangle me-1"></i>Réinitialiser
-                    </button>
-                </div>
-            </div>
-        </div>
-        
-        <!-- System Information -->
-        <div class="system-info">
-            <div class="info-item">
-                <div class="info-icon version">
-                    <i class="fas fa-code-branch"></i>
-                </div>
-                <div class="info-content">
-                    <h4>Version Telex</h4>
-                    <p>2.0.1</p>
-                </div>
-            </div>
-            
-            <div class="info-item">
-                <div class="info-icon user">
-                    <i class="fas fa-user-shield"></i>
-                </div>
-                <div class="info-content">
-                    <h4>Administrateur</h4>
-                    <p><%= user.username %></p>
-                </div>
-            </div>
-            
-            <div class="info-item">
-                <div class="info-icon date">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="info-content">
-                    <h4>Dernière mise à jour</h4>
-                    <p><%= new Date().toLocaleDateString('fr-FR') %></p>
-                </div>
-            </div>
-            
-            <div class="info-item">
-                <div class="info-icon status">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <div class="info-content">
-                    <h4>Statut système</h4>
-                    <p>Opérationnel</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Password Change Section -->
-        <div class="password-section">
-            <h3><i class="fas fa-key"></i>Modifier le mot de passe administrateur</h3>
-            
-            <% if (error_msg && error_msg.length > 0) { %>
-            <div class="alert alert-warning mb-4">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <%= error_msg %>
-            </div>
-            <% } %>
-            
-            <% if (success_msg && success_msg.length > 0) { %>
-            <div class="alert alert-success mb-4">
-                <i class="fas fa-check-circle me-2"></i>
-                <%= success_msg %>
-            </div>
-            <% } %>
-            
-            <form action="/admin/update-password" method="POST" id="passwordChangeForm">
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="current_password" class="form-label">
-                                <i class="fas fa-lock"></i>
-                                Mot de passe actuel
-                            </label>
-                            <div class="input-group">
-                                <input type="password" id="current_password" name="current_password" 
-                                       class="form-control" required 
-                                       placeholder="Entrez votre mot de passe actuel"
-                                       autocomplete="current-password">
-                                <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('current_password')">
-                                    <i class="fas fa-eye" id="current_password_icon"></i>
-                                </button>
-                            </div>
-                            <small class="form-text text-muted">Requis pour vérification</small>
-                        </div>
+
+                <!-- Footer -->
+                <a href="/admin/footer" class="settings-tile">
+                    <div class="tile-icon-wrap green">
+                        <i class="fas fa-globe" style="color:#10B981;"></i>
                     </div>
-                    
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="new_password" class="form-label">
-                                <i class="fas fa-key"></i>
-                                Nouveau mot de passe
-                            </label>
-                            <div class="input-group">
-                                <input type="password" id="new_password" name="new_password" 
-                                       class="form-control" required 
-                                       placeholder="Minimum 8 caractères"
-                                       autocomplete="new-password"
-                                       minlength="8"
-                                       oninput="checkPasswordStrength(this.value)">
-                                <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('new_password')">
-                                    <i class="fas fa-eye" id="new_password_icon"></i>
-                                </button>
-                            </div>
-                            <div id="passwordStrength" class="password-strength">
-                                <div class="strength-bar">
-                                    <div class="strength-fill" id="strengthFill"></div>
-                                </div>
-                                <small class="strength-text" id="strengthText">Entrez un mot de passe</small>
-                            </div>
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle"></i>
-                                Doit contenir au moins 8 caractères, dont 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial
-                            </small>
-                        </div>
-                    </div>
-                    
-                    <div class="col-md-6 mb-3">
-                        <div class="form-group">
-                            <label for="confirm_password" class="form-label">
-                                <i class="fas fa-check-circle"></i>
-                                Confirmer le mot de passe
-                            </label>
-                            <div class="input-group">
-                                <input type="password" id="confirm_password" name="confirm_password" 
-                                       class="form-control" required 
-                                       placeholder="Répétez le nouveau mot de passe"
-                                       autocomplete="new-password"
-                                       oninput="checkPasswordMatch()">
-                                <button type="button" class="btn btn-outline-secondary" onclick="togglePasswordVisibility('confirm_password')">
-                                    <i class="fas fa-eye" id="confirm_password_icon"></i>
-                                </button>
-                            </div>
-                            <small class="form-text text-muted" id="matchText">Les mots de passe doivent correspondre</small>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="row mt-4">
-                    <div class="col-12">
-                        <div class="password-requirements">
-                            <h6><i class="fas fa-shield-alt"></i>Exigences de sécurité</h6>
-                            <ul class="requirements-list">
-                                <li id="lengthReq" class="requirement">
-                                    <i class="fas fa-times-circle"></i>
-                                    Au moins 8 caractères
-                                </li>
-                                <li id="uppercaseReq" class="requirement">
-                                    <i class="fas fa-times-circle"></i>
-                                    Au moins 1 majuscule
-                                </li>
-                                <li id="lowercaseReq" class="requirement">
-                                    <i class="fas fa-times-circle"></i>
-                                    Au moins 1 minuscule
-                                </li>
-                                <li id="numberReq" class="requirement">
-                                    <i class="fas fa-times-circle"></i>
-                                    Au moins 1 chiffre
-                                </li>
-                                <li id="specialReq" class="requirement">
-                                    <i class="fas fa-times-circle"></i>
-                                    Au moins 1 caractère spécial (!@#$%^&*)
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="form-actions mt-4">
-                    <button type="submit" class="btn btn-primary btn-lg" id="submitPasswordBtn">
-                        <i class="fas fa-save me-2"></i>
-                        Mettre à jour le mot de passe
-                    </button>
-                    <button type="reset" class="btn btn-outline-secondary btn-lg" onclick="resetPasswordForm()">
-                        <i class="fas fa-undo me-2"></i>
-                        Réinitialiser
-                    </button>
-                </div>
-            </form>
-        </div>
-        
-        <!-- Warning Alert -->
-        <div class="alert alert-warning">
-            <i class="fas fa-exclamation-triangle"></i>
-            <div class="alert-content">
-                <h4>Attention : Modifications critiques</h4>
-                <p>Toutes les modifications apportées dans cette section prennent effet immédiatement. Assurez-vous de comprendre les conséquences avant de valider.</p>
+                    <div class="tile-title">Footer du site</div>
+                    <div class="tile-desc">Modifier les liens et informations du pied de page</div>
+                </a>
+
             </div>
-        </div>
-        
-        <!-- Footer -->
-        <div class="page-footer">
-            <img src="/images/Telex.png" alt="TELEX" class="footer-logo">
-            <div>
-                Telex Paramètres • Version 2.0.1 • <%= new Date().getFullYear() %>
+
+            <!-- Footer page -->
+            <div class="page-footer">
+                <img src="/images/Telex.png" alt="TELEX" class="footer-logo">
+                <div>Telex Param&egrave;tres &bull; Version 2.0.1 &bull; <%= new Date().getFullYear() %></div>
+                <div><i class="fas fa-clock me-1"></i><span id="current-time"></span></div>
             </div>
-            <div class="small text-muted">
-                <i class="fas fa-lock me-1"></i>Session sécurisée • 
-                <i class="fas fa-user me-1"></i><%= user.username %> • 
-                <i class="fas fa-clock me-1"></i><span id="current-time"></span>
-            </div>
-        </div>
+
+        </div><!-- /.settings-area -->
     </div>
     
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Fonctions globales pour les boutons de suppression
-        function clearCache() {
-            if (confirm('Êtes-vous sûr de vouloir vider le cache ?\n\nCette action va supprimer tous les fichiers temporaires et peut ralentir temporairement le site.')) {
-                // Simuler le vidage du cache
-                const btn = event.target;
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Vidage...';
-                btn.disabled = true;
-                
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-check me-1"></i>Cache vidé';
-                    btn.classList.remove('btn-outline-warning');
-                    btn.classList.add('btn-success');
-                    
-                    setTimeout(() => {
-                        btn.innerHTML = originalHTML;
-                        btn.disabled = false;
-                        btn.classList.remove('btn-success');
-                        btn.classList.add('btn-outline-warning');
-                    }, 2000);
-                }, 1500);
-            }
-        }
-        
-        function clearLogs() {
-            if (confirm('Êtes-vous sûr de vouloir supprimer tous les logs ?\n\nCette action est irréversible et supprimera tous les journaux système.')) {
-                // Simuler la suppression des logs
-                const btn = event.target;
-                const originalHTML = btn.innerHTML;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Suppression...';
-                btn.disabled = true;
-                
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-check me-1"></i>Logs supprimés';
-                    btn.classList.remove('btn-outline-danger');
-                    btn.classList.add('btn-success');
-                    
-                    setTimeout(() => {
-                        btn.innerHTML = originalHTML;
-                        btn.disabled = false;
-                        btn.classList.remove('btn-success');
-                        btn.classList.add('btn-outline-danger');
-                    }, 2000);
-                }, 1500);
-            }
-        }
-        
-        function confirmReset() {
-            const confirmation = prompt('Cette action est DANGEREUSE et irréversible !\n\nPour confirmer la réinitialisation complète, tapez "RESET" en majuscules :');
-            
-            if (confirmation === 'RESET') {
-                if (confirm('DERNIER AVERTISSEMENT !\n\nToutes les données seront perdues :\n- Base de données\n- Configuration\n- Médias\n- Logs\n\nÊtes-vous ABSOLUMENT sûr ?')) {
-                    // Simuler la réinitialisation
-                    const btn = event.target;
-                    const originalHTML = btn.innerHTML;
-                    btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Réinitialisation...';
-                    btn.disabled = true;
-                    
-                    setTimeout(() => {
-                        btn.innerHTML = '<i class="fas fa-check me-1"></i>Réinitialisé';
-                        btn.classList.remove('btn-danger');
-                        btn.classList.add('btn-success');
-                        
-                        // Afficher un message de succès
-                        const successAlert = document.createElement('div');
-                        successAlert.className = 'alert alert-success';
-                        successAlert.innerHTML = `
-                            <i class="fas fa-check-circle"></i>
-                            <div class="alert-content">
-                                <h4>Réinitialisation terminée</h4>
-                                <p>L'application a été réinitialisée avec succès. La page va se recharger automatiquement.</p>
-                            </div>
-                        `;
-                        
-                        document.querySelector('.main-content').insertBefore(successAlert, document.querySelector('.settings-grid'));
-                        
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 3000);
-                    }, 2000);
-                }
-            } else if (confirmation !== null) {
-                alert('Texte de confirmation incorrect. La réinitialisation a été annulée.');
-            }
-        }
-        
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Paramètres Telex chargés');
-            
-            // Mettre à jour l'heure en temps réel
             function updateTime() {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('fr-FR', { 
-                    hour: '2-digit', 
-                    minute: '2-digit'
-                });
-                document.getElementById('current-time').textContent = timeString;
+                const el = document.getElementById('current-time');
+                if (el) el.textContent = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
             }
-            
             updateTime();
-            setInterval(updateTime, 60000); // Mise à jour toutes les minutes
-            
-            // Animation des cartes de paramètres
-            const settingsCards = document.querySelectorAll('.settings-card');
-            settingsCards.forEach((card, index) => {
-                card.style.animationDelay = `${index * 0.1}s`;
-            });
-            
-            // Fonctions améliorées pour la gestion du mot de passe
-        
-        // Fonction pour basculer la visibilité du mot de passe
-        function togglePasswordVisibility(fieldId) {
-            const field = document.getElementById(fieldId);
-            const icon = document.getElementById(fieldId + '_icon');
-            
-            if (field.type === 'password') {
-                field.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                field.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        }
-        
-        // Fonction pour vérifier la force du mot de passe
-        function checkPasswordStrength(password) {
-            const strengthFill = document.getElementById('strengthFill');
-            const strengthText = document.getElementById('strengthText');
-            
-            if (!password) {
-                strengthFill.style.width = '0%';
-                strengthFill.style.backgroundColor = '#e0e0e0';
-                strengthText.textContent = 'Entrez un mot de passe';
-                return;
-            }
-            
-            let strength = 0;
-            let feedback = '';
-            
-            // Vérifier la longueur
-            if (password.length >= 8) strength += 25;
-            if (password.length >= 12) strength += 25;
-            
-            // Vérifier les types de caractères
-            if (/[a-z]/.test(password)) strength += 15; // minuscules
-            if (/[A-Z]/.test(password)) strength += 15; // majuscules
-            if (/[0-9]/.test(password)) strength += 15; // chiffres
-            if (/[^a-zA-Z0-9]/.test(password)) strength += 20; // caractères spéciaux
-            
-            // Mettre à jour la barre de force
-            let width = Math.min(strength, 100);
-            let color = '#ff4757'; // rouge - faible
-            
-            if (strength >= 70) {
-                color = '#28a745'; // vert - fort
-                feedback = 'Très sécurisé';
-            } else if (strength >= 50) {
-                color = '#ffc107'; // orange - moyen
-                feedback = 'Sécurisé';
-            } else if (strength >= 25) {
-                color = '#ffd700'; // jaune - faible
-                feedback = 'Faible';
-            }
-            
-            strengthFill.style.width = width + '%';
-            strengthFill.style.backgroundColor = color;
-            strengthText.textContent = feedback || 'Force du mot de passe';
-        }
-        
-        // Fonction pour vérifier la correspondance des mots de passe
-        function checkPasswordMatch() {
-            const newPassword = document.getElementById('new_password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
-            const matchText = document.getElementById('matchText');
-            
-            if (confirmPassword && newPassword) {
-                if (newPassword === confirmPassword) {
-                    matchText.textContent = '✓ Les mots de passe correspondent';
-                    matchText.style.color = '#28a745';
-                    matchText.style.fontWeight = '600';
-                } else {
-                    matchText.textContent = '✗ Les mots de passe ne correspondent pas';
-                    matchText.style.color = '#dc3545';
-                    matchText.style.fontWeight = '600';
-                }
-            } else {
-                matchText.textContent = 'Veuillez confirmer le mot de passe';
-                matchText.style.color = '#6c757d';
-            }
-        }
-        
-        // Fonction pour réinitialiser le formulaire
-        function resetPasswordForm() {
-            document.getElementById('passwordChangeForm').reset();
-            document.getElementById('strengthFill').style.width = '0%';
-            document.getElementById('strengthText').textContent = 'Entrez un mot de passe';
-            document.getElementById('matchText').textContent = 'Les mots de passe doivent correspondre';
-            document.getElementById('matchText').style.color = '#6l757d';
-            
-            // Réinitialiser les exigences de sécurité
-            updateRequirements(false, false, false, false, false);
-        }
-        
-        // Fonction pour mettre à jour les exigences de sécurité
-        function updateRequirements(length, uppercase, lowercase, number, special) {
-            document.getElementById('lengthReq').className = length ? 'requirement met' : 'requirement';
-            document.getElementById('uppercaseReq').className = uppercase ? 'requirement met' : 'requirement';
-            document.getElementById('lowercaseReq').className = lowercase ? 'requirement met' : 'requirement';
-            document.getElementById('numberReq').className = number ? 'requirement met' : 'requirement';
-            document.getElementById('specialReq').className = special ? 'requirement met' : 'requirement';
-        }
-        
-        // Validation du formulaire de mot de passe améliorée
-        const passwordForm = document.querySelector('form[action="/admin/update-password"]');
-        if (passwordForm) {
-            passwordForm.addEventListener('submit', function(e) {
-                const currentPassword = document.getElementById('current_password').value;
-                const newPassword = document.getElementById('new_password').value;
-                const confirmPassword = document.getElementById('confirm_password').value;
-                
-                // Validation améliorée
-                if (newPassword.length < 8) {
-                    e.preventDefault();
-                    showNotification('Le nouveau mot de passe doit contenir au moins 8 caractères.', 'error');
-                    return false;
-                }
-                
-                if (!/[a-z]/.test(newPassword)) {
-                    e.preventDefault();
-                    showNotification('Le mot de passe doit contenir au moins une lettre minuscule.', 'error');
-                    return false;
-                }
-                
-                if (!/[A-Z]/.test(newPassword)) {
-                    e.preventDefault();
-                    showNotification('Le mot de passe doit contenir au moins une lettre majuscule.', 'error');
-                    return false;
-                }
-                
-                if (!/[0-9]/.test(newPassword)) {
-                    e.preventDefault();
-                    showNotification('Le mot de passe doit contenir au moins un chiffre.', 'error');
-                    return false;
-                }
-                
-                if (newPassword === currentPassword) {
-                    e.preventDefault();
-                    showNotification('Le nouveau mot de passe doit être différent de l\'ancien.', 'error');
-                    return false;
-                }
-                
-                if (newPassword !== confirmPassword) {
-                    e.preventDefault();
-                    showNotification('Les mots de passe ne correspondent pas.', 'error');
-                    return false;
-                }
-                
-                // Animation de chargement
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalHTML = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Mise à jour...';
-                submitBtn.disabled = true;
-                
-                // Réactiver après 3 secondes
-                setTimeout(() => {
-                    submitBtn.innerHTML = originalHTML;
-                    submitBtn.disabled = false;
-                }, 3000);
-            });
-        }
-            
-            // Effet de survol sur les cartes d'information
-            const infoItems = document.querySelectorAll('.info-item');
-            infoItems.forEach(item => {
-                item.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-5px)';
-                });
-                
-                item.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-            
-            // Simulation des boutons de paramètres
-            document.querySelectorAll('.settings-card .btn').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    if (!this.getAttribute('href') && !this.onclick) {
-                        e.preventDefault();
-                        const cardTitle = this.closest('.settings-card').querySelector('h3').textContent;
-                        alert(`Fonctionnalité "${cardTitle}" en cours de développement.`);
-                    }
-                });
-            });
+            setInterval(updateTime, 60000);
         });
     </script>
-</body>
+
+    <script>
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
+    </script></body>
 </html>

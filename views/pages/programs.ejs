@@ -16,61 +16,261 @@
     <style>
         /* ===== STYLES POUR LES PROGRAMMES ===== */
 
-        /* ===== HERO SECTION ===== */
+        /* ===== HERO SECTION — SLIDESHOW + CONTENU CENTRÉ ===== */
         .page-hero {
-            padding: 50px 0 40px;
-            background: linear-gradient(135deg, #2F3F59 0%, #3A4E6B 100%);
+            display: flex;
             color: white;
+            overflow: hidden;
+            background: linear-gradient(135deg, #457B9D 0%, #22385B 100%);
+            min-height: 160px;
+        }
+
+        /* ---- Slideshow gauche ---- */
+        .hero-slideshow {
+            width: 38%;
+            flex-shrink: 0;
             position: relative;
             overflow: hidden;
+            min-height: 160px;
+            background: #1e3050;
+        }
+
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+
+        .hero-slide.active { opacity: 1; }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-slide-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 36px 16px 14px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.75));
+            z-index: 2;
+        }
+
+        .hero-slide-name {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero-slide-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 14px;
+            display: flex;
+            gap: 7px;
+            z-index: 3;
+        }
+
+        .hero-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.4);
+            border: 1px solid rgba(255,255,255,0.6);
+            transition: background 0.3s, transform 0.3s;
+            cursor: pointer;
+        }
+
+        .hero-dot.active {
+            background: #fff;
+            border-color: #fff;
+            transform: scale(1.25);
+        }
+
+        /* ---- Contenu droit centré ---- */
+        .hero-content {
+            flex: 1;
+            padding: 14px 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            gap: 0;
+        }
+
+        .hero-content::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 32px 32px;
+            pointer-events: none;
+        }
+
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(220,53,69,0.25);
+            border: 1px solid rgba(220,53,69,0.6);
+            color: #ffaaad;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 0.4rem;
+            position: relative;
+            z-index: 1;
         }
 
         .page-hero h1 {
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-bottom: 1rem;
+            font-size: 1.6rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.2rem;
+            position: relative;
+            z-index: 1;
         }
 
-        .page-hero p {
-            font-size: 1rem;
-            opacity: 0.9;
-            margin-bottom: 1.5rem;
+        .page-hero h1 em {
+            font-style: normal;
+            color: #dc3545;
         }
 
-        .hero-image-wrapper img {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        .hero-stats-row {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin: 0.4rem 0 0.6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-stat-item {
+            text-align: center;
+            padding: 0 16px;
+        }
+
+        .hero-stat-item:not(:last-child) {
+            border-right: 1px solid rgba(255,255,255,0.35);
+        }
+
+        .hero-stat-num {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: #fff;
+            line-height: 1;
+            display: block;
+        }
+
+        .hero-stat-lbl {
+            font-size: 0.55rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: rgba(255,255,255,0.6);
+            display: block;
+            margin-top: 2px;
+        }
+
+        .hero-divider {
+            width: 36px;
+            height: 3px;
+            background: #dc3545;
+            border-radius: 2px;
+            margin: 0 auto 0.5rem;
+            display: block;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Séparateur avant filtres */
+        .hero-cats-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: rgba(255,255,255,0.3);
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Filtres catégorie */
+        .hero-cats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-cat-btn {
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.18);
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .hero-cat-btn:hover {
+            background: rgba(220,53,69,0.2);
+            border-color: rgba(220,53,69,0.5);
+            color: #fff;
+        }
+
+        .hero-cat-btn.active {
+            background: #dc3545;
+            border-color: #dc3545;
+            color: #fff;
+            box-shadow: 0 3px 10px rgba(220,53,69,0.4);
         }
 
         @media (max-width: 991px) {
-            .page-hero {
-                padding: 40px 0 30px;
-                text-align: center;
-            }
-            .hero-image-wrapper {
-                max-width: 300px;
-                margin: 0 auto 1.5rem;
-            }
+            .page-hero { flex-direction: column; }
+            .hero-slideshow { width: 100%; height: 160px; }
+            .hero-content { padding: 20px 24px 18px; }
+            .page-hero h1 { font-size: 1.6rem; }
+            .hero-stat-item { padding: 0 12px; }
+            .hero-stat-num { font-size: 1.3rem; }
         }
 
         @media (max-width: 576px) {
-            .page-hero {
-                padding: 30px 0 20px;
-            }
-            .page-hero h1 {
-                font-size: 1.6rem;
-            }
-            .hero-image-wrapper {
-                max-width: 220px;
-            }
+            .hero-slideshow { height: 130px; }
+            .hero-content { padding: 16px 16px 14px; }
+            .page-hero h1 { font-size: 1.4rem; }
+            .hero-cat-btn { font-size: 0.66rem; padding: 4px 10px; }
+            .hero-stat-item { padding: 0 10px; }
+            .hero-stat-num { font-size: 1.1rem; }
         }
 
         /* Barre de recherche */
         .search-container {
-            max-width: 600px;
-            margin: 0 auto 30px;
+            max-width: 560px;
+            margin: 0 0 30px;
         }
 
         .search-container .input-group {
@@ -108,6 +308,178 @@
             background: linear-gradient(135deg, #ff6b6b, var(--telex-red));
             transform: translateY(-2px);
             box-shadow: 0 6px 18px rgba(230,57,70,0.4);
+        }
+
+        /* ===== MODAL DÉTAIL — STYLE CAPTURE 1 ===== */
+        .prog-modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            animation: fadeInBackdrop 0.2s ease;
+        }
+
+        @keyframes fadeInBackdrop { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUpModal { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+
+        .prog-modal {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUpModal 0.28s ease;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+        }
+
+        .prog-modal-img {
+            width: 100%;
+            height: 230px;
+            overflow: hidden;
+            position: relative;
+            background: #22385B;
+        }
+
+        .prog-modal-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+            background: #0d1e36;
+        }
+
+        .prog-modal-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.55) 100%);
+        }
+
+        .prog-modal-close {
+            position: absolute;
+            top: 12px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.45);
+            border: none;
+            color: #fff;
+            font-size: 1.1rem;
+            line-height: 1;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prog-modal-content {
+            padding: 20px 24px 24px;
+        }
+
+        .prog-modal-cat {
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #457B9D;
+            margin-bottom: 6px;
+        }
+
+        .prog-modal-title {
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            line-height: 1.2;
+            letter-spacing: -0.02em;
+        }
+
+        .prog-modal-section-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            padding-top: 14px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .prog-modal-desc {
+            font-size: 0.88rem;
+            color: #475569;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .prog-modal-meta {
+            margin-top: 14px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .prog-modal-meta-item {
+            background: #f8fafc;
+            border-radius: 8px;
+            padding: 8px 12px;
+            border-left: 3px solid #E63946;
+        }
+
+        .prog-modal-meta-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #94a3b8;
+            margin-bottom: 2px;
+        }
+
+        .prog-modal-meta-value {
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
+
+        .prog-modal-actions {
+            margin-top: 18px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .prog-modal-btn-watch {
+            flex: 1;
+            background: #22385B;
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 0.83rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+
+        .prog-modal-btn-watch:hover { background: #1a2d4a; color: #fff; }
+
+        .prog-modal-btn-close {
+            padding: 10px 18px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background: #fff;
+            color: #64748b;
+            font-size: 0.83rem;
+            font-weight: 600;
+            cursor: pointer;
         }
 
         .no-results {
@@ -153,103 +525,116 @@
             box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        /* ===== CARDS PROGRAMMES - HAUTEUR AUTOMATIQUE CORRIGÉE ===== */
+        /* ===== CARDS PROGRAMMES — OPTION A : IMAGE HERO ===== */
         .program-detail-card {
-            background: white;
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            height: auto;
-            min-height: auto;
-            max-height: none;
+            background: #fff;
+            border-radius: 10px;
+            padding: 0;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            border: none;
         }
 
         .program-detail-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 20px 50px rgba(230, 57, 70, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(34,56,91,0.18);
         }
 
-        /* Titre et badge */
-        .program-title-section {
-            text-align: center;
-            margin-bottom: 15px;
-            padding: 12px;
-            background: var(--telex-blue);
-            border-radius: 12px;
-            border-bottom: 3px solid var(--telex-red);
-            flex-shrink: 0;
-            width: 100%;
-        }
+        .program-title-section { display: none; }
 
-        .program-title-section h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-            line-height: 1.3;
-        }
-
-        .program-title-section .program-badge {
-            margin-bottom: 0;
-        }
-
-        /* Section média (image/vidéo) */
+        /* Média — image pleine largeur avec overlay */
         .program-media-section {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
             position: relative;
             width: 100%;
+            height: 185px;
             flex-shrink: 0;
+            overflow: hidden;
+            background: #22385B;
+        }
+
+        /* Gradient overlay sur l'image */
+        .program-media-section::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 35%, rgba(0,0,0,0.72) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Overlay : badge en haut + titre en bas */
+        .media-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px 12px 12px;
+            pointer-events: none;
+        }
+
+        .media-cat-badge {
+            align-self: flex-start;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #fff;
+            background: #E63946;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+
+        .media-status-badge {
+            align-self: flex-start;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .media-title-block { }
+
+        .media-title-block h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.25;
+            margin: 0;
+            text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+            letter-spacing: 0.01em;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .media-broadcast-label {
+            display: none;
         }
 
         .program-media-section .program-image-wrapper {
             width: 100%;
-            height: 180px;
-            margin: 0;
-            flex-shrink: 0;
+            height: 100%;
             overflow: hidden;
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: none !important;
-            border-radius: 0 !important;
-            outline: none !important;
-            box-shadow: none !important;
-            padding: 0;
         }
 
         .program-media-section .video-container {
             width: 100%;
-            max-width: none;
-            margin: 0;
-            height: 180px;
-            flex-shrink: 0;
+            height: 100%;
             overflow: hidden;
-            border: none;
-            border-radius: 0;
         }
 
         .program-image {
             width: 100%;
             height: 100%;
             object-fit: contain;
-            transition: transform 0.3s ease;
-            border: none !important;
-            border-radius: 0 !important;
-            outline: none !important;
-            box-shadow: none !important;
             display: block;
-            margin: 0;
-            max-width: 100%;
-            max-height: 100%;
+            transition: transform 0.4s ease;
+            background: #0d1e36;
         }
 
         .program-detail-card:hover .program-image {
@@ -259,133 +644,74 @@
         .program-video-player {
             width: 100%;
             height: 100%;
-            background: transparent;
             border: none;
-            object-fit: contain;
-        }
-
-        .program-video-player iframe,
-        .program-video-player video {
-            width: 100%;
-            height: 100%;
-            border: none;
-            object-fit: contain;
+            display: block;
         }
 
         .replay-badge {
             position: absolute;
-            top: 8px;
-            right: 8px;
-            background: rgba(25,135,84,0.95);
-            color: white;
-            padding: 4px 8px;
+            top: 10px;
+            right: 10px;
+            background: rgba(22,101,52,0.9);
+            color: #fff;
+            padding: 3px 10px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 600;
             z-index: 3;
-            backdrop-filter: blur(4px);
         }
 
-        /* Corps de la carte */
+        /* Corps minimaliste */
         .program-body {
+            order: 2;
             flex: 1;
             display: flex;
             flex-direction: column;
-            width: 100%;
+            padding: 6px 14px 12px;
         }
 
-        /* Badge de diffusion */
-        .broadcast-badge {
-            margin-bottom: 12px;
-            flex-shrink: 0;
-        }
+        .broadcast-badge { display: none; }
 
-        /* Description */
         .program-description {
-            margin-bottom: 12px;
-            flex-shrink: 1;
+            flex: 1;
+            margin-bottom: 10px;
         }
 
         .program-description p {
-            color: #4a5568;
-            line-height: 1.5;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
-            text-align: center;
-        }
-
-        /* Informations */
-        .program-info {
-            background: #f8fafc;
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 15px;
-            flex-shrink: 1;
-        }
-
-        .program-info p {
-            margin-bottom: 6px;
-            font-size: 0.85rem;
             color: #475569;
-            text-align: center;
+            line-height: 1.55;
+            font-size: 0.82rem;
+            text-align: left;
+            margin: 0;
         }
 
-        .program-info p:last-child {
-            margin-bottom: 0;
-        }
+        .program-info { display: none; }
 
-        .program-info i {
-            width: 20px;
-            color: var(--telex-red);
-        }
-
-        /* Alertes */
-        .alert {
-            border-radius: 12px;
-            padding: 10px 12px;
-            margin-bottom: 12px;
-            border: none;
-            font-size: 0.85rem;
-        }
-
-        .alert-info {
-            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
-            color: #075985;
-        }
-
-        .alert-secondary {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            color: #495057;
-        }
-
-        /* Boutons d'action - toujours en bas */
+        /* Boutons */
         .program-actions {
             display: flex;
-            gap: 12px;
-            margin-top: auto;
-            flex-wrap: wrap;
-            padding-top: 10px;
-            flex-shrink: 0;
+            gap: 8px;
+            padding-top: 0;
         }
 
         .program-actions .btn {
             flex: 1;
-            padding: 10px 20px;
-            font-size: 0.9rem;
-            border-radius: 8px;
+            padding: 8px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border-radius: 7px;
+            letter-spacing: 0.03em;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            background: #22385B;
             border: none;
-            color: white;
-            font-weight: 600;
+            color: #fff;
         }
 
         .btn-primary:hover {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(59,130,246,0.4);
+            background: #1a2d4a;
+            color: #fff;
         }
 
         .btn-outline-secondary {
@@ -473,57 +799,36 @@
             border-top: 2px solid #e2e8f0 !important;
         }
 
-        /* Responsive */
+        /* ===== RESPONSIVE CARTES ===== */
+
+        /* Tablette : 2 colonnes, image un peu moins haute */
         @media (max-width: 768px) {
-            .program-detail-card {
-                padding: 1.2rem;
-            }
-
-            .program-title-section h3 {
-                font-size: 1.1rem;
-            }
-
-            .program-media-section .program-image-wrapper,
-            .program-media-section .video-container {
-                height: 160px;
-            }
-
-            .program-info p {
-                font-size: 0.8rem;
-                margin-bottom: 4px;
-            }
-
-            .program-actions .btn {
-                padding: 8px 12px;
-                font-size: 0.85rem;
-            }
+            .program-media-section { height: 165px; }
+            .media-title-block h3 { font-size: 0.92rem; }
+            .program-body { padding: 6px 12px 10px; }
+            .program-actions .btn { padding: 7px 10px; font-size: 0.75rem; }
+            .prog-modal { max-width: 100%; }
+            .prog-modal-img { height: 190px; }
+            .prog-modal-content { padding: 16px 18px 20px; }
+            .prog-modal-title { font-size: 1.15rem; }
+            .prog-modal-meta { grid-template-columns: 1fr 1fr; }
         }
 
-        @media (max-width: 480px) {
-            .program-detail-card {
-                padding: 1rem;
-            }
-
-            .program-title-section {
-                padding: 8px;
-            }
-
-            .program-title-section h3 {
-                font-size: 1rem;
-            }
-
-            .program-media-section .program-image-wrapper,
-            .program-media-section .video-container {
-                height: 140px;
-            }
-
-            .program-info {
-                padding: 8px;
-            }
-
-            .program-info p {
-                font-size: 0.75rem;
-            }
+        /* Mobile : 1 colonne, image réduite */
+        @media (max-width: 576px) {
+            .program-media-section { height: 180px; }
+            .media-cat-badge { font-size: 0.6rem; padding: 2px 8px; }
+            .media-title-block h3 { font-size: 0.88rem; }
+            .media-overlay { padding: 8px 10px 10px; }
+            .program-body { padding: 6px 10px 10px; }
+            .program-description p { font-size: 0.78rem; }
+            .program-actions .btn { font-size: 0.73rem; padding: 6px 8px; }
+            .prog-modal-img { height: 160px; }
+            .prog-modal-content { padding: 14px 16px 18px; }
+            .prog-modal-title { font-size: 1.05rem; }
+            .prog-modal-meta { grid-template-columns: 1fr; }
+            .prog-modal-actions { flex-direction: column; }
+        }
 
             .program-actions {
                 flex-direction: column;
@@ -552,43 +857,71 @@
     <!-- Navigation -->
     <%- include('../partials/navbar') %>
 
-    <!-- Hero Section -->
+    <!-- Hero Section — Slideshow + Contenu centré -->
     <section class="page-hero">
-        <div class="container">
-            <div class="row align-items-center g-4">
-                <div class="col-lg-4 col-md-5 col-sm-8 mx-auto mx-md-0">
-                    <div class="hero-image-wrapper">
-                        <img src="/images/programmes.png" alt="Ordinateur Telex" class="hero-camera-img">
-                    </div>
-                </div>
-                <div class="col-lg-8 col-md-7 col-12">
-                    <h1>Telex Programmes</h1>
-                    <p>Explorez notre grille des 10 programmes principaux et découvrez des contenus créés par et pour les étudiants. Chaque programme a sa propre identité visuelle.</p>
-                    
-                    <div class="search-container">
-                        <div class="input-group">
-                            <input type="text" 
-                                   id="searchInput" 
-                                   class="form-control" 
-                                   placeholder="Rechercher un programme (titre, type, description...)" 
-                                   autocomplete="off"
-                                   spellcheck="false"
-                                   autocorrect="off"
-                                   autocapitalize="off">
-                            <button class="btn btn-telex" type="button" onclick="searchPrograms()">
-                                <i class="fas fa-search me-2"></i>Rechercher
-                            </button>
-                        </div>
-                        <div class="text-start mt-2">
-                            <small class="text-muted">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Exemples: "info", "débat", "culture", "sport", "environnement"
-                            </small>
-                        </div>
-                    </div>
-                </div>
+
+        <!-- Slideshow gauche -->
+        <div class="hero-slideshow">
+            <div class="hero-slide active">
+                <img src="/images/D%C3%A9bat.png" alt="Débat">
+                <div class="hero-slide-caption"><span class="hero-slide-name">Débat</span></div>
+            </div>
+            <div class="hero-slide">
+                <img src="/images/programmes.png" alt="Programmes">
+                <div class="hero-slide-caption"><span class="hero-slide-name">Programmes</span></div>
+            </div>
+            <div class="hero-slide">
+                <img src="/images/mirco2.png" alt="Micro">
+                <div class="hero-slide-caption"><span class="hero-slide-name">Micro</span></div>
+            </div>
+            <div class="hero-slide">
+                <img src="/images/TELEX%20INTEGRATION.png" alt="Intégration">
+                <div class="hero-slide-caption"><span class="hero-slide-name">Intégration</span></div>
+            </div>
+            <!-- Indicateurs -->
+            <div class="hero-slide-dots">
+                <div class="hero-dot active" onclick="goToSlide(0)"></div>
+                <div class="hero-dot" onclick="goToSlide(1)"></div>
+                <div class="hero-dot" onclick="goToSlide(2)"></div>
+                <div class="hero-dot" onclick="goToSlide(3)"></div>
             </div>
         </div>
+
+        <!-- Contenu centré droite -->
+        <div class="hero-content">
+            <h1>Nos <em>Programmes</em></h1>
+
+            <!-- Stats inline -->
+            <div class="hero-stats-row">
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num"><%= programs ? programs.length : 10 %></span>
+                    <span class="hero-stat-lbl">Émissions</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">7</span>
+                    <span class="hero-stat-lbl">Catégories</span>
+                </div>
+                <div class="hero-stat-item">
+                    <span class="hero-stat-num">HD</span>
+                    <span class="hero-stat-lbl">Qualité</span>
+                </div>
+            </div>
+
+            <div class="hero-divider"></div>
+
+            <div class="hero-cats-label">Filtrer par catégorie</div>
+
+            <div class="hero-cats">
+                <button class="hero-cat-btn active" onclick="filterCategory('all', this)">Tout</button>
+                <button class="hero-cat-btn" onclick="filterCategory('information', this)">Info</button>
+                <button class="hero-cat-btn" onclick="filterCategory('decryptage', this)">Décryptage</button>
+                <button class="hero-cat-btn" onclick="filterCategory('débats', this)">Débats</button>
+                <button class="hero-cat-btn" onclick="filterCategory('culture', this)">Culture</button>
+                <button class="hero-cat-btn" onclick="filterCategory('environnement', this)">Environnement</button>
+                <button class="hero-cat-btn" onclick="filterCategory('éducatif', this)">Éducatif</button>
+            </div>
+        </div>
+
     </section>
 
     <!-- Section Programmes -->
@@ -700,83 +1033,63 @@
                             }
                         }
                     %>
-                    <div class="col-lg-6 col-md-6 mb-4 program-card clickable-program" 
+                    <div class="col-md-6 mb-4 program-card clickable-program" 
                          data-program-id="<%= program.id %>"
                          data-title="<%= (program.title || '').toLowerCase() %>"
                          data-type="<%= (program.program_type || '').toLowerCase() %>"
                          data-description="<%= (program.description || '').toLowerCase() %>"
                          onclick="incrementProgramView('<%= program.id %>')">
                         <div class="program-detail-card">
-                            <div class="program-title-section">
-                                <h3><%= program.title || 'Programme Telex' %></h3>
-                                <span class="program-badge badge-<%= badgeClass %>">
-                                    <%= program.program_type ? 
-                                        program.program_type.replace('Programme ', '') 
-                                        : 'Programme' %>
-                                </span>
-                            </div>
-                            
+
                             <div class="program-media-section">
+                                <!-- Overlay : badge catégorie + titre -->
+                                <div class="media-overlay">
+                                    <span class="media-cat-badge">
+                                        <%= program.program_type ? program.program_type.replace('Programme ', '') : 'Programme' %>
+                                    </span>
+                                    <div class="media-title-block">
+                                        <div class="media-broadcast-label"><%- broadcastBadge %></div>
+                                        <h3><%= program.title || 'Programme Telex' %></h3>
+                                    </div>
+                                </div>
                                 <% if (program.video_url && program.video_url.trim() !== '') { %>
                                     <div class="video-container">
                                         <% if (program.video_url.includes('youtube.com') || program.video_url.includes('youtu.be')) { %>
-                                        <iframe src="https://www.youtube.com/embed/<%= program.video_url.includes('youtu.be') ? program.video_url.split('youtu.be/')[1].split('?')[0] : program.video_url.split('v=')[1].split('&')[0] %>" 
-                                                frameborder="0" 
-                                                allowfullscreen
-                                                class="program-video-player">
+                                        <iframe src="https://www.youtube.com/embed/<%= program.video_url.includes('youtu.be') ? program.video_url.split('youtu.be/')[1].split('?')[0] : program.video_url.split('v=')[1].split('&')[0] %>"
+                                                frameborder="0" allowfullscreen class="program-video-player">
                                         </iframe>
                                         <% } else if (program.video_url.includes('vimeo.com')) { %>
-                                        <iframe src="https://player.vimeo.com/video/<%= program.video_url.split('vimeo.com/')[1].split('?')[0] %>" 
-                                                frameborder="0" 
-                                                allowfullscreen
-                                                class="program-video-player">
+                                        <iframe src="https://player.vimeo.com/video/<%= program.video_url.split('vimeo.com/')[1].split('?')[0] %>"
+                                                frameborder="0" allowfullscreen class="program-video-player">
                                         </iframe>
                                         <% } else { %>
                                         <video class="program-video-player" controls preload="metadata" playsinline>
                                             <source src="<%= program.video_url %>" type="video/mp4">
-                                            Votre navigateur ne supporte pas la lecture de vidéos.
                                         </video>
                                         <% } %>
                                     </div>
                                     <% if (showReplayBadge) { %>
-                                    <div class="replay-badge">
-                                        <i class="fas fa-redo-alt me-1"></i>Replay
-                                    </div>
+                                    <div class="replay-badge"><i class="fas fa-redo-alt me-1"></i>Replay</div>
                                     <% } %>
                                 <% } else { %>
                                     <div class="program-image-wrapper">
-                                        <img src="<%= program.image_url || programImage %>" 
-                                             alt="<%= program.title || 'Programme' %>" 
+                                        <img src="<%= program.image_url || programImage %>"
+                                             alt="<%= program.title || 'Programme' %>"
                                              class="program-image"
                                              onerror="this.src='/images/programmes.png';">
                                     </div>
                                 <% } %>
                             </div>
-                            
+
                             <div class="program-body">
-                                <div class="broadcast-badge">
-                                    <%- broadcastBadge %>
-                                    <small class="text-muted ms-2"><%= broadcastMessage %></small>
-                                </div>
+                                <div class="broadcast-badge"></div>
                                 
                                 <div class="program-description">
-                                    <% 
+                                    <%
                                     const description = program.description || 'Découvrez ce programme passionnant sur Telex.';
-                                    const maxLength = 120;
-                                    const isLong = description.length > maxLength;
-                                    const shortDescription = isLong ? description.substring(0, maxLength) + '...' : description;
+                                    const shortDescription = description.length > 100 ? description.substring(0, 100) + '…' : description;
                                     %>
-                                    <p class="description-text" id="desc-<%= program.id %>">
-                                        <span class="short-desc"><%= shortDescription %></span>
-                                        <% if (isLong) { %>
-                                        <span class="full-desc d-none"><%= description %></span>
-                                        <button class="btn btn-link btn-sm p-0 ms-1 text-decoration-none" 
-                                                onclick="event.stopPropagation(); toggleDescription('<%= program.id %>')">
-                                            <span class="more-text">Voir plus</span>
-                                            <span class="less-text d-none">Voir moins</span>
-                                        </button>
-                                        <% } %>
-                                    </p>
+                                    <p><%= shortDescription %></p>
                                 </div>
                                 
                                 <div class="program-info">
@@ -813,6 +1126,7 @@
                                             data-program-date="<%= program.program_date || '' %>"
                                             data-program-duration="<%= program.duration || '' %>"
                                             data-program-video="<%= program.video_url || '' %>"
+                                            data-program-image="<%= program.image_url || programImage %>"
                                             onclick="event.stopPropagation(); showProgramInfo(this.dataset)">
                                         <i class="fas fa-info-circle me-2"></i>Détails
                                     </button>
@@ -823,7 +1137,7 @@
                     <% }); %>
                 <% } else { %>
                     <!-- 10 PROGRAMMES PRINCIPAUX -->
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="le journal campus telex actus essentiel"
                          data-type="info information"
                          data-description="le rendez-vous info de la semaine toute l'actualité étudiante décryptée et analysée par notre rédaction">
@@ -858,7 +1172,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="décryptage reportages enquête investigation"
                          data-type="decryptage reportage enquete"
                          data-description="analyse approfondie de l'actualité grands reportages et enquêtes de fond sur les sujets qui comptent">
@@ -893,7 +1207,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="débat campus face à face parole publique discussion"
                          data-type="debat discussion"
                          data-description="face-à-face d'idées sur les grands sujets de société un espace de dialogue constructif et respectueux">
@@ -928,7 +1242,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="cœur ouvert initiatives locales entrepreneurs associations"
                          data-type="societe social humain"
                          data-description="récits de vie initiatives solidaires portraits d'entrepreneurs et associations qui font bouger la société">
@@ -963,7 +1277,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="1 notion en 3 minutes école citoyenne contrat arnaque"
                          data-type="education pedagogie formation"
                          data-description="apprendre autrement des concepts clés expliqués simplement en quelques minutes pour tous les étudiants">
@@ -998,7 +1312,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="question des jeunes étudiants campus"
                          data-type="jeunesse etudiants"
                          data-description="la parole aux jeunes leurs préoccupations leurs passions leurs projets d'avenir">
@@ -1033,7 +1347,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="zoom écologie nature environnement"
                          data-type="environnement ecologie nature"
                          data-description="décryptage des enjeux environnementaux initiatives écologiques étudiantes et solutions durables">
@@ -1068,7 +1382,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="culture express identité histoire politique madagascar"
                          data-type="culture identite art"
                          data-description="découverte de la scène culturelle étudiante musique cinéma théâtre expositions les talents de demain">
@@ -1103,7 +1417,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="travailler à mada économie business finance"
                          data-type="economie travail business"
                          data-description="tout savoir sur le monde du travail l'entrepreneuriat et l'économie pour réussir son insertion professionnelle">
@@ -1138,7 +1452,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-6 col-md-6 mb-4 program-card" 
+                    <div class="col-md-6 mb-4 program-card" 
                          data-title="telex sports athlétisme"
                          data-type="sport"
                          data-description="couverture complète des événements sportifs universitaires interviews d'athlètes et analyses techniques">
@@ -1336,6 +1650,55 @@
             }
         }
 
+        // Forcer "Tout" actif par défaut au chargement
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.hero-cat-btn').forEach(b => b.classList.remove('active'));
+            var btnTout = document.querySelector('.hero-cat-btn[onclick*="\'all\'"]');
+            if (btnTout) btnTout.classList.add('active');
+        });
+
+        // Slideshow automatique
+        (function() {
+            var slides = document.querySelectorAll('.hero-slide');
+            var dots   = document.querySelectorAll('.hero-dot');
+            var current = 0;
+            var timer;
+
+            function goTo(idx) {
+                slides[current].classList.remove('active');
+                dots[current].classList.remove('active');
+                current = (idx + slides.length) % slides.length;
+                slides[current].classList.add('active');
+                dots[current].classList.add('active');
+            }
+
+            window.goToSlide = function(idx) {
+                clearInterval(timer);
+                goTo(idx);
+                timer = setInterval(function() { goTo(current + 1); }, 5000);
+            };
+
+            if (slides.length > 1) {
+                timer = setInterval(function() { goTo(current + 1); }, 5000);
+            }
+        })();
+
+
+        function filterCategory(cat, btn) {
+            document.querySelectorAll('.hero-cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const si = document.getElementById('searchInput'); if (si) si.value = '';
+            const cards = document.querySelectorAll('#programsList [data-type]');
+            cards.forEach(card => {
+                const type = card.dataset.type || '';
+                const match = cat === 'all' || type.includes(cat);
+                card.style.display = match ? '' : 'none';
+            });
+            const noResults = document.getElementById('noResults');
+            const visible = [...cards].filter(c => c.style.display !== 'none');
+            if (noResults) noResults.style.display = visible.length === 0 ? 'block' : 'none';
+        }
+
         function searchPrograms() {
             const searchInput = document.getElementById('searchInput');
             if (!searchInput) return;
@@ -1389,114 +1752,68 @@
         }
 
         function showProgramInfo(dataset) {
-            const oldModal = document.getElementById('programInfoModal');
-            if (oldModal) oldModal.remove();
-            
-            const modal = document.createElement('div');
-            modal.className = 'modal fade';
-            modal.id = 'programInfoModal';
-            modal.setAttribute('tabindex', '-1');
-            modal.setAttribute('aria-hidden', 'true');
-            
+            const old = document.getElementById('progDetailModal');
+            if (old) old.remove();
+
             let formattedDate = '';
             if (dataset.programDate) {
                 try {
-                    const date = new Date(dataset.programDate);
-                    formattedDate = date.toLocaleDateString('fr-FR', { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
+                    formattedDate = new Date(dataset.programDate).toLocaleDateString('fr-FR', {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
                     });
-                } catch (e) {
-                    formattedDate = dataset.programDate;
-                }
+                } catch(e) { formattedDate = dataset.programDate; }
             }
-            
-            modal.innerHTML = `
-                <div class="modal-dialog modal-lg modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-gradient text-white" style="background: linear-gradient(135deg, #1D3557, #A8DADC);">
-                            <div class="d-flex align-items-center">
-                                <img src="/images/Telex.png" alt="Telex" style="width: 40px; height: 40px; margin-right: 15px;">
-                                <h5 class="modal-title mb-0">
-                                    <i class="fas fa-tv me-2"></i>
-                                    ${dataset.programTitle || 'Programme Telex'}
-                                </h5>
-                            </div>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fermer"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="text-center mb-4">
-                                <img src="/images/Telex.png" alt="Telex" style="width: 80px; opacity: 0.8;">
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h6 class="text-primary mb-3"><i class="fas fa-info-circle me-2"></i>Description</h6>
-                                    <p class="lead">${dataset.programDescription || 'Découvrez ce programme passionnant sur Telex.'}</p>
-                                    
-                                    ${dataset.programType ? `
-                                    <h6 class="text-primary mb-3"><i class="fas fa-tag me-2"></i>Type de programme</h6>
-                                    <p><span class="badge bg-primary fs-6">${dataset.programType}</span></p>
-                                    ` : ''}
-                                    
-                                    ${dataset.programPresenter ? `
-                                    <h6 class="text-primary mb-3"><i class="fas fa-user me-2"></i>${dataset.programType && dataset.programType.includes('Débat') ? 'Animation' : 'Présentation'}</h6>
-                                    <p>${dataset.programPresenter}</p>
-                                    ` : ''}
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="card bg-light">
-                                        <div class="card-body">
-                                            <h6 class="card-title"><i class="fas fa-calendar-alt me-2"></i>Informations pratiques</h6>
-                                            ${dataset.programSchedule ? `<p class="mb-2"><i class="far fa-clock me-2"></i><strong>Heure :</strong><br>${dataset.programSchedule}</p>` : ''}
-                                            ${formattedDate ? `<p class="mb-2"><i class="far fa-calendar me-2"></i><strong>Date :</strong><br>${formattedDate}</p>` : ''}
-                                            ${dataset.programDuration ? `<p class="mb-2"><i class="fas fa-hourglass-half me-2"></i><strong>Durée :</strong><br>${dataset.programDuration}</p>` : ''}
-                                            ${dataset.programVideo ? `<div class="mt-3"><a href="${dataset.programVideo}" class="btn btn-primary btn-sm w-100" target="_blank"><i class="fas fa-play me-2"></i>Regarder</a></div>` : ''}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="text-center">
-                                <p class="text-muted mb-0"><i class="fas fa-tv me-2"></i>Suivez <strong>TELEX</strong> sur nos réseaux sociaux pour ne manquer aucune actualité !</p>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fas fa-times me-2"></i>Fermer</button>
-                            ${dataset.programVideo ? `<a href="${dataset.programVideo}" class="btn btn-primary" target="_blank"><i class="fas fa-play me-2"></i>Regarder maintenant</a>` : ''}
+
+            const imgSrc = dataset.programImage || '/images/programmes.png';
+            const cat = (dataset.programType || '').replace('Programme ', '');
+
+            const metaItems = [
+                dataset.programPresenter ? { label: dataset.programType && dataset.programType.includes('Débat') ? 'Animation' : 'Présentation', value: dataset.programPresenter } : null,
+                dataset.programSchedule ? { label: 'Heure', value: dataset.programSchedule } : null,
+                formattedDate        ? { label: 'Date', value: formattedDate } : null,
+                dataset.programDuration ? { label: 'Durée', value: dataset.programDuration } : null,
+            ].filter(Boolean);
+
+            const metaHTML = metaItems.length ? `
+                <div class="prog-modal-meta">
+                    ${metaItems.map(m => `
+                        <div class="prog-modal-meta-item">
+                            <div class="prog-modal-meta-label">${m.label}</div>
+                            <div class="prog-modal-meta-value">${m.value}</div>
+                        </div>`).join('')}
+                </div>` : '';
+
+            const backdrop = document.createElement('div');
+            backdrop.className = 'prog-modal-backdrop';
+            backdrop.id = 'progDetailModal';
+            backdrop.innerHTML = `
+                <div class="prog-modal" style="position:relative;">
+                    <button class="prog-modal-close" onclick="document.getElementById('progDetailModal').remove()">✕</button>
+                    <div class="prog-modal-img">
+                        <img src="${imgSrc}" alt="${dataset.programTitle || ''}" onerror="this.src='/images/programmes.png'">
+                        <div class="prog-modal-img-overlay"></div>
+                    </div>
+                    <div class="prog-modal-content">
+                        ${cat ? `<div class="prog-modal-cat">${cat}</div>` : ''}
+                        <h2 class="prog-modal-title">${dataset.programTitle || 'Programme Telex'}</h2>
+                        <div class="prog-modal-section-label">Introduction</div>
+                        <p class="prog-modal-desc">${dataset.programDescription || 'Découvrez ce programme passionnant sur Telex.'}</p>
+                        ${metaHTML}
+                        <div class="prog-modal-actions">
+                            ${dataset.programVideo
+                                ? `<a href="${dataset.programVideo}" class="prog-modal-btn-watch" target="_blank"><i class="fas fa-play me-2"></i>Regarder</a>`
+                                : `<span class="prog-modal-btn-watch" style="background:#94a3b8;cursor:default;"><i class="fas fa-clock me-2"></i>Bientôt disponible</span>`}
+                            <button class="prog-modal-btn-close" onclick="document.getElementById('progDetailModal').remove()">Fermer</button>
                         </div>
                     </div>
-                </div>
-            `;
-            
-            document.body.appendChild(modal);
-            const bootstrapModal = new bootstrap.Modal(modal);
-            bootstrapModal.show();
-            modal.addEventListener('hidden.bs.modal', () => modal.remove());
+                </div>`;
+
+            backdrop.addEventListener('click', function(e) {
+                if (e.target === backdrop) backdrop.remove();
+            });
+            document.body.appendChild(backdrop);
         }
 
-        function toggleDescription(programId) {
-            const descElement = document.getElementById(`desc-${programId}`);
-            if (!descElement) return;
-            
-            const shortDesc = descElement.querySelector('.short-desc');
-            const fullDesc = descElement.querySelector('.full-desc');
-            const moreText = descElement.querySelector('.more-text');
-            const lessText = descElement.querySelector('.less-text');
-            
-            if (fullDesc && fullDesc.classList.contains('d-none')) {
-                shortDesc?.classList.add('d-none');
-                fullDesc.classList.remove('d-none');
-                moreText?.classList.add('d-none');
-                lessText?.classList.remove('d-none');
-            } else if (fullDesc) {
-                shortDesc?.classList.remove('d-none');
-                fullDesc.classList.add('d-none');
-                moreText?.classList.remove('d-none');
-                lessText?.classList.add('d-none');
-            }
-        }
 
         function initSearch() {
             const searchInput = document.getElementById('searchInput');

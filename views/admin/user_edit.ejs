@@ -3,315 +3,417 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %> - Telex | Administration</title>
+    <title><%= userData ? 'Éditer utilisateur' : 'Nouvel utilisateur' %> - Telex | Admin</title>
     <link rel="icon" href="/images/Telex.png" type="image/png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --telex-red: #E63946;
+            --telex-blue: #1D3557;
+            --sidebar-width: 280px;
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+
         body {
-            background: #f8f9fa;
-            min-height: 100vh;
-            padding: 20px;
+            background:#f8fafc;
+            font-family:'Open Sans','Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
+            min-height:100vh;
+            color:#334155;
         }
-        
-        .user-form-container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            overflow: hidden;
+
+        /* ── Sidebar ── */
+        .sidebar { background:linear-gradient(180deg,var(--telex-blue) 0%,#0f1e3d 100%); color:white; width:var(--sidebar-width); height:100vh; position:fixed; left:0; top:0; z-index:1000; box-shadow:5px 0 15px rgba(0,0,0,.1); display:flex; flex-direction:column; }
+        .sb-header { display:flex; align-items:center; justify-content:center; padding:18px 16px; border-bottom:1px solid rgba(255,255,255,.08); transition:background .2s; }
+        .sb-header:hover { background:rgba(255,255,255,.04); }
+        .sb-logo { height:52px; width:auto; display:block; flex-shrink:0; }
+        .sidebar-nav { flex:1; padding:20px 15px; overflow-y:auto; }
+        .nav-item { margin-bottom:8px; }
+        .nav-link { display:flex; align-items:center; color:rgba(255,255,255,.8); padding:14px 18px; text-decoration:none; border-radius:10px; transition:all .3s; font-weight:500; }
+        .nav-link:hover { background:rgba(255,255,255,.1); color:white; transform:translateX(5px); }
+        .nav-link.active { background:rgba(230,57,70,.15); color:white; box-shadow:0 4px 12px rgba(230,57,70,.2); }
+        .nav-link i { width:24px; font-size:1.1rem; margin-right:12px; text-align:center; }
+        .nav-section-label { font-size:.68rem; font-weight:600; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.28); padding:14px 10px 5px; }
+        .sidebar-footer { padding:8px 10px 12px; border-top:1px solid rgba(255,255,255,.08); }
+        .nav-link.logout { color:rgba(255,160,160,.7); }
+        .nav-link.logout:hover { background:rgba(255,107,107,.1); color:#ff9e9e; }
+
+        /* ── Main ── */
+        .main-content { margin-left:var(--sidebar-width); min-height:100vh; padding:0; }
+
+        /* ── Dash Header ── */
+        .dash-header { background:linear-gradient(135deg,#1D3557 0%,#2d4f7a 100%); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
+        .dash-header-left { display:flex; align-items:center; gap:14px; }
+        .dash-header-logo { height:44px; width:auto; object-fit:contain; }
+        .dash-header-title { font-size:1.15rem; font-weight:700; color:#fff; line-height:1.3; }
+        .dash-header-sub { font-size:.8rem; color:rgba(255,255,255,.65); margin-top:2px; }
+        .dash-header-right { display:flex; align-items:center; gap:10px; }
+        .btn-dash-back { display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.2); border-radius:8px; padding:7px 14px; font-size:.85rem; font-weight:500; text-decoration:none; transition:background .2s; }
+        .btn-dash-back:hover { background:rgba(255,255,255,.22); color:#fff; }
+
+        /* ── Avatar banner ── */
+        .user-banner { background:#fff; border-bottom:1px solid #e8ecf0; padding:20px 28px; display:flex; align-items:center; gap:16px; }
+        .user-banner-avatar { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,#1D3557,#457B9D); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:700; flex-shrink:0; }
+        .user-banner-name { font-size:1.05rem; font-weight:700; color:#1e293b; }
+        .user-banner-sub { font-size:.82rem; color:#64748b; margin-top:2px; }
+
+        /* ── Content area ── */
+        .content-area { padding:22px 28px; max-width:820px; }
+        @media (max-width:576px) { .content-area { padding:14px; } }
+
+        /* ── Flash alert ── */
+        .flash-alert { padding:12px 16px; border-radius:10px; margin-bottom:16px; display:flex; align-items:center; gap:10px; font-size:.88rem; border-left:4px solid; }
+        .flash-error { background:#fef2f2; border-color:#EF4444; color:#7f1d1d; }
+        .flash-info  { background:#eff6ff; border-color:#3B82F6; color:#1e3a5f; }
+
+        /* ── Form Cards ── */
+        .form-card { background:#fff; border-radius:14px; box-shadow:0 2px 12px rgba(0,0,0,.07); border:1px solid #e2e8f0; margin-bottom:18px; overflow:hidden; }
+        .form-card-header { display:flex; align-items:center; gap:14px; padding:16px 22px 14px; border-bottom:1px solid #f1f5f9; background:#fafbfc; }
+        .form-card-icon { width:40px; height:40px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:1rem; flex-shrink:0; }
+        .form-card-title { font-size:.96rem; font-weight:700; color:#1e293b; }
+        .form-card-sub { font-size:.77rem; color:#64748b; margin-top:2px; }
+        .form-card-body { padding:20px 22px; }
+
+        /* ── Form controls ── */
+        .form-label { font-weight:600; color:#374151; font-size:.84rem; margin-bottom:5px; display:block; }
+        .form-control, .form-select { border:1.5px solid #e2e8f0; border-radius:8px; padding:9px 12px; font-size:.9rem; width:100%; transition:border-color .2s, box-shadow .2s; background:#fff; }
+        .form-control:focus, .form-select:focus { border-color:#457B9D; box-shadow:0 0 0 3px rgba(69,123,157,.12); outline:none; }
+        .form-control[readonly] { background:#f8fafc; color:#64748b; }
+        .form-text { font-size:.77rem; color:#94a3b8; margin-top:4px; display:block; }
+
+        /* ── Role badges info ── */
+        .role-info { display:grid; grid-template-columns:repeat(2,1fr); gap:8px; margin-top:10px; }
+        @media (max-width:480px) { .role-info { grid-template-columns:1fr; } }
+        .role-info-item { display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:8px; background:#f8fafc; border:1px solid #e8ecf0; font-size:.78rem; }
+        .role-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+        .role-dot.superadmin { background:#DC2626; }
+        .role-dot.admin  { background:#1D4ED8; }
+        .role-dot.editor { background:#7C3AED; }
+        .role-dot.viewer { background:#10B981; }
+        .role-info-name { font-weight:700; color:#1e293b; }
+        .role-info-desc { color:#64748b; }
+
+        /* ── Toggle switch ── */
+        .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:14px 16px; background:#f8fafc; border-radius:10px; border:1.5px solid #e2e8f0; }
+        .toggle-label { font-weight:600; color:#1e293b; font-size:.9rem; }
+        .toggle-sub { font-size:.78rem; color:#64748b; margin-top:2px; }
+        .form-check-input { width:42px; height:22px; cursor:pointer; }
+        .form-check-input:checked { background-color:#10B981; border-color:#10B981; }
+
+        /* ── Password note ── */
+        .pwd-note { background:#f0fdf4; border-left:3px solid #10B981; border-radius:8px; padding:12px 14px; font-size:.82rem; color:#065f46; margin-bottom:16px; display:flex; align-items:flex-start; gap:8px; }
+        .pwd-note i { margin-top:2px; flex-shrink:0; }
+
+        /* ── Actions card ── */
+        .btn-save { background:linear-gradient(135deg,#1D3557,#457B9D); color:#fff; border:none; padding:10px 24px; border-radius:8px; font-weight:700; font-size:.9rem; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:all .2s; }
+        .btn-save:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(29,53,87,.3); }
+        .btn-cancel { background:#f1f5f9; color:#374151; border:1.5px solid #e2e8f0; padding:10px 20px; border-radius:8px; font-weight:600; font-size:.9rem; text-decoration:none; display:inline-flex; align-items:center; gap:8px; transition:background .2s; }
+        .btn-cancel:hover { background:#e2e8f0; color:#1e293b; }
+
+        /* ── Responsive sidebar ── */
+        @media (max-width: 992px) {
+            .sidebar { width:70px; overflow:hidden; }
+            .sb-header { padding:12px 0; }
+            .sb-logo { height:32px; }
+            .nav-section-label { display:none; }
+            .nav-link span { display:none; }
+            .nav-link { justify-content:center; padding:11px 0; }
+            .sidebar-footer { padding:6px 4px 10px; }
+            .main-content { margin-left:70px; }
         }
-        
-        .form-header {
-            background: linear-gradient(135deg, #1D3557, #457B9D);
-            color: white;
-            padding: 25px 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
+
+        /* ── Responsive mobile ── */
+        @media (max-width: 576px) {
+            .sidebar { transform:translateX(-100%); transition:transform .3s ease; z-index:1050; }
+            .sidebar.open { transform:translateX(0); }
+            .sidebar-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:1040; }
+            .sidebar-overlay.show { display:block; }
+            .main-content { margin-left:0 !important; }
+            .mobile-menu-btn { display:flex !important; }
+            .user-banner { padding:16px; }
+            .dash-header { padding:12px 16px; }
         }
-        
-        .form-header img {
-            width: 50px;
-            height: auto;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-        }
-        
-        .form-header-content {
-            flex: 1;
-        }
-        
-        .form-body {
-            padding: 30px;
-        }
-        
-        .form-section {
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e9ecef;
-        }
-        
-        .form-section h5 {
-            color: #1D3557;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #E63946;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .password-note {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #10B981;
-            margin-top: 20px;
-        }
-        
-        .btn-telex {
-            background: linear-gradient(135deg, #E63946, #ff6b6b);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-telex:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(230, 57, 70, 0.3);
-        }
-        
-        .btn-outline-telex {
-            border: 2px solid #1D3557;
-            color: #1D3557;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .btn-outline-telex:hover {
-            background: #1D3557;
-            color: white;
-        }
-        
-        .form-control:focus {
-            border-color: #E63946;
-            box-shadow: 0 0 0 0.2rem rgba(230, 57, 70, 0.25);
-        }
-        
-        .form-check-input:checked {
-            background-color: #E63946;
-            border-color: #E63946;
-        }
+        .mobile-menu-btn { display:none; position:fixed; top:14px; left:14px; z-index:1060; background:#1D3557; color:white; border:none; border-radius:8px; width:40px; height:40px; align-items:center; justify-content:center; cursor:pointer; box-shadow:0 2px 8px rgba(0,0,0,.25); }
     </style>
 </head>
 <body>
-    <div class="user-form-container">
-        <div class="form-header">
-            <img src="/images/Telex.png" alt="TELEX">
-            <div class="form-header-content">
-                <h3 class="mb-0">
-                    <i class="fas fa-user-edit me-2"></i>
-                    <%= userData ? 'Éditer l\'utilisateur' : 'Nouvel utilisateur' %>
-                </h3>
-                <p class="mb-0 mt-2 opacity-75">
-                    <%= userData ? userData.username : 'Création d\'un nouveau compte administrateur' %>
-                </p>
+    <div id="sidebarOverlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+    <button class="mobile-menu-btn" onclick="openSidebar()"><i class="fas fa-bars"></i></button>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sb-header">
+            <img src="/images/Telex.png" alt="Telex" class="sb-logo">
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-item"><a href="/admin/dashboard" class="nav-link"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></div>
+            <div class="nav-section-label">Contenu</div>
+            <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualit&eacute;s</span></a></div>
+            <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
+            <div class="nav-section-label">Communaut&eacute;</div>
+            <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+            <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
+            <div class="nav-section-label">M&eacute;dias</div>
+            <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
+            <div class="nav-item"><a href="/admin/album" class="nav-link"><i class="fas fa-book"></i><span>Album</span></a></div>
+        </nav>
+        <div class="sidebar-footer">
+            <div class="nav-item"><a href="/admin/settings" class="nav-link active"><i class="fas fa-cog"></i><span>Param&egrave;tres</span></a></div>
+            <div class="nav-item"><a href="/admin/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i><span>D&eacute;connexion</span></a></div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Dash Header -->
+        <div class="dash-header">
+            <div class="dash-header-left">
+                <img src="/images/Telex.png" alt="Telex" class="dash-header-logo">
+                <div>
+                    <div class="dash-header-title">
+                        <i class="fas fa-<%= userData ? 'user-edit' : 'user-plus' %> me-2" style="color:#A8DADC;font-size:.95rem;"></i>
+                        <%= userData ? '&Eacute;diter l\'utilisateur' : 'Nouvel utilisateur' %>
+                    </div>
+                    <div class="dash-header-sub"><%= userData ? 'Modifier les informations du compte' : 'Cr&eacute;er un nouveau compte administrateur' %></div>
+                </div>
+            </div>
+            <div class="dash-header-right">
+                <a href="/admin/users" class="btn-dash-back"><i class="fas fa-arrow-left"></i>Comptes &amp; Acc&egrave;s</a>
             </div>
         </div>
-        
-        <div class="form-body">
-            <% if (error_msg && error_msg.length > 0) { %>
-            <div class="alert alert-danger">
-                <i class="fas fa-exclamation-triangle me-2"></i>
-                <%= error_msg %>
+
+        <!-- User banner (edit mode only) -->
+        <% if (userData) { %>
+        <div class="user-banner">
+            <div class="user-banner-avatar"><%= userData.username.charAt(0).toUpperCase() %></div>
+            <div>
+                <div class="user-banner-name"><%= userData.username %></div>
+                <div class="user-banner-sub"><%= userData.email || 'Pas d\'email' %> &bull; Cr&eacute;&eacute; le <%= new Date(userData.created_at).toLocaleDateString('fr-FR') %></div>
             </div>
+        </div>
+        <% } %>
+
+        <div class="content-area">
+
+            <!-- Flash error -->
+            <% if (error_msg && error_msg.length > 0) { %>
+            <div class="flash-alert flash-error"><i class="fas fa-exclamation-triangle"></i><span><%= error_msg %></span></div>
             <% } %>
-            
+
             <form method="POST" action="/admin/users/save">
                 <% if (userData) { %>
                 <input type="hidden" name="id" value="<%= userData.id %>">
                 <% } %>
-                
-                <!-- Informations de base -->
-                <div class="form-section">
-                    <h5><i class="fas fa-user-circle"></i> Informations personnelles</h5>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Nom d'utilisateur *</label>
-                            <input type="text" 
-                                   class="form-control" 
-                                   name="username" 
-                                   value="<%= userData ? userData.username : '' %>"
-                                   required
-                                   <%= userData ? 'readonly' : '' %>>
-                            <small class="text-muted">Unique, ne peut pas être modifié après création</small>
+
+                <!-- CARTE 1 : Informations personnelles -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <div class="form-card-icon" style="background:linear-gradient(135deg,#3B82F6,#1D4ED8);">
+                            <i class="fas fa-user-circle" style="color:white;"></i>
                         </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Email *</label>
-                            <input type="email" 
-                                   class="form-control" 
-                                   name="email" 
-                                   value="<%= userData ? userData.email : '' %>"
-                                   required>
+                        <div>
+                            <div class="form-card-title">Informations personnelles</div>
+                            <div class="form-card-sub">Identit&eacute; et coordonn&eacute;es du compte</div>
                         </div>
                     </div>
-                    
-                    <div class="mb-3">
-                        <label class="form-label">Nom complet</label>
-                        <input type="text" 
-                               class="form-control" 
-                               name="full_name" 
-                               value="<%= userData ? userData.full_name : '' %>"
-                               placeholder="Optionnel">
-                    </div>
-                </div>
-                
-                <!-- Rôle et statut -->
-                <div class="form-section">
-                    <h5><i class="fas fa-user-tag"></i> Rôle et permissions</h5>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Rôle *</label>
-                            <select class="form-select" name="role" required>
-                                <% roles.forEach(role => { %>
-                                <option value="<%= role %>" 
-                                        <%= userData && userData.role === role ? 'selected' : '' %>>
-                                    <%= role.charAt(0).toUpperCase() + role.slice(1) %>
-                                </option>
-                                <% }) %>
-                            </select>
-                            <small class="text-muted">
-                                superadmin: Accès complet<br>
-                                admin: Administration standard<br>
-                                editor: Édition seulement<br>
-                                viewer: Consultation seulement
-                            </small>
-                        </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Statut du compte</label>
-                            <div class="form-check form-switch mt-3">
-                                <input class="form-check-input" 
-                                       type="checkbox" 
-                                       name="is_active" 
-                                       id="is_active"
-                                       <%= !userData || userData.is_active ? 'checked' : '' %>>
-                                <label class="form-check-label" for="is_active">
-                                    Compte actif
-                                </label>
+                    <div class="form-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nom d'utilisateur *</label>
+                                <input type="text" class="form-control" name="username"
+                                       value="<%= userData ? userData.username : '' %>"
+                                       required <%= userData ? 'readonly' : '' %>
+                                       placeholder="Ex: jean.dupont">
+                                <% if (userData) { %>
+                                <span class="form-text"><i class="fas fa-lock me-1"></i>Le nom d'utilisateur ne peut pas &ecirc;tre modifi&eacute;</span>
+                                <% } %>
                             </div>
-                            <small class="text-muted">Désactivez pour empêcher la connexion</small>
+                            <div class="col-md-6">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" name="email"
+                                       value="<%= userData ? userData.email : '' %>"
+                                       required placeholder="jean@telex.fr">
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label">Nom complet <span class="fw-normal text-muted">(optionnel)</span></label>
+                                <input type="text" class="form-control" name="full_name"
+                                       value="<%= userData ? (userData.full_name || '') : '' %>"
+                                       placeholder="Jean Dupont">
+                            </div>
                         </div>
                     </div>
                 </div>
-                
-                <!-- Mot de passe -->
-                <div class="form-section">
-                    <h5><i class="fas fa-key"></i> Mot de passe</h5>
-                    
-                    <% if (userData) { %>
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        Laissez les champs de mot de passe vides pour conserver le mot de passe actuel
-                    </div>
-                    <% } %>
-                    
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <% if (userData) { %>Nouveau mot de passe<% } else { %>Mot de passe *<% } %>
-                            </label>
-                            <input type="password" 
-                                   class="form-control" 
-                                   name="password" 
-                                   minlength="6"
-                                   <%= !userData ? 'required' : '' %>
-                                   placeholder="<%= userData ? 'Laisser vide pour ne pas changer' : 'Minimum 6 caractères' %>">
+
+                <!-- CARTE 2 : Rôle & Statut -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <div class="form-card-icon" style="background:linear-gradient(135deg,#8B5CF6,#7C3AED);">
+                            <i class="fas fa-user-tag" style="color:white;"></i>
                         </div>
-                        
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">
-                                <% if (userData) { %>Confirmer le nouveau mot de passe<% } else { %>Confirmer le mot de passe *<% } %>
-                            </label>
-                            <input type="password" 
-                                   class="form-control" 
-                                   name="confirm_password"
-                                   minlength="6"
-                                   <%= !userData ? 'required' : '' %>
-                                   placeholder="<%= userData ? 'Laisser vide pour ne pas changer' : 'Répétez le mot de passe' %>">
+                        <div>
+                            <div class="form-card-title">R&ocirc;le &amp; Permissions</div>
+                            <div class="form-card-sub">D&eacute;finissez le niveau d'acc&egrave;s de ce compte</div>
                         </div>
                     </div>
-                    
-                    <% if (!userData) { %>
-                    <div class="password-note">
-                        <i class="fas fa-shield-alt me-2"></i>
-                        <strong>Recommandations de sécurité :</strong>
-                        <ul class="mb-0 mt-2">
-                            <li>Minimum 6 caractères</li>
-                            <li>Utilisez des majuscules, minuscules et chiffres</li>
-                            <li>Évitez les mots de passe courants</li>
-                        </ul>
+                    <div class="form-card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">R&ocirc;le *</label>
+                                <select class="form-select" name="role" required>
+                                    <% roles.forEach(role => { %>
+                                    <option value="<%= role %>" <%= userData && userData.role === role ? 'selected' : '' %>>
+                                        <%= role.charAt(0).toUpperCase() + role.slice(1) %>
+                                    </option>
+                                    <% }) %>
+                                </select>
+                                <div class="role-info mt-3">
+                                    <div class="role-info-item">
+                                        <span class="role-dot superadmin"></span>
+                                        <div><div class="role-info-name">Superadmin</div><div class="role-info-desc">Acc&egrave;s total</div></div>
+                                    </div>
+                                    <div class="role-info-item">
+                                        <span class="role-dot admin"></span>
+                                        <div><div class="role-info-name">Admin</div><div class="role-info-desc">Administration standard</div></div>
+                                    </div>
+                                    <div class="role-info-item">
+                                        <span class="role-dot editor"></span>
+                                        <div><div class="role-info-name">Editor</div><div class="role-info-desc">&Eacute;dition seulement</div></div>
+                                    </div>
+                                    <div class="role-info-item">
+                                        <span class="role-dot viewer"></span>
+                                        <div><div class="role-info-name">Viewer</div><div class="role-info-desc">Consultation seulement</div></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Statut du compte</label>
+                                <div class="toggle-row">
+                                    <div>
+                                        <div class="toggle-label">Compte actif</div>
+                                        <div class="toggle-sub">D&eacute;sactivez pour bloquer la connexion</div>
+                                    </div>
+                                    <div class="form-check form-switch mb-0">
+                                        <input class="form-check-input" type="checkbox" name="is_active" id="is_active"
+                                               <%= !userData || userData.is_active ? 'checked' : '' %>>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <% } %>
                 </div>
-                
-                <!-- Boutons d'action -->
-                <div class="d-flex justify-content-between mt-5">
-                    <a href="/admin/users" class="btn btn-outline-telex">
-                        <i class="fas fa-arrow-left me-2"></i>Annuler
-                    </a>
-                    <button type="submit" class="btn btn-telex">
-                        <i class="fas fa-save me-2"></i>
-                        <%= userData ? 'Mettre à jour' : 'Créer l\'utilisateur' %>
-                    </button>
+
+                <!-- CARTE 3 : Mot de passe -->
+                <div class="form-card">
+                    <div class="form-card-header">
+                        <div class="form-card-icon" style="background:linear-gradient(135deg,#F59E0B,#D97706);">
+                            <i class="fas fa-key" style="color:white;"></i>
+                        </div>
+                        <div>
+                            <div class="form-card-title">Mot de passe</div>
+                            <div class="form-card-sub"><%= userData ? 'Laisser vide pour conserver le mot de passe actuel' : 'Choisissez un mot de passe s&eacute;curis&eacute;' %></div>
+                        </div>
+                    </div>
+                    <div class="form-card-body">
+                        <% if (userData) { %>
+                        <div class="pwd-note">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Laissez les champs vides si vous ne souhaitez pas modifier le mot de passe actuel.</span>
+                        </div>
+                        <% } %>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <%= userData ? 'Nouveau mot de passe' : 'Mot de passe *' %>
+                                </label>
+                                <input type="password" class="form-control" name="password"
+                                       id="password" minlength="6"
+                                       <%= !userData ? 'required' : '' %>
+                                       placeholder="<%= userData ? 'Laisser vide pour ne pas changer' : 'Minimum 6 caract&egrave;res' %>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">
+                                    <%= userData ? 'Confirmer le nouveau mot de passe' : 'Confirmer le mot de passe *' %>
+                                </label>
+                                <input type="password" class="form-control" name="confirm_password"
+                                       id="confirm_password" minlength="6"
+                                       <%= !userData ? 'required' : '' %>
+                                       placeholder="<%= userData ? 'Laisser vide pour ne pas changer' : 'R&eacute;p&eacute;tez le mot de passe' %>">
+                            </div>
+                            <% if (!userData) { %>
+                            <div class="col-12">
+                                <div class="pwd-note">
+                                    <i class="fas fa-shield-alt"></i>
+                                    <div>
+                                        <strong>Recommandations :</strong>
+                                        <ul class="mb-0 mt-1" style="padding-left:16px;">
+                                            <li>Minimum 6 caract&egrave;res</li>
+                                            <li>Majuscules, minuscules et chiffres</li>
+                                            <li>&Eacute;vitez les mots de passe courants</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Actions -->
+                <div class="form-card">
+                    <div class="form-card-body" style="padding:16px 22px;">
+                        <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                            <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Les champs marqu&eacute;s d'un * sont obligatoires.</small>
+                            <div class="d-flex gap-2">
+                                <a href="/admin/users" class="btn-cancel"><i class="fas fa-arrow-left"></i>Annuler</a>
+                                <button type="submit" class="btn-save" id="submitBtn">
+                                    <i class="fas fa-save"></i><%= userData ? 'Mettre &agrave; jour' : 'Cr&eacute;er le compte' %>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </form>
-        </div>
-    </div>
-    
+        </div><!-- /.content-area -->
+    </div><!-- /.main-content -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.querySelector('form');
-            
-            form.addEventListener('submit', function(e) {
-                const password = this.querySelector('[name="password"]');
-                const confirm = this.querySelector('[name="confirm_password"]');
-                
-                // Si un mot de passe est fourni, le valider
-                if (password.value) {
-                    if (password.value.length < 6) {
-                        e.preventDefault();
-                        alert('Le mot de passe doit contenir au moins 6 caractères');
-                        password.focus();
-                        return false;
-                    }
-                    
-                    if (password.value !== confirm.value) {
-                        e.preventDefault();
-                        alert('Les mots de passe ne correspondent pas');
-                        confirm.focus();
-                        return false;
-                    }
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const password = document.getElementById('password');
+            const confirm  = document.getElementById('confirm_password');
+
+            if (password.value) {
+                if (password.value.length < 6) {
+                    e.preventDefault();
+                    alert('Le mot de passe doit contenir au moins 6 caractères.');
+                    password.focus();
+                    return;
                 }
-                
-                // Désactiver le bouton pendant l'envoi
-                const submitBtn = this.querySelector('button[type="submit"]');
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Enregistrement...';
-                submitBtn.disabled = true;
-                
-                return true;
-            });
+                if (password.value !== confirm.value) {
+                    e.preventDefault();
+                    alert('Les mots de passe ne correspondent pas.');
+                    confirm.focus();
+                    return;
+                }
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>Enregistrement...';
+            btn.disabled = true;
         });
+
+        function openSidebar() {
+            document.querySelector('.sidebar').classList.add('open');
+            document.getElementById('sidebarOverlay').classList.add('show');
+        }
+        function closeSidebar() {
+            document.querySelector('.sidebar').classList.remove('open');
+            document.getElementById('sidebarOverlay').classList.remove('show');
+        }
     </script>
 </body>
 </html>

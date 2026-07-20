@@ -2362,19 +2362,28 @@ router.post('/baume-de-la-foi/priere/save', requireAuth, baumeUpload.single('med
             return res.redirect('/admin/baume-de-la-foi');
         }
 
-        let mediaUrl = null;
-        
+        let imageUrl = null;
+        let videoUrl = null;
+        let mediaType = null;
+
         // Gérer l'upload du média (image ou vidéo)
         if (req.file) {
             const isImage = req.file.mimetype.startsWith('image/');
             const subfolder = isImage ? 'images' : 'videos';
-            mediaUrl = `/uploads/baume/${subfolder}/${req.file.filename}`;
+            const mediaUrl = `/uploads/baume/${subfolder}/${req.file.filename}`;
+            if (isImage) {
+                imageUrl = mediaUrl;
+                mediaType = 'image';
+            } else {
+                videoUrl = mediaUrl;
+                mediaType = 'video';
+            }
         }
 
         // Insérer la prière
         await dbRun(`
-            INSERT INTO baume_prieres (title, content, category, reference_biblique, author, is_published, video_url)
-            VALUES (?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO baume_prieres (title, content, category, reference_biblique, author, is_published, image_url, video_url, media_type)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
         `, [
             title.trim(),
             content.trim(),
@@ -2382,7 +2391,9 @@ router.post('/baume-de-la-foi/priere/save', requireAuth, baumeUpload.single('med
             reference_biblique?.trim() || null,
             author?.trim() || 'Baume de la Foi',
             is_published ? 1 : 0,
-            mediaUrl
+            imageUrl,
+            videoUrl,
+            mediaType
         ]);
 
         req.flash('success', 'Prière créée avec succès');
@@ -3088,6 +3099,127 @@ router.post('/schedule/quick-add', async (req, res) => {
             success: false, 
             message: 'Erreur serveur lors de l\'ajout rapide' 
         });
+    }
+});
+
+// ============================================================
+// API STATISTIQUES RÉELLES — dashboard
+// ============================================================
+
+// GET /admin/api/top-publications?type=news|programs|baume&startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+router.get('/api/top-publications', requireAuth, async (req, res) => {
+    try {
+        const { type = 'news', startDate, endDate } = req.query;
+
+        const end   = endDate   || new Date().toISOString().split('T')[0];
+        const start = startDate || new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0];
+
+        let publications = [];
+
+        if (type === 'news') {
+            publications = await dbAll(`
+                SELECT title, views, created_at, category
+                FROM news
+                WHERE is_published = 1
+                  AND DATE(created_at) BETWEEN ? AND ?
+                ORDER BY views DESC
+                LIMIT 30
+            `, [start, end]);
+
+        } else if (type === 'programs') {
+            publications = await dbAll(`
+                SELECT title, views, created_at, program_type AS category
+                FROM programs
+                WHERE is_active = 1
+                  AND DATE(created_at) BETWEEN ? AND ?
+                ORDER BY views DESC
+                LIMIT 30
+            `, [start, end]);
+
+        } else if (type === 'baume') {
+            const prieres = await dbAll(`
+                SELECT title, views, created_at, 'Prières' AS category
+                FROM baume_prieres
+                WHERE is_published = 1
+                  AND DATE(created_at) BETWEEN ? AND ?
+            `, [start, end]);
+
+            const reflexions = await dbAll(`
+                SELECT title, views, created_at, 'Réflexions' AS category
+                FROM baume_reflexions
+                WHERE is_published = 1
+                  AND DATE(created_at) BETWEEN ? AND ?
+            `, [start, end]);
+
+            publications = [...prieres, ...reflexions]
+                .sort((a, b) => (b.views || 0) - (a.views || 0))
+                .slice(0, 30);
+        }
+
+        return res.json({
+            success: true,
+            publications,
+            message: publications.length === 0
+                ? `Aucune publication ${type} pour cette période`
+                : null
+        });
+
+    } catch (error) {
+        console.error('❌ /api/top-publications:', error);
+        res.status(500).json({ success: false, message: 'Erreur serveur' });
+    }
+});
+
+// GET /admin/api/visitors?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
+router.get('/api/visitors', requireAuth, async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+
+        const end   = endDate   || new Date().toISOString().split('T')[0];
+        const start = startDate || new Date(Date.now() - 30 * 86400000).toISOString().split('T')[0];
+
+        const rows = await dbAll(`
+            SELECT
+                DATE(visited_at)           AS day,
+                COUNT(*)                   AS visitors,
+                COUNT(DISTINCT ip_address) AS unique_visitors
+            FROM page_views
+            WHERE DATE(visited_at) BETWEEN ? AND ?
+            GROUP BY DATE(visited_at)
+            ORDER BY day ASC
+        `, [start, end]);
+
+        const dateMap = {};
+        rows.forEach(r => { dateMap[r.day] = r; });
+
+        const labels   = [];
+        const visitors = [];
+        const cur = new Date(start + 'T00:00:00');
+        const fin = new Date(end   + 'T00:00:00');
+
+        while (cur <= fin) {
+            const key   = cur.toISOString().split('T')[0];
+            const label = cur.toLocaleDateString('fr-FR', { day: '2-digit', month: 'short', year: 'numeric' });
+            labels.push(label);
+            visitors.push(dateMap[key] ? dateMap[key].visitors : 0);
+            cur.setDate(cur.getDate() + 1);
+        }
+
+        const total  = visitors.reduce((s, v) => s + v, 0);
+        const unique = rows.reduce((s, r) => s + (r.unique_visitors || 0), 0);
+
+        return res.json({
+            success: true,
+            labels,
+            visitors,
+            totalVisitors:       total,
+            avgVisitors:         visitors.length > 0 ? Math.round(total / visitors.length) : 0,
+            totalUniqueVisitors: unique
+        });
+
+    } catch (error) {
+        console.error('❌ /api/visitors:', error);
+        res.status(500).json({ success: false, message: 'Erreur serveur' });
     }
 });
 

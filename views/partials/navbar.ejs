@@ -1,6 +1,6 @@
 <% const currentPage = (typeof page !== 'undefined') ? page : '';
    const navLang = (typeof currentLang !== 'undefined') ? currentLang : 'fr'; %>
-<nav class="navbar navbar-expand-xl navbar-baume fixed-top">
+<nav class="navbar navbar-expand-xl navbar-baume fixed-top scrolled">
     <div class="container-fluid px-3">
         <a class="navbar-brand d-flex align-items-center" href="/">
             <img src="/images/Telex.png" alt="Logo Telex" class="logo-img">
@@ -13,7 +13,69 @@
         <div class="collapse navbar-collapse" id="navbarMenu">
             <ul class="navbar-nav ms-auto align-items-xl-center">
 
-                <li class="nav-item dropdown">
+                <li class="nav-item">
+                    <a class="nav-link <%= currentPage === 'home' ? 'active' : '' %>" href="/">
+                        <i class="fas fa-home"></i><span class="nav-text">ACCUEIL</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= currentPage === 'about' ? 'active' : '' %>" href="/about">
+                        <i class="fas fa-info-circle"></i><span class="nav-text">À PROPOS</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= currentPage === 'programs' ? 'active' : '' %>" href="/programs">
+                        <i class="fas fa-tv"></i><span class="nav-text">PROGRAMMES</span>
+                    </a>
+                </li>
+                <!-- Médias : dropdown desktop uniquement -->
+                <li class="nav-item dropdown d-none d-xl-block">
+                    <a class="nav-link dropdown-toggle <%= (currentPage === 'gallery' || currentPage === 'album') ? 'active' : '' %>" href="#" id="mediasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-photo-video"></i><span class="nav-text">MÉDIAS</span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="mediasDropdown">
+                        <li>
+                            <a class="dropdown-item <%= currentPage === 'gallery' ? 'active' : '' %>" href="/gallery">
+                                <i class="fas fa-images me-2"></i>Galerie
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item <%= currentPage === 'album' ? 'active' : '' %>" href="/album">
+                                <i class="fas fa-book me-2"></i>Album
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <!-- Médias : liens directs mobile -->
+                <li class="nav-item d-xl-none">
+                    <a class="nav-link <%= currentPage === 'gallery' ? 'active' : '' %>" href="/gallery">
+                        <i class="fas fa-images"></i><span class="nav-text">GALERIE</span>
+                    </a>
+                </li>
+                <li class="nav-item d-xl-none">
+                    <a class="nav-link <%= currentPage === 'album' ? 'active' : '' %>" href="/album">
+                        <i class="fas fa-book"></i><span class="nav-text">ALBUM</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= currentPage === 'baume-de-la-foi' ? 'active' : '' %>" href="/baume-de-la-foi">
+                        <i class="fas fa-cross"></i><span class="nav-text">BAUME DE LA FOI</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= currentPage === 'news' ? 'active' : '' %>" href="/news">
+                        <i class="fas fa-newspaper"></i><span class="nav-text">ACTUALITES</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <%= currentPage === 'contact' ? 'active' : '' %>" href="/contact">
+                        <i class="fas fa-envelope"></i><span class="nav-text">CONTACT</span>
+                    </a>
+                </li>
+
+                <% if (currentPage === 'home') { %>
+                <!-- Langue : dropdown desktop uniquement -->
+                <li class="nav-item dropdown d-none d-xl-block">
                     <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-globe"></i>
                         <span class="ms-1"><%= navLang === 'en' ? 'EN' : 'FR' %></span>
@@ -31,49 +93,36 @@
                         </li>
                     </ul>
                 </li>
-
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'home' ? 'active' : '' %>" href="/">
-                        <i class="fas fa-home"></i>ACCUEIL
+                <!-- Langue : liens directs mobile (en bas du menu) -->
+                <li class="nav-item d-xl-none nav-lang-separator">
+                    <a class="nav-link nav-lang-link <%= navLang === 'fr' ? 'active' : '' %>" href="?lang=fr">
+                        <i class="fas fa-flag"></i><span class="nav-text">FRANÇAIS</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'about' ? 'active' : '' %>" href="/about">
-                        <i class="fas fa-info-circle"></i>A PROPOS
+                <li class="nav-item d-xl-none">
+                    <a class="nav-link nav-lang-link <%= navLang === 'en' ? 'active' : '' %>" href="?lang=en">
+                        <i class="fas fa-flag-usa"></i><span class="nav-text">ENGLISH</span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'programs' ? 'active' : '' %>" href="/programs">
-                        <i class="fas fa-tv"></i>PROGRAMMES
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'gallery' ? 'active' : '' %>" href="/gallery">
-                        <i class="fas fa-images"></i>GALERIE
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'album' ? 'active' : '' %>" href="/album">
-                        <i class="fas fa-book"></i>ALBUM
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'baume-de-la-foi' ? 'active' : '' %>" href="/baume-de-la-foi">
-                        <i class="fas fa-cross"></i>BAUME
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'news' ? 'active' : '' %>" href="/news">
-                        <i class="fas fa-newspaper"></i>ACTUALITES
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link <%= currentPage === 'contact' ? 'active' : '' %>" href="/contact">
-                        <i class="fas fa-envelope"></i>CONTACT
-                    </a>
-                </li>
+                <% } %>
 
             </ul>
         </div>
     </div>
 </nav>
+<script>
+(function() {
+    var nav = document.querySelector('.navbar-baume');
+    if (!nav) return;
+    var hasHero = !!document.querySelector('.hero-section');
+    function onScroll() {
+        if (!hasHero || window.scrollY > 40) {
+            nav.classList.add('scrolled');
+        } else {
+            nav.classList.remove('scrolled');
+        }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    if (hasHero) onScroll();
+})();
+</script>
