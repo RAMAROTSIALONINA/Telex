@@ -380,7 +380,7 @@
                             <div class="mb-4">
                                 <label for="title" class="form-label">
                                     Titre de l'actualité *
-                                    <span class="badge bg-secondary ms-2" id="titleCount">0/150</span>
+                                    <span class="badge bg-secondary ms-2" id="titleCount">0/300</span>
                                 </label>
                                 <input type="text" 
                                        class="form-control form-control-lg" 
@@ -388,7 +388,7 @@
                                        name="title" 
                                        value="<%= news ? news.title : '' %>"
                                        placeholder="Titre accrocheur..."
-                                       maxlength="150"
+                                       maxlength="300"
                                        required>
                                 <div class="form-text d-flex justify-content-between">
                                     <span>Un titre clair et informatif pour le SEO</span>
@@ -400,13 +400,13 @@
                             <div class="mb-4">
                                 <label for="excerpt" class="form-label">
                                     Extrait / Description courte *
-                                    <span class="badge bg-secondary ms-2" id="excerptCount">0/300</span>
+                                    <span class="badge bg-secondary ms-2" id="excerptCount">0/500</span>
                                 </label>
                                 <textarea class="form-control" 
                                           id="excerpt" 
                                           name="excerpt" 
                                           rows="3"
-                                          maxlength="300"
+                                          maxlength="500"
                                           placeholder="Résumé en 1-2 phrases..."
                                           required><%= news ? news.excerpt : '' %></textarea>
                                 <div class="form-text d-flex justify-content-between">
@@ -749,13 +749,13 @@
         
         // Initialiser les compteurs
         if (titleInput) {
-            titleInput.addEventListener('input', () => updateCharacterCount(titleInput, titleCount, 150, titleStatus));
-            updateCharacterCount(titleInput, titleCount, 150, titleStatus);
+            titleInput.addEventListener('input', () => updateCharacterCount(titleInput, titleCount, 300, titleStatus));
+            updateCharacterCount(titleInput, titleCount, 300, titleStatus);
         }
         
         if (excerptInput) {
-            excerptInput.addEventListener('input', () => updateCharacterCount(excerptInput, excerptCount, 300, excerptStatus));
-            updateCharacterCount(excerptInput, excerptCount, 300, excerptStatus);
+            excerptInput.addEventListener('input', () => updateCharacterCount(excerptInput, excerptCount, 500, excerptStatus));
+            updateCharacterCount(excerptInput, excerptCount, 500, excerptStatus);
         }
         
         // ========== GESTION DE L'UPLOAD D'IMAGE ==========
@@ -1079,16 +1079,16 @@
             }
             
             // Validation de la longueur
-            if (title.length > 150) {
+            if (title.length > 300) {
                 e.preventDefault();
                 console.log('🔍 DEBUG: Validation échouée - titre trop long');
-                showNotification('❌ Le titre ne doit pas dépasser 150 caractères.', 'danger');
+                showNotification('❌ Le titre ne doit pas dépasser 300 caractères.', 'danger');
                 return false;
             }
             
-            if (excerpt.length > 300) {
+            if (excerpt.length > 500) {
                 e.preventDefault();
-                showNotification('❌ L\'extrait ne doit pas dépasser 300 caractères.', 'danger');
+                showNotification('❌ L\'extrait ne doit pas dépasser 500 caractères.', 'danger');
                 return false;
             }
             
