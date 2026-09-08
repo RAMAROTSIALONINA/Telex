@@ -568,10 +568,19 @@
             <h2 class="section-title reveal" data-translate="home.featured_programs">Nos Programmes Phares</h2>
             <p class="section-subtitle reveal" data-delay="100" data-translate="home.programs_subtitle">Explorez nos émissions, conçues par les étudiants et destinées aux étudiants</p>
 
-            <div class="row g-3">
-                <% if (programs && programs.length > 0) { %>
-                    <% programs.slice(0, 8).forEach((program, index) => { %>
-                    <div class="col-lg-3 col-md-6 col-sm-6 reveal" data-delay="<%= index * 60 %>">
+            <%
+                const progList = (programs || []).slice(0, 8);
+                const progCount = progList.length;
+                const progColClass = progCount === 1 ? 'col-lg-6 col-md-8 col-sm-10'
+                                   : progCount === 2 ? 'col-lg-5 col-md-6 col-sm-6'
+                                   : progCount === 3 ? 'col-lg-4 col-md-6 col-sm-6'
+                                   : 'col-lg-3 col-md-6 col-sm-6';
+                const rowJustify = progCount < 4 ? 'justify-content-center' : '';
+            %>
+            <div class="row g-3 <%= rowJustify %>">
+                <% if (progCount > 0) { %>
+                    <% progList.forEach((program, index) => { %>
+                    <div class="<%= progColClass %> reveal" data-delay="<%= index * 60 %>">
                         <div class="news-home-card">
                             <div class="news-home-img">
                                 <% if (program.image_url) { %>
@@ -601,6 +610,7 @@
                     <% }); %>
                 <% } else { %>
                     <!-- Programmes par défaut si aucun programme en base de données -->
+                    <%# (progCount === 0) %>
                     <div class="col-lg-2-4">
                         <div class="program-card">
                             <div class="program-image">
