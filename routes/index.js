@@ -60,7 +60,7 @@ router.get('/', async (req, res) => {
         
         // Récupérer les programmes
         const programs = await dbAll(
-            'SELECT id, title, description, program_type FROM programs WHERE is_active = 1 ORDER BY created_at DESC LIMIT 5'
+            'SELECT id, title, description, program_type, image_url, video_url FROM programs WHERE is_active = 1 ORDER BY created_at DESC LIMIT 8'
         );
         
         // Récupérer les 2 dernières prières publiées
