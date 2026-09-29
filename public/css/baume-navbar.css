@@ -675,83 +675,138 @@ body {
     flex-shrink: 0;
 }
 
-/* ===== FORMULAIRE TÉMOIGNAGE ===== */
-.form-temoignage {
-    background: white;
+/* ===== FORMULAIRE « VOTRE POINT DE VUE » ===== */
+.pdv-form-card {
+    display: grid;
+    grid-template-columns: minmax(250px, 0.85fr) 2fr;
+    max-width: 1080px;
+    margin: 0 auto;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #E3EAE6;
     border-radius: 16px;
-    padding: 2.5rem;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 2px rgba(29, 53, 87, 0.04), 0 10px 30px rgba(29, 53, 87, 0.06);
+    text-align: left;
 }
-
-.form-temoignage h2 {
-    color: var(--baume-accent);
+.pdv-form-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 2rem 1.75rem;
+    background: #F3F7F5;
+    border-right: 1px solid #E3EAE6;
+}
+.pdv-form-aside-title,
+.pdv-form-title {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.1rem;
     font-weight: 700;
-    margin-bottom: 1.5rem;
-    text-align: center;
+    color: #1D3557;
 }
-
-.form-temoignage .form-label {
-    font-weight: 700;
-    color: var(--baume-primary);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-}
-
-.form-temoignage .form-control {
-    border-radius: 10px;
-    border: 1.5px solid rgba(46, 92, 78, 0.25);
-    padding: 0.75rem 1rem;
-    color: #333;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.form-temoignage .form-control::placeholder {
-    color: #aaa;
-}
-
-.form-temoignage .form-control:focus {
-    border-color: var(--baume-accent);
-    box-shadow: 0 0 0 3px rgba(58, 175, 169, 0.2);
-    outline: none;
-}
-
-.form-temoignage .text-muted,
-.form-temoignage small.text-muted {
-    color: #888 !important;
-    font-size: 0.8rem;
-}
-
-.form-temoignage .form-check-label {
-    color: #555;
-    font-size: 0.9rem;
-}
-
-.btn-submit {
+.pdv-steps { display: flex; flex-direction: column; gap: 1rem; margin: 0; padding: 0; list-style: none; }
+.pdv-steps li { display: flex; align-items: flex-start; gap: 0.75rem; }
+.pdv-step-num {
+    flex-shrink: 0;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--baume-primary, #2E5C4E);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+.pdv-steps strong { display: block; font-size: 0.9rem; color: #1D3557; }
+.pdv-steps p { margin: 0.15rem 0 0; font-size: 0.83rem; line-height: 1.5; color: #5B6B64; }
+.pdv-form-rule {
+    display: flex;
+    align-items: flex-start;
     gap: 0.5rem;
-    margin-top: 1.5rem;
-    padding: 0.85rem 2.5rem;
-    background: var(--baume-gradient);
-    color: white;
+    margin: auto 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid #E0E8E4;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: #5B6B64;
+}
+.pdv-form-rule i { margin-top: 0.2rem; color: var(--baume-primary, #2E5C4E); }
+
+.pdv-form { display: flex; flex-direction: column; gap: 1.1rem; padding: 2rem 2.25rem; }
+.pdv-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.pdv-field { display: flex; flex-direction: column; gap: 0.35rem; }
+.pdv-field label,
+.pdv-label-row label { margin: 0; font-size: 0.86rem; font-weight: 600; color: #1D3557; }
+.pdv-field small { font-size: 0.76rem; color: #7A8882; }
+.pdv-optional { margin-left: 0.35rem; font-size: 0.74rem; font-weight: 500; color: #7A8882; }
+.pdv-label-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.75rem; }
+.pdv-counter { font-size: 0.76rem; color: #7A8882; font-variant-numeric: tabular-nums; }
+.pdv-counter #temoignageCharCount { font-weight: 700; }
+.pdv-form .pdv-input { padding: 0.7rem 0.9rem; font-size: 0.95rem; }
+.pdv-input.is-invalid { border-color: #DC2626; }
+.pdv-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.6rem;
+    margin: 0;
+    font-size: 0.86rem;
+    line-height: 1.5;
+    color: #4B5B54;
+    cursor: pointer;
+}
+.pdv-consent input {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    margin-top: 0.15rem;
+    accent-color: var(--baume-primary, #2E5C4E);
+    cursor: pointer;
+}
+.pdv-form-footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid #EDF1EF;
+}
+.pdv-form-footer small { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.78rem; color: #7A8882; }
+.pdv-form-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.8rem 1.6rem;
     border: none;
     border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
+    background: var(--baume-primary, #2E5C4E);
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: opacity 0.3s ease, transform 0.2s ease;
+    transition: background 0.2s, transform 0.2s;
 }
+.pdv-form-submit:hover { background: #244A3E; transform: translateY(-1px); }
+.pdv-form-submit:focus-visible { outline: 3px solid var(--baume-accent, #3AAFA9); outline-offset: 2px; }
+.pdv-form-submit:disabled { opacity: 0.6; cursor: wait; transform: none; }
+.pdv-form-msg { margin: 0; padding: 0.7rem 0.9rem; border-radius: 10px; font-size: 0.88rem; }
+.pdv-form-msg.ok { background: #ECFDF3; color: #166534; }
+.pdv-form-msg.error { background: #FEF2F2; color: #B91C1C; }
 
-.btn-submit:hover {
-    opacity: 0.9;
-    transform: translateY(-2px);
+@media (max-width: 991px) {
+    .pdv-form-card { grid-template-columns: 1fr; }
+    .pdv-form-aside { order: 2; border-right: none; border-top: 1px solid #E3EAE6; }
 }
-
-.btn-submit:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-    transform: none;
+@media (max-width: 575px) {
+    .pdv-form { padding: 1.5rem 1.1rem; }
+    .pdv-form-aside { padding: 1.5rem 1.1rem; }
+    .pdv-form-grid { grid-template-columns: 1fr; }
+    .pdv-form-submit { width: 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .pdv-form-submit { transition: none; }
 }
 
 /* ===== CARTES DES POINTS DE VUE ===== */
@@ -1712,11 +1767,6 @@ body {
         width: 100%;
     }
 
-    /* Form témoignage */
-    .form-temoignage {
-        padding: 1.5rem 1rem;
-    }
-
     /* Reflexion carousel wrapper */
     .reflexions-carousel-container .carousel-wrapper {
         padding: 15px !important;
@@ -1789,11 +1839,6 @@ body {
     #quizContent,
     #quizResults {
         padding: 0 0.5rem;
-    }
-
-    /* Bouton submit form */
-    .btn-submit {
-        width: 100%;
     }
 
     /* Empêcher le débordement horizontal */

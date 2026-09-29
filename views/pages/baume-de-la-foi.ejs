@@ -384,65 +384,68 @@
                 </div>
             </div>
 
-            <div class="row">
-                <!-- Formulaire de témoignage -->
-                <div class="col-lg-12">
-                    <div class="form-temoignage" id="temoignage-form">
-                        <h2>Envoyez-nous un message</h2>
-                        
-                        <!-- Message de succès/erreur -->
-                        <div id="temoignageMessageAlert" class="alert" style="display: none;"></div>
-                        
-                        <form action="/reflexion/point-de-vue" method="POST">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label for="nom" class="form-label">Votre nom ou pseudonyme</label>
-                                    <input type="text" class="form-control" id="nom" name="nom" required 
-                                           placeholder="Ex: Marie">
-                                    <small class="text-muted">Ce nom sera affiché publiquement avec votre point de vue</small>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label for="email" class="form-label">Votre email</label>
-                                    <input type="email" class="form-control" id="email" name="email" required 
-                                           placeholder="Ex: marie@example.com">
-                                    <small class="text-muted">Votre email ne sera pas publié et servira uniquement à vous contacter si nécessaire</small>
-                                </div>
-                            </div>
+            <div class="pdv-form-card" id="temoignage-form">
+                <aside class="pdv-form-aside">
+                    <h3 class="pdv-form-aside-title">Comment ça marche</h3>
+                    <ol class="pdv-steps">
+                        <li>
+                            <span class="pdv-step-num">1</span>
+                            <div><strong>Vous écrivez</strong><p>Votre avis, votre expérience ou une idée, sur le sujet de votre choix.</p></div>
+                        </li>
+                        <li>
+                            <span class="pdv-step-num">2</span>
+                            <div><strong>Notre équipe relit</strong><p>Nous vérifions que le texte respecte chacun avant de le publier.</p></div>
+                        </li>
+                        <li>
+                            <span class="pdv-step-num">3</span>
+                            <div><strong>La communauté réagit</strong><p>Votre point de vue apparaît sur la page et chacun peut le commenter.</p></div>
+                        </li>
+                    </ol>
+                    <p class="pdv-form-rule"><i class="fas fa-shield-alt"></i> Les propos injurieux, discriminatoires ou publicitaires ne sont pas publiés.</p>
+                </aside>
 
-                            <div class="mb-3">
-                                <label for="ville" class="form-label">Votre ville (optionnel)</label>
-                                <input type="text" class="form-control" id="ville" name="ville" 
-                                       placeholder="Ex : Antananarivo">
-                                <small class="text-muted">Indiquer votre ville permet de mieux connaître l'avis de chaque région</small>
-                            </div>
+                <form class="pdv-form" action="/reflexion/point-de-vue" method="POST" novalidate>
+                    <h3 class="pdv-form-title">Rédiger votre point de vue</h3>
+                    <div id="temoignageMessageAlert" class="pdv-form-msg" role="status" hidden></div>
 
-                            <div class="mb-3">
-                                <label for="temoignage" class="form-label">Votre point de vue</label>
-                                <textarea class="form-control" id="temoignage" name="temoignage" rows="6" required 
-                                          placeholder="Donnez votre avis, racontez votre expérience, proposez une idée..."></textarea>
-                                <div class="form-text">
-                                    <span id="temoignageCharCount">0</span> caractères (minimum 10 caractères)
-                                </div>
-                                <small class="text-muted">Restez respectueux : les propos injurieux ou discriminatoires ne seront pas publiés</small>
-                            </div>
-
-                            <div class="mb-4 form-check">
-                                <input type="checkbox" class="form-check-input" id="consentement" name="consentement" required>
-                                <label class="form-check-label" for="consentement">
-                                    J'accepte que mon point de vue soit publié sur le site et je comprends qu'il sera visible par tous les visiteurs
-                                </label>
-                            </div>
-                            <small class="form-text text-muted">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Votre point de vue sera relu par notre équipe avant publication
-                            </small>
-
-                            <button type="submit" class="btn-submit" id="temoignageSubmitBtn">
-                                <i class="fas fa-paper-plane me-2"></i>Envoyer ici
-                            </button>
-                        </form>
+                    <div class="pdv-form-grid">
+                        <div class="pdv-field">
+                            <label for="nom">Nom ou pseudonyme</label>
+                            <input type="text" class="pdv-input" id="nom" name="nom" maxlength="60" required placeholder="Ex : Hery">
+                            <small>Affiché avec votre point de vue.</small>
+                        </div>
+                        <div class="pdv-field">
+                            <label for="email">Adresse e-mail</label>
+                            <input type="email" class="pdv-input" id="email" name="email" required placeholder="Ex : hery@exemple.com">
+                            <small>Jamais publiée, sert uniquement à vous contacter si besoin.</small>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="pdv-field">
+                        <label for="ville">Ville <span class="pdv-optional">facultatif</span></label>
+                        <input type="text" class="pdv-input" id="ville" name="ville" maxlength="60" placeholder="Ex : Antananarivo">
+                    </div>
+
+                    <div class="pdv-field">
+                        <div class="pdv-label-row">
+                            <label for="temoignage">Votre point de vue</label>
+                            <span class="pdv-counter"><span id="temoignageCharCount">0</span> · minimum 10 caractères</span>
+                        </div>
+                        <textarea class="pdv-input" id="temoignage" name="temoignage" rows="6" required placeholder="Donnez votre avis, racontez votre expérience, proposez une idée…"></textarea>
+                    </div>
+
+                    <label class="pdv-consent" for="consentement">
+                        <input type="checkbox" id="consentement" name="consentement" required>
+                        <span>J'accepte que mon point de vue soit publié sur le site et visible par tous, après relecture par l'équipe Telex.</span>
+                    </label>
+
+                    <div class="pdv-form-footer">
+                        <small><i class="fas fa-lock"></i> Votre adresse e-mail reste privée.</small>
+                        <button type="submit" class="pdv-form-submit" id="temoignageSubmitBtn">
+                            <i class="fas fa-paper-plane"></i> Publier mon point de vue
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </section>
@@ -999,13 +1002,8 @@
                     const length = this.value.length;
                     charCount.textContent = length;
                     
-                    if (length < 10) {
-                        charCount.style.color = '#dc3545';
-                    } else if (length > 500) {
-                        charCount.style.color = 'var(--baume-primary)';
-                    } else {
-                        charCount.style.color = '#28a745';
-                    }
+                    charCount.style.color = length < 10 ? '#B91C1C' : '#2E5C4E';
+                    this.classList.remove('is-invalid');
                 });
                 
                 temoignageForm.addEventListener('submit', async function(e) {
@@ -1051,8 +1049,9 @@
                             showAlert(result.message, 'success');
                             this.reset();
                             charCount.textContent = '0';
+                            charCount.style.color = '';
                         } else {
-                            showAlert(result.message || 'Erreur lors de l\'envoi de votre point de vue.', 'danger');
+                            showAlert(result.error || result.message || 'Erreur lors de l\'envoi de votre point de vue.', 'danger');
                         }
                         
                     } catch (error) {
@@ -1066,24 +1065,15 @@
                     }
                 });
                 
+                let alertTimer;
                 function showAlert(message, type) {
+                    clearTimeout(alertTimer);
                     messageAlert.textContent = message;
-                    messageAlert.className = `alert alert-${type} alert-dismissible fade show`;
-                    messageAlert.style.display = 'block';
-                    
-                    // Ajouter le bouton de fermeture
-                    messageAlert.innerHTML = `
-                        ${message}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    `;
-                    
-                    // Masquer automatiquement après 8 secondes
+                    messageAlert.className = 'pdv-form-msg ' + (type === 'success' ? 'ok' : 'error');
+                    messageAlert.hidden = false;
+                    messageAlert.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
                     if (type === 'success') {
-                        setTimeout(() => {
-                            if (messageAlert.style.display !== 'none') {
-                                messageAlert.style.display = 'none';
-                            }
-                        }, 8000);
+                        alertTimer = setTimeout(() => { messageAlert.hidden = true; }, 8000);
                     }
                 }
             }
