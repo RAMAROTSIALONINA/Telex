@@ -1566,8 +1566,63 @@ body {
 }
 .quiz-result-stars { margin-bottom: 0.5rem; }
 
+/* Sondage Opinion Publique */
+.poll-option { position: relative; overflow: hidden; }
+.poll-option > span:not(.poll-bar) { position: relative; z-index: 1; }
+.poll-bar {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 0;
+    background: rgba(58, 175, 169, 0.13);
+    transition: width 0.6s ease;
+    z-index: 0;
+}
+.quiz-options.voted .quiz-option { cursor: default; color: #333; }
+.poll-option.mine { border-color: var(--baume-accent); }
+.poll-option.mine .poll-bar { background: rgba(58, 175, 169, 0.28); }
+.poll-option.mine .quiz-option-text { font-weight: 700; }
+.poll-mine {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--baume-primary);
+    white-space: nowrap;
+}
+.poll-pct {
+    min-width: 3.4em;
+    text-align: right;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--baume-primary);
+}
+.poll-hint {
+    text-align: center;
+    color: #6b7280;
+    font-size: 0.88rem;
+    margin: -0.5rem 0 1.25rem;
+}
+.poll-error {
+    background: #fef2f2;
+    color: #b91c1c;
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+.poll-disclaimer {
+    margin: 1.5rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid #f0f0f0;
+    font-size: 0.78rem;
+    color: #6b7280;
+    line-height: 1.5;
+    text-align: center;
+}
+.quiz-result-icon i { color: var(--baume-accent); }
+
 /* Responsive quiz */
 @media (max-width: 575px) {
+    .poll-mine { display: none; }
     .quiz-card { padding: 1.25rem 1rem 1.5rem; border-radius: 14px; }
     .quiz-question-text { font-size: 1.05rem; }
     .quiz-option { padding: 0.75rem 0.85rem; font-size: 0.92rem; }

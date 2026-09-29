@@ -34,6 +34,7 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
             updateCookieConsentsTable(); // Ajouter la colonne consent_given
             initializeAboutData(); // Initialiser les données de la page about
             createPageViewsTable(); // Tracking réel des visites
+            createOpinionVotesTable();
         }, 2000);
     }
 });
@@ -879,6 +880,24 @@ function createPageViewsTable() {
             db.run(`CREATE INDEX IF NOT EXISTS idx_page_views_date ON page_views(DATE(visited_at))`);
             db.run(`CREATE INDEX IF NOT EXISTS idx_page_views_ip   ON page_views(ip_address)`);
             console.log('✅ Table page_views prête');
+        }
+    });
+}
+
+// Votes du sondage "Opinion Publique" : un vote par question et par visiteur
+function createOpinionVotesTable() {
+    db.run(`CREATE TABLE IF NOT EXISTS opinion_votes (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        question_id TEXT NOT NULL,
+        option_index INTEGER NOT NULL,
+        voter_hash TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(question_id, voter_hash)
+    )`, (err) => {
+        if (err) {
+            console.error('❌ Erreur création opinion_votes:', err.message);
+        } else {
+            console.log('✅ Table opinion_votes prête');
         }
     });
 }

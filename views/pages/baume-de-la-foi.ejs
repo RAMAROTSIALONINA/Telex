@@ -208,7 +208,9 @@
                 </div>
             </div>
 
-    <!-- ===== QUIZ BIBLIQUE QUOTIDIEN ===== -->
+    <!-- ===== OPINION PUBLIQUE ===== -->
+    <% const pollQs = (typeof opinionQuestions !== 'undefined' && opinionQuestions) ? opinionQuestions : []; %>
+    <% if (pollQs.length) { %>
     <section id="quiz-section" style="background: #f0f4f8; padding: 3rem 0;">
         <div class="container">
 
@@ -216,9 +218,9 @@
             <div class="baume-section-header">
                 <div class="baume-section-title-wrap">
                     <div class="baume-section-accent"></div>
-                    <span class="baume-section-label"><i class="fas fa-bible me-1"></i> Connaissance</span>
+                    <span class="baume-section-label"><i class="fas fa-bullhorn me-1"></i> Votre avis</span>
                     <h2 class="baume-section-title">Opinion Publique</h2>
-                    <span class="baume-section-subtitle">Testez votre connaissance de la Parole de Dieu</span>
+                    <span class="baume-section-subtitle">Donnez votre avis et découvrez ce que pensent les autres participants</span>
                 </div>
             </div>
 
@@ -228,106 +230,77 @@
                      style="width: 100%; height: 200px; object-fit: cover; display: block;">
             </div>
 
-            <!-- Carte quiz -->
+            <!-- Carte sondage -->
             <div class="quiz-card">
 
-                <!-- Quiz Header -->
                 <div class="quiz-top-bar">
                     <div class="quiz-question-badge">
-                        <i class="fas fa-question-circle"></i>
-                        Question <span id="currentQuestion">1</span> / 5
+                        <i class="fas fa-poll"></i>
+                        Question <span id="currentQuestion">1</span> / <%= pollQs.length %>
                     </div>
                     <div class="quiz-score-badge">
-                        <i class="fas fa-star"></i>
-                        Score : <span id="quizScore">0</span>
+                        <i class="fas fa-users"></i>
+                        <span id="pollParticipants">0 participant</span>
                     </div>
                 </div>
 
-                <!-- Barre de progression + pastilles -->
                 <div class="quiz-progress-wrap">
                     <div class="quiz-steps">
-                        <span class="quiz-step active" id="step-0"></span>
-                        <span class="quiz-step" id="step-1"></span>
-                        <span class="quiz-step" id="step-2"></span>
-                        <span class="quiz-step" id="step-3"></span>
-                        <span class="quiz-step" id="step-4"></span>
+                        <% pollQs.forEach(function(q, i) { %>
+                        <span class="quiz-step<%= i === 0 ? ' active' : '' %>"></span>
+                        <% }); %>
                     </div>
                     <div class="quiz-progress-bar">
-                        <div id="quizProgress" class="quiz-progress-fill" style="width: 20%;"></div>
+                        <div id="quizProgress" class="quiz-progress-fill" style="width: <%= 100 / pollQs.length %>%;"></div>
                     </div>
                 </div>
 
-                <!-- Contenu quiz -->
                 <div id="quizContent">
                     <div class="quiz-question-wrap">
                         <h3 class="quiz-question-text" id="questionText"></h3>
                     </div>
 
-                    <!-- Options -->
-                    <div class="quiz-options" id="quizOptions">
-                        <button class="quiz-option" onclick="selectAnswer(0)">
-                            <span class="quiz-option-letter">A</span>
-                            <span class="quiz-option-text"></span>
-                            <i class="quiz-option-icon fas fa-check"></i>
-                        </button>
-                        <button class="quiz-option" onclick="selectAnswer(1)">
-                            <span class="quiz-option-letter">B</span>
-                            <span class="quiz-option-text"></span>
-                            <i class="quiz-option-icon fas fa-check"></i>
-                        </button>
-                        <button class="quiz-option" onclick="selectAnswer(2)">
-                            <span class="quiz-option-letter">C</span>
-                            <span class="quiz-option-text"></span>
-                            <i class="quiz-option-icon fas fa-check"></i>
-                        </button>
-                        <button class="quiz-option" onclick="selectAnswer(3)">
-                            <span class="quiz-option-letter">D</span>
-                            <span class="quiz-option-text"></span>
-                            <i class="quiz-option-icon fas fa-check"></i>
-                        </button>
-                    </div>
+                    <div class="quiz-options" id="quizOptions"></div>
+                    <p class="poll-hint" id="pollHint">Choisissez la réponse qui correspond le mieux à votre avis.</p>
+                    <div class="poll-error" id="pollError" role="alert" hidden></div>
 
-                    <!-- Feedback biblique -->
-                    <div id="verseExplanation" class="quiz-verse-box" style="display:none;">
-                        <div class="quiz-verse-result" id="quizVerseResult"></div>
-                        <div class="quiz-verse-content">
-                            <i class="fas fa-quote-left quiz-verse-icon"></i>
-                            <p class="quiz-verse-text" id="quizVerseText"></p>
-                            <span class="quiz-verse-ref" id="quizVerseRef"></span>
-                        </div>
-                    </div>
-
-                    <!-- Navigation -->
                     <div class="quiz-navigation">
                         <button id="prevBtn" class="quiz-btn-secondary" onclick="previousQuestion()" disabled>
                             <i class="fas fa-arrow-left"></i> Précédent
                         </button>
                         <button id="nextBtn" class="quiz-btn-primary" onclick="nextQuestion()">
-                            Suivant <i class="fas fa-arrow-right"></i>
+                            Passer <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
                 </div>
 
-                <!-- Résultats -->
                 <div id="quizResults" style="display:none;">
                     <div class="quiz-results-wrap">
-                        <div id="quizResultIcon" class="quiz-result-icon">🏆</div>
-                        <h3 class="quiz-result-title">Quiz Terminé !</h3>
-                        <div class="quiz-result-score-ring">
-                            <span id="finalScore">0</span>
-                            <small>/5</small>
-                        </div>
-                        <p id="resultsMessage" class="quiz-result-message"></p>
-                        <div class="quiz-result-stars" id="quizResultStars"></div>
-                        <button class="quiz-btn-primary mt-3" onclick="restartQuiz()">
-                            <i class="fas fa-redo me-2"></i> Recommencer
+                        <div class="quiz-result-icon"><i class="fas fa-check-circle"></i></div>
+                        <h3 class="quiz-result-title">Merci pour votre participation !</h3>
+                        <p class="quiz-result-message">
+                            Vos réponses sont enregistrées de façon anonyme.<br>
+                            De nouvelles questions sont publiées chaque semaine.
+                        </p>
+                        <button class="quiz-btn-primary mt-2" onclick="reviewPoll()">
+                            <i class="fas fa-chart-bar me-2"></i> Revoir les résultats
                         </button>
                     </div>
                 </div>
+
+                <p class="poll-disclaimer">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Sondage en ligne ouvert à tous : les résultats reflètent l'avis des participants et ne sont pas
+                    représentatifs de l'ensemble de la population. Un seul vote par question.
+                </p>
 
             </div><!-- /.quiz-card -->
         </div>
     </section>
+    <script>
+        const opinionQuestions = <%- JSON.stringify(pollQs).replace(/</g, '\\u003c') %>;
+    </script>
+    <% } %>
 
     <!-- ===== RÉFLEXIONS PUBLIÉES ===== -->
 <section id="reflexions" style="background: #f8f9fa; padding: 3rem 0;">
@@ -1967,384 +1940,134 @@
             });
         });
         
-        // ===== QUIZ BIBLIQUE QUOTIDIEN =====
-        const allQuizQuestions = [
-            // Semaine 1 - Questions 1-5
-            {
-                question: "Qui a été le premier roi d'Israël ?",
-                options: ["Saül", "David", "Salomon", "Samuel"],
-                correctAnswer: 0,
-                verse: "Samuel oignit Saül comme roi sur Israël, et l'Esprit de Dieu se saisit de Saül.",
-                reference: "1 Samuel 10:1"
-            },
-            {
-                question: "Combien de jours Dieu a-t-il mis pour créer le monde ?",
-                options: ["3 jours", "6 jours", "7 jours", "1 jour"],
-                correctAnswer: 1,
-                verse: "Ainsi le ciel et la terre furent achevés avec toute leur armée. Dieu acheva au septième jour son œuvre qu'il avait faite.",
-                reference: "Genèse 2:1-2"
-            },
-            {
-                question: "Qui a été jeté dans la fosse aux lions ?",
-                options: ["Daniel", "David", "Josué", "Moïse"],
-                correctAnswer: 0,
-                verse: "Le roi donna l'ordre et on amena Daniel, on le jeta dans la fosse aux lions.",
-                reference: "Daniel 6:16"
-            },
-            {
-                question: "Quel est le fruit de l'Esprit mentionné dans Galates 5:22 ?",
-                options: ["Joie", "Amour", "Paix", "Toutes ces réponses"],
-                correctAnswer: 3,
-                verse: "Mais le fruit de l'Esprit, c'est l'amour, la joie, la paix, la patience, la bonté, la fidélité, la douceur, la maîtrise de soi.",
-                reference: "Galates 5:22-23"
-            },
-            {
-                question: "Qui a marché sur l'eau ?",
-                options: ["Paul", "Pierre", "Jean", "Jacques"],
-                correctAnswer: 1,
-                verse: "Pierre descendit de la barque et marcha sur les eaux pour aller vers Jésus.",
-                reference: "Matthieu 14:29"
-            },
-            // Semaine 2 - Questions 6-10
-            {
-                question: "Quel est le premier livre de la Bible ?",
-                options: ["Exode", "Genèse", "Lévitique", "Nombres"],
-                correctAnswer: 1,
-                verse: "Au commencement, Dieu créa les cieux et la terre.",
-                reference: "Genèse 1:1"
-            },
-            {
-                question: "Qui a construit l'arche ?",
-                options: ["Abraham", "Moïse", "Noé", "Jacob"],
-                correctAnswer: 2,
-                verse: "Noé construisit une arche pour sauver sa famille des animaux pendant le déluge.",
-                reference: "Genèse 6:14"
-            },
-            {
-                question: "Combien de commandements Dieu a-t-il donnés à Moïse ?",
-                options: ["5", "7", "10", "12"],
-                correctAnswer: 2,
-                verse: "Et Dieu prononça toutes ces paroles, en disant: Je suis l'Éternel, ton Dieu.",
-                reference: "Exode 20:1-2"
-            },
-            {
-                question: "Qui a été tenté dans le désert pendant 40 jours ?",
-                options: ["David", "Jésus", "Moïse", "Élie"],
-                correctAnswer: 1,
-                verse: "Jésus fut mené par l'Esprit dans le désert pour être tenté par le diable.",
-                reference: "Matthieu 4:1"
-            },
-            {
-                question: "Quel est le plus grand commandement ?",
-                options: ["Ne pas tuer", "Aimer Dieu", "Honorer ses parents", "Ne pas voler"],
-                correctAnswer: 1,
-                verse: "Tu aimeras le Seigneur, ton Dieu, de tout ton cœur, de toute ton âme, et de toute ta force.",
-                reference: "Matthieu 22:37"
-            },
-            // Semaine 3 - Questions 11-15
-            {
-                question: "Qui a vu un buisson ardent ?",
-                options: ["Abraham", "Moïse", "Élie", "Josué"],
-                correctAnswer: 1,
-                verse: "L'ange de l'Éternel lui apparut dans une flamme de feu, au milieu d'un buisson.",
-                reference: "Exode 3:2"
-            },
-            {
-                question: "Combien de disciples Jésus avait-il ?",
-                options: ["7", "10", "12", "15"],
-                correctAnswer: 2,
-                verse: "Il en institua douze pour être avec lui et pour les envoyer prêcher.",
-                reference: "Marc 3:14"
-            },
-            {
-                question: "Qui a renié Jésus trois fois ?",
-                options: ["Jean", "Pierre", "Judas", "Thomas"],
-                correctAnswer: 1,
-                verse: "Pierre lui répondit: Je ne te connais pas. Et aussitôt un coq chanta.",
-                reference: "Luc 22:57"
-            },
-            {
-                question: "Quel est le livre des Psaumes ?",
-                options: ["Livre de prières", "Livre de lois", "Livre d'histoires", "Livre de prophéties"],
-                correctAnswer: 0,
-                verse: "Seigneur, tu sondes les cœurs, tu connais les pensées.",
-                reference: "Psaumes 139:23"
-            },
-            {
-                question: "Qui a été transporté au ciel dans un char de feu ?",
-                options: ["Énoch", "Moïse", "Élie", "Abraham"],
-                correctAnswer: 2,
-                verse: "Élie monta au ciel dans un tourbillon de vent, avec un char de feu.",
-                reference: "2 Rois 2:11"
-            },
-            // Semaine 4 - Questions 16-20
-            {
-                question: "Quelle femme a caché les espions envoyés par Josué à Jéricho ?",
-                options: ["Déborah", "Rahab", "Ruth", "Esther"],
-                correctAnswer: 1,
-                verse: "Rahab les fit monter sur le toit, et les cacha sous des tiges de lin.",
-                reference: "Josué 2:6"
-            },
-            {
-                question: "Combien de livres contient la Bible (canon protestant) ?",
-                options: ["60", "66", "73", "72"],
-                correctAnswer: 1,
-                verse: "Toute l'Écriture est inspirée de Dieu et utile pour enseigner, pour convaincre, pour corriger.",
-                reference: "2 Timothée 3:16"
-            },
-            {
-                question: "Dans quelle ville Jésus est-il né ?",
-                options: ["Nazareth", "Jérusalem", "Bethléem", "Capharnaüm"],
-                correctAnswer: 2,
-                verse: "Joseph monta aussi à Bethléem, la ville de David, pour se faire recenser avec Marie.",
-                reference: "Luc 2:4-5"
-            },
-            {
-                question: "Quel apôtre a trahi Jésus pour 30 pièces d'argent ?",
-                options: ["Pierre", "Thomas", "Judas", "Barthélemy"],
-                correctAnswer: 2,
-                verse: "Judas reçut trente pièces d'argent pour livrer Jésus aux chefs des prêtres.",
-                reference: "Matthieu 26:15"
-            },
-            {
-                question: "Qui était le père d'Abraham ?",
-                options: ["Sem", "Tharé", "Nahor", "Haran"],
-                correctAnswer: 1,
-                verse: "Tharé engendra Abram, Nahor et Haran.",
-                reference: "Genèse 11:26"
-            },
-            // Semaine 5 - Questions 21-25
-            {
-                question: "Combien de Psaumes contient la Bible ?",
-                options: ["100", "120", "150", "180"],
-                correctAnswer: 2,
-                verse: "Louez l'Éternel ! Car il est bon de chanter à notre Dieu.",
-                reference: "Psaumes 147:1"
-            },
-            {
-                question: "Qui a tué Goliath ?",
-                options: ["Saül", "Jonathan", "David", "Joab"],
-                correctAnswer: 2,
-                verse: "David mit la main dans sa gibecière, prit une pierre et la lança. Il frappa le Philistin au front.",
-                reference: "1 Samuel 17:49"
-            },
-            {
-                question: "De quelle tribu d'Israël Jésus est-il issu ?",
-                options: ["Lévi", "Benjamin", "Éphraïm", "Juda"],
-                correctAnswer: 3,
-                verse: "Il est manifeste que notre Seigneur est sorti de Juda, tribu dont Moïse n'a rien dit touchant le sacerdoce.",
-                reference: "Hébreux 7:14"
-            },
-            {
-                question: "Quel miracle Jésus a-t-il fait à Cana ?",
-                options: ["Guérir un aveugle", "Ressusciter un mort", "Changer l'eau en vin", "Multiplier les pains"],
-                correctAnswer: 2,
-                verse: "Ce fut là le premier des miracles que Jésus fit, à Cana en Galilée.",
-                reference: "Jean 2:11"
-            },
-            {
-                question: "Quel est le dernier livre de la Bible ?",
-                options: ["Hébreux", "Jude", "1 Jean", "Apocalypse"],
-                correctAnswer: 3,
-                verse: "Moi, Jésus, j'ai envoyé mon ange pour vous attester ces choses dans les Églises.",
-                reference: "Apocalypse 22:16"
-            },
-            // Semaine 6 - Questions 26-30
-            {
-                question: "Quelle mer Moïse a-t-il traversée à pied sec ?",
-                options: ["Mer Morte", "Mer Rouge", "Mer Méditerranée", "Lac de Tibériade"],
-                correctAnswer: 1,
-                verse: "Les eaux se fendirent, et les Israélites passèrent à sec au milieu de la mer.",
-                reference: "Exode 14:21-22"
-            },
-            {
-                question: "Qui a écrit la majorité des épîtres du Nouveau Testament ?",
-                options: ["Pierre", "Jean", "Paul", "Jacques"],
-                correctAnswer: 2,
-                verse: "Moi, Paul, j'écris ce salut de ma propre main — c'est ma marque dans toutes mes lettres.",
-                reference: "2 Thessaloniciens 3:17"
-            },
-            {
-                question: "Pendant combien de jours et de nuits a-t-il plu pour le déluge de Noé ?",
-                options: ["20 jours", "40 jours", "70 jours", "100 jours"],
-                correctAnswer: 1,
-                verse: "Il plut sur la terre pendant quarante jours et quarante nuits.",
-                reference: "Genèse 7:12"
-            },
-            {
-                question: "Quel était le métier de Joseph, père adoptif de Jésus ?",
-                options: ["Pêcheur", "Berger", "Charpentier", "Scribe"],
-                correctAnswer: 2,
-                verse: "N'est-ce pas le fils du charpentier ?",
-                reference: "Matthieu 13:55"
-            },
-            {
-                question: "Quel fleuve Jésus a-t-il été baptisé ?",
-                options: ["Le Nil", "Le Jourdain", "L'Euphrate", "Le Kichon"],
-                correctAnswer: 1,
-                verse: "Jésus fut baptisé par Jean dans le Jourdain. Il remontait de l'eau quand les cieux s'ouvrirent.",
-                reference: "Matthieu 3:16"
-            }
-        ];
-        
-        // Obtenir 5 questions basées sur le jour actuel (rotation sur 6 semaines = 30 questions)
-        function getDailyQuestions() {
-            const today = new Date();
-            const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
-            const weekNumber = Math.floor(dayOfYear / 7) % 6; // Rotation sur 6 semaines
-            const startQuestionIndex = weekNumber * 5;
-            return allQuizQuestions.slice(startQuestionIndex, startQuestionIndex + 5);
+        // ===== OPINION PUBLIQUE =====
+        const pollQuestions = typeof opinionQuestions !== 'undefined' ? opinionQuestions : [];
+        const pollResults = {};
+        let pollIndex = 0;
+        let pollBusy = false;
+
+        function hasVoted(q) {
+            const r = pollResults[q.id];
+            return !!r && r.myVote !== null;
         }
-        
-        const quizQuestions = getDailyQuestions();
-        let currentQuestionIndex = 0;
-        let score = 0;
-        let selectedAnswerIndex = null;
-        
-        let answerLocked = false;
 
-        function loadQuestion() {
-            const question = quizQuestions[currentQuestionIndex];
-            document.getElementById('currentQuestion').textContent = currentQuestionIndex + 1;
-            document.getElementById('quizScore').textContent = score;
-            document.getElementById('quizProgress').style.width = ((currentQuestionIndex + 1) / quizQuestions.length * 100) + '%';
+        function showPollError(message) {
+            const el = document.getElementById('pollError');
+            el.textContent = message;
+            el.hidden = false;
+        }
 
-            // Pastilles de progression
+        function renderPollQuestion() {
+            const q = pollQuestions[pollIndex];
+            const r = pollResults[q.id];
+            const voted = hasVoted(q);
+            const total = r ? r.total : 0;
+
+            document.getElementById('currentQuestion').textContent = pollIndex + 1;
+            document.getElementById('quizProgress').style.width = ((pollIndex + 1) / pollQuestions.length * 100) + '%';
             document.querySelectorAll('.quiz-step').forEach((s, i) => {
-                s.className = 'quiz-step' + (i < currentQuestionIndex ? ' done' : i === currentQuestionIndex ? ' active' : '');
+                s.className = 'quiz-step' + (hasVoted(pollQuestions[i]) ? ' done' : '') + (i === pollIndex ? ' active' : '');
+            });
+            document.getElementById('pollParticipants').textContent = total + (total > 1 ? ' participants' : ' participant');
+            document.getElementById('questionText').textContent = q.question;
+
+            const box = document.getElementById('quizOptions');
+            box.className = 'quiz-options' + (voted ? ' voted' : '');
+            box.innerHTML = '';
+            q.options.forEach((label, i) => {
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = 'quiz-option poll-option' + (voted && r.myVote === i ? ' mine' : '');
+                btn.innerHTML = '<span class="poll-bar"></span><span class="quiz-option-text"></span>';
+                btn.querySelector('.quiz-option-text').textContent = label;
+                if (voted) {
+                    const pct = total ? Math.round(r.counts[i] / total * 100) : 0;
+                    if (r.myVote === i) {
+                        btn.insertAdjacentHTML('beforeend', '<span class="poll-mine"><i class="fas fa-check me-1"></i>Votre choix</span>');
+                    }
+                    btn.insertAdjacentHTML('beforeend', '<span class="poll-pct">' + pct + ' %</span>');
+                    btn.disabled = true;
+                    setTimeout(() => { btn.querySelector('.poll-bar').style.width = pct + '%'; }, 30);
+                } else {
+                    btn.addEventListener('click', () => submitVote(i));
+                }
+                box.appendChild(btn);
             });
 
-            // Question
-            document.getElementById('questionText').textContent = question.question;
-
-            // Options
-            const options = document.querySelectorAll('.quiz-option');
-            options.forEach((opt, i) => {
-                opt.querySelector('.quiz-option-text').textContent = question.options[i];
-                opt.className = 'quiz-option';
-                opt.disabled = false;
-            });
-
-            // Cacher feedback
-            document.getElementById('verseExplanation').style.display = 'none';
-            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
-            document.getElementById('nextBtn').innerHTML = currentQuestionIndex === quizQuestions.length - 1
+            document.getElementById('pollHint').hidden = voted;
+            document.getElementById('prevBtn').disabled = pollIndex === 0;
+            document.getElementById('nextBtn').innerHTML = pollIndex === pollQuestions.length - 1
                 ? '<i class="fas fa-check me-2"></i> Terminer'
-                : 'Suivant <i class="fas fa-arrow-right"></i>';
-            document.getElementById('nextBtn').disabled = false;
-
-            selectedAnswerIndex = null;
-            answerLocked = false;
+                : (voted ? 'Suivant' : 'Passer') + ' <i class="fas fa-arrow-right"></i>';
         }
 
-        function selectAnswer(index) {
-            if (answerLocked) return;
-            answerLocked = true;
-
-            const question = quizQuestions[currentQuestionIndex];
-            const isCorrect = index === question.correctAnswer;
-            if (isCorrect) score++;
-
-            // Feedback couleur sur toutes les options
-            document.querySelectorAll('.quiz-option').forEach((opt, i) => {
-                opt.disabled = true;
-                if (i === question.correctAnswer) {
-                    opt.classList.add('correct');
-                } else if (i === index && !isCorrect) {
-                    opt.classList.add('wrong');
-                }
-            });
-
-            selectedAnswerIndex = index;
-            document.getElementById('quizScore').textContent = score;
-
-            // Afficher verset biblique
-            const box = document.getElementById('verseExplanation');
-            const resultEl = document.getElementById('quizVerseResult');
-            resultEl.className = 'quiz-verse-result ' + (isCorrect ? 'correct' : 'wrong');
-            resultEl.innerHTML = isCorrect
-                ? '<i class="fas fa-check-circle"></i> Bonne réponse !'
-                : `<i class="fas fa-times-circle"></i> La bonne réponse était : <strong>${question.options[question.correctAnswer]}</strong>`;
-            document.getElementById('quizVerseText').textContent = `"${question.verse}"`;
-            document.getElementById('quizVerseRef').textContent = question.reference;
-            box.style.display = 'block';
-
-            // Auto-avance après 2.5s
-            setTimeout(() => {
-                if (currentQuestionIndex < quizQuestions.length - 1) {
-                    currentQuestionIndex++;
-                    loadQuestion();
-                } else {
-                    showResults();
-                }
-            }, 2500);
+        async function submitVote(optionIndex) {
+            if (pollBusy) return;
+            pollBusy = true;
+            const q = pollQuestions[pollIndex];
+            document.getElementById('pollError').hidden = true;
+            try {
+                const res = await fetch('/api/opinion/vote', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ questionId: q.id, option: optionIndex })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) throw new Error(data.error);
+                pollResults[q.id] = data.result;
+                if (pollQuestions[pollIndex].id === q.id) renderPollQuestion();
+            } catch (e) {
+                showPollError("Votre vote n'a pas pu être enregistré. Vérifiez votre connexion puis réessayez.");
+            } finally {
+                pollBusy = false;
+            }
         }
 
         function nextQuestion() {
-            if (selectedAnswerIndex === null) {
-                // Secouer visuellement pour indiquer qu'il faut choisir
-                const opt = document.getElementById('quizOptions');
-                opt.classList.add('shake');
-                setTimeout(() => opt.classList.remove('shake'), 500);
-                return;
+            document.getElementById('pollError').hidden = true;
+            if (pollIndex < pollQuestions.length - 1) {
+                pollIndex++;
+                renderPollQuestion();
+            } else {
+                document.getElementById('quizContent').style.display = 'none';
+                document.getElementById('quizResults').style.display = 'block';
             }
         }
 
         function previousQuestion() {
-            if (currentQuestionIndex > 0) {
-                currentQuestionIndex--;
-                loadQuestion();
+            document.getElementById('pollError').hidden = true;
+            if (pollIndex > 0) {
+                pollIndex--;
+                renderPollQuestion();
             }
         }
 
-        function showResults() {
-            document.getElementById('quizContent').style.display = 'none';
-            document.getElementById('quizResults').style.display = 'block';
-            document.getElementById('finalScore').textContent = score;
-
-            const pct = (score / quizQuestions.length) * 100;
-            let icon = '😔', msg = '';
-            if (pct === 100)      { icon = '🏆'; msg = 'Excellent ! Parfaite connaissance biblique !'; }
-            else if (pct >= 80)   { icon = '🎉'; msg = 'Très bien ! Grande connaissance de la Parole !'; }
-            else if (pct >= 60)   { icon = '👍'; msg = 'Bien ! Continuez à étudier la Parole de Dieu !'; }
-            else if (pct >= 40)   { icon = '📖'; msg = 'Pas mal ! Relisez votre Bible chaque jour.'; }
-            else                   { icon = '🙏'; msg = 'Continuez à prier et étudier les Écritures !'; }
-
-            document.getElementById('quizResultIcon').textContent = icon;
-            document.getElementById('resultsMessage').textContent = msg;
-
-            // Étoiles
-            const stars = document.getElementById('quizResultStars');
-            const starCount = Math.ceil(pct / 20);
-            stars.innerHTML = Array.from({length: 5}, (_, i) =>
-                `<i class="fas fa-star" style="color:${i < starCount ? '#f59e0b' : '#e5e7eb'}; font-size:1.6rem; margin:0 3px;"></i>`
-            ).join('');
-        }
-
-        function getRandomQuestions(n) {
-            const shuffled = [...allQuizQuestions].sort(() => Math.random() - 0.5);
-            return shuffled.slice(0, n);
-        }
-
-        function restartQuiz() {
-            currentQuestionIndex = 0;
-            score = 0;
-            selectedAnswerIndex = null;
-            answerLocked = false;
-            document.getElementById('quizContent').style.display = 'block';
+        function reviewPoll() {
+            pollIndex = 0;
             document.getElementById('quizResults').style.display = 'none';
-            // Nouvelles questions aléatoires différentes à chaque recommencement
-            const newQ = getRandomQuestions(5);
-            quizQuestions.length = 0;
-            quizQuestions.push(...newQ);
-            loadQuestion();
+            document.getElementById('quizContent').style.display = 'block';
+            renderPollQuestion();
         }
-        
-        // Initialiser le quiz au chargement
+
+        async function loadPollResults() {
+            try {
+                const ids = pollQuestions.map(q => q.id).join(',');
+                const res = await fetch('/api/opinion/results?ids=' + encodeURIComponent(ids));
+                const data = await res.json();
+                if (!res.ok || !data.success) throw new Error(data.error);
+                Object.assign(pollResults, data.results);
+                renderPollQuestion();
+            } catch (e) {
+                showPollError("Les résultats n'ont pas pu être chargés. Vous pouvez tout de même voter.");
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
-            loadQuestion();
+            if (!pollQuestions.length) return;
+            renderPollQuestion();
+            loadPollResults();
         });
-        
+
         // Démarrer la rotation toutes les 4 secondes
         setInterval(rotatePresentationImage, 4000);
 

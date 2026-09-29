@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { dbAll, dbGet, dbRun } = require('../config/database');
 const detectLocation = require('../middleware/location');
+const crypto = require('crypto');
+const { getWeeklyOpinionQuestions, findOpinionQuestion } = require('../config/opinion-questions');
 
 // Middleware d'authentification admin
 function requireAuth(req, res, next) {
@@ -180,7 +182,8 @@ router.get('/baume-de-la-foi', async (req, res) => {
             page: 'baume-de-la-foi',
             prieres,
             reflexions,
-            temoignages
+            temoignages,
+            opinionQuestions: getWeeklyOpinionQuestions()
         });
     } catch (error) {
         console.error('❌ Erreur chargement page Baume de la Foi:', error);
@@ -189,8 +192,73 @@ router.get('/baume-de-la-foi', async (req, res) => {
             page: 'baume-de-la-foi',
             prieres: [],
             reflexions: [],
-            temoignages: []
+            temoignages: [],
+            opinionQuestions: getWeeklyOpinionQuestions()
         });
+    }
+});
+
+// ========== API OPINION PUBLIQUE ==========
+
+// Identifiant anonyme du votant (l'adresse IP n'est jamais stockée en clair)
+function getVoterHash(req) {
+    const ip = req.headers['x-forwarded-for']?.split(',')[0]?.trim() || req.ip || '';
+    const ua = req.headers['user-agent'] || '';
+    return crypto.createHash('sha256').update(`${ip}|${ua}`).digest('hex');
+}
+
+async function getOpinionResults(questionIds, voterHash) {
+    const results = {};
+    for (const id of questionIds) {
+        const q = findOpinionQuestion(id);
+        if (!q) continue;
+        const rows = await dbAll(
+            'SELECT option_index, COUNT(*) AS n FROM opinion_votes WHERE question_id = ? GROUP BY option_index',
+            [id]
+        );
+        const counts = q.options.map(() => 0);
+        rows.forEach(r => { if (r.option_index < counts.length) counts[r.option_index] = r.n; });
+        const mine = await dbGet(
+            'SELECT option_index FROM opinion_votes WHERE question_id = ? AND voter_hash = ?',
+            [id, voterHash]
+        );
+        results[id] = {
+            counts,
+            total: counts.reduce((a, b) => a + b, 0),
+            myVote: mine ? mine.option_index : null
+        };
+    }
+    return results;
+}
+
+router.get('/api/opinion/results', async (req, res) => {
+    try {
+        const ids = String(req.query.ids || '').split(',').filter(Boolean).slice(0, 20);
+        res.json({ success: true, results: await getOpinionResults(ids, getVoterHash(req)) });
+    } catch (error) {
+        console.error('❌ Erreur résultats opinion:', error);
+        res.status(500).json({ success: false, error: 'Impossible de charger les résultats' });
+    }
+});
+
+router.post('/api/opinion/vote', async (req, res) => {
+    try {
+        const { questionId } = req.body || {};
+        const option = Number(req.body && req.body.option);
+        const q = findOpinionQuestion(questionId);
+        if (!q || !Number.isInteger(option) || option < 0 || option >= q.options.length) {
+            return res.status(400).json({ success: false, error: 'Vote invalide' });
+        }
+        const voterHash = getVoterHash(req);
+        await dbRun(
+            'INSERT OR IGNORE INTO opinion_votes (question_id, option_index, voter_hash) VALUES (?, ?, ?)',
+            [questionId, option, voterHash]
+        );
+        const results = await getOpinionResults([questionId], voterHash);
+        res.json({ success: true, result: results[questionId] });
+    } catch (error) {
+        console.error('❌ Erreur vote opinion:', error);
+        res.status(500).json({ success: false, error: 'Votre vote n\'a pas pu être enregistré' });
     }
 });
 
