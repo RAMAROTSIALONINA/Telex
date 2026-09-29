@@ -70,7 +70,7 @@
                     <i class="fas fa-lightbulb"></i> Réflexions
                 </a>
                 <a href="#temoignage-form" class="baume-cat-btn" onclick="setActiveNav(this)">
-                    <i class="fas fa-heart"></i> Témoignages
+                    <i class="fas fa-comment-dots"></i> Points de vue
                 </a>
             </nav>
         </div>
@@ -344,7 +344,7 @@
 
         <!-- Image Témoignage de la foi après le bouton -->
         <div class="text-center mb-1">
-            <img src="/images/T%C3%A9moignage%20de%20la%20foi.png" alt="Témoignage de la foi"
+            <img src="/images/T%C3%A9moignage%20de%20la%20foi.png" alt="Votre point de vue"
                  class="img-fluid"
                  style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; display: block;">
         </div>
@@ -359,9 +359,9 @@
             <div class="baume-section-header">
                 <div class="baume-section-title-wrap">
                     <div class="baume-section-accent"></div>
-                    <span class="baume-section-label"><i class="fas fa-heart me-1"></i> Communauté</span>
-                    <h2 class="baume-section-title">Votre Témoignage</h2>
-                    <span class="baume-section-subtitle">Partagez comment Dieu a agi dans votre vie</span>
+                    <span class="baume-section-label"><i class="fas fa-comment-dots me-1"></i> Parole aux jeunes</span>
+                    <h2 class="baume-section-title">Votre Point de Vue</h2>
+                    <span class="baume-section-subtitle">Partagez votre réflexion ou votre expérience sur un sujet qui vous tient à cœur</span>
                 </div>
             </div>
 
@@ -380,7 +380,7 @@
                                     <label for="nom" class="form-label">Votre nom ou pseudonyme</label>
                                     <input type="text" class="form-control" id="nom" name="nom" required 
                                            placeholder="Ex: Marie">
-                                    <small class="text-muted">Ce nom sera affiché publiquement avec votre témoignage</small>
+                                    <small class="text-muted">Ce nom sera affiché publiquement avec votre point de vue</small>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="email" class="form-label">Votre email</label>
@@ -393,29 +393,29 @@
                             <div class="mb-3">
                                 <label for="ville" class="form-label">Votre ville (optionnel)</label>
                                 <input type="text" class="form-control" id="ville" name="ville" 
-                                       placeholder="Ex: Paris">
-                                <small class="text-muted">Partager votre ville peut encourager d'autres personnes de votre région</small>
+                                       placeholder="Ex : Antananarivo">
+                                <small class="text-muted">Indiquer votre ville permet de mieux connaître l'avis de chaque région</small>
                             </div>
 
                             <div class="mb-3">
-                                <label for="temoignage" class="form-label">Votre témoignage</label>
+                                <label for="temoignage" class="form-label">Votre point de vue</label>
                                 <textarea class="form-control" id="temoignage" name="temoignage" rows="6" required 
-                                          placeholder="Partagez comment Dieu a agi dans votre vie..."></textarea>
+                                          placeholder="Donnez votre avis, racontez votre expérience, proposez une idée..."></textarea>
                                 <div class="form-text">
                                     <span id="temoignageCharCount">0</span> caractères (minimum 10 caractères)
                                 </div>
-                                <small class="text-muted">Soyez sincère et authentique dans votre partage</small>
+                                <small class="text-muted">Restez respectueux : les propos injurieux ou discriminatoires ne seront pas publiés</small>
                             </div>
 
                             <div class="mb-4 form-check">
                                 <input type="checkbox" class="form-check-input" id="consentement" name="consentement" required>
                                 <label class="form-check-label" for="consentement">
-                                    J'accepte que mon témoignage soit publié sur le site et je comprends qu'il sera visible par tous les visiteurs
+                                    J'accepte que mon point de vue soit publié sur le site et je comprends qu'il sera visible par tous les visiteurs
                                 </label>
                             </div>
                             <small class="form-text text-muted">
                                 <i class="fas fa-info-circle me-1"></i>
-                                Votre témoignage sera examiné par notre équipe avant publication
+                                Votre point de vue sera relu par notre équipe avant publication
                             </small>
 
                             <button type="submit" class="btn-submit" id="temoignageSubmitBtn">
@@ -433,7 +433,7 @@
         <div class="container-fluid px-0">
             <!-- Image Témoignages de foi -->
             <div class="temoignages-optimized">
-                <img src="/images/T%C3%A9moignages%20de%20foi.png" alt="Témoignages de foi - Partages d'expériences spirituelles"
+                <img src="/images/T%C3%A9moignages%20de%20foi.png" alt="Points de vue des jeunes"
                      class="temoignages-img">
             </div>
         
@@ -449,13 +449,13 @@
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Chargement...</span>
                     </div>
-                    <p class="mt-3 text-muted">Chargement des témoignages...</p>
+                    <p class="mt-3 text-muted">Chargement des points de vue...</p>
                 </div>
             </div>
             
             <div class="text-center mt-4">
                 <button class="btn btn-outline-secondary" onclick="loadMoreTemoignages()" style="border-color: var(--baume-primary); color: var(--baume-primary); box-shadow: 0 2px 8px rgba(46, 92, 78, 0.2);">
-                    <i class="fas fa-plus-circle me-2"></i>Voir tous les témoignages
+                    <i class="fas fa-plus-circle me-2"></i>Voir tous les points de vue
                 </button>
             </div>
         </div>
@@ -997,7 +997,7 @@
                     }
                     
                     if (data.temoignage.length < 10) {
-                        showAlert('Le témoignage doit contenir au moins 10 caractères.', 'danger');
+                        showAlert('Votre point de vue doit contenir au moins 10 caractères.', 'danger');
                         temoignageTextarea.classList.add('is-invalid');
                         return;
                     }
@@ -1028,7 +1028,7 @@
                             this.reset();
                             charCount.textContent = '0';
                         } else {
-                            showAlert(result.message || 'Erreur lors de l\'envoi du témoignage.', 'danger');
+                            showAlert(result.message || 'Erreur lors de l\'envoi de votre point de vue.', 'danger');
                         }
                         
                     } catch (error) {
@@ -1073,7 +1073,7 @@
             // Vérifier le message de succès
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('temoignage') === 'success') {
-                showNotification('Votre témoignage a été soumis avec succès ! Il sera examiné et publié prochainement.', 'success');
+                showNotification('Merci ! Votre point de vue a bien été envoyé. Il sera relu puis publié prochainement.', 'success');
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
             
@@ -1362,7 +1362,7 @@
                    data-full="${fullContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
                    data-short-raw="${shortContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
                    data-full-raw="${fullContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}">
-                    Lire le témoignage complet →
+                    Lire la suite →
                 </a>
             `;
             
@@ -1387,7 +1387,7 @@
             const card = buttonElement.closest('.temoignage-program-card');
             const paragraph = card.querySelector('p');
             
-            if (buttonText === 'Lire le témoignage complet →') {
+            if (buttonText === 'Lire la suite →') {
                 // Passer en mode détaillé
                 paragraph.innerHTML = `"${fullContent}"`;
                 buttonElement.innerHTML = '← Revenir au résumé';
@@ -1396,7 +1396,7 @@
                 // Revenir en mode court
                 const displayContent = shortContent.length > 120 ? shortContent.substring(0, 120) + '...' : shortContent;
                 paragraph.innerHTML = `"${displayContent}"`;
-                buttonElement.innerHTML = 'Lire le témoignage complet →';
+                buttonElement.innerHTML = 'Lire la suite →';
                 buttonElement.style.color = '';
             }
         }
@@ -1410,7 +1410,7 @@
                 <div class="col-12 text-center">
                     <div class="text-muted">
                         <i class="fas fa-heart" style="font-size: 3rem; opacity: 0.5;"></i>
-                        <h4 class="mt-3">Aucun témoignage publié pour le moment</h4>
+                        <h4 class="mt-3">Aucun point de vue publié pour le moment</h4>
                         <p>Soyez le premier à partager votre expérience de foi !</p>
                     </div>
                 </div>

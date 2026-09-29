@@ -545,7 +545,7 @@ router.post('/baume-de-la-foi/temoignage', async (req, res) => {
         // Retourner une réponse JSON au lieu de rediriger
         res.json({ 
             success: true, 
-            message: 'Témoignage soumis avec succès ! Il sera visible après validation.',
+            message: 'Merci ! Votre point de vue a bien été envoyé. Il sera visible après validation.',
             data: {
                 id: result.id,
                 author_name: nom.trim(),
@@ -558,7 +558,7 @@ router.post('/baume-de-la-foi/temoignage', async (req, res) => {
         console.error('❌ Stack trace:', error.stack);
         res.status(500).json({ 
             success: false, 
-            error: 'Erreur lors de la soumission du témoignage: ' + error.message 
+            error: 'Erreur lors de l\'envoi de votre point de vue : ' + error.message 
         });
     }
 });
