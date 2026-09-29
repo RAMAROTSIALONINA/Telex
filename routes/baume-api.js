@@ -43,6 +43,14 @@ const baumeUpload = multer({
     }
 });
 
+// Seul le compteur de vues est public : tout le reste est réservé à l'administration
+const PUBLIC_VIEW_ROUTE = /^\/(prieres|reflexions)\/\d+\/view\/?$/;
+router.use((req, res, next) => {
+    if (req.method === 'POST' && PUBLIC_VIEW_ROUTE.test(req.path)) return next();
+    if (req.session && req.session.user && req.session.user.loggedIn) return next();
+    res.status(401).json({ success: false, error: 'Authentification requise' });
+});
+
 // ===== PRIÈRES =====
 
 // GET - Récupérer toutes les prières

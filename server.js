@@ -108,7 +108,6 @@ app.use(async (req, res, next) => {
 // Middleware pour logger toutes les requêtes API
 app.use('/api', (req, res, next) => {
     console.log('🔍 API Request:', req.method, req.url);
-    console.log('🔍 API Headers:', req.headers);
     next();
 });
 

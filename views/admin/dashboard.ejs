@@ -674,8 +674,8 @@
             <div class="nav-section-label">Communauté</div>
             <div class="nav-item">
                 <a href="/admin/baume-de-la-foi" class="nav-link">
-                    <i class="fas fa-cross"></i>
-                    <span>Baume de la Foi</span>
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Réflexion</span>
                 </a>
             </div>
             <div class="nav-item">
@@ -808,7 +808,7 @@
                     <div class="stat-icon baume"><i class="fas fa-cross"></i></div>
                     <div class="stat-body">
                         <div class="stat-number" id="baume-total-count"><%= stats.baumeTotalCount || 0 %></div>
-                        <h5>Baume de la Foi</h5>
+                        <h5>Réflexion</h5>
                         <div class="stat-description">
                             <%= stats.baumePrieres || 0 %> prières · <%= stats.baumeReflexions || 0 %> réflexions · <%= stats.baumeTemoignages || 0 %> tém.
                             <br><i class="fas fa-eye"></i> <span id="baume-total-views"><%= stats.baumeTotalViews || 0 %></span> vues
@@ -849,7 +849,7 @@
                             <a href="/admin/baume-de-la-foi" class="qa-item">
                                 <div class="qa-icon baume"><i class="fas fa-cross"></i></div>
                                 <div class="qa-info">
-                                    <div class="qa-label">Baume de la Foi</div>
+                                    <div class="qa-label">Réflexion</div>
                                     <div class="qa-sub">Gérer les contenus spirituels</div>
                                 </div>
                                 <i class="fas fa-chevron-right qa-arrow"></i>
@@ -1150,7 +1150,7 @@
                         <div class="sm-tabs">
                             <button class="sm-tab active-news" data-type="news"     onclick="smSwitchTab(this,'news')">    <i class="fas fa-newspaper"></i> Actualités</button>
                             <button class="sm-tab"             data-type="programs" onclick="smSwitchTab(this,'programs')"><i class="fas fa-tv"></i> Programmes</button>
-                            <button class="sm-tab"             data-type="baume"    onclick="smSwitchTab(this,'baume')">   <i class="fas fa-cross"></i> Baume de la Foi</button>
+                            <button class="sm-tab"             data-type="baume"    onclick="smSwitchTab(this,'baume')">   <i class="fas fa-cross"></i> Réflexion</button>
                             <button class="sm-tab"             data-type="visitors" onclick="smSwitchTab(this,'visitors')"><i class="fas fa-users"></i> Visiteurs</button>
                             <span class="sm-tab-sep"></span>
                             <div class="sm-date-row">
@@ -1426,7 +1426,7 @@
             const selectedType = event.target ? event.target.value : event;
             const chartTitle = document.getElementById('chart-title');
 
-            const titles = { news: 'Actualités', programs: 'Programmes', baume: 'Baume de la Foi', visitors: 'Visiteurs' };
+            const titles = { news: 'Actualités', programs: 'Programmes', baume: 'Réflexion', visitors: 'Visiteurs' };
             if (chartTitle) chartTitle.textContent = titles[selectedType] || selectedType;
 
             // Bug fix 5 : utiliser une plage de 30 jours par défaut au lieu de "aujourd'hui → aujourd'hui"
@@ -2794,7 +2794,7 @@
                     // Utiliser des données de secours seulement en cas d'erreur
                     pagesData = {
                         labels: ['Sem1', 'Sem2', 'Sem3', 'Sem4'],
-                        pages: ['Actualités', 'Programmes', 'Baume de la Foi'],
+                        pages: ['Actualités', 'Programmes', 'Réflexion'],
                         data: [[10, 20, 30, 40], [5, 15, 25, 35], [2, 8, 18, 28]]
                     };
                 }
@@ -2806,7 +2806,7 @@
                     const colors = [
                         'rgba(59, 130, 246, 1)',   // Bleu - Actualités
                         'rgba(16, 185, 129, 1)',   // Vert - Programmes
-                        'rgba(139, 92, 246, 1)'    // Violet - Baume de la Foi
+                        'rgba(139, 92, 246, 1)'    // Violet - Réflexion
                     ];
                     
                     const datasets = pagesData.pages.map((page, index) => ({
@@ -3568,10 +3568,10 @@
                 chartTitle.textContent = `Programmes (${filteredData.period})`;
             } else if (selectedType === 'baume') {
                 data = [filteredData.baume.total, filteredData.baume.views];
-                label = 'Baume de la Foi';
+                label = 'Réflexion';
                 color = 'rgba(239, 68, 68, 1)';
                 bgColor = 'rgba(239, 68, 68, 0.2)';
-                chartTitle.textContent = `Baume de la Foi (${filteredData.period})`;
+                chartTitle.textContent = `Réflexion (${filteredData.period})`;
             } else if (selectedType === 'all') {
                 data = [filteredData.news.total + filteredData.programs.total + filteredData.baume.total, filteredData.news.views + filteredData.programs.views + filteredData.baume.views];
                 label = 'Tous les contenus';
@@ -3690,7 +3690,7 @@
                                     <td>${filteredData.programs.total > 0 ? formatNumber(Math.round(filteredData.programs.views / filteredData.programs.total)) : 'N/A'}</td>
                                 </tr>
                                 <tr>
-                                    <td><i class="fas fa-cross me-2 text-danger"></i> Baume de la Foi</td>
+                                    <td><i class="fas fa-cross me-2 text-danger"></i> Réflexion</td>
                                     <td>${filteredData.baume.total}</td>
                                     <td>${totalContent > 0 ? Math.round((filteredData.baume.total / totalContent) * 100) : 0}%</td>
                                     <td>${formatNumber(filteredData.baume.views)}</td>

@@ -2226,3 +2226,22 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .pdv-card, .pdv-comment-submit { transition: none; }
 }
+
+/* ===== MOBILE : menu de la page et pagination ===== */
+@media (max-width: 575px) {
+    .baume-category-nav { gap: 0.35rem; padding: 0.5rem 0.6rem; }
+    .baume-cat-btn {
+        flex: 1 1 0;
+        min-width: 0;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 0.45rem 0.4rem;
+        font-size: 0.76rem;
+    }
+    .reflexions-pagination { flex-wrap: nowrap; gap: 6px; }
+    .reflexions-pagination .btn-nav-label { display: none; }
+    .reflexions-pagination .btn-nav { padding-left: 0.75rem; padding-right: 0.75rem; }
+}
+@media (max-width: 399px) {
+    .baume-cat-btn i { display: none; }
+}

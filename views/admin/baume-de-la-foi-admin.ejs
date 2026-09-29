@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Baume de la Foi · Administration</title>
+    <title>Réflexion · Administration</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1220,7 +1220,7 @@
                 <div class="nav-item"><a href="/admin/news" class="nav-link"><i class="fas fa-newspaper"></i><span>Actualités</span></a></div>
                 <div class="nav-item"><a href="/admin/programs" class="nav-link"><i class="fas fa-tv"></i><span>Programmes</span></a></div>
                 <div class="nav-section-label">Communauté</div>
-                <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link active"><i class="fas fa-cross"></i><span>Baume de la Foi</span></a></div>
+                <div class="nav-item"><a href="/admin/baume-de-la-foi" class="nav-link active"><i class="fas fa-lightbulb"></i><span>Réflexion</span></a></div>
                 <div class="nav-item"><a href="/admin/contacts" class="nav-link"><i class="fas fa-envelope"></i><span>Messages</span></a></div>
                 <div class="nav-section-label">Médias</div>
                 <div class="nav-item"><a href="/admin/gallery" class="nav-link"><i class="fas fa-images"></i><span>Galerie</span></a></div>
@@ -1239,8 +1239,8 @@
                 <div class="dash-header-left">
                     <img src="/images/Telex.png" alt="Telex" class="dash-header-logo">
                     <div>
-                        <div class="dash-header-title"><i class="fas fa-spa me-2" style="color:#10B981;font-size:1rem;"></i>Baume de la Foi</div>
-                        <div class="dash-header-sub">Administration des contenus spirituels</div>
+                        <div class="dash-header-title"><i class="fas fa-spa me-2" style="color:#10B981;font-size:1rem;"></i>Réflexion</div>
+                        <div class="dash-header-sub">Inspirations, analyses et points de vue</div>
                     </div>
                 </div>
                 <div class="dash-header-right">
@@ -1248,10 +1248,10 @@
                         <i class="fas fa-sync-alt"></i>Rafraîchir
                     </button>
                     <button class="btn-baume-new" onclick="switchTab('prieres')">
-                        <i class="fas fa-pray"></i>Nouvelle prière
+                        <i class="fas fa-sun"></i>Nouvelle inspiration
                     </button>
                     <button class="btn-baume-new" style="background:linear-gradient(135deg,#6366f1,#4f46e5);box-shadow:0 3px 10px rgba(99,102,241,.3);" onclick="switchTab('reflexions')">
-                        <i class="fas fa-book"></i>Nouvelle réflexion
+                        <i class="fas fa-search"></i>Nouvelle analyse
                     </button>
                 </div>
             </div>
@@ -1262,15 +1262,15 @@
                     <i class="fas fa-chart-line"></i>Dashboard
                 </button>
                 <button class="tab-btn" data-tab="prieres" onclick="switchTab('prieres')">
-                    <i class="fas fa-pray"></i>Prières
+                    <i class="fas fa-sun"></i>Inspirations
                     <span style="background:rgba(46,92,65,.15);color:#2E5C41;font-size:.72rem;padding:1px 7px;border-radius:10px;font-weight:700;"><%= typeof prieres !== 'undefined' && prieres ? prieres.length : 0 %></span>
                 </button>
                 <button class="tab-btn" data-tab="reflexions" onclick="switchTab('reflexions')">
-                    <i class="fas fa-book"></i>Réflexions
+                    <i class="fas fa-search"></i>Analyses
                     <span style="background:rgba(99,102,241,.12);color:#4f46e5;font-size:.72rem;padding:1px 7px;border-radius:10px;font-weight:700;"><%= typeof reflexions !== 'undefined' && reflexions ? reflexions.length : 0 %></span>
                 </button>
                 <button class="tab-btn" data-tab="temoignages" onclick="switchTab('temoignages')">
-                    <i class="fas fa-heart"></i>Témoignages
+                    <i class="fas fa-comment-dots"></i>Points de vue
                 </button>
                 <button class="tab-btn" data-tab="commentaires" onclick="switchTab('commentaires')">
                     <i class="fas fa-comments"></i>Commentaires
@@ -1722,8 +1722,8 @@
                         <div class="section-title">
                             <i class="fas fa-heart"></i>
                             <div>
-                                <h2>Gestion des témoignages</h2>
-                                <p>Modérez et publiez les témoignages des visiteurs</p>
+                                <h2>Gestion des points de vue</h2>
+                                <p>Relisez et publiez les points de vue envoyés par les visiteurs</p>
                             </div>
                         </div>
                     </div>
@@ -1732,7 +1732,7 @@
                         <div class="stat-card">
                             <div class="stat-info">
                                 <div class="stat-number" id="totalTemoignages">0</div>
-                                <div class="stat-label">Total témoignages</div>
+                                <div class="stat-label">Total points de vue</div>
                             </div>
                             <div class="stat-icon" style="background: rgba(220, 53, 69, 0.08); color: #dc3545;">
                                 <i class="fas fa-heart"></i>
@@ -1770,7 +1770,7 @@
                     <div class="table-container">
                         <div class="section-header" style="border-bottom: none; padding-bottom: 0;">
                             <h3 style="margin: 0; color: var(--primary-dark);">
-                                <i class="fas fa-list me-2"></i>Liste des témoignages
+                                <i class="fas fa-list me-2"></i>Liste des points de vue
                             </h3>
                             <div class="d-flex gap-2 align-items-center flex-wrap">
                                 <div class="btn-group" id="temoignages-filters">
@@ -1780,7 +1780,7 @@
                                     <button class="btn btn-outline-secondary" data-filter="rejected">Rejetés</button>
                                 </div>
                                 <div class="search-container" style="position: relative;">
-                                    <input type="text" id="temoignages-search" placeholder="Rechercher un témoignage..." 
+                                    <input type="text" id="temoignages-search" placeholder="Rechercher un point de vue..." 
                                            class="form-control" 
                                            style="padding-left: 12px; border: 1px solid #ddd; border-radius: 6px; padding: 8px 12px; width: 250px; font-size: 14px; transition: all 0.3s ease;">
                                 </div>
@@ -1792,7 +1792,7 @@
                                     <th>Date</th>
                                     <th>Auteur</th>
                                     <th>Ville</th>
-                                    <th>Témoignage</th>
+                                    <th>Point de vue</th>
                                     <th>Email</th>
                                     <th>Statut</th>
                                     <th>Actions</th>

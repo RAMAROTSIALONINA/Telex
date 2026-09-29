@@ -15,6 +15,16 @@ function requireAuth(req, res, next) {
     next();
 }
 
+function isAdminSession(req) {
+    return !!(req.session && req.session.user && req.session.user.loggedIn);
+}
+
+// Routes de diagnostic : invisibles pour le public
+function adminOnly(req, res, next) {
+    if (isAdminSession(req)) return next();
+    res.status(404).send('Page introuvable');
+}
+
 // Appliquer le middleware de détection de localisation à toutes les routes
 router.use(detectLocation);
 
@@ -433,7 +443,7 @@ router.get('/api/baume-de-la-foi/public-data', async (req, res) => {
 });
 
 // Route de debug pour vérifier les données du Baume de la Foi
-router.get('/baume-de-la-foi/debug', async (req, res) => {
+router.get('/baume-de-la-foi/debug', adminOnly, async (req, res) => {
     try {
         console.log('🔍 Debug Baume de la Foi - Vérification des données');
         
@@ -503,7 +513,7 @@ router.get('/baume-de-la-foi/debug', async (req, res) => {
 });
 
 // Route de test de la base de données
-router.get('/baume-de-la-foi/test-db', async (req, res) => {
+router.get('/baume-de-la-foi/test-db', adminOnly, async (req, res) => {
     try {
         console.log('🔍 Test base de données Baume de la Foi');
         
@@ -562,12 +572,7 @@ router.get('/baume-de-la-foi/test-db', async (req, res) => {
 // POST - Soumettre un témoignage depuis la page publique
 router.post(['/reflexion/point-de-vue', '/baume-de-la-foi/temoignage'], async (req, res) => {
     try {
-        console.log('📝 Route POST /baume-de-la-foi/temoignage appelée');
-        console.log('📝 Body reçu:', req.body);
-        
         const { nom, email, ville, temoignage, consentement } = req.body;
-
-        console.log('📝 Données extraites:', { nom, email, ville, consentement });
 
         // Validation des données
         if (!nom || !email || !temoignage || !consentement) {
@@ -632,68 +637,34 @@ router.get('/baume/temoignages', (req, res, next) => {
 
 // API pour récupérer les témoignages
 router.get('/api/baume/temoignages', async (req, res) => {
-    console.log('🔍 ROUTE API: /api/baume/temoignages appelée !');
-    console.log('🔍 req.query complet:', JSON.stringify(req.query, null, 2));
     try {
-        const { page = 1, limit = 6, admin } = req.query;
-        
-        console.log('🔍 DEBUG: Query params - page:', page, 'limit:', limit, 'admin:', admin);
-        console.log('🔍 DEBUG: Type de admin:', typeof admin);
-        console.log('🔍 DEBUG: admin === "true":', admin === 'true');
-        
-        // Si admin=true, inclure tous les témoignages (approuvés et en attente) SANS LIMITATION
-        // Sinon, n'inclure que les témoignages approuvés avec limitation
-        const whereClause = admin === 'true' ? '1=1' : 'is_approved = 1';
-        
-        console.log('🔍 DEBUG: Where clause:', whereClause);
-        console.log('🔍 DEBUG: SQL avant exécution');
-        
+        const adminMode = req.query.admin === 'true' && isAdminSession(req);
         let temoignages;
-        
-        if (admin === 'true') {
-            // Mode admin : TOUS les témoignages sans limitation
+
+        if (adminMode) {
             temoignages = await dbAll(`
                 SELECT id, author_name, content, created_at, is_approved, status
-                FROM baume_temoignages 
-                WHERE ${whereClause}
+                FROM baume_temoignages
                 ORDER BY created_at DESC
             `);
         } else {
-            // Mode public : limitation pour pagination
-            const offset = (page - 1) * limit;
+            const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 6, 1), 100);
+            const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
             temoignages = await dbAll(`
-                SELECT id, author_name, content, created_at, is_approved, status,
+                SELECT id, author_name, ville, content, created_at, is_approved,
                        (SELECT COUNT(*) FROM pdv_comments c
                         WHERE c.temoignage_id = baume_temoignages.id AND c.is_approved = 1) AS comment_count
                 FROM baume_temoignages
-                WHERE ${whereClause}
+                WHERE is_approved = 1
                 ORDER BY created_at DESC
                 LIMIT ? OFFSET ?
-            `, [parseInt(limit), offset]);
+            `, [limit, (page - 1) * limit]);
         }
-        
-        console.log('🔍 DEBUG: Témoignages chargés depuis index:', temoignages.length);
-        console.log('🔍 DEBUG: Admin mode:', admin === 'true');
-        console.log('🔍 DEBUG: Where clause:', whereClause);
-        
-        if (admin === 'true') {
-            console.log('🎉 TOUS LES TÉMOIGNAGES CHARGÉS (sans limitation):', temoignages.length);
-        } else {
-            console.log('📄 Témoignages publics (limité à', limit, '):', temoignages.length);
-        }
-        
-        if (temoignages.length > 0) {
-            console.log('🔍 DEBUG: Premier témoignage:', temoignages[0]);
-        }
-        
-        const response = { success: true, data: temoignages };
-        console.log('🔍 DEBUG: Response JSON:', JSON.stringify(response, null, 2));
-        
-        res.json(response);
+
+        res.json({ success: true, data: temoignages });
     } catch (error) {
         console.error('❌ Erreur API témoignages:', error);
-        console.error('❌ Stack trace:', error.stack);
-        res.status(500).json({ success: false, error: 'Erreur lors du chargement: ' + error.message });
+        res.status(500).json({ success: false, error: 'Erreur lors du chargement des points de vue' });
     }
 });
 
