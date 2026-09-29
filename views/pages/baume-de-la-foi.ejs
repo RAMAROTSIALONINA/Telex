@@ -64,10 +64,10 @@
         <div class="container-fluid" style="padding: 0 12px;">
             <nav class="baume-category-nav">
                 <a href="#prieres" class="baume-cat-btn active" onclick="setActiveNav(this)">
-                    <i class="fas fa-pray"></i> Prières
+                    <i class="fas fa-sun"></i> Inspirations
                 </a>
                 <a href="#reflexions" class="baume-cat-btn" onclick="setActiveNav(this)">
-                    <i class="fas fa-lightbulb"></i> Réflexions
+                    <i class="fas fa-search"></i> Analyses
                 </a>
                 <a href="#temoignage-form" class="baume-cat-btn" onclick="setActiveNav(this)">
                     <i class="fas fa-comment-dots"></i> Points de vue
@@ -96,8 +96,8 @@
                 <div class="baume-section-title-wrap">
                     <div class="baume-section-accent"></div>
                     <span class="baume-section-label"><i class="fas fa-dove me-1"></i> Au quotidien</span>
-                    <h2 class="baume-section-title">Prières</h2>
-                    <span class="baume-section-subtitle">Des prières pour chaque moment de votre journée</span>
+                    <h2 class="baume-section-title">Inspirations</h2>
+                    <span class="baume-section-subtitle">Des pensées et des prières pour vivre chaque moment de votre journée</span>
                 </div>
             </div>
 
@@ -199,8 +199,8 @@
                             <div class="carousel-slide" style="min-width: 100%; padding: 0;">
                                 <div class="empty-state">
                                     <i class="fas fa-pray"></i>
-                                    <h4>Aucune prière pour le moment</h4>
-                                    <p>Revenez plus tard pour découvrir de nouvelles prières</p>
+                                    <h4>Aucune inspiration pour le moment</h4>
+                                    <p>Revenez plus tard pour découvrir de nouvelles inspirations</p>
                                 </div>
                             </div>
                         <% } %>
@@ -307,7 +307,7 @@
 <section id="reflexions" style="background: #f8f9fa; padding: 3rem 0;">
     <!-- Image bannière réflexions -->
     <div style="width: 100%; max-width: 100%; overflow: hidden; margin-bottom: 2rem;">
-        <img src="/images/Reflexion.png" alt="Réflexions spirituelles"
+        <img src="/images/Reflexion.png" alt="Analyses"
              style="width: 100%; height: auto; max-height: 45vh; object-fit: cover; display: block;">
     </div>
 
@@ -316,9 +316,9 @@
         <div class="baume-section-header">
             <div class="baume-section-title-wrap">
                 <div class="baume-section-accent"></div>
-                <span class="baume-section-label"><i class="fas fa-book-open me-1"></i> Méditation</span>
-                <h2 class="baume-section-title">Réflexions</h2>
-                <span class="baume-section-subtitle">Des textes pour nourrir votre foi et votre vie intérieure</span>
+                <span class="baume-section-label"><i class="fas fa-book-open me-1"></i> Approfondir</span>
+                <h2 class="baume-section-title">Analyses</h2>
+                <span class="baume-section-subtitle">Des textes pour prendre du recul, comprendre et donner du sens au quotidien</span>
             </div>
         </div>
         <!-- ===== CARROUSEL DE RÉFLEXIONS ===== -->
@@ -473,7 +473,7 @@
                 <div class="baume-modal-header">
                     <div class="baume-modal-type">
                         <i class="fas fa-dove me-2"></i>
-                        <span id="modalType">Prière</span>
+                        <span id="modalType">Inspiration</span>
                     </div>
                     <button type="button" class="baume-modal-close" data-bs-dismiss="modal" aria-label="Fermer">
                         <i class="fas fa-times"></i>
@@ -897,7 +897,7 @@
                     carousel.style.flexWrap = 'nowrap';
                     
                     // Mettre à jour le bouton
-                    btnText.textContent = 'Voir toutes les réflexions';
+                    btnText.textContent = 'Voir toutes les analyses';
                     btnIcon.className = 'fas fa-expand me-2';
                     
                     // Réactiver la navigation du carrousel
@@ -1114,7 +1114,7 @@
         function openContentModal(item, type) {
             
             // Définir le type
-            document.getElementById('modalType').textContent = type === 'priere' ? 'Prière' : 'Réflexion';
+            document.getElementById('modalType').textContent = type === 'priere' ? 'Inspiration' : 'Analyse';
             
             // Titre
             document.getElementById('modalTitle').textContent = item.title || '';
@@ -1672,8 +1672,8 @@
                 <div class="carousel-slide" style="min-width: 100%; padding: 0 15px;">
                     <div class="empty-state text-center">
                         <i class="fas fa-lightbulb" style="font-size: 3rem; opacity: 0.5;"></i>
-                        <h4>Aucune réflexion pour le moment</h4>
-                        <p>Revenez plus tard pour découvrir de nouvelles réflexions</p>
+                        <h4>Aucune analyse pour le moment</h4>
+                        <p>Revenez plus tard pour découvrir de nouvelles analyses</p>
                     </div>
                 </div>
             `;

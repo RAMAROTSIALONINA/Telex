@@ -471,7 +471,7 @@
                 <!-- ── Groupe Réflexions ── -->
                 <div class="col-lg-6 baume-col-left reveal" data-delay="0">
                     <div class="baume-group-label baume-label-reflexion">
-                        <i class="fas fa-lightbulb"></i> Réflexions
+                        <i class="fas fa-search"></i> Analyses
                     </div>
                     <div class="row g-3">
                         <% if (reflexions && reflexions.length > 0) { %>
@@ -488,7 +488,7 @@
                                         <% } else { %>
                                             <img src="/images/Hero.png" alt="<%= r.title %>">
                                         <% } %>
-                                        <span class="news-home-badge"><i class="fas fa-lightbulb me-1"></i>Réflexion</span>
+                                        <span class="news-home-badge"><i class="fas fa-search me-1"></i>Analyse</span>
                                         <div class="news-home-date-bar">
                                             <i class="far fa-calendar"></i>
                                             <%= new Date(r.publication_date || r.created_at).toLocaleDateString('fr-FR') %>
@@ -503,7 +503,7 @@
                         <% } else { %>
                             <div class="col-12 text-center py-3">
                                 <i class="fas fa-lightbulb fa-lg text-muted mb-2 d-block"></i>
-                                <p class="text-muted small mb-0">Aucune réflexion disponible</p>
+                                <p class="text-muted small mb-0">Aucune analyse disponible</p>
                             </div>
                         <% } %>
                     </div>
@@ -512,7 +512,7 @@
                 <!-- ── Groupe Prières ── -->
                 <div class="col-lg-6 baume-col-right reveal" data-delay="150">
                     <div class="baume-group-label baume-label-priere">
-                        <i class="fas fa-pray"></i> Prières
+                        <i class="fas fa-sun"></i> Inspirations
                     </div>
                     <div class="row g-3">
                         <% if (prieres && prieres.length > 0) { %>
@@ -531,7 +531,7 @@
                                         <% } else { %>
                                             <img src="/images/Pri%C3%A8re.png" alt="<%= p.title %>">
                                         <% } %>
-                                        <span class="news-home-badge"><i class="fas fa-pray me-1"></i>Prière</span>
+                                        <span class="news-home-badge"><i class="fas fa-sun me-1"></i>Inspiration</span>
                                         <div class="news-home-date-bar">
                                             <i class="far fa-calendar"></i>
                                             <%= new Date(p.created_at).toLocaleDateString('fr-FR') %>
@@ -546,7 +546,7 @@
                         <% } else { %>
                             <div class="col-12 text-center py-3">
                                 <i class="fas fa-pray fa-lg text-muted mb-2 d-block"></i>
-                                <p class="text-muted small mb-0">Aucune prière disponible</p>
+                                <p class="text-muted small mb-0">Aucune inspiration disponible</p>
                             </div>
                         <% } %>
                     </div>
@@ -557,7 +557,7 @@
             <div class="row mt-4">
                 <div class="col-12 text-center">
                     <a href="/baume-de-la-foi" class="btn btn-primary btn-lg">
-                        <i class="fas fa-cross me-2"></i><span data-translate="home.see_all_reflections">Voir toutes les réflexions et prières</span>
+                        <i class="fas fa-lightbulb me-2"></i><span data-translate="home.see_all_reflections">Voir toutes les analyses et inspirations</span>
                     </a>
                 </div>
             </div>
