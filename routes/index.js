@@ -176,7 +176,7 @@ router.get('/baume-de-la-foi', async (req, res) => {
         }
 
         res.render('pages/baume-de-la-foi', {
-            title: 'Baume de la Foi - Réconfort Spirituel',
+            title: 'Réflexion',
             page: 'baume-de-la-foi',
             prieres,
             reflexions,
@@ -185,7 +185,7 @@ router.get('/baume-de-la-foi', async (req, res) => {
     } catch (error) {
         console.error('❌ Erreur chargement page Baume de la Foi:', error);
         res.render('pages/baume-de-la-foi', {
-            title: 'Baume de la Foi - Réconfort Spirituel',
+            title: 'Réflexion',
             page: 'baume-de-la-foi',
             prieres: [],
             reflexions: [],
