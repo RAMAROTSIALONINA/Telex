@@ -257,6 +257,7 @@
 
                 <div id="quizContent">
                     <div class="quiz-question-wrap">
+                        <span class="poll-theme" id="pollTheme"></span>
                         <h3 class="quiz-question-text" id="questionText"></h3>
                     </div>
 
@@ -280,7 +281,7 @@
                         <h3 class="quiz-result-title">Merci pour votre participation !</h3>
                         <p class="quiz-result-message">
                             Vos réponses sont enregistrées de façon anonyme.<br>
-                            De nouvelles questions sont publiées chaque semaine.
+                            De nouvelles questions sont publiées chaque jour.
                         </p>
                         <button class="quiz-btn-primary mt-2" onclick="reviewPoll()">
                             <i class="fas fa-chart-bar me-2"></i> Revoir les résultats
@@ -1969,6 +1970,7 @@
                 s.className = 'quiz-step' + (hasVoted(pollQuestions[i]) ? ' done' : '') + (i === pollIndex ? ' active' : '');
             });
             document.getElementById('pollParticipants').textContent = total + (total > 1 ? ' participants' : ' participant');
+            document.getElementById('pollTheme').textContent = q.theme;
             document.getElementById('questionText').textContent = q.question;
 
             const box = document.getElementById('quizOptions');

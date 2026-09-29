@@ -3,7 +3,7 @@ const router = express.Router();
 const { dbAll, dbGet, dbRun } = require('../config/database');
 const detectLocation = require('../middleware/location');
 const crypto = require('crypto');
-const { getWeeklyOpinionQuestions, findOpinionQuestion } = require('../config/opinion-questions');
+const { getDailyOpinionQuestions, findOpinionQuestion } = require('../config/opinion-questions');
 
 // Middleware d'authentification admin
 function requireAuth(req, res, next) {
@@ -183,7 +183,7 @@ router.get('/baume-de-la-foi', async (req, res) => {
             prieres,
             reflexions,
             temoignages,
-            opinionQuestions: getWeeklyOpinionQuestions()
+            opinionQuestions: getDailyOpinionQuestions()
         });
     } catch (error) {
         console.error('❌ Erreur chargement page Baume de la Foi:', error);
@@ -193,7 +193,7 @@ router.get('/baume-de-la-foi', async (req, res) => {
             prieres: [],
             reflexions: [],
             temoignages: [],
-            opinionQuestions: getWeeklyOpinionQuestions()
+            opinionQuestions: getDailyOpinionQuestions()
         });
     }
 });
