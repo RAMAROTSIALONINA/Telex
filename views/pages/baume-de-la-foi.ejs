@@ -1389,9 +1389,116 @@
                     Lire la suite →
                 </a>
             `;
-            
+            card.appendChild(buildPdvComments(temoignage));
+
             col.appendChild(card);
             return col;
+        }
+
+        // ===== Commentaires des points de vue =====
+        function pdvCommentLabel(count) {
+            if (!count) return 'Commenter';
+            return count + (count > 1 ? ' commentaires' : ' commentaire');
+        }
+
+        function buildPdvComments(temoignage) {
+            const wrap = document.createElement('div');
+            wrap.className = 'pdv-comments';
+            wrap.innerHTML = `
+                <button type="button" class="pdv-comments-toggle" aria-expanded="false">
+                    <i class="far fa-comment"></i> <span class="pdv-comments-count"></span>
+                </button>
+                <div class="pdv-comments-panel" hidden>
+                    <ul class="pdv-comments-list"></ul>
+                    <form class="pdv-comment-form" novalidate>
+                        <input type="text" name="author_name" class="form-control" maxlength="60" placeholder="Votre nom ou pseudonyme" aria-label="Votre nom ou pseudonyme" required>
+                        <textarea name="content" class="form-control" rows="3" maxlength="1000" placeholder="Votre commentaire..." aria-label="Votre commentaire" required></textarea>
+                        <div class="pdv-comment-actions">
+                            <small>Publié après relecture par notre équipe.</small>
+                            <button type="submit" class="pdv-comment-submit">Envoyer</button>
+                        </div>
+                        <p class="pdv-comment-msg" role="status" hidden></p>
+                    </form>
+                </div>
+            `;
+            const count = Number(temoignage.comment_count) || 0;
+            wrap.querySelector('.pdv-comments-count').textContent = pdvCommentLabel(count);
+
+            const toggle = wrap.querySelector('.pdv-comments-toggle');
+            const panel = wrap.querySelector('.pdv-comments-panel');
+            let loaded = false;
+            toggle.addEventListener('click', () => {
+                const open = panel.hidden;
+                panel.hidden = !open;
+                toggle.setAttribute('aria-expanded', String(open));
+                if (open && !loaded) {
+                    loaded = true;
+                    loadPdvComments(temoignage.id, wrap);
+                }
+            });
+            wrap.querySelector('.pdv-comment-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                submitPdvComment(temoignage.id, e.target);
+            });
+            return wrap;
+        }
+
+        async function loadPdvComments(temoignageId, wrap) {
+            const list = wrap.querySelector('.pdv-comments-list');
+            list.innerHTML = '<li class="pdv-comments-empty">Chargement...</li>';
+            try {
+                const res = await fetch('/api/reflexion/points-de-vue/' + temoignageId + '/commentaires');
+                const data = await res.json();
+                if (!res.ok || !data.success) throw new Error(data.error);
+                list.innerHTML = '';
+                if (!data.data.length) {
+                    list.innerHTML = '<li class="pdv-comments-empty">Aucun commentaire pour le moment. Soyez le premier à réagir.</li>';
+                    return;
+                }
+                data.data.forEach(c => {
+                    const li = document.createElement('li');
+                    li.className = 'pdv-comment';
+                    li.innerHTML = '<div class="pdv-comment-head"><strong></strong><span></span></div><p></p>';
+                    li.querySelector('strong').textContent = c.author_name;
+                    li.querySelector('span').textContent = new Date(c.created_at.replace(' ', 'T') + 'Z').toLocaleDateString('fr-FR');
+                    li.querySelector('p').textContent = c.content;
+                    list.appendChild(li);
+                });
+                wrap.querySelector('.pdv-comments-count').textContent = pdvCommentLabel(data.data.length);
+            } catch (err) {
+                list.innerHTML = '<li class="pdv-comments-empty">Les commentaires n\'ont pas pu être chargés.</li>';
+            }
+        }
+
+        async function submitPdvComment(temoignageId, form) {
+            const msg = form.querySelector('.pdv-comment-msg');
+            const btn = form.querySelector('.pdv-comment-submit');
+            const authorName = form.author_name.value.trim();
+            const content = form.content.value.trim();
+            const showMsg = (text, ok) => {
+                msg.textContent = text;
+                msg.className = 'pdv-comment-msg ' + (ok ? 'ok' : 'error');
+                msg.hidden = false;
+            };
+            if (authorName.length < 2) return showMsg('Indiquez votre nom ou un pseudonyme.', false);
+            if (content.length < 3) return showMsg('Votre commentaire est trop court.', false);
+
+            btn.disabled = true;
+            try {
+                const res = await fetch('/api/reflexion/points-de-vue/' + temoignageId + '/commentaires', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ author_name: authorName, content })
+                });
+                const data = await res.json();
+                if (!res.ok || !data.success) return showMsg(data.error || 'Votre commentaire n\'a pas pu être envoyé.', false);
+                form.content.value = '';
+                showMsg(data.message, true);
+            } catch (err) {
+                showMsg('Votre commentaire n\'a pas pu être envoyé. Vérifiez votre connexion.', false);
+            } finally {
+                btn.disabled = false;
+            }
         }
         
         // Fonction pour basculer entre vue courte et vue détaillée - Style programme-card

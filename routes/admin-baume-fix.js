@@ -536,6 +536,7 @@ router.delete('/api/baume-de-la-foi/temoignage/:id', requireAuthApi, async (req,
         if (result.changes === 0) {
             return res.status(404).json({ success: false, error: 'Témoignage non trouvé' });
         }
+        await dbRun('DELETE FROM pdv_comments WHERE temoignage_id = ?', [id]);
 
         res.json({ 
             success: true, 
@@ -544,6 +545,51 @@ router.delete('/api/baume-de-la-foi/temoignage/:id', requireAuthApi, async (req,
     } catch (error) {
         console.error('❌ Erreur suppression témoignage:', error);
         res.status(500).json({ success: false, error: 'Erreur lors de la suppression du témoignage' });
+    }
+});
+
+// ========== COMMENTAIRES DES POINTS DE VUE ==========
+
+router.get('/api/reflexion/commentaires', requireAuthApi, async (req, res) => {
+    try {
+        const comments = await dbAll(`
+            SELECT c.id, c.temoignage_id, c.author_name, c.content, c.is_approved, c.created_at,
+                   t.author_name AS pdv_author, t.content AS pdv_content
+            FROM pdv_comments c
+            LEFT JOIN baume_temoignages t ON t.id = c.temoignage_id
+            ORDER BY c.is_approved ASC, c.created_at DESC
+        `);
+        res.json({ success: true, data: comments });
+    } catch (error) {
+        console.error('❌ Erreur récupération commentaires:', error);
+        res.status(500).json({ success: false, error: 'Erreur lors de la récupération des commentaires' });
+    }
+});
+
+router.post('/api/reflexion/commentaires/:id/approve', requireAuthApi, async (req, res) => {
+    try {
+        const approved = req.body && req.body.approved ? 1 : 0;
+        const result = await dbRun('UPDATE pdv_comments SET is_approved = ? WHERE id = ?', [approved, req.params.id]);
+        if (result.changes === 0) {
+            return res.status(404).json({ success: false, error: 'Commentaire introuvable' });
+        }
+        res.json({ success: true, message: approved ? 'Commentaire publié' : 'Commentaire masqué' });
+    } catch (error) {
+        console.error('❌ Erreur modération commentaire:', error);
+        res.status(500).json({ success: false, error: 'Erreur lors de la mise à jour du commentaire' });
+    }
+});
+
+router.delete('/api/reflexion/commentaires/:id', requireAuthApi, async (req, res) => {
+    try {
+        const result = await dbRun('DELETE FROM pdv_comments WHERE id = ?', [req.params.id]);
+        if (result.changes === 0) {
+            return res.status(404).json({ success: false, error: 'Commentaire introuvable' });
+        }
+        res.json({ success: true, message: 'Commentaire supprimé' });
+    } catch (error) {
+        console.error('❌ Erreur suppression commentaire:', error);
+        res.status(500).json({ success: false, error: 'Erreur lors de la suppression du commentaire' });
     }
 });
 

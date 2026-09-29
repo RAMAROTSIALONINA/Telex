@@ -1272,6 +1272,10 @@
                 <button class="tab-btn" data-tab="temoignages" onclick="switchTab('temoignages')">
                     <i class="fas fa-heart"></i>Témoignages
                 </button>
+                <button class="tab-btn" data-tab="commentaires" onclick="switchTab('commentaires')">
+                    <i class="fas fa-comments"></i>Commentaires
+                    <span id="pendingCommentsBadge" style="display:none;background:rgba(245,158,11,.15);color:#b45309;font-size:.72rem;padding:1px 7px;border-radius:10px;font-weight:700;"></span>
+                </button>
             </div>
 
             <!-- Statistics Dashboard -->
@@ -1829,6 +1833,72 @@
                 </div>
             </div>
 
+            <!-- ===== COMMENTAIRES DES POINTS DE VUE ===== -->
+            <div id="commentaires" class="tab-content fade-in" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-comments"></i>
+                            <div>
+                                <h2>Commentaires des points de vue</h2>
+                                <p>Publiez ou supprimez les commentaires laissés par les visiteurs sur la page Réflexion</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-number" id="commentsPending">0</div>
+                                <div class="stat-label">En attente</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(255, 193, 7, 0.08); color: #ffc107;"><i class="fas fa-clock"></i></div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-number" id="commentsApproved">0</div>
+                                <div class="stat-label">Publiés</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(40, 167, 69, 0.08); color: #28a745;"><i class="fas fa-check-circle"></i></div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-info">
+                                <div class="stat-number" id="commentsTotal">0</div>
+                                <div class="stat-label">Total</div>
+                            </div>
+                            <div class="stat-icon" style="background: rgba(29, 53, 87, 0.08); color: #1D3557;"><i class="fas fa-comments"></i></div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <div class="section-header" style="border-bottom: none; padding-bottom: 0;">
+                            <h3 style="margin: 0; color: var(--primary-dark);">
+                                <i class="fas fa-list me-2"></i>Liste des commentaires
+                            </h3>
+                            <div class="btn-group" id="comments-filters">
+                                <button class="btn btn-outline-warning active" onclick="setCommentsFilter('pending', this)">En attente</button>
+                                <button class="btn btn-outline-success" onclick="setCommentsFilter('approved', this)">Publiés</button>
+                                <button class="btn btn-outline-primary" onclick="setCommentsFilter('all', this)">Tous</button>
+                            </div>
+                        </div>
+                        <table class="modern-table" id="comments-table">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Auteur</th>
+                                    <th>Commentaire</th>
+                                    <th>Sur le point de vue</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td colspan="5" class="text-center">Chargement...</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <!-- ===== GESTION DES RÃ‰FLEXIONS ===== -->
             <div id="reflexions" class="tab-content fade-in" style="display: none;">
                 <form id="reflexionForm" enctype="multipart/form-data" method="POST">
@@ -2230,6 +2300,9 @@
 
                 if (tabId === 'temoignages') {
                     setTimeout(() => loadTemoignages(), 100);
+                }
+                if (tabId === 'commentaires') {
+                    loadAdminComments();
                 }
             }
         }
@@ -2876,6 +2949,113 @@
                     showNotification('Erreur: ' + error.message, 'error');
                 });
         }
+
+        // ===== COMMENTAIRES DES POINTS DE VUE =====
+        let adminComments = [];
+        let adminCommentsFilter = 'pending';
+
+        function loadAdminComments() {
+            fetch('/admin/api/reflexion/commentaires?t=' + Date.now())
+                .then(r => r.json().then(data => ({ ok: r.ok, data })))
+                .then(({ ok, data }) => {
+                    if (!ok || !data.success) throw new Error(data.error || 'Erreur de chargement');
+                    adminComments = data.data;
+                    renderAdminComments();
+                })
+                .catch(err => showNotification('Commentaires : ' + err.message, 'error'));
+        }
+
+        function setCommentsFilter(filter, btn) {
+            adminCommentsFilter = filter;
+            document.querySelectorAll('#comments-filters .btn').forEach(b => b.classList.toggle('active', b === btn));
+            renderAdminComments();
+        }
+
+        function renderAdminComments() {
+            const pending = adminComments.filter(c => !c.is_approved).length;
+            const badge = document.getElementById('pendingCommentsBadge');
+            badge.textContent = pending;
+            badge.style.display = pending ? 'inline' : 'none';
+            document.getElementById('commentsTotal').textContent = adminComments.length;
+            document.getElementById('commentsPending').textContent = pending;
+            document.getElementById('commentsApproved').textContent = adminComments.length - pending;
+
+            const rows = adminComments.filter(c =>
+                adminCommentsFilter === 'all' ||
+                (adminCommentsFilter === 'pending' ? !c.is_approved : !!c.is_approved));
+            const tbody = document.querySelector('#comments-table tbody');
+            tbody.innerHTML = '';
+            if (!rows.length) {
+                tbody.innerHTML = '<tr><td colspan="5" class="text-center"><div class="empty-state"><i class="fas fa-comments"></i><h4>Aucun commentaire</h4><p>Rien à afficher pour ce filtre.</p></div></td></tr>';
+                return;
+            }
+            rows.forEach(c => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td style="white-space:nowrap;"></td>
+                    <td><strong></strong></td>
+                    <td style="max-width:360px;"><div class="cmt-text" style="white-space:pre-wrap;"></div></td>
+                    <td style="max-width:240px;"><small class="text-muted"></small></td>
+                    <td style="white-space:nowrap;"></td>`;
+                const cells = tr.children;
+                cells[0].textContent = new Date(c.created_at.replace(' ', 'T') + 'Z').toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' });
+                cells[1].querySelector('strong').textContent = c.author_name;
+                cells[2].querySelector('.cmt-text').textContent = c.content;
+                const pdv = c.pdv_content ? (c.pdv_author || 'Anonyme') + ' : « ' + c.pdv_content.slice(0, 80) + (c.pdv_content.length > 80 ? '…' : '') + ' »' : 'Point de vue supprimé';
+                cells[3].querySelector('small').textContent = pdv;
+
+                const actions = cells[4];
+                const toggleBtn = document.createElement('button');
+                toggleBtn.className = 'btn btn-sm ' + (c.is_approved ? 'btn-outline-secondary' : 'btn-success');
+                toggleBtn.innerHTML = c.is_approved ? '<i class="fas fa-eye-slash"></i> Masquer' : '<i class="fas fa-check"></i> Publier';
+                toggleBtn.onclick = () => moderateComment(c.id, !c.is_approved);
+                const delBtn = document.createElement('button');
+                delBtn.className = 'btn btn-sm btn-outline-danger ms-1';
+                delBtn.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
+                delBtn.onclick = () => {
+                    if (delBtn.dataset.confirm) return deleteComment(c.id);
+                    delBtn.dataset.confirm = '1';
+                    delBtn.className = 'btn btn-sm btn-danger ms-1';
+                    delBtn.innerHTML = '<i class="fas fa-trash"></i> Confirmer ?';
+                    setTimeout(() => {
+                        if (!delBtn.isConnected) return;
+                        delete delBtn.dataset.confirm;
+                        delBtn.className = 'btn btn-sm btn-outline-danger ms-1';
+                        delBtn.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
+                    }, 4000);
+                };
+                actions.append(toggleBtn, delBtn);
+                tbody.appendChild(tr);
+            });
+        }
+
+        function moderateComment(id, approved) {
+            fetch('/admin/api/reflexion/commentaires/' + id + '/approve', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ approved })
+            })
+                .then(r => r.json())
+                .then(result => {
+                    if (!result.success) throw new Error(result.error || 'Erreur');
+                    showNotification(result.message, approved ? 'success' : 'info');
+                    loadAdminComments();
+                })
+                .catch(err => showNotification('Erreur : ' + err.message, 'error'));
+        }
+
+        function deleteComment(id) {
+            fetch('/admin/api/reflexion/commentaires/' + id, { method: 'DELETE' })
+                .then(r => r.json())
+                .then(result => {
+                    if (!result.success) throw new Error(result.error || 'Erreur');
+                    showNotification(result.message, 'success');
+                    loadAdminComments();
+                })
+                .catch(err => showNotification('Erreur : ' + err.message, 'error'));
+        }
+
+        document.addEventListener('DOMContentLoaded', loadAdminComments);
 
         // ===== RAFRAÎCHISSEMENT DES DONNÉES =====
         function refreshDashboardData() {

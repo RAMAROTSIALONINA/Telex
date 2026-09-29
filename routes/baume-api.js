@@ -348,6 +348,7 @@ router.delete('/temoignages/:id', async (req, res) => {
         if (result.changes === 0) {
             return res.status(404).json({ success: false, error: 'Témoignage non trouvé' });
         }
+        await dbRun('DELETE FROM pdv_comments WHERE temoignage_id = ?', [req.params.id]);
 
         res.json({ success: true, message: 'Témoignage supprimé avec succès' });
     } catch (error) {

@@ -268,6 +268,60 @@ router.post('/api/opinion/vote', async (req, res) => {
     }
 });
 
+// ========== API COMMENTAIRES DES POINTS DE VUE ==========
+
+router.get('/api/reflexion/points-de-vue/:id/commentaires', async (req, res) => {
+    try {
+        const comments = await dbAll(
+            `SELECT id, author_name, content, created_at FROM pdv_comments
+             WHERE temoignage_id = ? AND is_approved = 1 ORDER BY created_at ASC`,
+            [parseInt(req.params.id, 10)]
+        );
+        res.json({ success: true, data: comments });
+    } catch (error) {
+        console.error('❌ Erreur chargement commentaires:', error);
+        res.status(500).json({ success: false, error: 'Les commentaires n\'ont pas pu être chargés' });
+    }
+});
+
+router.post('/api/reflexion/points-de-vue/:id/commentaires', async (req, res) => {
+    try {
+        const temoignageId = parseInt(req.params.id, 10);
+        const authorName = String((req.body && req.body.author_name) || '').trim();
+        const content = String((req.body && req.body.content) || '').trim();
+
+        if (authorName.length < 2 || authorName.length > 60) {
+            return res.status(400).json({ success: false, error: 'Indiquez un nom ou un pseudonyme (2 à 60 caractères).' });
+        }
+        if (content.length < 3 || content.length > 1000) {
+            return res.status(400).json({ success: false, error: 'Votre commentaire doit contenir entre 3 et 1000 caractères.' });
+        }
+
+        const temoignage = await dbGet('SELECT id FROM baume_temoignages WHERE id = ? AND is_approved = 1', [temoignageId]);
+        if (!temoignage) {
+            return res.status(404).json({ success: false, error: 'Ce point de vue n\'existe plus.' });
+        }
+
+        const authorHash = getVoterHash(req);
+        const recent = await dbGet(
+            `SELECT COUNT(*) AS n FROM pdv_comments WHERE author_hash = ? AND created_at > datetime('now', '-10 minutes')`,
+            [authorHash]
+        );
+        if (recent && recent.n >= 5) {
+            return res.status(429).json({ success: false, error: 'Vous avez envoyé beaucoup de commentaires. Réessayez dans quelques minutes.' });
+        }
+
+        await dbRun(
+            'INSERT INTO pdv_comments (temoignage_id, author_name, content, author_hash) VALUES (?, ?, ?, ?)',
+            [temoignageId, authorName, content, authorHash]
+        );
+        res.json({ success: true, message: 'Merci ! Votre commentaire sera publié après relecture par notre équipe.' });
+    } catch (error) {
+        console.error('❌ Erreur envoi commentaire:', error);
+        res.status(500).json({ success: false, error: 'Votre commentaire n\'a pas pu être envoyé. Réessayez plus tard.' });
+    }
+});
+
 // ========== API BAUME DE LA FOI ==========
 
 // API pour récupérer plus de prières (infinite scroll)
@@ -608,10 +662,12 @@ router.get('/api/baume/temoignages', async (req, res) => {
             // Mode public : limitation pour pagination
             const offset = (page - 1) * limit;
             temoignages = await dbAll(`
-                SELECT id, author_name, content, created_at, is_approved, status
-                FROM baume_temoignages 
+                SELECT id, author_name, content, created_at, is_approved, status,
+                       (SELECT COUNT(*) FROM pdv_comments c
+                        WHERE c.temoignage_id = baume_temoignages.id AND c.is_approved = 1) AS comment_count
+                FROM baume_temoignages
                 WHERE ${whereClause}
-                ORDER BY created_at DESC 
+                ORDER BY created_at DESC
                 LIMIT ? OFFSET ?
             `, [parseInt(limit), offset]);
         }

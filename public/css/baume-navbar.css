@@ -2062,3 +2062,79 @@ body {
 @media (prefers-reduced-motion: reduce) {
     .rx-banner-btn { transition: none; }
 }
+
+/* ===== COMMENTAIRES DES POINTS DE VUE ===== */
+.pdv-comments {
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid #eef2ef;
+    text-align: left;
+}
+.pdv-comments-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(46, 92, 78, 0.25);
+    border-radius: 50px;
+    background: #fff;
+    color: var(--baume-primary, #2E5C4E);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+.pdv-comments-toggle:hover,
+.pdv-comments-toggle[aria-expanded="true"] { background: #EDF3EF; border-color: var(--baume-primary, #2E5C4E); }
+.pdv-comments-toggle:focus-visible { outline: 3px solid var(--baume-accent, #3AAFA9); outline-offset: 2px; }
+.pdv-comments-panel { margin-top: 0.9rem; }
+.pdv-comments-list {
+    list-style: none;
+    margin: 0 0 0.9rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-height: 280px;
+    overflow-y: auto;
+}
+.pdv-comment {
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    background: #F5F8F6;
+}
+.pdv-comment-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+    font-size: 0.8rem;
+}
+.pdv-comment-head strong { color: #1D3557; }
+.pdv-comment-head span { color: #6b7280; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.pdv-comment p { margin: 0; font-style: normal; font-size: 0.88rem; line-height: 1.5; color: #333; overflow-wrap: anywhere; }
+.pdv-comments-empty { font-size: 0.85rem; color: #6b7280; }
+.pdv-comment-form { display: flex; flex-direction: column; gap: 0.5rem; }
+.pdv-comment-form .form-control { font-size: 0.88rem; border-radius: 8px; }
+.pdv-comment-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+}
+.pdv-comment-actions small { color: #6b7280; font-size: 0.75rem; }
+.pdv-comment-submit {
+    flex-shrink: 0;
+    padding: 0.45rem 1.1rem;
+    border: none;
+    border-radius: 50px;
+    background: var(--baume-primary, #2E5C4E);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+}
+.pdv-comment-submit:disabled { opacity: 0.5; cursor: wait; }
+.pdv-comment-msg { margin: 0; padding: 0.5rem 0.75rem; border-radius: 8px; font-size: 0.83rem; }
+.pdv-comment-msg.ok { background: #ECFDF3; color: #166534; }
+.pdv-comment-msg.error { background: #FEF2F2; color: #B91C1C; }

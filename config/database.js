@@ -35,6 +35,7 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
             initializeAboutData(); // Initialiser les données de la page about
             createPageViewsTable(); // Tracking réel des visites
             createOpinionVotesTable();
+            createPdvCommentsTable();
         }, 2000);
     }
 });
@@ -898,6 +899,26 @@ function createOpinionVotesTable() {
             console.error('❌ Erreur création opinion_votes:', err.message);
         } else {
             console.log('✅ Table opinion_votes prête');
+        }
+    });
+}
+
+// Commentaires sur les points de vue publiés (page Réflexion), relus avant publication
+function createPdvCommentsTable() {
+    db.run(`CREATE TABLE IF NOT EXISTS pdv_comments (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        temoignage_id INTEGER NOT NULL,
+        author_name TEXT NOT NULL,
+        content TEXT NOT NULL,
+        is_approved INTEGER DEFAULT 0,
+        author_hash TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )`, (err) => {
+        if (err) {
+            console.error('❌ Erreur création pdv_comments:', err.message);
+        } else {
+            db.run(`CREATE INDEX IF NOT EXISTS idx_pdv_comments_temoignage ON pdv_comments(temoignage_id, is_approved)`);
+            console.log('✅ Table pdv_comments prête');
         }
     });
 }
