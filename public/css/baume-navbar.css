@@ -1923,3 +1923,142 @@ body {
     overflow-x: hidden;
 }
 
+
+/* ===== BANNIÈRES PAGE RÉFLEXION ===== */
+.rx-banner {
+    --rx-color: #E63946;
+    --rx-soft: #FDECEE;
+    position: relative;
+    z-index: 2;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    padding: 2.25rem 2.5rem;
+    border-radius: 18px;
+    background: var(--rx-soft);
+    text-align: left;
+}
+.rx-banner::after {
+    content: '';
+    position: absolute;
+    right: -70px;
+    top: -70px;
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: var(--rx-color);
+    opacity: 0.08;
+    pointer-events: none;
+}
+.rx-banner-icon {
+    flex-shrink: 0;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--rx-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.6rem;
+    box-shadow: 0 8px 24px rgba(29, 53, 87, 0.08);
+}
+.rx-banner-body { position: relative; z-index: 1; max-width: 780px; }
+.rx-tag {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 0.9rem;
+}
+.rx-tag-main {
+    display: inline-block;
+    background: var(--rx-color);
+    color: #fff;
+    font-family: 'League Spartan', 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: 1.9rem;
+    line-height: 1;
+    padding: 0.5rem 1rem 0.3rem;
+    border-radius: 8px;
+    transform: rotate(-3deg);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+}
+.rx-tag-sub {
+    margin: 0.55rem 0 0 0.3rem;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #1D3557;
+}
+.rx-banner-text {
+    max-width: 65ch;
+    margin: 0 0 0.6rem;
+    font-size: 1.02rem;
+    line-height: 1.7;
+    color: #1f2937;
+}
+.rx-banner-quote { margin: 0; font-size: 0.92rem; font-style: italic; color: #4b5563; }
+.rx-banner-quote strong { font-style: normal; color: var(--rx-color); }
+.rx-banner-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+    padding: 0.65rem 1.5rem;
+    border-radius: 50px;
+    background: var(--rx-color);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+    transition: transform 0.2s, opacity 0.2s;
+}
+.rx-banner-btn:hover { color: #fff; opacity: 0.9; transform: translateY(-1px); }
+.rx-banner-btn:focus-visible { outline: 3px solid #1D3557; outline-offset: 3px; }
+
+.rx-banner--inspiration { --rx-color: #D97706; --rx-soft: #FEF6E7; }
+.rx-banner--opinion     { --rx-color: #2A9D8F; --rx-soft: #E8F6F5; }
+.rx-banner--analyse     { --rx-color: #E8702A; --rx-soft: #FDF0E7; }
+.rx-banner--pdv         { --rx-color: #2E5C4E; --rx-soft: #EDF3EF; }
+.rx-banner--list        { --rx-color: #1D3557; --rx-soft: #EEF2F7; }
+
+.rx-banner--hero {
+    justify-content: center;
+    padding: 3.5rem 2.5rem;
+    border-radius: 0;
+    background: linear-gradient(135deg, #1D3557 0%, #264A73 100%);
+}
+.rx-banner--hero::after { width: 340px; height: 340px; right: -90px; top: -130px; opacity: 0.2; }
+.rx-banner--hero .rx-banner-icon { background: rgba(255, 255, 255, 0.1); color: #fff; box-shadow: none; }
+.rx-banner--hero .rx-tag-sub { color: #A8DADC; }
+.rx-banner--hero .rx-banner-text { color: rgba(255, 255, 255, 0.88); }
+.rx-hero-title {
+    margin: 0 0 0.8rem;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.7rem, 4vw, 2.7rem);
+    line-height: 1.15;
+    color: #fff;
+    text-wrap: balance;
+}
+
+@media (max-width: 767px) {
+    .rx-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1.6rem 1.25rem;
+        border-radius: 14px;
+    }
+    .rx-banner-icon { width: 60px; height: 60px; font-size: 1.6rem; }
+    .rx-tag-main { font-size: 1.5rem; }
+    .rx-banner-text { font-size: 0.95rem; }
+    .rx-banner--hero { padding: 2.25rem 1.25rem; border-radius: 0; }
+    .rx-banner--hero .rx-banner-icon { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .rx-banner-btn { transition: none; }
+}

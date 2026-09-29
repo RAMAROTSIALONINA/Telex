@@ -42,20 +42,16 @@
         <div style="position: absolute; top: 0; right: 0; width: 10px; height: 100%; background: #EAE3D6; z-index: -1;"></div>
     </div>
 
-    <!-- ===== PRÉSENTATION BAUME DE LA FOI ===== -->
-    <section class="py-0" style="background-color: white; position: relative; height: auto; overflow: hidden;">
-        <!-- Image Hero.png en haut -->
-        <div class="hero-image" style="text-align: center; margin-bottom: 20px;">
-            <img src="/images/Hero.png" alt="Réflexion - Telex" 
-                 class="img-fluid" 
-                 style="width: 100%; height: auto; max-height: 250px; object-fit: contain; display: block; margin: 0 auto;">
-        </div>
-        
-        <!-- Image Baume de la foi -->
-        <div class="presentation-image">
-            <img src="/images/Baume%20de%20la%20foi.png" alt="Réflexion - Espace d'inspiration" 
-                 class="img-fluid" 
-                 style="width: 100%; height: auto; object-fit: contain; object-position: center; display: block; border: none; border-radius: 0; background-color: white;">
+    <!-- ===== PRÉSENTATION RÉFLEXION ===== -->
+    <section class="rx-banner rx-banner--hero">
+        <div class="rx-banner-icon" aria-hidden="true"><i class="fas fa-lightbulb"></i></div>
+        <div class="rx-banner-body">
+            <div class="rx-tag"><span class="rx-tag-main">Réflexion</span><span class="rx-tag-sub">par Telex Madagascar</span></div>
+            <h1 class="rx-hero-title">Penser, comprendre, s'exprimer.</h1>
+            <p class="rx-banner-text">
+                Une réflexion est un processus de pensée et d'analyse qui permet de mieux comprendre une idée,
+                une situation ou un enseignement, afin d'en tirer un sens et une application dans la vie quotidienne.
+            </p>
         </div>
     </section>
 
@@ -80,14 +76,16 @@
     <section id="prieres" style="background: #ffffff; padding: 3rem 0;">
         <div class="container-fluid" style="max-width: 100%; padding: 0 3rem;">
 
-            <!-- Image bannière prières -->
-            <div class="row mb-4 justify-content-center">
-                <div class="col-12">
-                    <div class="prayer-image-container text-center">
-                        <img src="/images/Prière.png" alt="La prière est un moment privilégié de communion avec Dieu"
-                             class="img-fluid prayer-full-image"
-                             style="width: 100%; height: auto; object-fit: cover; border-radius: 12px;">
-                    </div>
+            <!-- Bannière inspirations -->
+            <div class="rx-banner rx-banner--inspiration mb-4">
+                <div class="rx-banner-icon" aria-hidden="true"><i class="fas fa-sun"></i></div>
+                <div class="rx-banner-body">
+                    <div class="rx-tag"><span class="rx-tag-main">Inspiration</span><span class="rx-tag-sub">du jour</span></div>
+                    <p class="rx-banner-text">
+                        Une pensée, une prière, une parole pour accompagner votre journée.
+                        Prendre un moment pour soi aide à retrouver le calme, la confiance et l'élan pour avancer.
+                    </p>
+                    <p class="rx-banner-quote">« Ne vous inquiétez de rien ; la paix gardera vos cœurs et vos pensées. » <strong>Philippiens 4:6-7</strong></p>
                 </div>
             </div>
 
@@ -224,10 +222,16 @@
                 </div>
             </div>
 
-            <!-- Bannière image -->
-            <div style="width: 100%; overflow: hidden; border-radius: 14px; margin-bottom: 2rem; max-height: 200px;">
-                <img src="/images/Quiz.png" alt="Opinion Publique"
-                     style="width: 100%; height: 200px; object-fit: cover; display: block;">
+            <!-- Bannière opinion -->
+            <div class="rx-banner rx-banner--opinion mb-4">
+                <div class="rx-banner-icon" aria-hidden="true"><i class="fas fa-bullhorn"></i></div>
+                <div class="rx-banner-body">
+                    <div class="rx-tag"><span class="rx-tag-main">Votre avis</span><span class="rx-tag-sub">compte</span></div>
+                    <p class="rx-banner-text">
+                        Chaque jour, cinq questions sur la société, l'éducation, l'environnement, l'emploi ou la vie citoyenne.
+                        Votez en un clic et comparez votre avis à celui des autres participants.
+                    </p>
+                </div>
             </div>
 
             <!-- Carte sondage -->
@@ -305,10 +309,19 @@
 
     <!-- ===== RÉFLEXIONS PUBLIÉES ===== -->
 <section id="reflexions" style="background: #f8f9fa; padding: 3rem 0;">
-    <!-- Image bannière réflexions -->
-    <div style="width: 100%; max-width: 100%; overflow: hidden; margin-bottom: 2rem;">
-        <img src="/images/Reflexion.png" alt="Analyses"
-             style="width: 100%; height: auto; max-height: 45vh; object-fit: cover; display: block;">
+    <!-- Bannière analyses -->
+    <div class="container mb-4">
+        <div class="rx-banner rx-banner--analyse">
+            <div class="rx-banner-icon" aria-hidden="true"><i class="fas fa-search"></i></div>
+            <div class="rx-banner-body">
+                <div class="rx-tag"><span class="rx-tag-main">Analyse</span><span class="rx-tag-sub">pour comprendre</span></div>
+                <p class="rx-banner-text">
+                    Prendre du recul, examiner une idée sous plusieurs angles, confronter les points de vue :
+                    l'analyse aide à comprendre avant de juger, et à en tirer un sens pour la vie de tous les jours.
+                </p>
+                <p class="rx-banner-quote">« Comprendre, c'est déjà commencer à agir. »</p>
+            </div>
+        </div>
     </div>
 
     <div class="container">
@@ -342,11 +355,17 @@
         <div class="text-center mb-1">
                     </div>
 
-        <!-- Image Témoignage de la foi après le bouton -->
-        <div class="text-center mb-1">
-            <img src="/images/T%C3%A9moignage%20de%20la%20foi.png" alt="Votre point de vue"
-                 class="img-fluid"
-                 style="width: 100%; height: auto; max-height: 80vh; object-fit: contain; display: block;">
+        <!-- Bannière point de vue -->
+        <div class="rx-banner rx-banner--pdv mt-4">
+            <div class="rx-banner-icon" aria-hidden="true"><i class="fas fa-comment-dots"></i></div>
+            <div class="rx-banner-body">
+                <div class="rx-tag"><span class="rx-tag-main">Point de vue</span><span class="rx-tag-sub">des jeunes</span></div>
+                <p class="rx-banner-text">
+                    Votre expérience peut éclairer quelqu'un aujourd'hui. Partagez votre avis ou votre vécu
+                    sur un sujet qui vous tient à cœur : chaque point de vue compte.
+                </p>
+                <a href="#temoignage-form" class="rx-banner-btn"><i class="fas fa-pen"></i> Donner mon point de vue</a>
+            </div>
         </div>
     </div>
 </section>
@@ -431,10 +450,15 @@
     <!-- ===== TÉMOIGNAGES APPROUVÉS ===== -->
     <section class="py-4" style="background-color: white; position: relative;">
         <div class="container-fluid px-0">
-            <!-- Image Témoignages de foi -->
-            <div class="temoignages-optimized">
-                <img src="/images/T%C3%A9moignages%20de%20foi.png" alt="Points de vue des jeunes"
-                     class="temoignages-img">
+            <!-- Bannière points de vue publiés -->
+            <div class="container">
+                <div class="rx-banner rx-banner--list">
+                    <div class="rx-banner-icon" aria-hidden="true"><i class="fas fa-users"></i></div>
+                    <div class="rx-banner-body">
+                        <div class="rx-tag"><span class="rx-tag-main">Ils ont pris la parole</span></div>
+                        <p class="rx-banner-text">Les points de vue partagés par la communauté Telex, relus par notre équipe avant publication.</p>
+                    </div>
+                </div>
             </div>
         
         <div class="container" style="margin-top: 30px;">
