@@ -132,8 +132,14 @@ router.get('/', async (req, res) => {
     }
 });
 
-// ========== BAUME DE LA FOI ==========
-router.get('/baume-de-la-foi', async (req, res) => {
+// ========== RÉFLEXION ==========
+// Ancienne adresse : redirection permanente pour garder les liens déjà partagés
+router.get('/baume-de-la-foi', (req, res) => {
+    const query = req.originalUrl.includes('?') ? req.originalUrl.slice(req.originalUrl.indexOf('?')) : '';
+    res.redirect(301, '/reflexion' + query);
+});
+
+router.get('/reflexion', async (req, res) => {
     try {
         console.log('🔍 Chargement page publique Baume de la Foi');
         
@@ -500,7 +506,7 @@ router.get('/baume-de-la-foi/test-db', async (req, res) => {
 });
 
 // POST - Soumettre un témoignage depuis la page publique
-router.post('/baume-de-la-foi/temoignage', async (req, res) => {
+router.post(['/reflexion/point-de-vue', '/baume-de-la-foi/temoignage'], async (req, res) => {
     try {
         console.log('📝 Route POST /baume-de-la-foi/temoignage appelée');
         console.log('📝 Body reçu:', req.body);

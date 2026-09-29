@@ -393,7 +393,7 @@
                         <!-- Message de succès/erreur -->
                         <div id="temoignageMessageAlert" class="alert" style="display: none;"></div>
                         
-                        <form action="/baume-de-la-foi/temoignage" method="POST">
+                        <form action="/reflexion/point-de-vue" method="POST">
                             <div class="row">
                                 <div class="col-md-6 mb-3">
                                     <label for="nom" class="form-label">Votre nom ou pseudonyme</label>
@@ -987,7 +987,7 @@
             setInterval(changeReflexionImages, 18000); // Changer toutes les 18 secondes pour les réflexions
             
             // Validation du formulaire de témoignage
-            const temoignageForm = document.querySelector('form[action="/baume-de-la-foi/temoignage"]');
+            const temoignageForm = document.querySelector('form[action="/reflexion/point-de-vue"]');
             if (temoignageForm) {
                 const submitBtn = document.getElementById('temoignageSubmitBtn');
                 const temoignageTextarea = document.getElementById('temoignage');
@@ -1037,7 +1037,7 @@
                     submitBtn.disabled = true;
                     
                     try {
-                        const response = await fetch('/baume-de-la-foi/temoignage', {
+                        const response = await fetch('/reflexion/point-de-vue', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
