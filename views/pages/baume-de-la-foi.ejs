@@ -467,7 +467,7 @@
                 </div>
             </div>
             
-            <div id="temoignages-container" class="row">
+            <div id="temoignages-container" class="row align-items-start">
                 <!-- Les témoignages seront chargés dynamiquement avec le nouveau style -->
                 <div class="col-12 text-center">
                     <div class="spinner-border text-primary" role="status">
@@ -1347,50 +1347,68 @@
             }
         }
 
-        // Créer une carte de témoignage - Style inspiré des cartes programmes
+        // ===== Cartes des points de vue publiés =====
+        const PDV_AVATAR_COLORS = ['#1D3557', '#2E5C4E', '#2A9D8F', '#C2572B', '#8E3B5F', '#4B55B8'];
+
+        function pdvInitials(name) {
+            const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
+            if (!parts.length) return '?';
+            return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+        }
+
+        function pdvAvatar(name, small) {
+            const el = document.createElement('span');
+            el.className = 'pdv-avatar' + (small ? ' pdv-avatar--sm' : '');
+            el.setAttribute('aria-hidden', 'true');
+            const key = [...String(name || '')].reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+            el.style.background = PDV_AVATAR_COLORS[key % PDV_AVATAR_COLORS.length];
+            el.textContent = pdvInitials(name);
+            return el;
+        }
+
+        function pdvDate(value, withYear) {
+            if (!value) return '';
+            const d = new Date(String(value).replace(' ', 'T') + (String(value).includes('Z') ? '' : 'Z'));
+            if (isNaN(d)) return '';
+            return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: withYear === false ? undefined : 'numeric' });
+        }
+
         function createTemoignageCard(temoignage) {
-            
             const col = document.createElement('div');
             col.className = 'col-md-6 col-lg-4 mb-4';
-            
-            const card = document.createElement('div');
-            card.className = 'temoignage-program-card';
-            
-            // Créer une version courte du témoignage (première phrase complète)
-            let shortContent;
-            const sentences = temoignage.content.match(/[^.!?]+[.!?]+/g);
-            if (sentences && sentences.length > 0) {
-                shortContent = sentences[0].trim();
-            } else {
-                // Fallback : prendre les 100 premiers caractères
-                shortContent = temoignage.content.substring(0, 100) + (temoignage.content.length > 100 ? '...' : '');
-            }
-            const fullContent = temoignage.content;
-            
-            // Limiter la longueur pour l'affichage dans la carte
-            const displayContent = shortContent.length > 120 ? shortContent.substring(0, 120) + '...' : shortContent;
-            
-            card.innerHTML = `
-                <div class="temoignage-icon">
-                    <i class="fas fa-heart"></i>
-                </div>
-                <h3>${temoignage.author_name || 'Anonyme'}</h3>
-                <div class="temoignage-date">
-                    ${temoignage.ville ? temoignage.ville + ' • ' : ''}
-                    ${new Date(temoignage.created_at).toLocaleDateString('fr-FR')}
-                </div>
-                <p>"${displayContent}"</p>
-                <a href="#" class="temoignage-link" onclick="toggleTemoignageDetail(${temoignage.id}); return false;" 
-                   id="detail-btn-${temoignage.id}"
-                   data-short="${shortContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
-                   data-full="${fullContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
-                   data-short-raw="${shortContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}"
-                   data-full-raw="${fullContent.replace(/"/g, '&quot;').replace(/'/g, '&#39;')}">
-                    Lire la suite →
-                </a>
-            `;
-            card.appendChild(buildPdvComments(temoignage));
 
+            const card = document.createElement('article');
+            card.className = 'temoignage-program-card pdv-card';
+            card.innerHTML = `
+                <header class="pdv-card-head">
+                    <div class="pdv-card-author">
+                        <strong class="pdv-card-name"></strong>
+                        <span class="pdv-card-meta"></span>
+                    </div>
+                    <i class="fas fa-quote-right pdv-card-quote" aria-hidden="true"></i>
+                </header>
+                <p class="pdv-card-text"></p>
+                <button type="button" class="pdv-card-more">Lire la suite</button>
+            `;
+            const name = temoignage.author_name || 'Anonyme';
+            card.querySelector('.pdv-card-head').prepend(pdvAvatar(name));
+            card.querySelector('.pdv-card-name').textContent = name;
+            card.querySelector('.pdv-card-meta').textContent =
+                [temoignage.ville, pdvDate(temoignage.created_at)].filter(Boolean).join(' · ');
+
+            const text = card.querySelector('.pdv-card-text');
+            text.textContent = temoignage.content || '';
+            const more = card.querySelector('.pdv-card-more');
+            more.addEventListener('click', () => {
+                const expanded = text.classList.toggle('is-expanded');
+                more.textContent = expanded ? 'Réduire' : 'Lire la suite';
+            });
+            // Le bouton n'apparaît que si le texte dépasse les lignes affichées
+            requestAnimationFrame(() => {
+                if (text.scrollHeight <= text.clientHeight + 1) more.hidden = true;
+            });
+
+            card.appendChild(buildPdvComments(temoignage));
             col.appendChild(card);
             return col;
         }
@@ -1405,18 +1423,20 @@
             const wrap = document.createElement('div');
             wrap.className = 'pdv-comments';
             wrap.innerHTML = `
-                <button type="button" class="pdv-comments-toggle" aria-expanded="false">
-                    <i class="far fa-comment"></i> <span class="pdv-comments-count"></span>
-                </button>
+                <div class="pdv-card-actions">
+                    <button type="button" class="pdv-comments-toggle" aria-expanded="false">
+                        <i class="far fa-comment"></i> <span class="pdv-comments-count"></span>
+                    </button>
+                </div>
                 <div class="pdv-comments-panel" hidden>
                     <ul class="pdv-comments-list"></ul>
                     <form class="pdv-comment-form" novalidate>
-                        <input type="text" name="author_name" class="form-control" maxlength="60" placeholder="Votre nom ou pseudonyme" aria-label="Votre nom ou pseudonyme" required>
-                        <textarea name="content" class="form-control" rows="3" maxlength="1000" placeholder="Votre commentaire..." aria-label="Votre commentaire" required></textarea>
-                        <div class="pdv-comment-actions">
-                            <small>Publié après relecture par notre équipe.</small>
-                            <button type="submit" class="pdv-comment-submit">Envoyer</button>
+                        <input type="text" name="author_name" class="pdv-input" maxlength="60" placeholder="Votre nom ou pseudonyme" aria-label="Votre nom ou pseudonyme" required>
+                        <div class="pdv-comment-compose">
+                            <textarea name="content" class="pdv-input" rows="2" maxlength="1000" placeholder="Écrire un commentaire…" aria-label="Votre commentaire" required></textarea>
+                            <button type="submit" class="pdv-comment-submit" aria-label="Envoyer le commentaire"><i class="fas fa-paper-plane"></i></button>
                         </div>
+                        <small class="pdv-comment-note"><i class="fas fa-shield-alt"></i> Publié après relecture par notre équipe.</small>
                         <p class="pdv-comment-msg" role="status" hidden></p>
                     </form>
                 </div>
@@ -1445,7 +1465,7 @@
 
         async function loadPdvComments(temoignageId, wrap) {
             const list = wrap.querySelector('.pdv-comments-list');
-            list.innerHTML = '<li class="pdv-comments-empty">Chargement...</li>';
+            list.innerHTML = '<li class="pdv-comments-empty">Chargement…</li>';
             try {
                 const res = await fetch('/api/reflexion/points-de-vue/' + temoignageId + '/commentaires');
                 const data = await res.json();
@@ -1458,9 +1478,10 @@
                 data.data.forEach(c => {
                     const li = document.createElement('li');
                     li.className = 'pdv-comment';
-                    li.innerHTML = '<div class="pdv-comment-head"><strong></strong><span></span></div><p></p>';
+                    li.innerHTML = '<div class="pdv-comment-bubble"><div class="pdv-comment-head"><strong></strong><span></span></div><p></p></div>';
+                    li.prepend(pdvAvatar(c.author_name, true));
                     li.querySelector('strong').textContent = c.author_name;
-                    li.querySelector('span').textContent = new Date(c.created_at.replace(' ', 'T') + 'Z').toLocaleDateString('fr-FR');
+                    li.querySelector('.pdv-comment-head span').textContent = pdvDate(c.created_at, false);
                     li.querySelector('p').textContent = c.content;
                     list.appendChild(li);
                 });
@@ -1500,37 +1521,6 @@
                 btn.disabled = false;
             }
         }
-        
-        // Fonction pour basculer entre vue courte et vue détaillée - Style programme-card
-        function toggleTemoignageDetail(temoignageId) {
-            const buttonElement = document.getElementById(`detail-btn-${temoignageId}`);
-            
-            if (!buttonElement) return;
-            
-            // Récupérer les données depuis les attributs data-*
-            const shortContent = buttonElement.getAttribute('data-short');
-            const fullContent = buttonElement.getAttribute('data-full');
-            
-            // Vérifier l'état actuel en regardant le texte du bouton
-            const buttonText = buttonElement.textContent.trim();
-            
-            // Trouver la carte parente
-            const card = buttonElement.closest('.temoignage-program-card');
-            const paragraph = card.querySelector('p');
-            
-            if (buttonText === 'Lire la suite →') {
-                // Passer en mode détaillé
-                paragraph.innerHTML = `"${fullContent}"`;
-                buttonElement.innerHTML = '← Revenir au résumé';
-                buttonElement.style.color = 'var(--baume-accent)';
-            } else {
-                // Revenir en mode court
-                const displayContent = shortContent.length > 120 ? shortContent.substring(0, 120) + '...' : shortContent;
-                paragraph.innerHTML = `"${displayContent}"`;
-                buttonElement.innerHTML = 'Lire la suite →';
-                buttonElement.style.color = '';
-            }
-        }
 
         // Afficher un message quand il n'y a pas de témoignages
         function displayNoTemoignages() {
@@ -1542,7 +1532,7 @@
                     <div class="text-muted">
                         <i class="fas fa-heart" style="font-size: 3rem; opacity: 0.5;"></i>
                         <h4 class="mt-3">Aucun point de vue publié pour le moment</h4>
-                        <p>Soyez le premier à partager votre expérience de foi !</p>
+                        <p>Soyez le premier à partager votre point de vue !</p>
                     </div>
                 </div>
             `;
