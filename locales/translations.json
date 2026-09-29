@@ -10,7 +10,7 @@
       "gallery": "GALERIE",
       "album": "ALBUM",
       "programs": "PROGRAMMES",
-      "baume": "BAUME DE LA FOI",
+      "baume": "REFLEXION",
       "news": "ACTUALITÉS",
       "contact": "CONTACT"
     },
@@ -32,8 +32,8 @@
       "active_community": "Communauté active",
       "learn_more": "En savoir plus sur nous",
       "see_all_news": "Voir toutes les actualités",
-      "baume_title": "Baume de la Foi",
-      "baume_subtitle": "Découvrez les derniers contenus spirituels pour nourrir votre foi",
+      "baume_title": "Réflexion",
+      "baume_subtitle": "Une réflexion est un processus de pensée et d'analyse qui permet de mieux comprendre une idée, une situation ou un enseignement, afin d'en tirer un sens et une application dans la vie quotidienne.",
       "see_all_reflections": "Voir toutes les réflexions et prières",
       "join_adventure": "Rejoignez l'aventure Telex"
     },
@@ -138,7 +138,7 @@
       "gallery": "GALLERY",
       "album": "ALBUM",
       "programs": "PROGRAMS",
-      "baume": "BAUME OF FAITH",
+      "baume": "REFLECTION",
       "news": "NEWS",
       "contact": "CONTACT"
     },
@@ -160,8 +160,8 @@
       "active_community": "Active community",
       "learn_more": "Learn more about us",
       "see_all_news": "See all news",
-      "baume_title": "Baume of Faith",
-      "baume_subtitle": "Discover the latest spiritual content to nourish your faith",
+      "baume_title": "Reflection",
+      "baume_subtitle": "A reflection is a process of thought and analysis that helps us better understand an idea, a situation or a teaching, in order to draw meaning from it and apply it in everyday life.",
       "see_all_reflections": "See all reflections and prayers",
       "join_adventure": "Join the Telex Adventure"
     },
