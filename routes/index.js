@@ -657,7 +657,8 @@ router.get('/api/baume/temoignages', async (req, res) => {
 
         if (adminMode) {
             temoignages = await dbAll(`
-                SELECT id, author_name, content, created_at, is_approved, status
+                SELECT id, author_name, author_email, ville, content, created_at, is_approved, status,
+                       (SELECT COUNT(*) FROM pdv_comments c WHERE c.temoignage_id = baume_temoignages.id) AS comment_count
                 FROM baume_temoignages
                 ORDER BY created_at DESC
             `);

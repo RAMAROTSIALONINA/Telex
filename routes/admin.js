@@ -2300,7 +2300,9 @@ router.get('/baume-de-la-foi', requireAuth, async (req, res) => {
                 (SELECT COUNT(*) FROM baume_temoignages WHERE is_approved = 1) as temoignages_approuves,
                 (SELECT COUNT(*) FROM baume_temoignages WHERE status = 'pending') as temoignages_en_attente,
                 (SELECT COUNT(*) FROM baume_reflexions WHERE is_published = 1) as reflexions_count,
-                (SELECT SUM(views) FROM baume_prieres) + (SELECT SUM(views) FROM baume_reflexions) as total_views
+                (SELECT SUM(views) FROM baume_prieres) + (SELECT SUM(views) FROM baume_reflexions) as total_views,
+                (SELECT COUNT(*) FROM pdv_comments WHERE is_approved = 0) as commentaires_en_attente,
+                (SELECT COUNT(*) FROM opinion_votes) as sondage_votes
         `);
 
         // Récupérer l'activité récente
@@ -2337,7 +2339,7 @@ router.get('/baume-de-la-foi', requireAuth, async (req, res) => {
         `);
 
         res.render('admin/baume-de-la-foi-admin', {
-            title: 'Administration - Baume de la Foi',
+            title: 'Administration - Réflexion',
             stats: stats[0] || {},
             recentActivity,
             prieres,
@@ -2536,7 +2538,9 @@ router.get('/baume-de-la-foi/stats', requireAuth, async (req, res) => {
                 (SELECT COUNT(*) FROM baume_temoignages WHERE is_approved = 1) as temoignages_approuves,
                 (SELECT COUNT(*) FROM baume_temoignages WHERE status = 'pending') as temoignages_en_attente,
                 (SELECT COUNT(*) FROM baume_reflexions WHERE is_published = 1) as reflexions_count,
-                (SELECT SUM(views) FROM baume_prieres) + (SELECT SUM(views) FROM baume_reflexions) as total_views
+                (SELECT SUM(views) FROM baume_prieres) + (SELECT SUM(views) FROM baume_reflexions) as total_views,
+                (SELECT COUNT(*) FROM pdv_comments WHERE is_approved = 0) as commentaires_en_attente,
+                (SELECT COUNT(*) FROM opinion_votes) as sondage_votes
         `);
 
         res.json({ 

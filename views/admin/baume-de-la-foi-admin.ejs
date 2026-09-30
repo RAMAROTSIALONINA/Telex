@@ -1201,6 +1201,74 @@
         .media-preview-card {
             margin-top: 14px;
         }
+
+        /* ===== Fenêtre de dialogue (remplace confirm/alert) ===== */
+        .rx-dialog-backdrop {
+            position: fixed; inset: 0; z-index: 3000;
+            display: flex; align-items: center; justify-content: center;
+            padding: 1rem; background: rgba(15, 23, 42, 0.45);
+        }
+        .rx-dialog-backdrop[hidden] { display: none; }
+        .rx-dialog {
+            width: 100%; max-width: 520px; max-height: calc(100vh - 2rem);
+            display: flex; flex-direction: column; overflow: hidden;
+            background: #fff; border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.25);
+        }
+        .rx-dialog-head { display: flex; align-items: center; gap: 0.75rem; padding: 1.1rem 1.4rem; border-bottom: 1px solid #EEF1F4; }
+        .rx-dialog-icon {
+            flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            background: #E8F3EC; color: #2E5C41;
+        }
+        .rx-dialog.is-danger .rx-dialog-icon { background: #FDECEC; color: #B91C1C; }
+        .rx-dialog-title { margin: 0; font-size: 1.05rem; font-weight: 700; color: #1D3557; }
+        .rx-dialog-body { padding: 1.1rem 1.4rem; overflow-y: auto; color: #33413B; font-size: 0.95rem; line-height: 1.6; }
+        .rx-dialog-body p { margin: 0; }
+        .rx-dialog-meta { display: flex; flex-wrap: wrap; gap: 0.35rem 1rem; margin-bottom: 0.9rem; font-size: 0.83rem; color: #6B7A73; }
+        .rx-dialog-meta a { color: #2E5C41; }
+        .rx-dialog-text { white-space: pre-line; overflow-wrap: anywhere; }
+        .rx-dialog-foot { display: flex; justify-content: flex-end; gap: 0.5rem; padding: 0.9rem 1.4rem; border-top: 1px solid #EEF1F4; background: #FAFBFC; }
+        .rx-dialog-btn {
+            padding: 0.55rem 1.2rem; border-radius: 10px; border: 1px solid #D9E0E6;
+            background: #fff; color: #33413B; font-weight: 600; font-size: 0.9rem; cursor: pointer;
+        }
+        .rx-dialog-btn:hover { background: #F3F5F7; }
+        .rx-dialog-btn.primary { background: #2E5C41; border-color: #2E5C41; color: #fff; }
+        .rx-dialog-btn.primary:hover { background: #244A34; }
+        .rx-dialog-btn.danger { background: #DC2626; border-color: #DC2626; color: #fff; }
+        .rx-dialog-btn.danger:hover { background: #B91C1C; }
+        .rx-dialog-btn:focus-visible { outline: 3px solid #3AAFA9; outline-offset: 2px; }
+
+        /* ===== Onglet Sondage ===== */
+        .poll-admin-subtitle { margin: 1.75rem 0 0.9rem; font-size: 1rem; font-weight: 700; color: #1D3557; }
+        .poll-admin-toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin: 2rem 0 0.9rem; }
+        .poll-admin-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+        .poll-admin-filters .form-select, .poll-admin-filters .form-control { width: auto; min-width: 170px; }
+        .poll-admin-check { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.85rem; color: #4B5B54; cursor: pointer; }
+        .poll-admin-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem; }
+        .poll-admin-card { padding: 1.1rem 1.2rem; background: #fff; border: 1px solid #E3EAE6; border-radius: 14px; box-shadow: 0 1px 2px rgba(29,53,87,.04); }
+        .poll-admin-card-head { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+        .poll-admin-theme { padding: 0.15rem 0.6rem; border-radius: 50px; background: rgba(42,157,143,.12); color: #1F7A70; font-size: 0.7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+        .poll-admin-total { font-size: 0.8rem; font-weight: 700; color: #6B7A73; font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .poll-admin-card h4 { margin: 0 0 0.8rem; font-size: 0.95rem; font-weight: 700; line-height: 1.4; color: #1D3557; }
+        .poll-admin-bars { display: flex; flex-direction: column; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
+        .poll-admin-bar-label { display: flex; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.2rem; font-size: 0.8rem; color: #33413B; }
+        .poll-admin-bar-label strong { font-variant-numeric: tabular-nums; white-space: nowrap; color: #4B5B54; }
+        .poll-admin-bar { height: 8px; border-radius: 4px; background: #EEF2F0; overflow: hidden; }
+        .poll-admin-bar span { display: block; height: 100%; border-radius: 4px; background: #9FCFC9; }
+        .poll-admin-bars li.is-top .poll-admin-bar span { background: #2A9D8F; }
+        .poll-admin-bars li.is-top .poll-admin-bar-label strong { color: #1F7A70; }
+        .poll-admin-note { margin: 1.5rem 0 0; font-size: 0.8rem; color: #6B7A73; }
+        #pollToday:empty::after { content: 'Aucune question du jour.'; color: #6B7A73; font-size: .9rem; }
+
+        /* ===== Indicateurs ===== */
+        .stat-card-action { cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; }
+        .stat-card-action:hover { transform: translateY(-2px); }
+        .stat-card-action:focus-visible { outline: 3px solid #3AAFA9; outline-offset: 2px; }
+        .stat-card.has-pending { border-left: 4px solid #F59E0B; }
+        .stat-card.has-pending .stat-number { color: #B45309; }
+        .stat-sub { margin-left: .35rem; font-size: .75rem; font-weight: 600; color: #9CA3AF; }
 </style>
 </head>
 <body>
@@ -1276,6 +1344,9 @@
                     <i class="fas fa-comments"></i>Commentaires
                     <span id="pendingCommentsBadge" style="display:none;background:rgba(245,158,11,.15);color:#b45309;font-size:.72rem;padding:1px 7px;border-radius:10px;font-weight:700;"></span>
                 </button>
+                <button class="tab-btn" data-tab="sondage" onclick="switchTab('sondage')">
+                    <i class="fas fa-poll"></i>Sondage
+                </button>
             </div>
 
             <!-- Statistics Dashboard -->
@@ -1294,54 +1365,58 @@
                                         reflexionsList.reduce((sum, r) => sum + (r && r.views ? r.views : 0), 0)) || 0;
                     %>
                     
-                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('dashboard')">
+                    <%
+                        const st = typeof stats !== 'undefined' && stats ? stats : {};
+                        const pendingPdv = Number(st.temoignages_en_attente) || 0;
+                        const pendingComments = Number(st.commentaires_en_attente) || 0;
+                    %>
+
+                    <div class="stat-card stat-card-action<%= pendingPdv ? ' has-pending' : '' %>" role="button" tabindex="0" onclick="switchTab('temoignages')" onkeydown="if(event.key==='Enter')switchTab('temoignages')">
                         <div class="stat-info">
-                            <div class="stat-number"><%= publishedPrieres + publishedReflexions %></div>
-                            <div class="stat-label">Contenus Publiés</div>
+                            <div class="stat-number"><%= pendingPdv %></div>
+                            <div class="stat-label">Points de vue à relire</div>
                         </div>
-                        <div class="stat-icon icon-green">
-                            <i class="fas fa-check-circle"></i>
-                        </div>
+                        <div class="stat-icon icon-amber"><i class="fas fa-comment-dots"></i></div>
                     </div>
 
-                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('dashboard')">
+                    <div class="stat-card stat-card-action<%= pendingComments ? ' has-pending' : '' %>" role="button" tabindex="0" onclick="switchTab('commentaires')" onkeydown="if(event.key==='Enter')switchTab('commentaires')">
                         <div class="stat-info">
-                            <div class="stat-number"><%= draftPrieres + draftReflexions %></div>
-                            <div class="stat-label">Brouillons</div>
+                            <div class="stat-number"><%= pendingComments %></div>
+                            <div class="stat-label">Commentaires à relire</div>
                         </div>
-                        <div class="stat-icon icon-amber">
-                            <i class="fas fa-edit"></i>
-                        </div>
+                        <div class="stat-icon icon-amber"><i class="fas fa-comments"></i></div>
                     </div>
 
-                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('prieres')">
+                    <div class="stat-card stat-card-action" role="button" tabindex="0" onclick="switchTab('prieres')" onkeydown="if(event.key==='Enter')switchTab('prieres')">
                         <div class="stat-info">
-                            <div class="stat-number"><%= prieresList.length %></div>
-                            <div class="stat-label">Prières</div>
+                            <div class="stat-number"><%= publishedPrieres %><small class="stat-sub"><%= draftPrieres ? ' + ' + draftPrieres + ' brouillon' + (draftPrieres > 1 ? 's' : '') : '' %></small></div>
+                            <div class="stat-label">Inspirations publiées</div>
                         </div>
-                        <div class="stat-icon icon-blue">
-                            <i class="fas fa-pray"></i>
-                        </div>
+                        <div class="stat-icon icon-blue"><i class="fas fa-sun"></i></div>
                     </div>
 
-                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('reflexions')">
+                    <div class="stat-card stat-card-action" role="button" tabindex="0" onclick="switchTab('reflexions')" onkeydown="if(event.key==='Enter')switchTab('reflexions')">
                         <div class="stat-info">
-                            <div class="stat-number"><%= reflexionsList.length %></div>
-                            <div class="stat-label">Réflexions</div>
+                            <div class="stat-number"><%= publishedReflexions %><small class="stat-sub"><%= draftReflexions ? ' + ' + draftReflexions + ' brouillon' + (draftReflexions > 1 ? 's' : '') : '' %></small></div>
+                            <div class="stat-label">Analyses publiées</div>
                         </div>
-                        <div class="stat-icon icon-purple">
-                            <i class="fas fa-book"></i>
-                        </div>
+                        <div class="stat-icon icon-purple"><i class="fas fa-search"></i></div>
                     </div>
 
-                    <div class="stat-card" style="cursor:pointer;" onclick="switchTab('temoignages')">
+                    <div class="stat-card">
                         <div class="stat-info">
-                            <div class="stat-number"><%= totalViews.toLocaleString() %></div>
-                            <div class="stat-label">Vues Totales</div>
+                            <div class="stat-number"><%= totalViews.toLocaleString('fr-FR') %></div>
+                            <div class="stat-label">Lectures au total</div>
                         </div>
-                        <div class="stat-icon icon-red">
-                            <i class="fas fa-eye"></i>
+                        <div class="stat-icon icon-red"><i class="fas fa-eye"></i></div>
+                    </div>
+
+                    <div class="stat-card stat-card-action" role="button" tabindex="0" onclick="switchTab('sondage')" onkeydown="if(event.key==='Enter')switchTab('sondage')">
+                        <div class="stat-info">
+                            <div class="stat-number"><%= (Number(st.sondage_votes) || 0).toLocaleString('fr-FR') %></div>
+                            <div class="stat-label">Votes au sondage</div>
                         </div>
+                        <div class="stat-icon icon-green"><i class="fas fa-poll"></i></div>
                     </div>
                 </div>
             </div>
@@ -1354,7 +1429,7 @@
                             <i class="fas fa-chart-line"></i>
                             <div>
                                 <h2>Activité récente</h2>
-                                <p>Les dernières interactions sur votre espace spirituel</p>
+                                <p>Les derniers contenus publiés sur la page Réflexion</p>
                             </div>
                         </div>
                         <button class="btn btn-secondary" onclick="exportData()">
@@ -1366,7 +1441,7 @@
                     <div class="table-container">
                         <div class="section-header" style="border-bottom: none; padding-bottom: 0;">
                             <h3 style="margin: 0; color: var(--primary-dark);">
-                                <i class="fas fa-pray me-2"></i>Prières récentes
+                                <i class="fas fa-sun me-2"></i>Inspirations récentes
                             </h3>
                             <div class="btn-group" id="prieres-status-filters">
                                 <button class="btn btn-outline-primary active" data-status="all">Toutes</button>
@@ -1469,7 +1544,7 @@
                     <div class="table-container">
                         <div class="section-header" style="border-bottom: none; padding-bottom: 0;">
                             <h3 style="margin: 0; color: var(--primary-dark);">
-                                <i class="fas fa-book me-2"></i>Réflexions récentes
+                                <i class="fas fa-search me-2"></i>Analyses récentes
                             </h3>
                             <div class="btn-group" id="reflexions-status-filters">
                                 <button class="btn btn-outline-primary active" data-status="all">Toutes</button>
@@ -1589,15 +1664,15 @@
                             </div>
                             <div>
                                 <div class="form-card-title">Informations g&eacute;n&eacute;rales</div>
-                                <div class="form-card-sub">Titre, cat&eacute;gorie et auteur de la pri&egrave;re</div>
+                                <div class="form-card-sub">Titre, cat&eacute;gorie, auteur et source</div>
                             </div>
                         </div>
                         <div class="form-card-body">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-heading"></i> Titre de la pri&egrave;re *</label>
-                                        <input type="text" id="priereTitle" name="title" class="form-control" required placeholder="Ex: Pri&egrave;re de protection">
+                                        <label class="form-label"><i class="fas fa-heading"></i> Titre de l'inspiration *</label>
+                                        <input type="text" id="priereTitle" name="title" class="form-control" required placeholder="Ex : Garder confiance face aux examens">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -1609,6 +1684,9 @@
                                             <option value="protection">Protection</option>
                                             <option value="peace">Paix</option>
                                             <option value="hope">Esp&eacute;rance</option>
+                                                <option value="motivation">Motivation</option>
+                                                <option value="gratitude">Gratitude</option>
+                                                <option value="wisdom">Sagesse</option>
                                         </select>
                                     </div>
                                 </div>
@@ -1620,8 +1698,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-bible"></i> R&eacute;f&eacute;rence biblique</label>
-                                        <input type="text" id="priereReference" name="reference" class="form-control" placeholder="Ex: Psaume 23:4">
+                                        <label class="form-label"><i class="fas fa-bookmark"></i> Source ou r&eacute;f&eacute;rence <span class="text-muted fw-normal">(facultatif)</span></label>
+                                        <input type="text" id="priereReference" name="reference" class="form-control" placeholder="Ex : Psaume 23:4, un auteur, un livre...">
                                     </div>
                                 </div>
                             </div>
@@ -1635,13 +1713,13 @@
                                 <i class="fas fa-align-left" style="color:white;"></i>
                             </div>
                             <div>
-                                <div class="form-card-title">Contenu de la pri&egrave;re</div>
-                                <div class="form-card-sub">R&eacute;digez le texte complet de votre pri&egrave;re</div>
+                                <div class="form-card-title">Contenu de l'inspiration</div>
+                                <div class="form-card-sub">Une pens&eacute;e, une pri&egrave;re ou une parole pour accompagner la journ&eacute;e</div>
                             </div>
                         </div>
                         <div class="form-card-body">
                             <div class="form-group">
-                                <textarea id="priereContent" name="content" class="form-control" rows="8" required placeholder="R&eacute;digez le contenu de la pri&egrave;re..."></textarea>
+                                <textarea id="priereContent" name="content" class="form-control" rows="8" required placeholder="R&eacute;digez le texte de l'inspiration..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -1833,6 +1911,58 @@
                 </div>
             </div>
 
+            <!-- ===== SONDAGE OPINION PUBLIQUE ===== -->
+            <div id="sondage" class="tab-content fade-in" style="display: none;">
+                <div class="content-section">
+                    <div class="section-header">
+                        <div class="section-title">
+                            <i class="fas fa-poll"></i>
+                            <div>
+                                <h2>Sondage Opinion Publique</h2>
+                                <p>Résultats des votes des visiteurs, question par question</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary btn-sm" onclick="exportPollCsv()">
+                            <i class="fas fa-file-csv me-1"></i> Exporter (CSV)
+                        </button>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card"><div class="stat-info"><div class="stat-number" id="pollStatVotes">0</div><div class="stat-label">Votes au total</div></div>
+                            <div class="stat-icon" style="background: rgba(42,157,143,.1); color: #2A9D8F;"><i class="fas fa-check-to-slot"></i></div></div>
+                        <div class="stat-card"><div class="stat-info"><div class="stat-number" id="pollStatParticipants">0</div><div class="stat-label">Participants</div></div>
+                            <div class="stat-icon" style="background: rgba(29,53,87,.08); color: #1D3557;"><i class="fas fa-users"></i></div></div>
+                        <div class="stat-card"><div class="stat-info"><div class="stat-number" id="pollStatLast7">0</div><div class="stat-label">Votes ces 7 derniers jours</div></div>
+                            <div class="stat-icon" style="background: rgba(245,158,11,.1); color: #D97706;"><i class="fas fa-chart-line"></i></div></div>
+                        <div class="stat-card"><div class="stat-info"><div class="stat-number" id="pollStatAnswered">0</div><div class="stat-label">Questions avec des votes</div></div>
+                            <div class="stat-icon" style="background: rgba(46,92,65,.1); color: #2E5C41;"><i class="fas fa-list-check"></i></div></div>
+                    </div>
+
+                    <h3 class="poll-admin-subtitle"><i class="fas fa-calendar-day me-2"></i>Questions du jour</h3>
+                    <div class="poll-admin-grid" id="pollToday"></div>
+
+                    <div class="poll-admin-toolbar">
+                        <h3 class="poll-admin-subtitle mb-0"><i class="fas fa-list me-2"></i>Toutes les questions</h3>
+                        <div class="poll-admin-filters">
+                            <select id="pollThemeFilter" class="form-select form-select-sm" aria-label="Filtrer par thème" onchange="renderPollAdmin()">
+                                <option value="">Tous les thèmes</option>
+                            </select>
+                            <select id="pollSort" class="form-select form-select-sm" aria-label="Trier" onchange="renderPollAdmin()">
+                                <option value="votes">Les plus votées</option>
+                                <option value="order">Ordre de publication</option>
+                            </select>
+                            <label class="poll-admin-check"><input type="checkbox" id="pollOnlyAnswered" onchange="renderPollAdmin()" checked> Avec votes seulement</label>
+                            <input type="search" id="pollSearch" class="form-control form-control-sm" placeholder="Rechercher une question..." oninput="renderPollAdmin()">
+                        </div>
+                    </div>
+                    <div class="poll-admin-grid" id="pollAll"></div>
+                    <p class="poll-admin-note">
+                        <i class="fas fa-info-circle me-1"></i>
+                        Sondage en ligne ouvert à tous : un vote par question et par visiteur. Les résultats ne sont pas représentatifs de l'ensemble de la population.
+                    </p>
+                </div>
+            </div>
+
             <!-- ===== COMMENTAIRES DES POINTS DE VUE ===== -->
             <div id="commentaires" class="tab-content fade-in" style="display: none;">
                 <div class="content-section">
@@ -1917,15 +2047,15 @@
                             </div>
                             <div>
                                 <div class="form-card-title">Informations g&eacute;n&eacute;rales</div>
-                                <div class="form-card-sub">Titre, auteur, th&egrave;me et r&eacute;f&eacute;rence biblique</div>
+                                <div class="form-card-sub">Titre, auteur, th&egrave;me et source</div>
                             </div>
                         </div>
                         <div class="form-card-body">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-heading"></i> Titre de la r&eacute;flexion *</label>
-                                        <input type="text" id="reflexionTitle" name="title" class="form-control" required placeholder="Ex: La foi dans les &eacute;preuves">
+                                        <label class="form-label"><i class="fas fa-heading"></i> Titre de l'analyse *</label>
+                                        <input type="text" id="reflexionTitle" name="title" class="form-control" required placeholder="Ex : Pourquoi les jeunes quittent la campagne">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -1938,18 +2068,28 @@
                                     <div class="form-group">
                                         <label class="form-label"><i class="fas fa-tag"></i> Th&egrave;me principal</label>
                                         <select id="reflexionTheme" name="theme" class="form-control">
-                                            <option value="faith">Foi et confiance</option>
+                                            <optgroup label="Soci&eacute;t&eacute;">
+                                                    <option value="society">Soci&eacute;t&eacute;</option>
+                                                    <option value="education">&Eacute;ducation</option>
+                                                    <option value="youth">Jeunesse et avenir</option>
+                                                    <option value="citizenship">Citoyennet&eacute;</option>
+                                                    <option value="environment">Environnement</option>
+                                                    <option value="culture">Culture</option>
+                                                </optgroup>
+                                                <optgroup label="Vie int&eacute;rieure">
+                                                <option value="faith">Foi et confiance</option>
                                             <option value="hope">Esp&eacute;rance et avenir</option>
                                             <option value="peace">Paix int&eacute;rieure</option>
                                             <option value="perseverance">Pers&eacute;v&eacute;rance</option>
                                             <option value="comfort">R&eacute;confort divin</option>
+                                                </optgroup>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label class="form-label"><i class="fas fa-bible"></i> R&eacute;f&eacute;rence biblique</label>
-                                        <input type="text" id="reflexionReference" name="reference_biblique" class="form-control" placeholder="Ex: Jean 3:16">
+                                        <label class="form-label"><i class="fas fa-bookmark"></i> Source ou r&eacute;f&eacute;rence <span class="text-muted fw-normal">(facultatif)</span></label>
+                                        <input type="text" id="reflexionReference" name="reference_biblique" class="form-control" placeholder="Ex : une &eacute;tude, un article, Jean 3:16...">
                                     </div>
                                 </div>
                             </div>
@@ -1963,13 +2103,13 @@
                                 <i class="fas fa-align-left" style="color:white;"></i>
                             </div>
                             <div>
-                                <div class="form-card-title">Contenu de la r&eacute;flexion</div>
-                                <div class="form-card-sub">Partagez vos pens&eacute;es et m&eacute;ditations spirituelles</div>
+                                <div class="form-card-title">Contenu de l'analyse</div>
+                                <div class="form-card-sub">Pr&eacute;sentez le sujet, les points de vue et ce qu'on peut en retenir</div>
                             </div>
                         </div>
                         <div class="form-card-body">
                             <div class="form-group">
-                                <textarea id="reflexionContent" name="content" class="form-control" rows="8" required placeholder="Partagez vos pens&eacute;es et r&eacute;flexions spirituelles..."></textarea>
+                                <textarea id="reflexionContent" name="content" class="form-control" rows="8" required placeholder="R&eacute;digez l'analyse..."></textarea>
                             </div>
                         </div>
                     </div>
@@ -2304,6 +2444,9 @@
                 if (tabId === 'commentaires') {
                     loadAdminComments();
                 }
+                if (tabId === 'sondage') {
+                    loadPollAdmin();
+                }
             }
         }
 
@@ -2577,13 +2720,13 @@
             }
         }
 
-        function deletePriere(id) {
+        async function deletePriere(id) {
             if (!id) {
                 showNotification('ID manquant', 'error');
                 return;
             }
             
-            if (!confirm('Voulez-vous vraiment supprimer cette prière ?')) return;
+            if (!(await adminConfirm('Supprimer cette inspiration ?', 'Elle disparaîtra du site. Cette action est définitive.', { confirmText: 'Supprimer', danger: true }))) return;
             
             fetch(`/api/baume/prieres/${id}`, { method: 'DELETE' })
                 .then(response => response.json())
@@ -2601,13 +2744,13 @@
                 });
         }
 
-        function deleteReflexion(id) {
+        async function deleteReflexion(id) {
             if (!id) {
                 showNotification('ID manquant', 'error');
                 return;
             }
             
-            if (!confirm('Voulez-vous vraiment supprimer cette réflexion ?')) return;
+            if (!(await adminConfirm('Supprimer cette analyse ?', 'Elle disparaîtra du site. Cette action est définitive.', { confirmText: 'Supprimer', danger: true }))) return;
             
             fetch(`/api/baume/reflexions/${id}`, { method: 'DELETE' })
                 .then(response => response.json())
@@ -2788,10 +2931,10 @@
                 
                 rowsHtml += '<tr data-id="' + t.id + '">' +
                     '<td>' + new Date(t.created_at).toLocaleDateString('fr-FR') + '</td>' +
-                    '<td><strong>' + (t.author_name || 'Anonyme') + '</strong></td>' +
-                    '<td>' + (t.ville || '-') + '</td>' +
-                    '<td><div style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:260px;line-height:1.4;">' + (t.content || '-') + '</div></td>' +
-                    '<td>' + (t.author_email || '-') + '</td>' +
+                    '<td><strong>' + escapeHtml(t.author_name || 'Anonyme') + '</strong></td>' +
+                    '<td>' + escapeHtml(t.ville || '-') + '</td>' +
+                    '<td><div style="display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;max-width:260px;line-height:1.4;">' + escapeHtml(t.content || '-') + '</div></td>' +
+                    '<td>' + (t.author_email ? '<a href="mailto:' + escapeHtml(t.author_email) + '">' + escapeHtml(t.author_email) + '</a>' : '-') + '</td>' +
                     '<td>' + getStatusBadge(t.status) + '</td>' +
                     '<td>' +
                         '<div class="table-actions">' +
@@ -2847,6 +2990,56 @@
             displayTemoignages(filtered, false);
         }
 
+        // ===== Fenêtre de dialogue (confirmation / lecture) =====
+        function openRxDialog({ title, icon, danger, body, buttons }) {
+            const backdrop = document.getElementById('rxDialog');
+            const box = backdrop.querySelector('.rx-dialog');
+            box.classList.toggle('is-danger', !!danger);
+            backdrop.querySelector('.rx-dialog-icon i').className = 'fas fa-' + (icon || 'question');
+            document.getElementById('rxDialogTitle').textContent = title;
+            const bodyEl = document.getElementById('rxDialogBody');
+            bodyEl.innerHTML = '';
+            bodyEl.appendChild(body);
+            const foot = document.getElementById('rxDialogFoot');
+            foot.innerHTML = '';
+            return new Promise(resolve => {
+                const close = value => {
+                    backdrop.hidden = true;
+                    document.removeEventListener('keydown', onKey);
+                    resolve(value);
+                };
+                const onKey = e => { if (e.key === 'Escape') close(false); };
+                buttons.forEach(btnDef => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = 'rx-dialog-btn' + (btnDef.variant ? ' ' + btnDef.variant : '');
+                    btn.textContent = btnDef.label;
+                    btn.addEventListener('click', () => close(btnDef.value));
+                    foot.appendChild(btn);
+                });
+                backdrop.onclick = e => { if (e.target === backdrop) close(false); };
+                document.addEventListener('keydown', onKey);
+                backdrop.hidden = false;
+                foot.lastElementChild.focus();
+            });
+        }
+
+        function adminConfirm(title, message, { confirmText = 'Confirmer', danger = false } = {}) {
+            const p = document.createElement('p');
+            p.textContent = message;
+            return openRxDialog({
+                title, danger, icon: danger ? 'trash' : 'question', body: p,
+                buttons: [
+                    { label: 'Annuler', value: false },
+                    { label: confirmText, value: true, variant: danger ? 'danger' : 'primary' }
+                ]
+            });
+        }
+
+        function escapeHtml(value) {
+            return String(value == null ? '' : value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
         function getStatusBadge(status) {
             const badges = {
                 'approved': '<span class="badge badge-success"><i class="fas fa-check-circle me-1"></i>Approuvé</span>',
@@ -2868,13 +3061,43 @@
             document.getElementById('rejectedTemoignages').textContent = rejected;
         }
 
+        function showTemoignageDetail(t) {
+            const wrap = document.createElement('div');
+            const meta = document.createElement('div');
+            meta.className = 'rx-dialog-meta';
+            const add = (icon, text, href) => {
+                const span = document.createElement(href ? 'a' : 'span');
+                if (href) span.href = href;
+                span.innerHTML = '<i class="fas fa-' + icon + ' me-1"></i>';
+                span.appendChild(document.createTextNode(text));
+                meta.appendChild(span);
+            };
+            if (t.ville) add('map-marker-alt', t.ville);
+            if (t.created_at) add('calendar', new Date(String(t.created_at).replace(' ', 'T') + 'Z').toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }));
+            if (t.author_email) add('envelope', t.author_email, 'mailto:' + t.author_email);
+            const text = document.createElement('p');
+            text.className = 'rx-dialog-text';
+            text.textContent = t.content || 'Aucun contenu';
+            wrap.append(meta, text);
+            const buttons = [{ label: 'Fermer', value: null }];
+            if (t.status === 'pending') {
+                buttons.unshift({ label: 'Rejeter', value: 'reject' });
+                buttons.push({ label: 'Publier', value: 'approve', variant: 'primary' });
+            }
+            openRxDialog({ title: 'Point de vue de ' + (t.author_name || 'Anonyme'), icon: 'comment-dots', body: wrap, buttons })
+                .then(choice => {
+                    if (choice === 'approve') approveTemoignage(t.id);
+                    if (choice === 'reject') rejectTemoignage(t.id);
+                });
+        }
+
         function viewTemoignage(id) {
             fetch(`/api/baume/temoignages/${id}`)
                 .then(response => response.json())
                 .then(result => {
                     if (result.success) {
                         const t = result.data;
-                        alert(`Témoignage de ${t.author_name || 'Anonyme'}\n\n${t.content || 'Aucun contenu'}`);
+                        showTemoignageDetail(t);
                     } else {
                         showNotification('Témoignage non trouvé', 'error');
                     }
@@ -2885,8 +3108,8 @@
                 });
         }
 
-        function approveTemoignage(id) {
-            if (!confirm('Approuver ce témoignage ?')) return;
+        async function approveTemoignage(id) {
+            if (!(await adminConfirm('Publier ce point de vue ?', 'Il sera visible par tous les visiteurs de la page Réflexion.', { confirmText: 'Publier' }))) return;
             
             fetch(`/api/baume/temoignages/${id}/approve`, {
                 method: 'PUT',
@@ -2908,8 +3131,8 @@
             });
         }
 
-        function rejectTemoignage(id) {
-            if (!confirm('Rejeter ce témoignage ?')) return;
+        async function rejectTemoignage(id) {
+            if (!(await adminConfirm('Rejeter ce point de vue ?', 'Il ne sera pas publié. Vous pourrez encore le supprimer ensuite.', { confirmText: 'Rejeter', danger: true }))) return;
             
             fetch(`/api/baume/temoignages/${id}/approve`, {
                 method: 'PUT',
@@ -2931,8 +3154,8 @@
             });
         }
 
-        function deleteTemoignage(id) {
-            if (!confirm('Supprimer définitivement ce témoignage ?')) return;
+        async function deleteTemoignage(id) {
+            if (!(await adminConfirm('Supprimer ce point de vue ?', 'Le point de vue et ses commentaires seront supprimés définitivement.', { confirmText: 'Supprimer', danger: true }))) return;
             
             fetch(`/api/baume/temoignages/${id}`, { method: 'DELETE' })
                 .then(response => response.json())
@@ -3012,17 +3235,8 @@
                 const delBtn = document.createElement('button');
                 delBtn.className = 'btn btn-sm btn-outline-danger ms-1';
                 delBtn.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
-                delBtn.onclick = () => {
-                    if (delBtn.dataset.confirm) return deleteComment(c.id);
-                    delBtn.dataset.confirm = '1';
-                    delBtn.className = 'btn btn-sm btn-danger ms-1';
-                    delBtn.innerHTML = '<i class="fas fa-trash"></i> Confirmer ?';
-                    setTimeout(() => {
-                        if (!delBtn.isConnected) return;
-                        delete delBtn.dataset.confirm;
-                        delBtn.className = 'btn btn-sm btn-outline-danger ms-1';
-                        delBtn.innerHTML = '<i class="fas fa-trash"></i> Supprimer';
-                    }, 4000);
+                delBtn.onclick = async () => {
+                    if (await adminConfirm('Supprimer ce commentaire ?', 'Il sera supprimé définitivement.', { confirmText: 'Supprimer', danger: true })) deleteComment(c.id);
                 };
                 actions.append(toggleBtn, delBtn);
                 tbody.appendChild(tr);
@@ -3056,6 +3270,92 @@
         }
 
         document.addEventListener('DOMContentLoaded', loadAdminComments);
+
+        // ===== SONDAGE OPINION PUBLIQUE =====
+        let pollAdminData = null;
+
+        function loadPollAdmin() {
+            fetch('/admin/api/opinion/results?t=' + Date.now())
+                .then(r => r.json().then(data => ({ ok: r.ok, data })))
+                .then(({ ok, data }) => {
+                    if (!ok || !data.success) throw new Error(data.error || 'Erreur de chargement');
+                    pollAdminData = data;
+                    const fmt = n => Number(n || 0).toLocaleString('fr-FR');
+                    document.getElementById('pollStatVotes').textContent = fmt(data.stats.votes);
+                    document.getElementById('pollStatParticipants').textContent = fmt(data.stats.participants);
+                    document.getElementById('pollStatLast7').textContent = fmt(data.stats.last7);
+                    document.getElementById('pollStatAnswered').textContent = data.stats.answered + ' / ' + data.stats.questions;
+                    const themeSelect = document.getElementById('pollThemeFilter');
+                    if (themeSelect.options.length === 1) {
+                        [...new Set(data.questions.map(q => q.theme))].forEach(th => themeSelect.add(new Option(th, th)));
+                    }
+                    const today = document.getElementById('pollToday');
+                    today.innerHTML = '';
+                    data.questions.filter(q => q.today).forEach(q => today.appendChild(pollAdminCard(q)));
+                    renderPollAdmin();
+                })
+                .catch(err => showNotification('Sondage : ' + err.message, 'error'));
+        }
+
+        function pollAdminCard(q) {
+            const card = document.createElement('article');
+            card.className = 'poll-admin-card';
+            card.innerHTML = '<div class="poll-admin-card-head"><span class="poll-admin-theme"></span><span class="poll-admin-total"></span></div><h4></h4><ul class="poll-admin-bars"></ul>';
+            card.querySelector('.poll-admin-theme').textContent = q.theme;
+            card.querySelector('.poll-admin-total').textContent = q.total + (q.total > 1 ? ' votes' : ' vote');
+            card.querySelector('h4').textContent = q.question;
+            const max = Math.max(...q.counts);
+            const list = card.querySelector('.poll-admin-bars');
+            q.options.forEach((label, i) => {
+                const pct = q.total ? Math.round(q.counts[i] / q.total * 100) : 0;
+                const li = document.createElement('li');
+                li.className = q.total && q.counts[i] === max ? 'is-top' : '';
+                li.innerHTML = '<div class="poll-admin-bar-label"><span></span><strong></strong></div><div class="poll-admin-bar"><span></span></div>';
+                li.querySelector('.poll-admin-bar-label span').textContent = label;
+                li.querySelector('.poll-admin-bar-label strong').textContent = pct + ' % (' + q.counts[i] + ')';
+                li.querySelector('.poll-admin-bar span').style.width = pct + '%';
+                list.appendChild(li);
+            });
+            return card;
+        }
+
+        function renderPollAdmin() {
+            if (!pollAdminData) return;
+            const theme = document.getElementById('pollThemeFilter').value;
+            const sort = document.getElementById('pollSort').value;
+            const onlyAnswered = document.getElementById('pollOnlyAnswered').checked;
+            const search = document.getElementById('pollSearch').value.trim().toLowerCase();
+            let list = pollAdminData.questions.filter(q =>
+                (!theme || q.theme === theme) &&
+                (!onlyAnswered || q.total > 0) &&
+                (!search || q.question.toLowerCase().includes(search)));
+            list = list.slice().sort((a, b) => sort === 'votes' ? (b.total - a.total || a.order - b.order) : a.order - b.order);
+            const box = document.getElementById('pollAll');
+            box.innerHTML = '';
+            if (!list.length) {
+                box.innerHTML = '<div class="empty-state"><i class="fas fa-poll"></i><h4>Aucune question</h4><p>' +
+                    (onlyAnswered ? 'Aucune question n\'a encore reçu de vote pour ce filtre.' : 'Aucune question ne correspond à ce filtre.') + '</p></div>';
+                return;
+            }
+            list.forEach(q => box.appendChild(pollAdminCard(q)));
+        }
+
+        function exportPollCsv() {
+            if (!pollAdminData) return;
+            const cell = v => '"' + String(v).replace(/"/g, '""') + '"';
+            const lines = [['Thème', 'Question', 'Réponse', 'Votes', 'Pourcentage', 'Total question'].map(cell).join(';')];
+            pollAdminData.questions.forEach(q => q.options.forEach((opt, i) => {
+                const pct = q.total ? Math.round(q.counts[i] / q.total * 100) : 0;
+                lines.push([q.theme, q.question, opt, q.counts[i], pct + ' %', q.total].map(cell).join(';'));
+            }));
+            const blob = new Blob(['\ufeff' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'sondage-opinion-publique-' + new Date().toISOString().slice(0, 10) + '.csv';
+            document.body.appendChild(a);
+            a.click();
+            setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+        }
 
         // ===== RAFRAÎCHISSEMENT DES DONNÉES =====
         function refreshDashboardData() {
@@ -3388,6 +3688,17 @@
     </script>
     
     <!-- Bootstrap JS -->
+    <!-- Fenêtre de dialogue de l'administration -->
+    <div class="rx-dialog-backdrop" id="rxDialog" hidden>
+        <div class="rx-dialog" role="dialog" aria-modal="true" aria-labelledby="rxDialogTitle">
+            <div class="rx-dialog-head">
+                <span class="rx-dialog-icon"><i class="fas fa-question"></i></span>
+                <h3 class="rx-dialog-title" id="rxDialogTitle"></h3>
+            </div>
+            <div class="rx-dialog-body" id="rxDialogBody"></div>
+            <div class="rx-dialog-foot" id="rxDialogFoot"></div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>

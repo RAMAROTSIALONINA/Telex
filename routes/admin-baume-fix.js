@@ -4,6 +4,7 @@ const { dbAll, dbGet, dbRun } = require('../config/database');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const { OPINION_QUESTIONS, getDailyOpinionQuestions } = require('../config/opinion-questions');
 
 // ========== MIDDLEWARE AUTH ==========
 function requireAuth(req, res, next) {
@@ -545,6 +546,43 @@ router.delete('/api/baume-de-la-foi/temoignage/:id', requireAuthApi, async (req,
     } catch (error) {
         console.error('❌ Erreur suppression témoignage:', error);
         res.status(500).json({ success: false, error: 'Erreur lors de la suppression du témoignage' });
+    }
+});
+
+// ========== SONDAGE OPINION PUBLIQUE ==========
+
+router.get('/api/opinion/results', requireAuthApi, async (req, res) => {
+    try {
+        const rows = await dbAll('SELECT question_id, option_index, COUNT(*) AS n FROM opinion_votes GROUP BY question_id, option_index');
+        const totals = await dbGet(`
+            SELECT COUNT(*) AS votes,
+                   COUNT(DISTINCT voter_hash) AS participants,
+                   SUM(CASE WHEN created_at >= datetime('now', '-7 days') THEN 1 ELSE 0 END) AS last7
+            FROM opinion_votes`);
+        const byQuestion = {};
+        rows.forEach(r => { (byQuestion[r.question_id] = byQuestion[r.question_id] || {})[r.option_index] = r.n; });
+        const today = getDailyOpinionQuestions().map(q => q.id);
+        const questions = OPINION_QUESTIONS.map((q, order) => {
+            const counts = q.options.map((_, i) => (byQuestion[q.id] || {})[i] || 0);
+            return {
+                id: q.id, order, theme: q.theme, question: q.question, options: q.options,
+                counts, total: counts.reduce((s, n) => s + n, 0), today: today.includes(q.id)
+            };
+        });
+        res.json({
+            success: true,
+            stats: {
+                votes: totals.votes || 0,
+                participants: totals.participants || 0,
+                last7: totals.last7 || 0,
+                answered: questions.filter(q => q.total > 0).length,
+                questions: questions.length
+            },
+            questions
+        });
+    } catch (error) {
+        console.error('❌ Erreur résultats sondage (admin):', error);
+        res.status(500).json({ success: false, error: 'Impossible de charger les résultats du sondage' });
     }
 });
 

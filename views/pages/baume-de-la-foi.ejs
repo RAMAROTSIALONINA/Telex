@@ -1148,7 +1148,10 @@
                     'healing': 'Guérison',
                     'protection': 'Protection',
                     'peace': 'Paix',
-                    'hope': 'Espérance'
+                    'hope': 'Espérance',
+                    'motivation': 'Motivation',
+                    'gratitude': 'Gratitude',
+                    'wisdom': 'Sagesse'
                 };
                 document.getElementById('modalCategoryText').textContent = categoryLabels[item.category] || item.category;
                 categoryDiv.style.display = 'inline-flex';
@@ -1180,11 +1183,17 @@
                     'hope': 'Espérance et avenir',
                     'peace': 'Paix intérieure',
                     'perseverance': 'Persévérance',
-                    'comfort': 'Réconfort divin'
+                    'comfort': 'Réconfort divin',
+                    'society': 'Société',
+                    'education': 'Éducation',
+                    'youth': 'Jeunesse et avenir',
+                    'citizenship': 'Citoyenneté',
+                    'environment': 'Environnement',
+                    'culture': 'Culture'
                 };
                 
                 // Utiliser la catégorie si disponible, sinon le thème, sinon une valeur par défaut
-                const categoryText = categoryLabels[item.category] || categoryLabels[item.theme] || categoryLabels[item.theme] || 'Foi et confiance';
+                const categoryText = categoryLabels[item.category] || categoryLabels[item.theme] || 'Analyse';
                 document.getElementById('modalCategoryText').textContent = categoryText;
                 categoryDiv.style.display = 'inline-flex';
                 
