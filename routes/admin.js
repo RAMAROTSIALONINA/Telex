@@ -923,33 +923,6 @@ router.post('/login', async (req, res) => {
             }
         }
 
-        // Fallback pour la compatibilité
-        console.log('🔑 Tentative avec identifiants par défaut');
-        if (username === 'tsialonina' && password === 'tsialonina1214') {
-
-            const role = 'superadmin';
-
-            req.session.user = {
-                username: username,
-                role: role,
-                loggedIn: true
-            };
-
-            req.session.save((err) => {
-                if (err) {
-                    console.error('❌ Erreur sauvegarde session fallback:', err);
-                    req.flash('error', 'Erreur technique lors de la connexion');
-                    return res.redirect('/admin/login');
-                }
-
-                console.log('✅ Session fallback créée pour:', username);
-                req.flash('success', `Bienvenue ${username} !`);
-                return res.redirect('/admin/dashboard');
-            });
-
-            return;
-        }
-
         console.log('❌ Identifiants incorrects pour:', username);
         req.flash('error', 'Identifiants incorrects');
         res.redirect('/admin/login');
