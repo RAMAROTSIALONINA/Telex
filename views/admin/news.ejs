@@ -516,6 +516,9 @@
         @media (min-width: 768px) {
             .dash-header { position: sticky; top: 0; z-index: 900; }
         }
+    
+        /* En-tête en bande pleine largeur, comme sur Paramètres */
+        .dash-header { border-radius: 0 !important; padding: 16px 28px !important; box-shadow: none !important; }
     </style>
 </head>
 <body>
@@ -842,5 +845,20 @@
             document.querySelector('.sidebar').classList.remove('open');
             document.getElementById('sidebarOverlay').classList.remove('show');
         }
-    </script></body>
+    </script>    <script>
+        // En-tête bord à bord : annule les marges intérieures de la zone de contenu
+        (function () {
+            function fitDashHeader() {
+                document.querySelectorAll('.dash-header').forEach(function (h) {
+                    var s = getComputedStyle(h.parentElement);
+                    h.style.marginTop = '-' + s.paddingTop;
+                    h.style.marginLeft = '-' + s.paddingLeft;
+                    h.style.marginRight = '-' + s.paddingRight;
+                });
+            }
+            fitDashHeader();
+            window.addEventListener('resize', fitDashHeader);
+        })();
+    </script>
+</body>
 </html>
