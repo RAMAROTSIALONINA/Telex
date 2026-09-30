@@ -551,6 +551,85 @@
                     </a>
                 </div>
             </div>
+            <!-- Question du jour (sondage Opinion Publique) -->
+            <% if (typeof opinionQuestion !== 'undefined' && opinionQuestion) { %>
+            <div class="home-poll reveal" style="--baume-primary:#2E5C4E;--baume-accent:#3AAFA9;--baume-gradient:linear-gradient(135deg,#2E5C4E,#3AAFA9);">
+                <div class="home-poll-head">
+                    <span class="home-poll-tag"><i class="fas fa-bullhorn"></i> Question du jour</span>
+                    <span class="poll-theme"><%= opinionQuestion.theme %></span>
+                </div>
+                <h3 class="home-poll-question"><%= opinionQuestion.question %></h3>
+                <div class="quiz-options" id="homePollOptions"></div>
+                <p class="poll-error" id="homePollError" role="alert" hidden></p>
+                <div class="home-poll-foot">
+                    <span id="homePollCount">Votez pour voir les résultats</span>
+                    <a href="/reflexion#quiz-section">Répondre aux autres questions du jour <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <script>
+                (function () {
+                    const q = <%- JSON.stringify(opinionQuestion).replace(/</g, '\\u003c') %>;
+                    const box = document.getElementById('homePollOptions');
+                    const countEl = document.getElementById('homePollCount');
+                    const errEl = document.getElementById('homePollError');
+                    let busy = false;
+
+                    function render(r) {
+                        const voted = !!r && r.myVote !== null && r.myVote !== undefined;
+                        const total = r ? r.total : 0;
+                        box.className = 'quiz-options' + (voted ? ' voted' : '');
+                        box.innerHTML = '';
+                        q.options.forEach(function (label, i) {
+                            const btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'quiz-option poll-option' + (voted && r.myVote === i ? ' mine' : '');
+                            btn.innerHTML = '<span class="poll-bar"></span><span class="quiz-option-text"></span>';
+                            btn.querySelector('.quiz-option-text').textContent = label;
+                            if (voted) {
+                                const pct = total ? Math.round(r.counts[i] / total * 100) : 0;
+                                if (r.myVote === i) btn.insertAdjacentHTML('beforeend', '<span class="poll-mine"><i class="fas fa-check me-1"></i>Votre choix</span>');
+                                btn.insertAdjacentHTML('beforeend', '<span class="poll-pct">' + pct + ' %</span>');
+                                btn.disabled = true;
+                                setTimeout(function () { btn.querySelector('.poll-bar').style.width = pct + '%'; }, 30);
+                            } else {
+                                btn.addEventListener('click', function () { vote(i); });
+                            }
+                            box.appendChild(btn);
+                        });
+                        countEl.textContent = voted
+                            ? total + (total > 1 ? ' participants' : ' participant')
+                            : 'Votez pour voir les résultats';
+                    }
+
+                    async function vote(i) {
+                        if (busy) return;
+                        busy = true;
+                        errEl.hidden = true;
+                        try {
+                            const res = await fetch('/api/opinion/vote', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ questionId: q.id, option: i })
+                            });
+                            const data = await res.json();
+                            if (!res.ok || !data.success) throw new Error(data.error);
+                            render(data.result);
+                        } catch (e) {
+                            errEl.textContent = "Votre vote n'a pas pu être enregistré. Vérifiez votre connexion puis réessayez.";
+                            errEl.hidden = false;
+                        } finally {
+                            busy = false;
+                        }
+                    }
+
+                    render(null);
+                    fetch('/api/opinion/results?ids=' + encodeURIComponent(q.id))
+                        .then(function (res) { return res.json(); })
+                        .then(function (data) { if (data.success) render(data.results[q.id]); })
+                        .catch(function () {});
+                })();
+            </script>
+            <% } %>
         </div>
     </section>
 

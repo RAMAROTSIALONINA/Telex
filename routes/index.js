@@ -15,6 +15,16 @@ function requireAuth(req, res, next) {
     next();
 }
 
+// Adresse publique du site (aperçus de partage Facebook / WhatsApp)
+function getSiteUrl(req) {
+    const host = req.get('host');
+    const configured = (process.env.SITE_URL || '').replace(/\/$/, '');
+    // SITE_URL n'est utilisé que s'il correspond au domaine visité (évite un « localhost » en production)
+    if (configured && configured.replace(/^https?:\/\//, '') === host) return configured;
+    const proto = String(req.headers['x-forwarded-proto'] || req.protocol).split(',')[0].trim();
+    return proto + '://' + host;
+}
+
 function isAdminSession(req) {
     return !!(req.session && req.session.user && req.session.user.loggedIn);
 }
@@ -122,7 +132,8 @@ router.get('/', async (req, res) => {
             programs,
             prieres,
             reflexions,
-            footer
+            footer,
+            opinionQuestion: getDailyOpinionQuestions()[0]
         });
     } catch (error) {
         console.error('❌ Erreur route /:', error);
@@ -137,7 +148,8 @@ router.get('/', async (req, res) => {
             programs: [],
             prieres: [],
             reflexions: [],
-            footer
+            footer,
+            opinionQuestion: getDailyOpinionQuestions()[0]
         });
     }
 });
@@ -199,7 +211,8 @@ router.get('/reflexion', async (req, res) => {
             prieres,
             reflexions,
             temoignages,
-            opinionQuestions: getDailyOpinionQuestions()
+            opinionQuestions: getDailyOpinionQuestions(),
+            siteUrl: getSiteUrl(req)
         });
     } catch (error) {
         console.error('❌ Erreur chargement page Baume de la Foi:', error);
@@ -209,7 +222,8 @@ router.get('/reflexion', async (req, res) => {
             prieres: [],
             reflexions: [],
             temoignages: [],
-            opinionQuestions: getDailyOpinionQuestions()
+            opinionQuestions: getDailyOpinionQuestions(),
+            siteUrl: getSiteUrl(req)
         });
     }
 });

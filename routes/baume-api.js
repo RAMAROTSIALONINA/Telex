@@ -127,7 +127,7 @@ router.post('/prieres', baumeUpload.single('media_file'), async (req, res) => {
             content,
             category || 'comfort',
             reference_biblique || null,
-            author || 'Baume de la Foi',
+            author || 'Telex',
             is_published !== undefined ? (is_published ? 1 : 0) : 1,
             video_url
         ]);
@@ -449,7 +449,7 @@ router.post('/reflexions', baumeUpload.single('media_file'), async (req, res) =>
             theme || 'faith',
             image_url,
             video_url,
-            author || 'Baume de la Foi',
+            author || 'Telex',
             publication_date || new Date().toISOString().split('T')[0],
             is_published !== undefined ? (is_published ? 1 : 0) : 1
         ]);

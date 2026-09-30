@@ -4,6 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Réflexion | Telex</title>
+    <% const shareBase = (typeof siteUrl !== 'undefined' && siteUrl) ? siteUrl : 'https://telex.mg';
+       const shareDescription = "Penser, comprendre, s'exprimer : inspirations, analyses, sondage Opinion Publique et points de vue des jeunes, par Telex Madagascar."; %>
+    <meta name="description" content="<%= shareDescription %>">
+    <link rel="canonical" href="<%= shareBase %>/reflexion">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Telex Madagascar">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:title" content="Réflexion | Telex">
+    <meta property="og:description" content="<%= shareDescription %>">
+    <meta property="og:url" content="<%= shareBase %>/reflexion">
+    <meta property="og:image" content="<%= shareBase %>/images/Telex.png">
+    <meta property="og:image:width" content="1640">
+    <meta property="og:image:height" content="924">
+    <meta property="og:image:alt" content="Logo Telex Madagascar">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="/images/Telex.png" type="image/png">
     
     <!-- Fonts & Icons -->
@@ -175,7 +190,7 @@
                                                             <% if (priere.reference_biblique) { %>
                                                             <div class="hidden-reference"><%= priere.reference_biblique %></div>
                                                             <% } %>
-                                                            <div class="hidden-author"><%= priere.author || 'Baume de la Foi' %></div>
+                                                            <div class="hidden-author"><%= priere.author || 'Telex' %></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -258,6 +273,7 @@
 
                     <div class="quiz-options" id="quizOptions"></div>
                     <p class="poll-hint" id="pollHint">Choisissez la réponse qui correspond le mieux à votre avis.</p>
+                    <div class="poll-share" id="pollShare" hidden><span>Demandez l'avis de vos amis</span></div>
                     <div class="poll-error" id="pollError" role="alert" hidden></div>
 
                     <div class="quiz-navigation">
@@ -1187,7 +1203,7 @@
             document.getElementById('modalContent').textContent = item.content || '';
             
             // Auteur
-            document.getElementById('modalAuthor').textContent = item.author || 'Baume de la Foi';
+            document.getElementById('modalAuthor').textContent = item.author || 'Telex';
             
             // Média (image ou vidéo)
             const mediaContainer = document.getElementById('modalMediaContainer');
@@ -1326,6 +1342,68 @@
                 }
             } else {
             }
+            openSharedPdv();
+        }
+
+        // Lien partagé du type /reflexion#pdv-12 : afficher et mettre en évidence ce point de vue
+        function openSharedPdv() {
+            const match = /^#pdv-(\d+)$/.exec(location.hash);
+            if (!match) return;
+            let card = document.getElementById('pdv-' + match[1]);
+            if (!card && (window.allTemoignages || []).some(t => String(t.id) === match[1])) {
+                loadMoreTemoignages();
+                card = document.getElementById('pdv-' + match[1]);
+            }
+            if (!card) return;
+            setTimeout(() => {
+                card.scrollIntoView({ block: 'center' });
+                card.classList.add('is-highlighted');
+                setTimeout(() => card.classList.remove('is-highlighted'), 3000);
+            }, 300);
+        }
+
+        // Boutons WhatsApp, Facebook et « Copier le lien »
+        function buildShareButtons(url, text) {
+            const box = document.createElement('div');
+            box.className = 'pdv-share';
+            box.innerHTML = `
+                <a class="baume-share-btn baume-share-btn--sm whatsapp" target="_blank" rel="noopener" aria-label="Partager sur WhatsApp" title="Partager sur WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a class="baume-share-btn baume-share-btn--sm facebook" target="_blank" rel="noopener" aria-label="Partager sur Facebook" title="Partager sur Facebook"><i class="fab fa-facebook-f"></i></a>
+                <button type="button" class="baume-share-btn baume-share-btn--sm copy" aria-label="Copier le lien" title="Copier le lien"><i class="fas fa-link"></i></button>
+            `;
+            box.querySelector('.whatsapp').href = 'https://wa.me/?text=' + encodeURIComponent(text + ' ' + url);
+            box.querySelector('.facebook').href = 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(url);
+            const copyBtn = box.querySelector('.copy');
+            copyBtn.addEventListener('click', async () => {
+                try {
+                    if (navigator.clipboard && window.isSecureContext) {
+                        await navigator.clipboard.writeText(url);
+                    } else {
+                        const tmp = document.createElement('textarea');
+                        tmp.value = url;
+                        tmp.setAttribute('readonly', '');
+                        tmp.style.position = 'fixed';
+                        tmp.style.opacity = '0';
+                        document.body.appendChild(tmp);
+                        tmp.select();
+                        document.execCommand('copy');
+                        tmp.remove();
+                    }
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i>';
+                    copyBtn.classList.add('is-copied');
+                    copyBtn.setAttribute('aria-label', 'Lien copié');
+                    copyBtn.title = 'Lien copié';
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="fas fa-link"></i>';
+                        copyBtn.classList.remove('is-copied');
+                        copyBtn.setAttribute('aria-label', 'Copier le lien');
+                        copyBtn.title = 'Copier le lien';
+                    }, 2000);
+                } catch (err) {
+                    copyBtn.title = 'Copie impossible : ' + url;
+                }
+            });
+            return box;
         }
 
         // ===== Cartes des points de vue publiés =====
@@ -1360,6 +1438,7 @@
 
             const card = document.createElement('article');
             card.className = 'temoignage-program-card pdv-card';
+            card.id = 'pdv-' + temoignage.id;
             card.innerHTML = `
                 <header class="pdv-card-head">
                     <div class="pdv-card-author">
@@ -1424,6 +1503,13 @@
             `;
             const count = Number(temoignage.comment_count) || 0;
             wrap.querySelector('.pdv-comments-count').textContent = pdvCommentLabel(count);
+
+            const excerpt = String(temoignage.content || '').replace(/\s+/g, ' ').trim();
+            const shareText = '« ' + (excerpt.length > 110 ? excerpt.slice(0, 110) + '…' : excerpt) + ' » — '
+                + (temoignage.author_name || 'Anonyme') + ', sur Telex Réflexion';
+            wrap.querySelector('.pdv-card-actions').appendChild(
+                buildShareButtons(location.origin + '/reflexion#pdv-' + temoignage.id, shareText)
+            );
 
             const toggle = wrap.querySelector('.pdv-comments-toggle');
             const panel = wrap.querySelector('.pdv-comments-panel');
@@ -1678,7 +1764,7 @@
                         <h3 class="reflexion-title">${reflexion.title}</h3>
                         <div class="reflexion-author-row">
                             <div class="reflexion-author-avatar"><i class="fas fa-user"></i></div>
-                            <span>${reflexion.author || 'Baume de la Foi'}</span>
+                            <span>${reflexion.author || 'Telex'}</span>
                         </div>
                     </div>
                     
@@ -1686,7 +1772,7 @@
                     <div class="card-body-hidden">
                         <div class="hidden-content">${reflexion.content || ''}</div>
                         ${reflexion.reference_biblique ? `<div class="hidden-reference">${reflexion.reference_biblique}</div>` : ''}
-                        <div class="hidden-author">${reflexion.author || 'Baume de la Foi'}</div>
+                        <div class="hidden-author">${reflexion.author || 'Telex'}</div>
                     </div>
                 </div>
             `;
@@ -2101,6 +2187,14 @@
             });
 
             document.getElementById('pollHint').hidden = voted;
+            const shareBox = document.getElementById('pollShare');
+            const oldShare = shareBox.querySelector('.pdv-share');
+            if (oldShare) oldShare.remove();
+            shareBox.hidden = !voted;
+            if (voted) {
+                shareBox.appendChild(buildShareButtons(location.origin + '/reflexion#quiz-section',
+                    '« ' + q.question + ' » Et vous, qu\'en pensez-vous ? Répondez sur Telex :'));
+            }
             document.getElementById('prevBtn').disabled = pollIndex === 0;
             document.getElementById('nextBtn').innerHTML = pollIndex === pollQuestions.length - 1
                 ? '<i class="fas fa-check me-2"></i> Terminer'

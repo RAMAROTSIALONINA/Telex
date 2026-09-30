@@ -36,6 +36,7 @@ const db = new sqlite3.Database(DB_PATH, (err) => {
             createPageViewsTable(); // Tracking réel des visites
             createOpinionVotesTable();
             createPdvCommentsTable();
+            migrateBaumeAuthors();
         }, 2000);
     }
 });
@@ -150,7 +151,7 @@ function initSimpleDatabase() {
             content TEXT NOT NULL,
             category TEXT DEFAULT 'comfort',
             reference_biblique TEXT,
-            author TEXT DEFAULT 'Baume de la Foi',
+            author TEXT DEFAULT 'Telex',
             image_url TEXT,
             video_url TEXT,
             media_type TEXT DEFAULT 'none',
@@ -181,7 +182,7 @@ function initSimpleDatabase() {
             image_url TEXT,
             video_url TEXT,
             media_type TEXT DEFAULT 'none',
-            author TEXT DEFAULT 'Baume de la Foi',
+            author TEXT DEFAULT 'Telex',
             publication_date DATE,
             is_published INTEGER DEFAULT 1,
             reference_biblique TEXT,
@@ -920,6 +921,16 @@ function createPdvCommentsTable() {
             db.run(`CREATE INDEX IF NOT EXISTS idx_pdv_comments_temoignage ON pdv_comments(temoignage_id, is_approved)`);
             console.log('✅ Table pdv_comments prête');
         }
+    });
+}
+
+// Les contenus signés « Baume de la Foi » (ancien nom de la page, avec ses variantes) passent au nom Telex
+function migrateBaumeAuthors() {
+    ['baume_prieres', 'baume_reflexions'].forEach(table => {
+        db.run(`UPDATE ${table} SET author = 'Telex' WHERE TRIM(author) LIKE 'Baume de la Fo%'`, function (err) {
+            if (err) console.error('❌ Migration auteurs ' + table + ':', err.message);
+            else if (this.changes) console.log('✅ ' + this.changes + ' auteur(s) renommé(s) en Telex dans ' + table);
+        });
     });
 }
 

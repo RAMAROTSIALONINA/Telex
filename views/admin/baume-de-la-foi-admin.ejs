@@ -1421,7 +1421,7 @@
                                                 %>
                                                 <small><%- mediaHtml %></small>
                                             </td>
-                                            <td><%= priere.author || 'Baume de la Foi' %></td>
+                                            <td><%= priere.author || 'Telex' %></td>
                                             <td>
                                                 <div class="views-count">
                                                     <i class="fas fa-eye me-1"></i>
@@ -1524,7 +1524,7 @@
                                                 %>
                                                 <small><%- mediaHtml %></small>
                                             </td>
-                                            <td><%= reflexion.author || 'Baume de la Foi' %></td>
+                                            <td><%= reflexion.author || 'Telex' %></td>
                                             <td>
                                                 <div class="views-count">
                                                     <i class="fas fa-eye me-1"></i>
@@ -1615,7 +1615,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label"><i class="fas fa-user"></i> Auteur</label>
-                                        <input type="text" name="author" class="form-control" value="Baume de la Foi" placeholder="Auteur">
+                                        <input type="text" name="author" class="form-control" value="Telex" placeholder="Auteur">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -1931,7 +1931,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label class="form-label"><i class="fas fa-user"></i> Auteur</label>
-                                        <input type="text" name="author" class="form-control" value="Baume de la Foi">
+                                        <input type="text" name="author" class="form-control" value="Telex">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
@@ -2458,7 +2458,7 @@
             document.getElementById('priereContent').value = priere.content || '';
             document.getElementById('priereCategory').value = priere.category || 'comfort';
             document.getElementById('priereReference').value = priere.reference_biblique || '';
-            document.querySelector('#priereForm input[name="author"]').value = priere.author || 'Baume de la Foi';
+            document.querySelector('#priereForm input[name="author"]').value = priere.author || 'Telex';
             document.getElementById('prierePublished').checked = priere.is_published === 1;
             
             // Pour les prières, seulement video_url existe
@@ -2533,7 +2533,7 @@
             document.getElementById('reflexionContent').value = reflexion.content || '';
             document.getElementById('reflexionTheme').value = reflexion.theme || 'faith';
             document.getElementById('reflexionReference').value = reflexion.reference_biblique || '';
-            document.querySelector('#reflexionForm input[name="author"]').value = reflexion.author || 'Baume de la Foi';
+            document.querySelector('#reflexionForm input[name="author"]').value = reflexion.author || 'Telex';
             document.querySelector('#reflexionForm input[name="is_published"]').checked = reflexion.is_published === 1;
             
             if (reflexion.publication_date) {
