@@ -1277,6 +1277,11 @@
     
         /* En-tête en bande pleine largeur, comme sur Paramètres */
         .dash-header { border-radius: 0 !important; padding: 16px 28px !important; box-shadow: none !important; }
+    
+        /* Barre d'onglets fixée sous l'en-tête (ordinateur et tablette) */
+        @media (min-width: 768px) {
+            .baume-tabs { position: sticky; top: var(--dash-header-h, 83px); z-index: 899; box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08); }
+        }
     </style>
 </head>
 <body>
@@ -1481,7 +1486,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <span class="badge badge-info"><i class="fas fa-pray me-1"></i>Prière</span>
+                                                <span class="badge badge-info"><i class="fas fa-sun me-1"></i>Inspiration</span>
                                             </td>
                                             <td><%= priere.created_at ? new Date(priere.created_at).toLocaleDateString('fr-FR') : 'Date inconnue' %></td>
                                             <td>
@@ -1584,7 +1589,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <span class="badge badge-info"><i class="fas fa-book me-1"></i>Réflexion</span>
+                                                <span class="badge badge-info"><i class="fas fa-search me-1"></i>Analyse</span>
                                             </td>
                                             <td><%= reflexion.created_at ? new Date(reflexion.created_at).toLocaleDateString('fr-FR') : 'Date inconnue' %></td>
                                             <td>
@@ -3727,6 +3732,7 @@
                     h.style.marginTop = '-' + s.paddingTop;
                     h.style.marginLeft = '-' + s.paddingLeft;
                     h.style.marginRight = '-' + s.paddingRight;
+                    document.documentElement.style.setProperty('--dash-header-h', h.offsetHeight + 'px');
                 });
             }
             fitDashHeader();
