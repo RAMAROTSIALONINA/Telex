@@ -790,7 +790,12 @@
             justify-content: center;
             cursor: pointer;
             box-shadow: 0 2px 8px rgba(0,0,0,.25);
-        }</style>
+        }
+        /* En-tête fixé en haut lors du défilement (ordinateur et tablette) */
+        @media (min-width: 768px) {
+            .dash-header { position: sticky; top: 0; z-index: 900; }
+        }
+    </style>
 </head>
 <body>
     <!-- Sidebar -->

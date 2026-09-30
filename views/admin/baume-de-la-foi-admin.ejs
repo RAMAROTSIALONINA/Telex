@@ -1269,7 +1269,12 @@
         .stat-card.has-pending { border-left: 4px solid #F59E0B; }
         .stat-card.has-pending .stat-number { color: #B45309; }
         .stat-sub { margin-left: .35rem; font-size: .75rem; font-weight: 600; color: #9CA3AF; }
-</style>
+
+        /* En-tête fixé en haut lors du défilement (ordinateur et tablette) */
+        @media (min-width: 768px) {
+            .dash-header { position: sticky; top: 0; z-index: 900; }
+        }
+    </style>
 </head>
 <body>
     <div class="admin-wrapper">
